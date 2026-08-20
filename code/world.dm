@@ -29,4 +29,4 @@ var/global/datum/system/processor/processor
 	processor.processing += D
 
 /datum/process_tester/process()
-	world << "hi [world.time]"
+	//world << "hi [world.time]"
