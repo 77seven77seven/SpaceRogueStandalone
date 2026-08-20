@@ -1,5 +1,7 @@
 /mob/human
 	name = "human being"
+	icon = 'icons/human/human.dmi'
+	icon_state = "human"
 
 	var/datum/disease/disease
 	var/datum/mind/mind
@@ -26,6 +28,20 @@
 
 	var/wanted = FALSE
 	var/wanted_timer // the crime doesnt really matter, the severity of the crime only matters how long you need to hide
+
+/mob/human/proc/Initialize_Humanity(list/traits, list/skills, datum/job/J, is_dissident = FALSE)
+	if(!mind)
+		var/datum/mind/new_mind = new /datum/mind(ckey)
+		mind = new_mind
+
+	if(skills)
+		mind.skills = skills
+
+	if(traits)
+		mind.traits = traits
+		
+	if(J)
+		mind.set_current_job(J)
 
 /mob/lobbyman // for people in the lobby
 	name = "lobbym"

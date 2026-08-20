@@ -3,6 +3,10 @@
 	var/desc = "Simple enough, really."
 	var/cost = 0 // xp
 
+	var/antag_chance_min = 10
+	var/antag_chance_max = 60
+	var/antag_can_roll = TRUE
+
 	var/current_positions = 0
 	var/total_positions = 0
 

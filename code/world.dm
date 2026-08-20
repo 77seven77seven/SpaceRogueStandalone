@@ -1,4 +1,5 @@
 #define subtypesof(typepath) ( typesof(typepath) - typepath )
+#define ishuman(A) (istype(A, /mob/human))
 
 var/global/datum/system/master/master
 var/global/datum/system/processor/processor
@@ -11,8 +12,9 @@ var/global/datum/system/processor/processor
 	fps = 20
 	icon_size = 32	// 32x32 icon size by default
 	view = 6		// show up to 6 tiles outward from center (13x13 view)
+	movement_mode = TILE_MOVEMENT_MODE
 
-	mob = /mob
+	mob = /mob/lobbyman
 
 /world/New()
 	if(!master)
