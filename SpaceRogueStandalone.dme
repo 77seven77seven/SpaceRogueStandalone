@@ -14,6 +14,7 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
+#include "skin.dmf"
 #include "code\client.dm"
 #include "code\human.dm"
 #include "code\qdel.dm"
