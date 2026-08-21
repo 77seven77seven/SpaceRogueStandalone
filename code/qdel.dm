@@ -1,6 +1,11 @@
 #define QDEL_HINT_QUEUE      0
 #define QDEL_HINT_DEL        1
 
+#define DF_USE_TAG				(1<<0)
+
+#define ALL (~0) //For convenience.
+#define NONE 0
+
 #define QDEL_NULL(item) qdel(item); item = null
 #define QDEL_LIST(L) if(L) { for(var/I in L) qdel(I); L.Cut(); }
 #define QDEL_LIST_IN(L, time) addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(______qdel_list_wrapper), L), time, TIMER_STOPPABLE)
@@ -10,6 +15,7 @@
 
 /datum
 	var/gc_destroyed = 0 // Tracks if the item has already been queued or destroyed
+	var/datum_flags = NONE
 
 /datum/proc/Destroy(force = FALSE)
 	return QDEL_HINT_QUEUE // Or handle immediate cleanup

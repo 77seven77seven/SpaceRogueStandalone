@@ -5,7 +5,7 @@
 	var/mob/human/current
 
 	var/list/skills = list()
-	var/list/datum/trait/traits = list()
+	var/list/datum/quirk/quirks = list()
 
 	var/datum/goal/goal
 	var/datum/goal/special/special_goal

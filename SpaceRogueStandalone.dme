@@ -15,17 +15,18 @@
 
 // BEGIN_INCLUDE
 #include "skin.dmf"
-#include "code\client.dm"
-#include "code\human.dm"
 #include "code\qdel.dm"
 #include "code\world.dm"
 #include "code\datum\goals.dm"
 #include "code\datum\job.dm"
 #include "code\datum\mind.dm"
-#include "code\datum\traits.dm"
+#include "code\datum\quirks.dm"
 #include "code\datum\systems\_system.dm"
 #include "code\datum\systems\master.dm"
 #include "code\datum\systems\processor.dm"
+#include "code\mobs\client.dm"
+#include "code\mobs\human.dm"
+#include "code\mobs\mob.dm"
 #include "maps\map.dmm"
 // END_INCLUDE
 

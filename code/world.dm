@@ -1,6 +1,12 @@
 #define subtypesof(typepath) ( typesof(typepath) - typepath )
 #define ishuman(A) (istype(A, /mob/human))
 
+#define PROC_REF(X) (nameof(.proc/##X))
+#define VERB_REF(X) (nameof(.verb/##X))
+#define TYPE_PROC_REF(TYPE, X) (nameof(##TYPE.proc/##X))
+#define TYPE_VERB_REF(TYPE, X) (nameof(##TYPE.verb/##X))
+#define GLOBAL_PROC_REF(X) (/proc/##X)
+
 var/global/datum/system/master/master
 var/global/datum/system/processor/processor
 
@@ -30,3 +36,13 @@ var/global/datum/system/processor/processor
 
 /datum/process_tester/process()
 	//world << "hi [world.time]"
+
+/proc/REF(input)
+	if(istype(input, /datum))
+		var/datum/thing = input
+		if(thing.datum_flags & DF_USE_TAG)
+			if(!thing.tag)
+				thing.datum_flags &= ~DF_USE_TAG
+			else
+				return "\[[url_encode(thing.tag)]\]"
+	return "\ref[input]"

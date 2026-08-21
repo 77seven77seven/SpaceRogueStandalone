@@ -2,6 +2,9 @@
 	var/xp = 0 // saves
 	var/datum/job/previously_played
 
+	var/dissidence_preference = FALSE
+	var/presentation_preference = NEUTER // NEUTER = pick randomly between male or female
+
 /client/verb/fuckyou()
 	if(master)
 		world << "master = OK"
