@@ -1,7 +1,21 @@
+var/global/list/newplayer_start = list()
+
 /mob/lobbyman // for people in the lobby
 	name = "lobbym"
+	invisibility = 101
+	
 	var/datum/role/chosing_job
 	var/list/datum/quirk/quirks = list()
+
+/mob/lobbyman/Move(NewLoc, Dir, step_x, step_y)
+	return FALSE
+
+/mob/lobbyman/Initialize()
+	. = ..()
+	if(length(newplayer_start))
+		forceMove(pick(newplayer_start))
+	else
+		forceMove(locate(1,1,1))
 
 /mob/lobbyman/Login()
 	. = ..()

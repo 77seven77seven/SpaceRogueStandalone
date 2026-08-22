@@ -3,6 +3,12 @@
 	icon = 'icons/human/human.dmi'
 	icon_state = "human"
 
+	var/base_delay = 3
+	var/move_delay = 3
+
+	var/tmp/next_move = 0
+	var/tmp/last_move = 0
+
 	var/datum/disease/disease
 	var/datum/mind/mind
 
@@ -27,7 +33,18 @@
 	var/xp_buffer = 0 // you wont get your XP unless you depart the station bro!
 
 	var/wanted = FALSE
-	var/wanted_timer // the crime doesnt really matter, the severity of the crime only matters how long you need to hide
+	var/wanted_timer = 0 // the crime doesnt really matter, the severity of the crime only matters how long you need to hide
+
+/mob/human/Move(NewLoc, Dir, step_x, step_y)
+	var/time = world.time
+
+	if(next_move > time)
+		return
+
+	//glide_size = ICON_SIZE / max(move_delay,TICK_LAG) * TICK_LAG
+	last_move = time
+
+	next_move = time + move_delay
 
 /mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE)
 	if(!mind)
@@ -43,6 +60,13 @@
 	if(R)
 		mind.set_current_job(R)
 		R.equip(src)
+
+		var/turf/starto = locate(1,1,1)
+		for(var/obj/abstract/landmark/start/sloc in landmarks_start_list)
+			if(sloc.name != R.title)
+				continue
+			starto = get_turf(sloc)
+		forceMove(starto)
 
 	for(var/datum/quirk/Q in mind.quirks)
 		Q.equip(src)

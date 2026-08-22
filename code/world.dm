@@ -1,14 +1,8 @@
-#define subtypesof(typepath) ( typesof(typepath) - typepath )
-#define ishuman(A) (istype(A, /mob/human))
-
-#define PROC_REF(X) (nameof(.proc/##X))
-#define VERB_REF(X) (nameof(.verb/##X))
-#define TYPE_PROC_REF(TYPE, X) (nameof(##TYPE.proc/##X))
-#define TYPE_VERB_REF(TYPE, X) (nameof(##TYPE.verb/##X))
-#define GLOBAL_PROC_REF(X) (/proc/##X)
-
 var/global/datum/system/master/master = new()
 var/global/datum/system/processor/processor = new()
+
+var/global/list/landmarks_list = list()
+var/global/list/landmarks_start_list = list()
 
 /world
 	fps = 20
@@ -17,6 +11,7 @@ var/global/datum/system/processor/processor = new()
 	movement_mode = TILE_MOVEMENT_MODE
 
 	mob = /mob/lobbyman
+	turf = /turf/open/floor
 
 /world/New()
 	if(!master)
@@ -30,7 +25,7 @@ var/global/datum/system/processor/processor = new()
 	var/datum/D = new /datum/process_tester
 	processor.processing += D
 
-/datum/process_tester/process()
+/datum/process_tester/Process()
 	//world << "hi [world.time]"
 
 /proc/REF(input)
