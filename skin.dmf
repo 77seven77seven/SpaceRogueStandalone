@@ -220,7 +220,7 @@ window "main_menu"
 		border = line
 		saved-params = "is-checked"
 		text = "JOIN"
-		command = ".quit"
+		command = ".join"
 
 window "mainwindow"
 	elem "mainwindow"

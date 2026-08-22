@@ -10,3 +10,7 @@
 		for(var/datum/D in processing)
 			D.process()
 			sleep(world.tick_lag)
+
+/datum/proc/process()
+	processor.processing -= src
+	return

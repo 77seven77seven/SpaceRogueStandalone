@@ -6,7 +6,7 @@
 #define VERY_RARE 50
 #define EXTR_RARE 10
 
-/datum/job
+/datum/role
 	var/title = "Job"
 	var/desc = "Simple enough, really."
 	var/cost = 0 // xp
@@ -22,22 +22,25 @@
 						// Role selection is not influenced by dying, it keeps it. You have a slightly higher chance to roll some roles with a high XP amount.
 						// 100 means Guaranteed, 0 means never. Simple enough.
 
-/datum/job/proc/equip(/mob/human/H)
+/datum/role/proc/equip(/mob/human/H)
 	return
 
-/datum/job/unassigned
+/datum/role/proc/get_skills()
+	return
+
+/datum/role/unassigned
 	title = "Nobody"
 	desc = "Not a job in sight! Click a open job slot on the left!"
 
-/datum/job/director
-	title = "Station Director"
+/datum/role/director
+	title = "Director"
 	desc = "The HEAD HONCHO!"
 	cost = 6
 
 	total_positions = 1
 	probability = RARE
 
-/datum/job/merc
+/datum/role/merc
 	title = "Mercenary"
 	desc = "Kill criminals."
 	cost = 4
@@ -45,21 +48,21 @@
 	total_positions = 4
 	probability = UNCOMMON
 
-/datum/job/gardener
+/datum/role/gardener
 	title = "Hydroponocist"
 	desc = "Grow food."
 
 	total_positions = 2
 	probability = COMMON
 	
-/datum/job/plumber
+/datum/role/plumber
 	title = "Plumber"
 	desc = "Grow water."
 
 	total_positions = 2
 	probability = COMMON
 
-/datum/job/technician
+/datum/role/technician
 	title = "Technician"
 	desc = "Salvage things, and fix things."
 	cost = 2
@@ -67,28 +70,28 @@
 	total_positions = 2
 	probability = UNCOMMON
 
-/datum/job/warehouser
+/datum/role/warehouser
 	title = "Warehouser"
 	desc = "Nobody likes you."
 
 	total_positions = 1
 	probability = GUARANTEED
 
-/datum/job/miner
+/datum/role/miner
 	title = "Miner"
 	desc = "Mine ores, refine them yourself."
 
 	total_positions = 4
 	probability = 90 // Common
 
-/datum/job/medicaloid
+/datum/role/medicaloid
 	title = "Medicaloid"
 	desc = "Someone's gonna die eventually."
 
 	total_positions = 4
 	probability = COMMON
 
-/datum/job/stowaway
+/datum/role/stowaway
 	title = "Stowaway"
 	desc = "Get a job, you lazy fucking bum."
 

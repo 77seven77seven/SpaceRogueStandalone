@@ -1,12 +1,16 @@
 /mob/lobbyman // for people in the lobby
 	name = "lobbym"
-	var/datum/job/chosing_job
+	var/datum/role/chosing_job
+	var/list/datum/quirk/quirks = list()
 
 /mob/lobbyman/Login()
 	. = ..()
 	spawn(10)
 		winshow(src, "main_menu", TRUE)
 		UpdateMainMenu()
+
+/mob/lobbyman/proc/roll_dissidence()
+	return FALSE
 
 /mob/lobbyman/proc/UpdateMainMenu()
 	var/information_browser = {"
@@ -30,10 +34,18 @@
 	</html>
 	"}
 
+	var/roles = ""
+
+	for(var/datum/role/R in master.all_occupations)
+		if(R.total_positions > 0 && R.probability)
+			roles += "<br>"
+			roles += "<a href='byond://?src=[REF(src)];role=[R.type]'>[uppertext(R.title)] ([R.current_positions]/[R.total_positions]) [R.cost ? "([R.cost] XP)" : null]</a>"
+			roles += "<br>"
+
 	var/roles_browser = {"
 	<style>
 		div.menu {
-			font-size: 12px;
+			font-size: 9px;
 		}
 	</style>
 
@@ -41,7 +53,7 @@
 		<body>
 		<div style="height:256px;overflow:auto;" class="menu">
 
-		<a>TOURIST (1/2) (6 XP)</a>
+		[roles]
 
 		</div>
 		</body>
@@ -87,9 +99,20 @@
 		world << "[client.presentation_preference]"
 
 		winset(src, "main_menu.gender", list2params(plist))
+
+/mob/lobbyman/verb/join_game()
+	set name = ".join"
+
+	winshow(src, "main_menu", FALSE)
+
+	var/mob/human/H = new
+	H.ckey = ckey
+	H.Initialize_Humanity(quirks, chosing_job.get_skills(), chosing_job, roll_dissidence())
+
+	qdel(src)
 	
 /mob/lobbyman/Topic(href, href_list)
+	if(href_list["role"])
+		var/J = master.GetJobType(text2path(href_list["role"]))
+		chosing_job = J
 	UpdateMainMenu()
-	switch(href_list["role"])
-		if("yea")
-			return

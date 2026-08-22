@@ -4,16 +4,15 @@
 	var/list/type_occupations = list()
 
 /datum/system/master/setup()
-	set waitfor = 0
 	SetupJobs()
 
 /datum/system/master/proc/SetupJobs()
-	var/list/all_jobs = subtypesof(/datum/job)
+	var/list/all_jobs = subtypesof(/datum/role)
 	if(!length(all_jobs))
 		return FALSE
 
 	for(var/job_type in all_jobs)
-		var/datum/job/job = new job_type()
+		var/datum/role/job = new job_type()
 
 		all_occupations += job
 		name_occupations[job.title] = job

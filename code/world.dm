@@ -7,12 +7,8 @@
 #define TYPE_VERB_REF(TYPE, X) (nameof(##TYPE.verb/##X))
 #define GLOBAL_PROC_REF(X) (/proc/##X)
 
-var/global/datum/system/master/master
-var/global/datum/system/processor/processor
-
-/datum/proc/process()
-	processor.processing -= src
-	return
+var/global/datum/system/master/master = new()
+var/global/datum/system/processor/processor = new()
 
 /world
 	fps = 20

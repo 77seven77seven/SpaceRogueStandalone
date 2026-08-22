@@ -10,14 +10,14 @@
 	var/datum/goal/goal
 	var/datum/goal/special/special_goal
 
-	var/datum/job/current_job
+	var/datum/role/current_job
 
 /datum/mind/New(key)
 	src.key = key
-	set_current_job(master.GetJobType(/datum/job/unassigned))
+	set_current_job(master.GetJobType(/datum/role/unassigned))
 
 /// Setter for the current_job job datum.
-/datum/mind/proc/set_current_job(datum/job/new_role)
+/datum/mind/proc/set_current_job(datum/role/new_role)
 	if(!istype(new_role))
 		new_role = ispath(new_role) ? master.GetJobType(new_role) : master.GetJob(new_role)
 	if(current_job == new_role)

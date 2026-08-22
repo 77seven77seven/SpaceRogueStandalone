@@ -29,7 +29,7 @@
 	var/wanted = FALSE
 	var/wanted_timer // the crime doesnt really matter, the severity of the crime only matters how long you need to hide
 
-/mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/job/J, is_dissident = FALSE)
+/mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE)
 	if(!mind)
 		var/datum/mind/new_mind = new /datum/mind(ckey)
 		mind = new_mind
@@ -40,5 +40,9 @@
 	if(quirks)
 		mind.quirks = quirks
 		
-	if(J)
-		mind.set_current_job(J)
+	if(R)
+		mind.set_current_job(R)
+		R.equip(src)
+
+	for(var/datum/quirk/Q in mind.quirks)
+		Q.equip(src)
