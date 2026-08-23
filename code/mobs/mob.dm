@@ -117,7 +117,15 @@ var/global/list/newplayer_start = list()
 /mob/lobbyman/verb/join_game()
 	set name = ".join"
 
+	if(!chosing_job)
+		return
+
+	if(chosing_job.cost > client.xp || chosing_job.current_positions >= chosing_job.total_positions)
+		return
+
 	winshow(src, "main_menu", FALSE)
+
+	client.xp -= chosing_job.cost
 
 	var/mob/human/H = new
 	H.ckey = ckey
@@ -127,6 +135,22 @@ var/global/list/newplayer_start = list()
 	
 /mob/lobbyman/Topic(href, href_list)
 	if(href_list["role"])
-		var/J = master.GetJobType(text2path(href_list["role"]))
-		chosing_job = J
+		var/datum/role/J = master.GetJobType(text2path(href_list["role"]))
+		var/plist[0]
+
+		chosing_job = null
+
+		if(J.cost > client.xp)
+			plist["text"] = "INSUFFICIENT XP!"
+			plist["text-color"] = "#f00f"
+		else if(J.current_positions >= J.total_positions)
+			plist["text"] = "ROLE IS FULL!"
+			plist["text-color"] = "#f00f"
+		else
+			plist["text"] = "JOIN!"
+			plist["text-color"] = "#000f"
+			
+			chosing_job = J
+
+		winset(src, "main_menu.join_button", list2params(plist))
 	UpdateMainMenu()

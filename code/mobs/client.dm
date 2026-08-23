@@ -1,6 +1,6 @@
 /client
-	var/xp = 0 // saves
-	var/datum/role/previously_played
+	var/xp = 6 // saves
+	var/datum/role/previously_played // saves too. reset when you successfully escape (do not set when success escape)
 
 	var/dissidence_preference = FALSE
 	var/presentation_preference = NEUTER // NEUTER = pick randomly between male or female

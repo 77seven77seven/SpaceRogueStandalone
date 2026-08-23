@@ -19,6 +19,7 @@
 #include "code\atom.dm"
 #include "code\qdel.dm"
 #include "code\turfs.dm"
+#include "code\type2type.dm"
 #include "code\world.dm"
 #include "code\datum\goals.dm"
 #include "code\datum\job.dm"

@@ -12,7 +12,7 @@
 	var/open = FALSE
 	var/doing = FALSE
 
-	var/time = 5
+	var/time = 2
 
 	var/atom/movable/door_l
 	var/atom/movable/door_r
@@ -50,12 +50,12 @@
 		return FALSE
 	if(open)
 		// closing
-		animate(door_l, time, pixel_x = 0, easing = QUAD_EASING)
-		animate(door_r, time, pixel_x = 0, easing = QUAD_EASING)
+		animate(door_l, time, pixel_x = 0, easing = BOUNCE_EASING)
+		animate(door_r, time, pixel_x = 0, easing = BOUNCE_EASING)
 	else
 		// opening
-		animate(door_l, time, pixel_x = -12, easing = QUAD_EASING)
-		animate(door_r, time, pixel_x = 12, easing = QUAD_EASING)
+		animate(door_l, time, pixel_x = -12 - rand(-2,2), easing = QUAD_EASING)
+		animate(door_r, time, pixel_x = 12 - rand(-2,2), easing = QUAD_EASING)
 	doing = TRUE
 	opacity = !opacity
 	spawn(time / 2)

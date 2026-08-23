@@ -111,17 +111,12 @@ window "main_menu"
 		can-close = false
 		can-minimize = false
 		can-resize = false
-		outer-size = 656x496
-		outer-pos = 384,0
-		inner-pos = 8,8
-		screen-size = 1920x1020
 	elem "information_browser"
 		type = BROWSER
 		pos = 192,168
 		size = 424x256
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = ""
 	elem "roles_browser"
 		type = BROWSER
@@ -129,7 +124,6 @@ window "main_menu"
 		size = 168x256
 		anchor1 = 8,35
 		anchor2 = 24,88
-		background-color = none
 		saved-params = ""
 	elem "dissident"
 		type = BUTTON
@@ -137,7 +131,6 @@ window "main_menu"
 		size = 136x40
 		anchor1 = 63,25
 		anchor2 = 89,33
-		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "DISSIDENT: NO"
@@ -149,7 +142,6 @@ window "main_menu"
 		size = 280x40
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		border = line
 		saved-params = ""
 		text = "INFORMATION"
@@ -159,7 +151,6 @@ window "main_menu"
 		size = 168x40
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		border = line
 		saved-params = ""
 		text = "WHO ARE YOU?"
@@ -171,7 +162,6 @@ window "main_menu"
 		anchor2 = 100,12
 		font-family = "Times New Roman"
 		font-size = 30
-		background-color = none
 		is-transparent = true
 		saved-params = ""
 		text = "Fringe Sector"
@@ -216,10 +206,11 @@ window "main_menu"
 		size = 199x44
 		anchor1 = 33,3
 		anchor2 = 64,13
+		text-color = #ff0000
 		background-color = #bebebe
 		border = line
 		saved-params = "is-checked"
-		text = "JOIN"
+		text = "PICK A ROLE!"
 		command = ".join"
 
 window "mainwindow"
@@ -291,6 +282,7 @@ window "mapwindow"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		titlebar = false
 		statusbar = false
@@ -298,6 +290,10 @@ window "mapwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
+		outer-size = 656x496
+		outer-pos = 384,0
+		inner-pos = 8,8
+		screen-size = 1920x1020
 	elem "map"
 		type = MAP
 		pos = 0,0

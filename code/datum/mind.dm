@@ -14,7 +14,7 @@
 
 /datum/mind/New(key)
 	src.key = key
-	set_current_job(master.GetJobType(/datum/role/unassigned))
+	//set_current_job(master.GetJobType(/datum/role/unassigned))
 
 /// Setter for the current_job job datum.
 /datum/mind/proc/set_current_job(datum/role/new_role)
@@ -23,4 +23,6 @@
 	if(current_job == new_role)
 		return current_job
 	. = current_job
+	
 	current_job = new_role
+	current_job.current_positions++

@@ -29,3 +29,14 @@
 #define TYPE_PROC_REF(TYPE, X) (nameof(##TYPE.proc/##X))
 #define TYPE_VERB_REF(TYPE, X) (nameof(##TYPE.verb/##X))
 #define GLOBAL_PROC_REF(X) (/proc/##X)
+
+#define TODEGREES(radians) ((radians) * 57.2957795)
+
+#define TORADIANS(degrees) ((degrees) * 0.0174532925)
+
+// Will filter out extra rotations and negative rotations
+// E.g: 540 becomes 180. -180 becomes 180.
+#define SIMPLIFY_DEGREES(degrees) (MODULUS((degrees), 360))
+
+// Real modulus that handles decimals
+#define MODULUS(x, y) ( (x) - (y) * round((x) / (y)) )

@@ -15,6 +15,9 @@
 	var/antag_chance_max = 60
 	var/antag_can_roll = TRUE
 
+	var/corporate = FALSE
+	var/fancy = FALSE
+
 	var/current_positions = 0
 	var/total_positions = 0
 
@@ -39,6 +42,7 @@
 
 	total_positions = 1
 	probability = RARE
+	corporate = TRUE
 
 /datum/role/merc
 	title = "Mercenary"
@@ -47,6 +51,7 @@
 
 	total_positions = 4
 	probability = UNCOMMON
+	corporate = TRUE
 
 /datum/role/gardener
 	title = "Hydroponocist"
