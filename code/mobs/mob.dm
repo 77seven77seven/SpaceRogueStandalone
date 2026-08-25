@@ -19,14 +19,20 @@ var/global/list/newplayer_start = list()
 
 /mob/lobbyman/Login()
 	. = ..()
-	spawn(10)
-		winshow(src, "main_menu", TRUE)
-		UpdateMainMenu()
+	UpdateMainMenu()
+	winshow(src, "main_menu", TRUE)
 
 /mob/lobbyman/proc/roll_dissidence()
 	return FALSE
 
 /mob/lobbyman/proc/UpdateMainMenu()
+	var/quirkozas = ""
+	for(var/datum/quirk/Q in quirks)
+		quirkozas += "<li>[Q.display_name]</li>"
+
+	if(!quirks.len)
+		quirkozas = "<li>None.</li>"
+
 	var/information_browser = {"
 	<html>
 		<body>
@@ -39,9 +45,8 @@ var/global/list/newplayer_start = list()
 		<br><br>
 
 		<b>Your quirks are:</b>
-		&nbsp;<li>None.</li>
-
-		<br><br>
+		[quirkozas]
+		<br>
 
 		<b>YOUR XP:</b> [client.xp]
 		</body>
@@ -114,24 +119,68 @@ var/global/list/newplayer_start = list()
 
 		winset(src, "main_menu.gender", list2params(plist))
 
+/mob/lobbyman/proc/GetQuirk()
+	var/list/available_quirks = subtypesof(/datum/quirk)
+	for(var/datum/quirk/Q in quirks)
+		available_quirks -= Q.type
+	if(available_quirks.len > 0)
+		var/chosen = pick(available_quirks)
+		quirks += new chosen
+	else
+		world << "No quirks to choose from! This is a very bad bug! But only if there are more than 2 quirks."
+
+/mob/lobbyman/verb/get_quirk()
+	set name = ".getquirk"
+
+	if(winget(src, "main_menu", "is-visible"))
+		var/plist[0]
+
+		// GET QUIRK
+
+		switch(quirks.len)
+			if(0)
+				// we have no quirks! add one!
+				plist["text"] = "DOUBLE QUIRK (1 XP)"
+				GetQuirk()
+			if(1)
+				// we have 1 quirk! double quirk time! 1 XP
+				
+				if(client.xp >= 1)
+					client.xp -= 1
+					
+					plist["text"] = "TRIPLE QUIRK (2 XP)"
+					GetQuirk()
+			if(2)
+				// daring today are we? triple quirk? 2 XP
+				if(client.xp >= 2)
+					client.xp -= 2
+
+					plist["text"] = "QUIRK LIMIT REACHED"
+					plist["text-color"] = "#f00f"
+					GetQuirk()
+
+		winset(src, "main_menu.get_quirk", list2params(plist))
+	UpdateMainMenu()
+
 /mob/lobbyman/verb/join_game()
 	set name = ".join"
 
-	if(!chosing_job)
-		return
+	if(winget(src, "main_menu", "is-visible"))
+		if(!chosing_job)
+			return
 
-	if(chosing_job.cost > client.xp || chosing_job.current_positions >= chosing_job.total_positions)
-		return
+		if(chosing_job.cost > client.xp || chosing_job.current_positions >= chosing_job.total_positions)
+			return
 
-	winshow(src, "main_menu", FALSE)
+		winshow(src, "main_menu", FALSE)
 
-	client.xp -= chosing_job.cost
+		client.xp -= chosing_job.cost
 
-	var/mob/human/H = new
-	H.ckey = ckey
-	H.Initialize_Humanity(quirks, chosing_job.get_skills(), chosing_job, roll_dissidence())
+		var/mob/human/H = new
+		H.ckey = ckey
+		H.Initialize_Humanity(quirks, chosing_job.get_skills(), chosing_job, roll_dissidence())
 
-	qdel(src)
+		qdel(src)
 	
 /mob/lobbyman/Topic(href, href_list)
 	if(href_list["role"])

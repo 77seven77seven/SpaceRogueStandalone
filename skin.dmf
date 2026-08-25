@@ -1,40 +1,41 @@
 macro "macro"
 	elem 
-		name = "CENTER+REP"
+		name = "Tab"
+		command = ".charactermenu"
+	elem 
+		name = "Center+REP"
 		command = ".center"
 	elem 
-		name = "NORTHEAST+REP"
+		name = "Northeast+REP"
 		command = ".northeast"
 	elem 
-		name = "SOUTHEAST+REP"
+		name = "Southeast+REP"
 		command = ".southeast"
 	elem 
-		name = "SOUTHWEST+REP"
+		name = "Southwest+REP"
 		command = ".southwest"
 	elem 
-		name = "NORTHWEST+REP"
+		name = "Northwest+REP"
 		command = ".northwest"
 	elem 
-		name = "WEST+REP"
+		name = "West+REP"
 		command = ".west"
 	elem 
-		name = "NORTH+REP"
+		name = "North+REP"
 		command = ".north"
 	elem 
-		name = "EAST+REP"
+		name = "East+REP"
 		command = ".east"
 	elem 
-		name = "SOUTH+REP"
+		name = "South+REP"
 		command = ".south"
 	elem 
 		name = "F1"
 		command = ".options"
 	elem 
 		name = "F2"
-		command = ".screenshot auto"
 	elem 
 		name = "SHIFT+F2"
-		command = ".screenshot"
 
 
 menu "menu"
@@ -199,7 +200,7 @@ window "main_menu"
 		border = line
 		saved-params = "is-checked"
 		text = "GET QUIRK"
-		command = ""
+		command = ".getquirk"
 	elem "join_button"
 		type = BUTTON
 		pos = 209,64
@@ -220,60 +221,28 @@ window "mainwindow"
 		size = 640x440
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		is-default = true
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Dream Seeker"
 		is-maximized = true
 		macro = "macro"
 		menu = "menu"
+		outer-size = 1938x1038
+		outer-pos = -9,-9
+		inner-size = 1920x944
+		inner-pos = 9,63
+		screen-size = 1920x1020
 	elem "mainvsplit"
 		type = CHILD
-		pos = 3,0
-		size = 634x400
+		pos = 0,0
+		size = 640x440
 		anchor1 = 0,0
 		anchor2 = 100,100
+		background-color = none
 		saved-params = "splitter"
 		right = "rpane"
 		is-vert = true
-	elem "input"
-		type = INPUT
-		pos = 3,400
-		size = 517x20
-		anchor1 = 0,100
-		anchor2 = 100,100
-		background-color = #d3b5b5
-		is-default = true
-		border = sunken
-		saved-params = "command"
-	elem "saybutton"
-		type = BUTTON
-		pos = 520,420
-		size = 40x20
-		anchor1 = 100,100
-		anchor2 = -1,-1
-		saved-params = "is-checked"
-		text = "Chat"
-		command = ".winset \"saybutton.is-checked=true?input.command=\"!say \\\"\" macrobutton.is-checked=false:input.command=\""
-		button-type = pushbox
-	elem "macrobutton"
-		type = BUTTON
-		pos = 560,420
-		size = 30x20
-		anchor1 = 100,100
-		anchor2 = -1,-1
-		saved-params = "is-checked"
-		text = "Alt"
-		command = ".winset \"macrobutton.is-checked=true?input.command=\"!.alt \" saybutton.is-checked=false:input.command=\""
-		button-type = pushbox
-	elem "hostb"
-		type = BUTTON
-		pos = 590,420
-		size = 47x20
-		anchor1 = 100,100
-		anchor2 = -1,-1
-		saved-params = "is-checked"
-		text = "Host..."
-		command = ".host"
 
 window "mapwindow"
 	elem "mapwindow"
@@ -303,6 +272,7 @@ window "mapwindow"
 		text-color = #000000
 		is-default = true
 		saved-params = "icon-size"
+		letterbox = false
 		on-show = ".winset\"mainwindow.mainvsplit.left=mapwindow\""
 		on-hide = ".winset\"mainwindow.mainvsplit.left=\""
 
@@ -313,6 +283,7 @@ window "outputwindow"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		titlebar = false
 		statusbar = false
@@ -320,6 +291,10 @@ window "outputwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
+		outer-size = 656x496
+		outer-pos = 384,0
+		inner-pos = 8,8
+		screen-size = 1920x1020
 	elem "output"
 		type = OUTPUT
 		pos = 0,0
@@ -337,14 +312,20 @@ window "rpane"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-pane = true
+		outer-size = 658x549
+		outer-pos = 384,0
+		inner-pos = 9,38
+		screen-size = 1920x1020
 	elem "rpanewindow"
 		type = CHILD
 		pos = 0,0
 		size = 640x502
 		anchor1 = 0,0
 		anchor2 = 100,100
+		background-color = none
 		saved-params = "splitter"
 		right = "outputwindow"
 		is-vert = false
@@ -354,6 +335,7 @@ window "rpane"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Text"
@@ -367,6 +349,7 @@ window "rpane"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Info"
@@ -381,9 +364,14 @@ window "infowindow"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Info"
 		is-pane = true
+		outer-size = 658x549
+		outer-pos = 384,0
+		inner-pos = 9,38
+		screen-size = 1920x1020
 	elem "info"
 		type = INFO
 		pos = 0,0
@@ -393,6 +381,7 @@ window "infowindow"
 		is-default = true
 		saved-params = ""
 		highlight-color = #00aa00
+		tab-background-color = none
 		allow-html = false
 		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""
 		on-hide = ".winset\"rpane.infob.is-visible=false;rpane.browseb.is-visible=true?rpane.browseb.is-checked=true rpane.rpanewindow.left=browserwindow:rpane.textb.is-visible=false rpane.rpanewindow.pos=0,0 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=\""

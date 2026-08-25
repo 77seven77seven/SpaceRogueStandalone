@@ -7,7 +7,7 @@ var/global/list/landmarks_start_list = list()
 /world
 	fps = 30
 	//icon_size = 32	// 32x32 icon size by default
-	view = "15x15"
+	view = "13x13"
 	movement_mode = TILE_MOVEMENT_MODE
 
 	mob = /mob/lobbyman

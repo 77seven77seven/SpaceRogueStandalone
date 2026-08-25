@@ -7,3 +7,40 @@
 /datum/quirk/proc/equip(mob/human/H) // applied after everything else
 
 // todo, light random color skin tone quirk: RGB(150, 255, 150)
+
+/datum/quirk/weirdlook
+	name = "Weird Look"
+	display_name = "You look weird."
+
+/datum/quirk/weirdlook/equip(mob/human/H)
+	. = ..()
+	var/r = rand(175, 255)
+	var/g = rand(175, 255)
+	var/b = rand(175, 255)
+	
+	H.color = rgb(r,g,b)
+
+/datum/quirk/corponame
+	name = "Corpo Name"
+	display_name = "Your parents named you in honor of a high ranking CHEZ Group employee."
+
+/datum/quirk/corponame/equip(mob/human/H)
+	. = ..()
+	var/gendero = "m"
+	if(H.gender == FEMALE)
+		gendero = "f"
+
+	H.first_name = "[pick(world.file2list("strings/corporate_[gendero].txt"))]"
+	H.name = "[H.first_name] [H.last_name]"
+
+/datum/quirk/generic
+	name = "Generic"
+	display_name = "You look generic."
+
+/datum/quirk/nolast
+	name = "No Last Name"
+	display_name = "Your mother was a Jukie."
+
+/datum/quirk/nolast/equip(mob/human/H)
+	. = ..()
+	H.name = "[H.first_name]"

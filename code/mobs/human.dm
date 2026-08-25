@@ -6,7 +6,8 @@
 	var/base_delay = 3
 	var/move_delay = 3
 
-	var/real_name = "Urist H."
+	var/first_name = "Urist"
+	var/last_name = "H."
 
 	var/is_moving = FALSE
 	var/tmp/next_move = 0
@@ -32,8 +33,13 @@
 	var/list/obj/item/inventory = list()
 	var/max_inv = 10
 	var/obj/item/holding
+
+	var/obj/item/quickslot_1
+	var/obj/item/quickslot_2
+	var/obj/item/quickslot_3
 	
 	var/image/wristpad_glow
+	var/image/eyes
 
 	var/xp_buffer = 0 // you wont get your XP unless you depart the station bro!
 
@@ -50,6 +56,21 @@
 
 	next_move = time + move_delay
 	..()
+
+/mob/human/Click(location, control, params)
+	. = ..()
+	wristpad_display_change(rgb(rand(0,255),rand(0,255),rand(0,255)))
+	eyes_color_change(rgb(rand(0,255),rand(0,255),rand(0,255)))
+
+/mob/human/proc/wristpad_display_change(colorina)
+	overlays -= wristpad_glow
+	wristpad_glow.color = colorina
+	overlays += wristpad_glow
+
+/mob/human/proc/eyes_color_change(colorina)
+	overlays -= eyes
+	eyes.color = colorina
+	overlays += eyes
 
 /mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE)
 	if(!mind)
@@ -90,14 +111,26 @@
 	if(R.fancy)
 		replicao += "fancy"
 
-	var/random_name = "[pick(world.file2list("strings/[pick(replicao)]_[gendero].txt"))] [GetRandomLetterUpper()]."
+	var/firsto = "[pick(world.file2list("strings/[pick(replicao)]_[gendero].txt"))]"
+	var/lasto = "[GetRandomLetterUpper()]."
 
-	real_name = random_name
-	name = random_name
+	first_name = firsto
+	last_name = lasto
 
-	wristpad_glow = image(src.icon, src, "wristpad")
-	overlays += image(src.icon, src, "wristpad")
+	name = "[first_name] [last_name]"
+
+	wristpad_glow = image(src.icon, src, "wristpad_display", MOB_LAYER + 0.01)
+	wristpad_glow.color = "#4CFF00"
+
+	eyes = image(src.icon, src, "eyes", MOB_LAYER)
+	eyes.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+	
+	overlays += image(src.icon, src, "wristpad", MOB_LAYER + 0.01)
 	overlays += wristpad_glow
+	overlays += eyes
+
+	var/rando = rand(220,255)
+	color = rgb(rando, rando, rando) // Random skintone
 
 	for(var/datum/quirk/Q in mind.quirks)
 		Q.equip(src)

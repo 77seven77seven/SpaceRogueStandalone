@@ -11,6 +11,14 @@
 	if(processor)
 		world << "processor = OK"
 
+/client/verb/tune_radio()
+    var/stream_url = "https://stream.sepia.sk:8000/impuls128.mp3"
+    var/html = {"<html><body style="margin:0;background:#111">
+    <audio id="p" autoplay controls src="[stream_url]"></audio>
+    <script>document.getElementById('p').play().catch(function(){});</script>
+    </body></html>"}
+    src << browse(html, "window=radio;size=320x60")
+
 var
   worldstarttime = 0
   worldstarttimeofday = 0
