@@ -41,6 +41,8 @@
 	var/image/wristpad_glow
 	var/image/eyes
 
+	var/obj/hud/sysmas/hud_holder
+
 	var/xp_buffer = 0 // you wont get your XP unless you depart the station bro!
 
 	var/wanted = FALSE
@@ -71,6 +73,18 @@
 	overlays -= eyes
 	eyes.color = colorina
 	overlays += eyes
+
+/mob/human/proc/Initialize_HUD()
+	hud_holder = new /obj/hud/sysmas(src)
+
+	hud_holder.bg_stats = new /obj/hud/bg_stats(src)
+	hud_holder.bg_health = new /obj/hud/bg_health(src)
+
+	client.screen += hud_holder.bg_stats
+	client.screen += hud_holder.bg_health
+
+/mob/human/proc/UpdateHUD()
+	hud_holder?.Update()
 
 /mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE)
 	if(!mind)
@@ -131,6 +145,9 @@
 
 	var/rando = rand(220,255)
 	color = rgb(rando, rando, rando) // Random skintone
+
+	Initialize_HUD()
+	UpdateHUD()
 
 	for(var/datum/quirk/Q in mind.quirks)
 		Q.equip(src)

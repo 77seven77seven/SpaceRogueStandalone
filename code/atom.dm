@@ -6,12 +6,14 @@
 /atom/proc/Initialize()
 	return
 
-/atom/Click(location, control, params)
+/atom/movable/Click(location, control, params)
 	. = ..()
 	world << "---"
 	world << "[name]"
 	world << "[layer]"
 	world << "[plane]"
+	if(screen_loc)
+		world << "[screen_loc]"
 	world << "---"
 
 /atom/movable/proc/forceMove(atom/destination)

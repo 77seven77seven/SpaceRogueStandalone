@@ -33,6 +33,7 @@
 #include "code\mobs\mob.dm"
 #include "code\obj\abstract.dm"
 #include "code\obj\door.dm"
+#include "code\obj\hud\hud.dm"
 #include "maps\map.dmm"
 // END_INCLUDE
 

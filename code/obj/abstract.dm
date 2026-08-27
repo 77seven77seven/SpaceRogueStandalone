@@ -4,7 +4,7 @@
 	opacity = FALSE
 
 /obj/abstract/landmark
-	icon = 'icons/obj/landmarks.dmi'
+	icon = 'icons/obj/abstract/landmarks.dmi'
 	icon_state = "red"
 
 /obj/abstract/landmark/Initialize()

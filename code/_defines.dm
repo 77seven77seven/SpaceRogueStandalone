@@ -40,3 +40,6 @@
 
 // Real modulus that handles decimals
 #define MODULUS(x, y) ( (x) - (y) * round((x) / (y)) )
+
+#define HUD_PLANE 21
+#define HUD_LAYER 21
