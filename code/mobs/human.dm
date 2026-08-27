@@ -42,6 +42,7 @@
 	var/image/eyes
 
 	var/obj/hud/sysmas/hud_holder
+	var/hud_color = "#A1E85F"
 
 	var/xp_buffer = 0 // you wont get your XP unless you depart the station bro!
 
@@ -63,6 +64,13 @@
 	. = ..()
 	wristpad_display_change(rgb(rand(0,255),rand(0,255),rand(0,255)))
 	eyes_color_change(rgb(rand(0,255),rand(0,255),rand(0,255)))
+
+
+/mob/human/verb/tab_panel()
+	set name = ".tab_panel"
+
+	// do cahracter panle shit here
+	// do show inventory shit here
 
 /mob/human/proc/wristpad_display_change(colorina)
 	overlays -= wristpad_glow
@@ -135,6 +143,7 @@
 
 	wristpad_glow = image(src.icon, src, "wristpad_display", MOB_LAYER + 0.01)
 	wristpad_glow.color = "#4CFF00"
+	winset(src, "outputwindow.output", list("text-color" = hud_color))
 
 	eyes = image(src.icon, src, "eyes", MOB_LAYER)
 	eyes.color = rgb(rand(0,255),rand(0,255),rand(0,255))

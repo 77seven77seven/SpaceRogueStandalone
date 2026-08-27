@@ -44,7 +44,6 @@
 				break
 
 /obj/solid/door/proc/do_door()
-	world << "clicked"
 	if(doing)
 		// DOOR BUSY!
 		return FALSE
@@ -72,7 +71,7 @@
 	layer = OBJ_LAYER + 0.2
 	var/obj/solid/door/linked_door
 
-/obj/door_control/Click(location, control, params)
+/obj/door_control/interact(user)
 	. = ..()
 	if(linked_door)
 		linked_door.do_door()

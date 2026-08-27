@@ -24,6 +24,10 @@
 
 #define ishuman(A) (istype(A, /mob/human))
 
+#define isobj(A) istype(A, /obj) //override the byond proc because it returns true on children of /atom/movable that aren't objs
+
+#define isitem(A) (istype(A, /obj/item))
+
 #define PROC_REF(X) (nameof(.proc/##X))
 #define VERB_REF(X) (nameof(.verb/##X))
 #define TYPE_PROC_REF(TYPE, X) (nameof(##TYPE.proc/##X))

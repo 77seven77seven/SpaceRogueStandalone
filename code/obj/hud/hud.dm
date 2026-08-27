@@ -23,19 +23,20 @@
 	screen_loc = "11,1"
 
 	maptext_width = 96
-	maptext_width = 64
+	maptext_height = 64
+	maptext_x = 5
 
-	maptext = "<span style='color: #00ff00'>Help me!</span>"
+	maptext = "Help me!"
 
 /obj/hud/bg_stats/proc/GenerateMapText()
 	return {"
-		<span style='color:#00ff00; text-align:left'>
-		WEALTH: [owner.wealth]$<br>
-		HUNGER: [owner.hunger]%<br>
-		THIRST: [owner.thirst]%<br>
+		<div style='color:[owner.hud_color]; text-align:left; font-size: 70%; font-family: serif;'>
+		WEALTH: [owner.wealth]$
+		HUNGER: [owner.hunger]%
+		THIRST: [owner.thirst]%
 		SORROW: [owner.sorrow]%<br>
 		XP: [owner.client.xp]
-		</span>
+		</div>
 		"}
 
 /obj/hud/bg_stats/proc/Update()

@@ -5,6 +5,7 @@ var/global/list/landmarks_list = list()
 var/global/list/landmarks_start_list = list()
 
 /world
+	name = "Fringe Sector: Roguestation Edition"
 	fps = 30
 	//icon_size = 32	// 32x32 icon size by default
 	view = "13x13"
@@ -68,3 +69,31 @@ var/global/list/landmarks_start_list = list()
 	if(max_length)
 		text = copytext(text, 1, max_length)
 	return trim_left(trim_right(text))
+
+/atom/proc/InCone(atom/center = usr, dir = NORTH)
+	if(get_dist(center, src) == 0 || src == center) return 0
+	var/d = get_dir(center, src)
+	if(!d || d == dir) return 1
+	if(dir & (dir-1))
+		return (d & ~dir) ? 0 : 1
+	if(!(d & dir)) return 0
+	var/dx = abs(x - center.x)
+	var/dy = abs(y - center.y)
+	if(dx == dy) return 1
+	if(dy > dx)
+		return (dir & (NORTH|SOUTH)) ? 1 : 0
+	return (dir & (EAST|WEST)) ? 1 : 0
+
+/mob/lobbyman/InCone(mob/center = usr, dir = NORTH)
+	return
+
+/proc/cone(atom/center = usr, dirs, list/list = oview(center))
+	for(var/atom/A in list)
+		var/fou
+		for(var/D in dirs)
+			if(A.InCone(center, D))
+				fou = TRUE
+				break
+		if(!fou)
+			list -= A
+	return list

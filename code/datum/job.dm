@@ -37,68 +37,71 @@
 
 /datum/role/director
 	title = "Director"
-	desc = "The HEAD HONCHO!"
+	desc = "CHEZ Group only sends their finest, and depending on your performance you're going to be no exception. You've been chosen to watch and take care of Roguestation Endera, a small mining and refining station. You're here for one thing... profit."
 	cost = 6
 
 	total_positions = 1
 	probability = RARE
 	corporate = TRUE
 
+	antag_can_roll = FALSE
+
 /datum/role/merc
 	title = "Mercenary"
-	desc = "Kill criminals."
+	desc = "As if the unofficial job title didn't make it clear enough, you're not here to 'give out fines' or 'detain people', or any of that official policeman business. You're here to keep the peace, no matter the cost. It's not like this recently bought roguestation has a prison. You're here to ensure the workers don't rise up, and profits soar. You're authorized to permanently neutralize any or all troublemakers and beat people that complain unconscious. Just make sure to only beat people that are wanted, wouldn't want you to be shocked, would we?"
 	cost = 4
 
 	total_positions = 4
 	probability = UNCOMMON
 	corporate = TRUE
 
+	antag_can_roll = FALSE
+
 /datum/role/gardener
 	title = "Hydroponocist"
-	desc = "Grow food."
+	desc = "Since the dawn of mankind, every society needed someone to make food for people. Well, that's who you are. Operate the mealworm farms, press them into bricks, and then give them some texture in the cooking machines. Remember, this is a respectful occupation where everyone will eventually grow to like you. Ensure it stays that way."
 
 	total_positions = 2
 	probability = COMMON
 	
 /datum/role/plumber
 	title = "Plumber"
-	desc = "Grow water."
+	desc = "You work with water purification. Your life is alright, nothing too special. You're insured by CHEZ Group, well paid, and you have a safe, stable job. Thankfully, there's enough chaos on Endera to entertain you while you're on your break."
 
 	total_positions = 2
 	probability = COMMON
 
 /datum/role/technician
 	title = "Technician"
-	desc = "Salvage things, and fix things."
+	desc = "You're an on-site technician working for CHEZ. You're insured, and your job mostly consists of restocking the vending machines, and ordering items through the pipeline for anyone that might be willing to import something. Sometimes, you're gonna find yourself in space finding things to salvage for recycling."
 	cost = 2
 
 	total_positions = 2
 	probability = UNCOMMON
 
-/datum/role/warehouser
-	title = "Warehouser"
-	desc = "Nobody likes you."
-
-	total_positions = 1
-	probability = GUARANTEED
+	antag_chance_min = 10
+	antag_chance_max = 40
 
 /datum/role/miner
 	title = "Miner"
-	desc = "Mine ores, refine them yourself."
+	desc = "The brother or sister, more of a cousin to the Technician. You're both in the same union, and your jobs are remarkably similar. You venture down into the mines to find ore, scrap them to... well, scrap. And then refine them yourself in an incredibly convoluted process. At least the pay's nice, and the Director is sure to give you a nice bonus for quotas. You run the primary economy of the station! Act like it! Wear your union badge with pride."
 
 	total_positions = 4
-	probability = 90 // Common
+	probability = COMMON
 
 /datum/role/medicaloid
 	title = "Medicaloid"
-	desc = "Someone's gonna die eventually."
+	desc = "A doctor, medical doctors. Can you believe that some people call medicaloids 'lazarii'? Horrible, right? Anyway, you better buckle up and try to treat people to your best ability, but don't get your worries up... Someone's gonna die eventually."
 
 	total_positions = 4
 	probability = COMMON
 
 /datum/role/stowaway
 	title = "Stowaway"
-	desc = "Get a job, you lazy fucking bum."
+	desc = "By all means, you're not meant to be here. Nobody really knows who, or what you even are. But I doubt you'll be in trouble. Everybody likes company on this decaying heap of a newly-bought and refurbished roguestation. Beg the Director for a job, or don't and just enjoy the scenery. But keep in mind, if you're planning on getting a job, make sure you actually *know* how to work one."
 
 	total_positions = 20
 	probability = GUARANTEED
+
+	antag_chance_min = 1
+	antag_chance_max = 70

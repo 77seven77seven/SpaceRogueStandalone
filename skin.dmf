@@ -1,7 +1,7 @@
 macro "macro"
 	elem 
 		name = "Tab"
-		command = ".charactermenu"
+		command = ".tab_panel"
 	elem 
 		name = "Center+REP"
 		command = ".center"
@@ -32,10 +32,6 @@ macro "macro"
 	elem 
 		name = "F1"
 		command = ".options"
-	elem 
-		name = "F2"
-	elem 
-		name = "SHIFT+F2"
 
 
 menu "menu"
@@ -105,6 +101,7 @@ window "main_menu"
 		anchor1 = -1,-1
 		anchor2 = -1,-1
 		background-color = #d7d7d7
+		border = sunken
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Main Menu"
 		titlebar = false
@@ -221,25 +218,19 @@ window "mainwindow"
 		size = 640x440
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		is-default = true
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Dream Seeker"
+		statusbar = false
 		is-maximized = true
 		macro = "macro"
 		menu = "menu"
-		outer-size = 1938x1038
-		outer-pos = -9,-9
-		inner-size = 1920x944
-		inner-pos = 9,63
-		screen-size = 1920x1020
 	elem "mainvsplit"
 		type = CHILD
 		pos = 0,0
 		size = 640x440
 		anchor1 = 0,0
 		anchor2 = 100,100
-		background-color = none
 		saved-params = "splitter"
 		right = "rpane"
 		is-vert = true
@@ -251,7 +242,6 @@ window "mapwindow"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		titlebar = false
 		statusbar = false
@@ -259,10 +249,6 @@ window "mapwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
-		outer-size = 656x496
-		outer-pos = 384,0
-		inner-pos = 8,8
-		screen-size = 1920x1020
 	elem "map"
 		type = MAP
 		pos = 0,0
@@ -282,7 +268,6 @@ window "outputwindow"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		titlebar = false
 		statusbar = false
@@ -290,16 +275,14 @@ window "outputwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
-		outer-size = 656x496
-		outer-pos = 384,0
-		inner-pos = 8,8
-		screen-size = 1920x1020
 	elem "output"
 		type = OUTPUT
 		pos = 0,0
 		size = 640x480
 		anchor1 = 0,0
 		anchor2 = 100,100
+		text-color = #ffffff
+		background-color = #000000
 		is-default = true
 		saved-params = "max-lines"
 		style = ".system {color:#ff0000;}"
@@ -311,20 +294,14 @@ window "rpane"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-pane = true
-		outer-size = 658x549
-		outer-pos = 384,0
-		inner-pos = 9,38
-		screen-size = 1920x1020
 	elem "rpanewindow"
 		type = CHILD
 		pos = 0,0
 		size = 640x502
 		anchor1 = 0,0
 		anchor2 = 100,100
-		background-color = none
 		saved-params = "splitter"
 		right = "outputwindow"
 		is-vert = false
@@ -334,7 +311,6 @@ window "rpane"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Text"
@@ -348,7 +324,6 @@ window "rpane"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Info"
@@ -363,14 +338,9 @@ window "infowindow"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Info"
 		is-pane = true
-		outer-size = 658x549
-		outer-pos = 384,0
-		inner-pos = 9,38
-		screen-size = 1920x1020
 	elem "info"
 		type = INFO
 		pos = 0,0
@@ -380,7 +350,6 @@ window "infowindow"
 		is-default = true
 		saved-params = ""
 		highlight-color = #00aa00
-		tab-background-color = none
 		allow-html = false
 		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""
 		on-hide = ".winset\"rpane.infob.is-visible=false;rpane.browseb.is-visible=true?rpane.browseb.is-checked=true rpane.rpanewindow.left=browserwindow:rpane.textb.is-visible=false rpane.rpanewindow.pos=0,0 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=\""
