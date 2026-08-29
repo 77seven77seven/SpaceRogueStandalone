@@ -99,6 +99,29 @@
 /mob/human/proc/UpdateHUD()
 	hud_holder?.Update()
 
+/mob/human/proc/can_equip_clothing(obj/item/clothing/C)
+	if(!C)
+		return FALSE
+	if(C.slot == "hat" && hat)
+		return FALSE
+	if(C.slot == "shirt" && shirt)
+		return FALSE
+	if(C.slot == "pants" && pants)
+		return FALSE
+	return TRUE
+
+/mob/human/proc/equip_clothing(obj/item/clothing/C)
+	if(!C)
+		return FALSE
+	if(!can_equip_clothing(C))
+		return FALSE
+	return C.equip_to(src)
+
+/mob/human/proc/unequip_clothing(obj/item/clothing/C)
+	if(!C || !C.wearer || C.wearer != src)
+		return FALSE
+	return C.remove_from_mob()
+
 /mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE)
 	if(!mind)
 		var/datum/mind/new_mind = new /datum/mind(ckey)

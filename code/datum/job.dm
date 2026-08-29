@@ -26,6 +26,19 @@
 						// 100 means Guaranteed, 0 means never. Simple enough.
 
 /datum/role/proc/equip(/mob/human/H)
+	if(!H)
+		return
+
+	if(!H.hat)
+		var/obj/item/clothing/hat/new_hat = new
+		H.equip_clothing(new_hat)
+	if(!H.shirt)
+		var/obj/item/clothing/shirt/new_shirt = new
+		H.equip_clothing(new_shirt)
+	if(!H.pants)
+		var/obj/item/clothing/pants/new_pants = new
+		H.equip_clothing(new_pants)
+
 	return
 
 /datum/role/proc/get_skills()
