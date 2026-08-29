@@ -29,6 +29,7 @@
 #include "code\datum\systems\_system.dm"
 #include "code\datum\systems\master.dm"
 #include "code\datum\systems\processor.dm"
+#include "code\datum\systems\station.dm"
 #include "code\mobs\client.dm"
 #include "code\mobs\human.dm"
 #include "code\mobs\mob.dm"
@@ -36,6 +37,9 @@
 #include "code\obj\door.dm"
 #include "code\obj\obj.dm"
 #include "code\obj\hud\hud.dm"
+#include "code\obj\items\clothing.dm"
+#include "code\obj\items\items.dm"
+#include "code\obj\items\weapons.dm"
 #include "maps\map.dmm"
 // END_INCLUDE
 

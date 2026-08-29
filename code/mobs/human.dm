@@ -11,6 +11,7 @@
 
 	var/is_moving = FALSE
 	var/tmp/next_move = 0
+	var/tmp/next_attack = 0
 
 	var/datum/disease/disease
 	var/datum/mind/mind
@@ -34,6 +35,10 @@
 	var/max_inv = 10
 	var/obj/item/holding
 
+	var/obj/item/clothing/hat/hat
+	var/obj/item/clothing/shirt/shirt
+	var/obj/item/clothing/pants/pants
+
 	var/obj/item/quickslot_1
 	var/obj/item/quickslot_2
 	var/obj/item/quickslot_3
@@ -42,6 +47,7 @@
 	var/image/eyes
 
 	var/obj/hud/sysmas/hud_holder
+	var/need_update = FALSE
 	var/hud_color = "#A1E85F"
 
 	var/xp_buffer = 0 // you wont get your XP unless you depart the station bro!
@@ -64,13 +70,10 @@
 	. = ..()
 	wristpad_display_change(rgb(rand(0,255),rand(0,255),rand(0,255)))
 	eyes_color_change(rgb(rand(0,255),rand(0,255),rand(0,255)))
-
-
-/mob/human/verb/tab_panel()
-	set name = ".tab_panel"
-
-	// do cahracter panle shit here
-	// do show inventory shit here
+	var/wealthnew = input(usr, "update wealth") as num|null
+	if(wealthnew)
+		health = wealthnew
+		UpdateHUD()
 
 /mob/human/proc/wristpad_display_change(colorina)
 	overlays -= wristpad_glow
@@ -87,9 +90,11 @@
 
 	hud_holder.bg_stats = new /obj/hud/bg_stats(src)
 	hud_holder.bg_health = new /obj/hud/bg_health(src)
+	hud_holder.health = new /obj/hud/health(src)
 
 	client.screen += hud_holder.bg_stats
 	client.screen += hud_holder.bg_health
+	client.screen += hud_holder.health
 
 /mob/human/proc/UpdateHUD()
 	hud_holder?.Update()

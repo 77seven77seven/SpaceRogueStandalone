@@ -10,6 +10,14 @@
 		world << "master = OK"
 	if(processor)
 		world << "processor = OK"
+	if(station)
+		world << "station = OK"
+
+/client/verb/wish(fuck as text)
+	fuck = text2path(fuck)
+	if(ispath(fuck))
+		new fuck(get_turf(mob))
+		usr << "Your wish is my command."
 
 /client/verb/tune_radio()
     var/stream_url = "https://stream.sepia.sk:8000/impuls128.mp3"
@@ -28,5 +36,5 @@ client
       worldstarttime = world.time
       worldstarttimeofday = world.timeofday
     var/tickdrift = (world.timeofday - worldstarttimeofday) - (world.time - worldstarttime)  / world.tick_lag
-    statpanel("Tick Drift", "[round(tickdrift)] Missed ticks")
+    statpanel("Commands", "[round(tickdrift)] Missed ticks")
     ..()

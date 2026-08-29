@@ -6,6 +6,11 @@
 #define ALL (~0) //For convenience.
 #define NONE 0
 
+#define NUM_E 2.71828183
+
+#define PI 3.1416
+#define INFINITY 1e31 //closer then enough
+
 #define QDEL_NULL(item) qdel(item); item = null
 #define QDEL_LIST(L) if(L) { for(var/I in L) qdel(I); L.Cut(); }
 #define QDEL_LIST_IN(L, time) addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(______qdel_list_wrapper), L), time, TIMER_STOPPABLE)
