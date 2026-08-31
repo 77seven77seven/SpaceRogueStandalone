@@ -9,16 +9,18 @@
 			"type": "byond",
 			"request": "launch",
 			"name": "Launch DreamSeeker",
-			"preLaunchTask": "dm: build - ${command:CurrentDME}",
-			"dmb": "${workspaceFolder}/${command:CurrentDMB}"
+			"preLaunchTask": "Build Debug DMB",
+			"dmb": "${workspaceFolder}/SpaceRogueStandalone.dmb",
+			"args": ["-debug"]
 		},
 		{
 			"type": "byond",
 			"request": "launch",
 			"name": "Launch DreamDaemon",
-			"preLaunchTask": "dm: build - ${command:CurrentDME}",
-			"dmb": "${workspaceFolder}/${command:CurrentDMB}",
-			"dreamDaemon": true
+			"preLaunchTask": "Build Debug DMB",
+			"dmb": "${workspaceFolder}/SpaceRogueStandalone.dmb",
+			"dreamDaemon": true,
+			"args": ["-debug"]
 		}
 	]
 }

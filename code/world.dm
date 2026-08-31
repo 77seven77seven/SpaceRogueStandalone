@@ -105,13 +105,23 @@ var/global/list/landmarks_start_list = list()
 
 /// Takes the passed in MA/icon_state, mirrors it onto ourselves, and displays that in world for duration seconds
 /// Returns the displayed object, you can animate it and all, but you don't own it, we'll delete it after the duration
+/proc/qdel_in_time(datum/thing, delay)
+	if(!thing)
+		return
+	if(delay <= 0)
+		qdel(thing)
+		return
+	spawn(delay)
+		if(thing)
+			qdel(thing)
+
 /atom/proc/flick_overlay_view(mutable_appearance/display, duration)
 	if(!display)
 		return null
 
 	var/mutable_appearance/passed_appearance = \
 		istext(display) \
-			? mutable_appearance(icon, display, layer) \
+			? new /mutable_appearance(icon = icon, icon_state = display, layer = layer) \
 			: display
 
 	// If you don't give it a layer, we assume you want it to layer on top of this atom
@@ -125,5 +135,5 @@ var/global/list/landmarks_start_list = list()
 	// I hate /area
 	var/atom/movable/lies_to_children = src
 	lies_to_children.vis_contents += visual
-	QDEL_IN_CLIENT_TIME(visual, duration)
+	qdel_in_time(visual, duration)
 	return visual
