@@ -8,6 +8,7 @@
 		{
 			"type": "byond",
 			"request": "launch",
+			"debugger": "auxtools",
 			"name": "Launch DreamSeeker",
 			"preLaunchTask": "dm: build - ${command:CurrentDME}",
 			"dmb": "${workspaceFolder}/${command:CurrentDMB}"

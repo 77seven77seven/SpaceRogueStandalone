@@ -1,5 +1,9 @@
 var/global/list/newplayer_start = list()
 
+/client
+	var/dissidence_preference = FALSE
+	var/presentation_preference = NEUTER // NEUTER = pick randomly between male or female
+
 /mob/lobbyman // for people in the lobby
 	name = "lobbym"
 	invisibility = 101

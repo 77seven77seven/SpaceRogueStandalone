@@ -45,14 +45,19 @@
 	if(slot == "hat")
 		H.hat = src
 		H.hat_overlay = image(src.onmob_icon, H, src.icon_state)
+		H.hat_overlay.appearance_flags = RESET_COLOR
 		H.overlays += H.hat_overlay
+		
 	else if(slot == "shirt")
 		H.shirt = src
 		H.shirt_overlay = image(src.onmob_icon, H, src.icon_state)
+		H.shirt_overlay.appearance_flags = RESET_COLOR
 		H.overlays += H.shirt_overlay
+
 	else if(slot == "pants")
 		H.pants = src
 		H.pants_overlay = image(src.onmob_icon, H, src.icon_state)
+		H.pants_overlay.appearance_flags = RESET_COLOR
 		H.overlays += H.pants_overlay
 
 	if(H.client)

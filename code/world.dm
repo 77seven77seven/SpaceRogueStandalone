@@ -16,13 +16,6 @@ var/global/list/landmarks_start_list = list()
 	turf = /turf/open/floor
 
 /world/New()
-	if(!master)
-		master = new /datum/system/master
-	if(!processor)
-		processor = new /datum/system/processor
-	if(!station)
-		station = new /datum/system/station
-
 	master.setup()
 	processor.setup()
 
@@ -101,6 +94,7 @@ var/global/list/landmarks_start_list = list()
 			list -= A
 	return list
 
+/*
 /atom/movable/flick_visual
 
 /// Takes the passed in MA/icon_state, mirrors it onto ourselves, and displays that in world for duration seconds
@@ -127,3 +121,4 @@ var/global/list/landmarks_start_list = list()
 	lies_to_children.vis_contents += visual
 	QDEL_IN_CLIENT_TIME(visual, duration)
 	return visual
+*/

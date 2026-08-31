@@ -3,6 +3,8 @@
 	icon = 'icons/human/human.dmi'
 	icon_state = "human"
 
+	appearance_flags = KEEP_APART|TILE_BOUND|PIXEL_SCALE
+
 	var/base_delay = 3
 	var/move_delay = 3
 
@@ -175,13 +177,17 @@
 	name = "[first_name] [last_name]"
 
 	wristpad_glow = image(src.icon, src, "wristpad_display", MOB_LAYER + 0.01)
+	wristpad_glow.appearance_flags = RESET_COLOR
 	wristpad_glow.color = "#4CFF00"
 	winset(src, "outputwindow.output", list("text-color" = hud_color))
 
 	eyes = image(src.icon, src, "eyes", MOB_LAYER)
+	eyes.appearance_flags = RESET_COLOR
 	eyes.color = rgb(rand(0,255),rand(0,255),rand(0,255))
 	
-	overlays += image(src.icon, src, "wristpad", MOB_LAYER + 0.01)
+	var/image/wristpad = image(src.icon, src, "wristpad", MOB_LAYER + 0.01)
+	wristpad.appearance_flags = RESET_COLOR
+	overlays += wristpad
 	overlays += wristpad_glow
 	overlays += eyes
 

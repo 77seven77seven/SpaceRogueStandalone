@@ -62,7 +62,7 @@
 
 		open = !open
 		density = !density
-		return TRUE
+	return TRUE
 
 /obj/door_control
 	name = "door control"

@@ -2,22 +2,25 @@
 	var/xp = 6 // saves
 	var/datum/role/previously_played // saves too. reset when you successfully escape (do not set when success escape)
 
-	var/dissidence_preference = FALSE
-	var/presentation_preference = NEUTER // NEUTER = pick randomly between male or female
-
 /client/verb/fuckyou()
+	world << "----"
 	if(master)
 		world << "master = OK"
 	if(processor)
 		world << "processor = OK"
 	if(station)
 		world << "station = OK"
+	world << "----"
 
 /client/verb/wish(fuck as text)
 	fuck = text2path(fuck)
 	if(ispath(fuck))
 		new fuck(get_turf(mob))
 		usr << "Your wish is my command."
+
+mob/verb/trigger_null_runtime()
+    var/mob/human/M = null
+    M.health = 100 // CRASH: Cannot write to null.hp
 
 /client/verb/tune_radio()
     var/stream_url = "https://stream.sepia.sk:8000/impuls128.mp3"
