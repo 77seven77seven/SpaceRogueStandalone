@@ -18,6 +18,13 @@
 	var/corporate = FALSE
 	var/fancy = FALSE
 
+	var/shoes_is = "shoes"
+	var/list/shirts = list(/obj/item/clothing/shirt)
+	var/list/pants = list(/obj/item/clothing/pants)
+
+	var/list/hats = list()
+	var/hat_prob = 0
+
 	var/current_positions = 0
 	var/total_positions = 0
 
@@ -25,21 +32,31 @@
 						// Role selection is not influenced by dying, it keeps it. You have a slightly higher chance to roll some roles with a high XP amount.
 						// 100 means Guaranteed, 0 means never. Simple enough.
 
-/datum/role/proc/equip(/mob/human/H)
+/datum/role/proc/equip(mob/human/H)
 	if(!H)
 		return
 
 	if(!H.hat)
-		var/obj/item/clothing/hat/new_hat = new
-		H.equip_clothing(new_hat)
+		if(hats.len && prob(hat_prob))
+			var/obj/item/clothing/new_hat = pick(hats)
+			new_hat = new new_hat
+			H.equip_clothing(new_hat)
 	if(!H.shirt)
-		var/obj/item/clothing/shirt/new_shirt = new
-		H.equip_clothing(new_shirt)
+		if(shirts.len)
+			var/obj/item/clothing/new_shirt = pick(shirts)
+			new_shirt = new new_shirt
+			H.equip_clothing(new_shirt)
 	if(!H.pants)
-		var/obj/item/clothing/pants/new_pants = new
-		H.equip_clothing(new_pants)
+		if(pants.len)
+			var/obj/item/clothing/new_pants = pick(pants)
+			new_pants = new new_pants
+			H.equip_clothing(new_pants)
 
-	return
+	if(shoes_is)
+		var/shoes = image('icons/clothing/accessories.dmi', H, shoes_is)
+		H.overlays += shoes
+
+	return TRUE
 
 /datum/role/proc/get_skills()
 	return
@@ -67,8 +84,15 @@
 	total_positions = 4
 	probability = UNCOMMON
 	corporate = TRUE
+	shoes_is = "mercenary_shoes"
 
 	antag_can_roll = FALSE
+
+/datum/role/merc/equip(mob/human/H)
+	. = ..()
+	
+	var/merc_badge = image('icons/clothing/accessories.dmi', H, "mercenary_badge[rand(1,2)]", MOB_LAYER + 0.01)
+	H.overlays += merc_badge
 
 /datum/role/gardener
 	title = "Hydroponocist"
@@ -108,6 +132,12 @@
 
 	total_positions = 4
 	probability = COMMON
+
+/datum/role/medicaloid/equip(mob/human/H)
+	. = ..()
+	
+	var/med_badge = image('icons/clothing/accessories.dmi', H, "medi_badge", MOB_LAYER + 0.01)
+	H.overlays += med_badge
 
 /datum/role/stowaway
 	title = "Stowaway"

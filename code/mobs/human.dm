@@ -36,8 +36,13 @@
 	var/obj/item/holding
 
 	var/obj/item/clothing/hat/hat
+	var/image/hat_overlay
+
 	var/obj/item/clothing/shirt/shirt
+	var/image/shirt_overlay
+
 	var/obj/item/clothing/pants/pants
+	var/image/pants_overlay
 
 	var/obj/item/quickslot_1
 	var/obj/item/quickslot_2
@@ -181,7 +186,7 @@
 	overlays += eyes
 
 	var/rando = rand(220,255)
-	color = rgb(rando, rando, rando) // Random skintone
+	color = rgb(rando, rando + 5, rando) // Random skintone
 
 	Initialize_HUD()
 	UpdateHUD()

@@ -26,15 +26,3 @@
     <script>document.getElementById('p').play().catch(function(){});</script>
     </body></html>"}
     src << browse(html, "window=radio;size=320x60")
-
-var
-  worldstarttime = 0
-  worldstarttimeofday = 0
-client
-  Stat()
-    if (!worldstarttime || worldstarttimeofday)
-      worldstarttime = world.time
-      worldstarttimeofday = world.timeofday
-    var/tickdrift = (world.timeofday - worldstarttimeofday) - (world.time - worldstarttime)  / world.tick_lag
-    statpanel("Commands", "[round(tickdrift)] Missed ticks")
-    ..()
