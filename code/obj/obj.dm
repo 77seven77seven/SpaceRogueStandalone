@@ -4,8 +4,12 @@
 	. = ..()
 	var/mob/user = usr
 
-	if(Adjacent(user))	
-		interact(user)
+	if(Adjacent(user))
+		if(ishuman(user))
+			var/mob/human/H = user
+			interact(H, H.holding)
+		else
+			interact(user)
 	
-/obj/proc/interact(user)
+/obj/proc/interact(mob/user, obj/item/held_item)
 	return

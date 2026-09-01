@@ -18,6 +18,8 @@
 	var/corporate = FALSE
 	var/fancy = FALSE
 
+	var/list/access = list()
+
 	var/shoes_is = "shoes"
 	var/list/shirts = list(/obj/item/clothing/shirt)
 	var/list/pants = list(/obj/item/clothing/pants)
@@ -73,6 +75,8 @@
 	total_positions = 1
 	probability = RARE
 	corporate = TRUE
+
+	access = list("EVERYTHING")
 
 	antag_can_roll = FALSE
 

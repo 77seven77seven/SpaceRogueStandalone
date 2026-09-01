@@ -12,7 +12,13 @@
 	var/open = FALSE
 	var/doing = FALSE
 
+	var/shock_on_deny = FALSE
+	var/shock_damage = 5 // 20 denials to kill someone with full health
+
 	var/time = 2
+
+	var/list/access = list() // If the person interacting has ANY OF THESE ACCESS TAGS, they can access the door and open/close it.
+							 // This means that you can't make doors that need more than one type of access tag to open. Not yet anyway.
 
 	var/atom/movable/door_l
 	var/atom/movable/door_r
@@ -73,5 +79,14 @@
 
 /obj/door_control/interact(user)
 	. = ..()
-	if(linked_door)
-		linked_door.do_door()
+	if(ishuman(user))
+		var/mob/human/H = user
+		if(linked_door)
+			if(!linked_door.access.len || (find_common_entry(H.mind?.current_job?.access, linked_door.access) || H.mind?.current_job?.access.Find("EVERYTHING")))
+				flick("[initial(icon_state)]-allow",src)
+				linked_door.do_door()
+			else
+				flick("[initial(icon_state)]-deny",src)
+				if(linked_door.shock_on_deny)
+					flick("[initial(icon_state)]-deny",src) // temp
+					// TODO: when health system is done, work on this

@@ -133,6 +133,20 @@ var/global/list/newplayer_start = list()
 	else
 		world << "No quirks to choose from! This is a very bad bug! But only if there are more than 2 quirks."
 
+/mob/verb/toggle_textmode()
+	set name = ".tab_panel"
+
+	var/winge = winget(src, "rpanewindow", "left")
+	world << winge
+	if(winge == "infowindow")
+		winset(src, "rpanewindow", "left=.")
+		winset(src, "infob", "is-checked=false")
+		winset(src, "textb", "is-checked=true")
+	else
+		winset(src, "rpanewindow", "left=infowindow")
+		winset(src, "infob", "is-checked=true")
+		winset(src, "textb", "is-checked=false")
+
 /mob/lobbyman/verb/get_quirk()
 	set name = ".getquirk"
 

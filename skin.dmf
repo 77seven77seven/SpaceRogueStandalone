@@ -109,12 +109,17 @@ window "main_menu"
 		can-close = false
 		can-minimize = false
 		can-resize = false
+		outer-size = 656x496
+		outer-pos = 384,0
+		inner-pos = 8,8
+		screen-size = 1920x1020
 	elem "information_browser"
 		type = BROWSER
 		pos = 192,168
 		size = 424x256
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = ""
 	elem "roles_browser"
 		type = BROWSER
@@ -122,6 +127,7 @@ window "main_menu"
 		size = 168x256
 		anchor1 = 8,35
 		anchor2 = 24,88
+		background-color = none
 		saved-params = ""
 	elem "dissident"
 		type = BUTTON
@@ -129,6 +135,7 @@ window "main_menu"
 		size = 136x40
 		anchor1 = 63,25
 		anchor2 = 89,33
+		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "DISSIDENT: NO"
@@ -140,6 +147,7 @@ window "main_menu"
 		size = 280x40
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		border = line
 		saved-params = ""
 		text = "INFORMATION"
@@ -149,6 +157,7 @@ window "main_menu"
 		size = 168x40
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		border = line
 		saved-params = ""
 		text = "WHO ARE YOU?"
@@ -160,6 +169,7 @@ window "main_menu"
 		anchor2 = 100,12
 		font-family = "Times New Roman"
 		font-size = 30
+		background-color = none
 		is-transparent = true
 		saved-params = ""
 		text = "Fringe Sector"
@@ -218,6 +228,7 @@ window "mainwindow"
 		size = 640x440
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		is-default = true
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Dream Seeker"
@@ -225,12 +236,18 @@ window "mainwindow"
 		is-maximized = true
 		macro = "macro"
 		menu = "menu"
+		outer-size = 1938x1038
+		outer-pos = -9,-9
+		inner-size = 1920x966
+		inner-pos = 9,63
+		screen-size = 1920x1020
 	elem "mainvsplit"
 		type = CHILD
 		pos = 0,0
 		size = 640x440
 		anchor1 = 0,0
 		anchor2 = 100,100
+		background-color = none
 		saved-params = "splitter"
 		right = "rpane"
 		is-vert = true
@@ -242,6 +259,7 @@ window "mapwindow"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		titlebar = false
 		statusbar = false
@@ -249,6 +267,10 @@ window "mapwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
+		outer-size = 656x496
+		outer-pos = 384,0
+		inner-pos = 8,8
+		screen-size = 1920x1020
 	elem "map"
 		type = MAP
 		pos = 0,0
@@ -268,6 +290,7 @@ window "outputwindow"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		titlebar = false
 		statusbar = false
@@ -275,6 +298,10 @@ window "outputwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
+		outer-size = 656x496
+		outer-pos = 384,0
+		inner-pos = 8,8
+		screen-size = 1920x1020
 	elem "output"
 		type = OUTPUT
 		pos = 0,0
@@ -294,14 +321,20 @@ window "rpane"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = #000000
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-pane = true
+		outer-size = 658x549
+		outer-pos = 384,0
+		inner-pos = 9,38
+		screen-size = 1920x1020
 	elem "rpanewindow"
 		type = CHILD
 		pos = 0,0
 		size = 640x502
 		anchor1 = 0,0
 		anchor2 = 100,100
+		background-color = #000000
 		saved-params = "splitter"
 		right = "outputwindow"
 		is-vert = false
@@ -311,9 +344,10 @@ window "rpane"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = #a1e85f
 		is-visible = false
 		saved-params = "is-checked"
-		text = "Text"
+		text = "TXT-MOD"
 		command = ".winset \"rpanewindow.left=;\""
 		is-checked = true
 		group = "rpanemode"
@@ -321,12 +355,13 @@ window "rpane"
 	elem "infob"
 		type = BUTTON
 		pos = 64,0
-		size = 60x20
+		size = 80x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = #a1e85f
 		is-visible = false
 		saved-params = "is-checked"
-		text = "Info"
+		text = "CHAR-PANEL"
 		command = ".winset \"rpanewindow.left=infowindow\""
 		group = "rpanemode"
 		button-type = pushbox
@@ -338,18 +373,26 @@ window "infowindow"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Info"
 		is-pane = true
+		outer-size = 658x549
+		outer-pos = 384,0
+		inner-pos = 9,38
+		screen-size = 1920x1020
 	elem "info"
 		type = INFO
 		pos = 0,0
 		size = 640x502
 		anchor1 = 0,0
 		anchor2 = 100,100
+		text-color = #a1e85f
+		background-color = #000000
 		is-default = true
 		saved-params = ""
-		highlight-color = #00aa00
+		tab-text-color = #7bff00
+		tab-background-color = #565656
 		allow-html = false
 		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""
 		on-hide = ".winset\"rpane.infob.is-visible=false;rpane.browseb.is-visible=true?rpane.browseb.is-checked=true rpane.rpanewindow.left=browserwindow:rpane.textb.is-visible=false rpane.rpanewindow.pos=0,0 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=\""
