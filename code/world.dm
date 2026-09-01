@@ -214,3 +214,6 @@ proc/find_common_entry(list/list1, list/list2)
 		return null
 
 	return pick_weight(possible)
+
+proc/get_random_bright_color()
+	return rgb(rand(0, 360), rand(0, 100), rand(21, 100), space = COLORSPACE_HSV)

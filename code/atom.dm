@@ -8,6 +8,8 @@
 
 /atom/movable/Click(location, control, params)
 	. = ..()
+	if(control == "infowindow.info")
+		return
 	world << "---"
 	world << "[name]"
 	world << "[layer]"

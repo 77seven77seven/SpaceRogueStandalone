@@ -217,12 +217,20 @@
 
 /mob/human/Stat()
 	. = ..()
-	var/image/iconi = image(icon)
-	iconi.appearance = src.appearance
-	stat(iconi)
-	stat("GOAL:", "[mind.goal?.name]")
-	stat("[mind.goal?.desc] (+[mind.goal?.award] XP) [mind.goal?.IsCompleted() ? "(COMPLETED)" : null]")
+	stat("<br><br>") // The text looks ugly without this...
+	stat("<div style='font-size: 125%'>[first_name] [last_name]</div>")
+	stat("<div style='font-size: 110%'>[uppertext(mind.current_job?.title)]</div>")
+
+	stat("-----------------------------------")
+
+	stat("GOAL: [mind.goal?.name] <br>[mind.goal?.desc] (+[mind.goal?.award] XP) [mind.goal?.IsCompleted() ? "(COMPLETED)" : null]")
 
 	if(mind.dissident)
 		stat("@#$%&!:", "[uppertext(mind.special_goal?.name)]")
 		stat("[mind.special_goal?.desc] (+[mind.special_goal?.award] XP) [mind.special_goal?.IsCompleted() ? "(COMPLETED)" : null]")
+
+	stat("<br><br>") // Ditto! (Not like the Pokémon) Check above!
+
+	stat("QUIRKS:")
+	for(var/datum/quirk/Q in mind.quirks)
+		stat("● [Q.display_name]")
