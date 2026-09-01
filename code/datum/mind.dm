@@ -8,7 +8,9 @@
 	var/list/datum/quirk/quirks = list()
 
 	var/datum/goal/goal
-	var/datum/goal/special/special_goal
+	var/datum/goal/antag/special_goal // dissident goals
+
+	var/dissident = FALSE
 
 	var/datum/role/current_job
 

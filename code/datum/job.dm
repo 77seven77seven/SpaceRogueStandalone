@@ -27,6 +27,9 @@
 	var/list/hats = list()
 	var/hat_prob = 0
 
+	var/datum/goal/special_role_goal
+	var/special_role_goal_prob = 100 // 100 means always.
+
 	var/current_positions = 0
 	var/total_positions = 0
 

@@ -197,5 +197,32 @@
 	Initialize_HUD()
 	UpdateHUD()
 
+	if(istype(R.special_role_goal) && prob(R.special_role_goal_prob))
+		var/new_goal
+		if(islist(R.special_role_goal))
+			new_goal = pick(R.special_role_goal)
+		else
+			new_goal = R.special_role_goal
+		mind.goal = new new_goal()
+	else
+		var/new_goal = get_me_a_goal()
+		mind.goal = new new_goal()
+	
+	if(is_dissident)
+		var/new_special_goal = get_me_a_goal(is_dissident)
+		mind.special_goal = new new_special_goal()
+
 	for(var/datum/quirk/Q in mind.quirks)
 		Q.equip(src)
+
+/mob/human/Stat()
+	. = ..()
+	var/image/iconi = image(icon)
+	iconi.appearance = src.appearance
+	stat(iconi)
+	stat("GOAL:", "[mind.goal?.name]")
+	stat("[mind.goal?.desc] (+[mind.goal?.award] XP) [mind.goal?.IsCompleted() ? "(COMPLETED)" : null]")
+
+	if(mind.dissident)
+		stat("@#$%&!:", "[uppertext(mind.special_goal?.name)]")
+		stat("[mind.special_goal?.desc] (+[mind.special_goal?.award] XP) [mind.special_goal?.IsCompleted() ? "(COMPLETED)" : null]")
