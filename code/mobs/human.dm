@@ -18,15 +18,32 @@
 	var/datum/disease/disease
 	var/datum/mind/mind
 
-	var/health = 100
+	var/health = HUMAN_MAX_HEALTH
+	var/max_health = HUMAN_MAX_HEALTH
 	var/blood = 100
 
 	var/dead = FALSE
 	var/ragdolled = FALSE
 
 	var/wealth = 0 // money
-	var/hunger = 0 // ditto thirst
+	var/hunger = 0 // 0 is satisfied, HUMAN_MAX_NEED is starving
 	var/thirst = 0 // lowers your speed and then your health if at too long
+	var/max_need = HUMAN_MAX_NEED
+	var/hunger_rate = 0.3
+	var/thirst_rate = 0.5
+
+	var/starvation_threshold = 100
+	var/dehydration_threshold = 100
+	var/starvation_damage = 2
+	var/dehydration_damage = 3
+
+	var/sorrow_recovery = 1
+
+	var/tmp/next_needs_process = 0
+	var/tmp/sorrow_cycles = 0
+	var/tmp/heart_attack = FALSE
+	var/tmp/hud_hunger
+	var/tmp/hud_thirst
 
 	var/bones = 2 // how many bones you can break
 	var/broke_bones = 0
@@ -62,16 +79,37 @@
 	var/wanted = FALSE
 	var/wanted_timer = 0 // the crime doesnt really matter, the severity of the crime only matters how long you need to hide
 
+/mob/human/Initialize()
+	. = ..()
+	if(processor && !processor.processing.Find(src))
+		processor.processing += src
+	if(station && !station.humans.Find(src))
+		station.humans += src
+	hud_hunger = hunger
+	hud_thirst = thirst
+	UpdateMoveDelay()
+
+/mob/human/Destroy(force = FALSE)
+	if(processor)
+		processor.processing -= src
+	if(station)
+		station.humans -= src
+		station.dead_humans -= src
+	return ..()
+
 /mob/human/Move(NewLoc, Dir, step_x, step_y)
+	if(dead || ragdolled)
+		return FALSE
+
 	var/time = world.time
 
 	if(next_move > time)
-		return
+		return FALSE
 
 	//glide_size = ICON_SIZE / max(move_delay,TICK_LAG) * TICK_LAG
 
 	next_move = time + move_delay
-	..()
+	return ..()
 
 /mob/human/Click(location, control, params)
 	. = ..()
@@ -79,8 +117,166 @@
 	eyes_color_change(rgb(rand(0,255),rand(0,255),rand(0,255)))
 	var/wealthnew = input(usr, "update wealth") as num|null
 	if(wealthnew)
-		health = wealthnew
+		wealth = wealthnew
 		UpdateHUD()
+
+/mob/human/proc/SetHealth(value)
+	if(dead)
+		return FALSE
+
+	var/old_health = health
+	health = max(0, min(max_health, value))
+	if(health <= 0)
+		Die()
+	else if(old_health != health)
+		UpdateHUD()
+	return health - old_health
+
+/mob/human/proc/TakeDamage(amount, source)
+	if(dead || amount <= 0)
+		return 0
+
+	var/old_health = health
+	health = max(0, health - amount)
+	if(health <= 0)
+		Die(source)
+	else
+		AdjustSorrow(round(amount / 10))
+		UpdateHUD()
+	return old_health - health
+
+/mob/human/proc/Heal(amount)
+	if(dead || amount <= 0)
+		return 0
+
+	var/old_health = health
+	health = min(max_health, health + amount)
+	if(old_health != health)
+		UpdateHUD()
+	return health - old_health
+
+/mob/human/proc/Die(cause)
+	if(dead)
+		return FALSE
+
+	dead = TRUE
+	ragdolled = TRUE
+	health = 0
+	is_moving = FALSE
+	if(processor)
+		processor.processing -= src
+	if(station)
+		station.humans -= src
+		if(!station.dead_humans.Find(src))
+			station.dead_humans += src
+	UpdateHUD()
+	return TRUE
+
+/mob/human/proc/AdjustHunger(amount)
+	var/old_hunger = hunger
+	hunger = max(0, min(max_need, hunger + amount))
+	if(old_hunger != hunger)
+		UpdateMoveDelay()
+		UpdateHUD()
+	return hunger - old_hunger
+
+/mob/human/proc/AdjustThirst(amount)
+	var/old_thirst = thirst
+	thirst = max(0, min(max_need, thirst + amount))
+	if(old_thirst != thirst)
+		UpdateMoveDelay()
+		UpdateHUD()
+	return thirst - old_thirst
+
+/mob/human/proc/AdjustSorrow(amount)
+	var/old_sorrow = sorrow
+	sorrow = max(0, min(max_need, sorrow + amount))
+	if(sorrow < max_need)
+		sorrow_cycles = 0
+	if(old_sorrow != sorrow)
+		UpdateHUD()
+	return sorrow - old_sorrow
+
+/mob/human/proc/UpdateMoveDelay()
+	var/penalty = 0
+	if(hunger >= 50)
+		penalty++
+	if(hunger >= 90)
+		penalty++
+
+	if(thirst >= 50)
+		penalty++
+	if(thirst >= 90)
+		penalty++
+
+	if(sorrow >= 50)
+		penalty++
+	if(sorrow >= 90)
+		penalty++
+
+	move_delay = max(1, base_delay + penalty)
+	return move_delay
+
+/mob/human/proc/ProcessNeeds()
+	if(dead)
+		return FALSE
+
+	AdjustHunger(hunger_rate)
+	AdjustThirst(thirst_rate)
+
+	if(hunger >= starvation_threshold)
+		TakeDamage(starvation_damage, "starvation")
+	if(thirst >= dehydration_threshold)
+		TakeDamage(dehydration_damage, "dehydration")
+	if(dead)
+		return FALSE
+
+	var/stress = 0
+	if(hunger > 50)
+		stress += round((hunger - 50) / 25)
+	if(thirst > 50)
+		stress += round((thirst - 50) / 25)
+	if(health < 50)
+		stress++
+
+	if(stress)
+		AdjustSorrow(stress)
+	else if(sorrow < max_need)
+		AdjustSorrow(-sorrow_recovery)
+
+	if(sorrow >= max_need)
+		sorrow_cycles++
+		if(sorrow_cycles >= HUMAN_SORROW_MAX_CYCLES)
+			HeartAttack()
+
+	UpdateMoveDelay()
+	return TRUE
+
+/mob/human/Process()
+	if(dead)
+		processor.processing -= src
+		return
+	UpdateHUD()
+	if(world.time < next_needs_process)
+		return
+	next_needs_process = world.time + HUMAN_NEEDS_PROCESS_INTERVAL
+	ProcessNeeds()
+
+/mob/human/proc/HeartAttack()
+	if(dead || heart_attack)
+		return FALSE
+	heart_attack = TRUE
+	ragdolled = TRUE
+	if(health <= 0)
+		Die("heart attack")
+	else
+		TakeDamage(health, "heart attack")
+	return TRUE
+
+/mob/human/proc/consume(obj/item/consumable/C)
+	if(!C || dead)
+		return FALSE
+	return C.consume(src)
 
 /mob/human/proc/wristpad_display_change(colorina)
 	overlays -= wristpad_glow
@@ -104,6 +300,18 @@
 	client.screen += hud_holder.health
 
 /mob/human/proc/UpdateHUD()
+	if(hud_hunger == null)
+		hud_hunger = hunger
+	else
+		hud_hunger = lerp(hud_hunger, hunger, HUMAN_NEEDS_HUD_LERP)
+		if(abs(hud_hunger - hunger) < 0.1)
+			hud_hunger = hunger
+	if(hud_thirst == null)
+		hud_thirst = thirst
+	else
+		hud_thirst = lerp(hud_thirst, thirst, HUMAN_NEEDS_HUD_LERP)
+		if(abs(hud_thirst - thirst) < 0.1)
+			hud_thirst = thirst
 	hud_holder?.Update()
 
 /mob/human/proc/can_equip_clothing(obj/item/clothing/C)

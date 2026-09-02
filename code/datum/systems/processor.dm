@@ -9,7 +9,7 @@
 	spawn while(1)
 		for(var/datum/D in processing)
 			D.Process()
-			sleep(world.tick_lag)
+		sleep(world.tick_lag)
 
 /datum/proc/Process()
 	processor.processing -= src

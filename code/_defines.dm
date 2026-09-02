@@ -52,3 +52,11 @@
 
 #define HUD_PLANE 21
 #define HUD_LAYER 21
+
+// Human vital statistics. Needs are expressed as a percentage where zero is
+// satisfied and the maximum is critical.
+#define HUMAN_MAX_HEALTH 100
+#define HUMAN_MAX_NEED 100
+#define HUMAN_NEEDS_PROCESS_INTERVAL 25
+#define HUMAN_SORROW_MAX_CYCLES 10
+#define HUMAN_NEEDS_HUD_LERP 0.15

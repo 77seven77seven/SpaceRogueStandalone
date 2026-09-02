@@ -89,4 +89,4 @@
 				flick("[initial(icon_state)]-deny",src)
 				if(linked_door.shock_on_deny)
 					flick("[initial(icon_state)]-deny",src) // temp
-					// TODO: when health system is done, work on this
+					H.TakeDamage(linked_door.shock_damage, "access denial shock")

@@ -16,8 +16,10 @@
 	var/obj/hud/health/health
 
 /obj/hud/sysmas/proc/Update()
-	bg_stats.Update()
-	health.Update()
+	if(bg_stats)
+		bg_stats.Update()
+	if(health)
+		health.Update()
 
 /obj/hud/bg_stats
 	icon_state = "bg"
@@ -30,12 +32,14 @@
 	maptext = "Help me!"
 
 /obj/hud/bg_stats/proc/GenerateMapText()
+	if(!owner)
+		return ""
 	return {"
 		<div style='color:[owner.hud_color]; text-align:left; font-size: 70%; font-family: serif;'>
 		WEALTH: [owner.wealth]$
-		HUNGER: [owner.hunger]%
-		THIRST: [owner.thirst]%
-		SORROW: [owner.sorrow]%<br>
+		HUNGER: [floor(owner.hud_hunger)]%
+		THIRST: [floor(owner.hud_thirst)]%
+		SORROW: [floor(owner.sorrow)]%<br>
 		XP: [owner.client.xp]
 		</div>
 		"}
@@ -57,7 +61,9 @@
 	var/list/health_color_levels = list("#aeea77", "#ccd455", "#d48743", "#da6c31", "#7e3830", "#ffffff")
 
 /obj/hud/health/proc/Update()
-	var/health = (owner.health/100) * 100
+	if(!owner)
+		return
+	var/health = owner.health
 	var/rastra
 
 	switch(health)

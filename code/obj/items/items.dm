@@ -4,6 +4,40 @@
 	icon = 'icons/obj/items.dmi'
 	var/storable = TRUE // Can it be put into the inventory?
 
+/obj/item/consumable
+	name = "consumable"
+	var/nutrition = 0
+	var/hydration = 0
+	var/mood = 0
+
+/obj/item/consumable/interact(mob/user, obj/item/held_item)
+	. = ..()
+	if(!ishuman(user))
+		return FALSE
+	var/mob/human/H = user
+	return H.consume(src)
+
+/obj/item/consumable/proc/consume(mob/human/H)
+	if(!H || H.dead)
+		return FALSE
+	if(nutrition)
+		H.AdjustHunger(-nutrition)
+	if(hydration)
+		H.AdjustThirst(-hydration)
+	if(mood)
+		H.AdjustSorrow(-mood)
+	qdel(src)
+	return TRUE
+
+/obj/item/consumable/food
+	name = "meal"
+	nutrition = 35
+	mood = 5
+
+/obj/item/consumable/water
+	name = "water"
+	hydration = 35
+
 /client
 	var/image/item_hover_highlight
 
