@@ -29,8 +29,8 @@
 	var/hunger = 0 // 0 is satisfied, HUMAN_MAX_NEED is starving
 	var/thirst = 0 // lowers your speed and then your health if at too long
 	var/max_need = HUMAN_MAX_NEED
-	var/hunger_rate = 0.3
-	var/thirst_rate = 0.5
+	var/hunger_rate = HUMAN_MAX_NEED / HUMAN_HUNGER_FULL_TIME
+	var/thirst_rate = HUMAN_MAX_NEED / HUMAN_THIRST_FULL_TIME
 
 	var/starvation_threshold = 100
 	var/dehydration_threshold = 100
@@ -40,6 +40,7 @@
 	var/sorrow_recovery = 1
 
 	var/tmp/next_needs_process = 0
+	var/tmp/last_needs_process = 0
 	var/tmp/sorrow_cycles = 0
 	var/tmp/heart_attack = FALSE
 	var/tmp/hud_hunger
@@ -85,9 +86,12 @@
 		processor.processing += src
 	if(station && !station.humans.Find(src))
 		station.humans += src
+	last_needs_process = world.time
 	hud_hunger = hunger
 	hud_thirst = thirst
 	UpdateMoveDelay()
+
+	filters += filter(type="drop_shadow", x=2, size=2, offset=1)
 
 /mob/human/Destroy(force = FALSE)
 	if(processor)
@@ -217,12 +221,12 @@
 	move_delay = max(1, base_delay + penalty)
 	return move_delay
 
-/mob/human/proc/ProcessNeeds()
+/mob/human/proc/ProcessNeeds(elapsed = HUMAN_NEEDS_PROCESS_INTERVAL)
 	if(dead)
 		return FALSE
 
-	AdjustHunger(hunger_rate)
-	AdjustThirst(thirst_rate)
+	AdjustHunger(hunger_rate * elapsed)
+	AdjustThirst(thirst_rate * elapsed)
 
 	if(hunger >= starvation_threshold)
 		TakeDamage(starvation_damage, "starvation")
@@ -260,7 +264,9 @@
 	if(world.time < next_needs_process)
 		return
 	next_needs_process = world.time + HUMAN_NEEDS_PROCESS_INTERVAL
-	ProcessNeeds()
+	var/elapsed = max(1, world.time - last_needs_process)
+	last_needs_process = world.time
+	ProcessNeeds(elapsed)
 
 /mob/human/proc/HeartAttack()
 	if(dead || heart_attack)
@@ -440,5 +446,8 @@
 	stat("<br><br>") // Ditto! (Not like the Pokémon) Check above!
 
 	stat("QUIRKS:")
-	for(var/datum/quirk/Q in mind.quirks)
-		stat("● [Q.display_name]")
+	if(mind.quirks.len)
+		for(var/datum/quirk/Q in mind.quirks)
+			stat("● [Q.display_name]")
+	else
+		stat("● None! You're just as ordinary as they come.")
