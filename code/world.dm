@@ -5,6 +5,9 @@ var/global/datum/system/station/station = new()
 var/global/list/landmarks_list = list()
 var/global/list/landmarks_start_list = list()
 
+// Just don't credit me. Do whatever, none of my ideas are copyrighted.
+// Feel free to steal my game if you want, but you should probably be creative because being creative is cool.
+
 /world
 	name = "Fringe Sector: Roguestation Edition"
 	fps = 30
