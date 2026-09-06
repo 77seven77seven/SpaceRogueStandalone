@@ -30,6 +30,9 @@ macro "macro"
 		name = "South+REP"
 		command = ".south"
 	elem 
+		name = "F"
+		command = ".inhand"
+	elem 
 		name = "F1"
 		command = ".options"
 
@@ -342,15 +345,10 @@ window "infowindow"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		border = sunken
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Info"
 		is-pane = true
-		outer-size = 658x549
-		outer-pos = 384,0
-		inner-pos = 9,38
-		screen-size = 1920x1020
 	elem "info"
 		type = INFO
 		pos = 0,0

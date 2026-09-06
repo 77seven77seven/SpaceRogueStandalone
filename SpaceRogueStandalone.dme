@@ -14,7 +14,6 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
-#include "skin.dmf"
 #include "code\_defines.dm"
 #include "code\adjacent.dm"
 #include "code\atom.dm"
@@ -41,6 +40,8 @@
 #include "code\obj\items\clothing.dm"
 #include "code\obj\items\items.dm"
 #include "code\obj\items\weapons.dm"
+#include "interface\stylesheet.dm"
+#include "interface\skin.dmf"
 #include "maps\map.dmm"
 // END_INCLUDE
 

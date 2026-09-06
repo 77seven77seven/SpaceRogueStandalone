@@ -6,8 +6,6 @@
 
 /datum/quirk/proc/equip(mob/human/H) // applied after everything else
 
-// todo, light random color skin tone quirk: RGB(150, 255, 150)
-
 /datum/quirk/weirdlook
 	name = "Weird Look"
 	display_name = "You look weird."

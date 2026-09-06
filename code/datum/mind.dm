@@ -18,6 +18,12 @@
 	src.key = key
 	//set_current_job(master.GetJobType(/datum/role/unassigned))
 
+/datum/mind/proc/SetSkill(new_skill, level)
+	skills[new_skill] = level
+
+/datum/mind/proc/GetSkill(skillget)
+	return skills[skillget]
+
 /// Setter for the current_job job datum.
 /datum/mind/proc/set_current_job(datum/role/new_role)
 	if(!istype(new_role))

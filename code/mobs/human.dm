@@ -343,7 +343,7 @@
 		return FALSE
 	return C.remove_from_mob()
 
-/mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE)
+/mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE, randomize_certain_values = TRUE)
 	if(!mind)
 		var/datum/mind/new_mind = new /datum/mind(ckey)
 		mind = new_mind
@@ -407,6 +407,11 @@
 
 	var/rando = rand(220,255)
 	color = rgb(rando, rando + 5, rando) // Random skintone
+
+	wealth = floor(rand(0,12) + 2.857 * client.xp)
+	if(randomize_certain_values)
+		thirst = rand(0,43)
+		hunger = rand(0,43)
 
 	Initialize_HUD()
 	UpdateHUD()
