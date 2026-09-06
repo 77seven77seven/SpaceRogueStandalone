@@ -66,9 +66,9 @@
 /datum/role/proc/get_skills()
 	return
 
-/datum/role/unassigned
+/datum/role/unassigned // Unused.
 	title = "Nobody"
-	desc = "Not a job in sight! Click a open job slot on the left!"
+	desc = "Not a job in sight!"
 
 /datum/role/director
 	title = "Director"
@@ -82,6 +82,9 @@
 	access = list("EVERYTHING")
 
 	antag_can_roll = FALSE
+
+/datum/role/director/get_skills()
+	return list(CORP = 90, GUNS = 20 + rand(-10,10), PARANOIA = 60, MELEE = 10 + rand(-9,10))
 
 /datum/role/merc
 	title = "Mercenary"
@@ -101,12 +104,18 @@
 	var/merc_badge = image('icons/clothing/accessories.dmi', H, "mercenary_badge[rand(1,2)]", MOB_LAYER + 0.01)
 	H.overlays += merc_badge
 
+/datum/role/merc/get_skills()
+	return list(CORP = 60, GUNS = 40 + rand(-10,10), MELEE = 60 + rand(-10,10), PARANOIA = 40)
+
 /datum/role/gardener
 	title = "Hydroponocist"
 	desc = "Since the dawn of mankind, every society needed someone to make food for people. Well, that's who you are. Operate the mealworm farms, press them into bricks, and then give them some texture in the cooking machines. Remember, this is a respectful occupation where everyone will eventually grow to like you. Ensure it stays that way."
 
 	total_positions = 2
 	probability = COMMON
+
+/datum/role/gardener/get_skills()
+	return list(HYDRO = 80 + rand(-10,10))
 	
 /datum/role/plumber
 	title = "Plumber"
@@ -114,6 +123,9 @@
 
 	total_positions = 2
 	probability = COMMON
+
+/datum/role/plumber/get_skills()
+	return list(PLUMB = 80 + rand(-10,10))
 
 /datum/role/technician
 	title = "Technician"
@@ -126,12 +138,18 @@
 	antag_chance_min = 10
 	antag_chance_max = 40
 
+/datum/role/technician/get_skills()
+	return list(TECH = 85 + rand(-10,10))
+
 /datum/role/miner
 	title = "Miner"
 	desc = "The brother or sister, more of a cousin to the Technician. You're both in the same union, and your jobs are remarkably similar. You venture down into the mines to find ore, scrap them to... well, scrap. And then refine them yourself in an incredibly convoluted process. At least the pay's nice, and the Director is sure to give you a nice bonus for quotas. You run the primary economy of the station! Act like it! Wear your union badge with pride."
 
 	total_positions = 4
 	probability = COMMON
+
+/datum/role/miner/get_skills()
+	return list(MINE = 85 + rand(-10,10), TECH = 45 + rand(-10,10))
 
 /datum/role/medicaloid
 	title = "Medicaloid"
@@ -145,6 +163,9 @@
 	
 	var/med_badge = image('icons/clothing/accessories.dmi', H, "medi_badge", MOB_LAYER + 0.01)
 	H.overlays += med_badge
+
+/datum/role/medicaloid/get_skills()
+	return list(MEDI = 85 + rand(-10,10), TECH = 45 + rand(-10,10))
 
 /datum/role/stowaway
 	title = "Stowaway"

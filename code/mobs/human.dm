@@ -121,7 +121,7 @@
 	eyes_color_change(rgb(rand(0,255),rand(0,255),rand(0,255)))
 	var/wealthnew = input(usr, "update wealth") as num|null
 	if(wealthnew)
-		wealth = wealthnew
+		sorrow = wealthnew
 		UpdateHUD()
 
 /mob/human/proc/SetHealth(value)
@@ -434,6 +434,24 @@
 	for(var/datum/quirk/Q in mind.quirks)
 		Q.equip(src)
 
+/mob/human/proc/SkillRoll(skill_name)
+	var/skill_value = mind.GetSkill(skill_name)
+	
+	var/probability = 0
+	var/xp_bonus = 0.024 * 20
+	var/adjusted_chance = skill_value - ceil(sorrow / 10) + rand(-7,7) // 7seven
+
+	probability = adjusted_chance
+
+	if(probability >= 40)
+		xp_bonus /= 1.2
+
+	src << "[skill_name] --- PROB: [probability]% , VALUE: [skill_value] , VAL: [adjusted_chance]"
+	if(prob(probability + xp_bonus))
+		src << "success"
+	else
+		src << "fail"
+
 /mob/human/Stat()
 	. = ..()
 	stat("<br><br>") // The text looks ugly without this...
@@ -456,3 +474,12 @@
 			stat("● [Q.display_name]")
 	else
 		stat("● None! You're just as ordinary as they come.")
+
+	stat("-----------------------------------")
+
+	stat("ABILITY SCORES:")
+	if(mind.skills.len)
+		for(var/S in mind.skills)
+			stat("[S] ---- [skill_level_to_word(mind.GetSkill(S))] (~[mind.GetSkill(S)]%)<br>")
+	else
+		stat("● None? You're unemployable! Revel in the madness!")

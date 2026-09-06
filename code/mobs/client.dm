@@ -18,9 +18,8 @@
 		new fuck(get_turf(mob))
 		usr << "Your wish is my command."
 
-mob/verb/trigger_null_runtime()
-    var/mob/human/M = null
-    M.health = 100 // CRASH: Cannot write to null.hp
+/mob/human/verb/trigger_skill_roll(fuck as text)
+    SkillRoll(fuck)
 
 /client/verb/tune_radio()
     var/stream_url = "https://stream.sepia.sk:8000/impuls128.mp3"

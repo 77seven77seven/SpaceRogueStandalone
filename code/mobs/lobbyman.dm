@@ -1,5 +1,3 @@
-var/global/list/newplayer_start = list()
-
 /client
 	var/dissidence_preference = FALSE
 	var/presentation_preference = NEUTER // NEUTER = pick randomly between male or female
@@ -16,8 +14,8 @@ var/global/list/newplayer_start = list()
 
 /mob/lobbyman/Initialize()
 	. = ..()
-	if(length(newplayer_start))
-		forceMove(pick(newplayer_start))
+	if(length(station.newplayer_start))
+		forceMove(pick(station.newplayer_start))
 	else
 		forceMove(locate(1,1,1))
 

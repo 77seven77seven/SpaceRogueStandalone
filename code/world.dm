@@ -218,5 +218,30 @@ proc/find_common_entry(list/list1, list/list2)
 
 	return pick_weight(possible)
 
-proc/get_random_bright_color()
+/proc/get_random_bright_color()
 	return rgb(rand(0, 360), rand(0, 100), rand(21, 100), space = COLORSPACE_HSV)
+
+// Parse number into a word. Essentially, 1 is NONCE and what so.
+/proc/skill_level_to_word(numero)
+	var/flarov = "WAS?!"
+	switch(numero)
+		if(1)
+			flarov = "JSI NULLA!"
+		if(2 to 10)
+			flarov = "NONCE"
+		if(10 to 25)
+			flarov = "KLARE"
+		if(25 to 45)
+			flarov = "NOTICE-ABLE"
+		if(40 to 50)
+			flarov = "HALF-FOR"
+		if(50 to 60)
+			flarov = "GUT-RU"
+		if(60 to 80)
+			flarov = "YORES"
+		if(80 to 99)
+			flarov = "INDHERE"
+		if(100)
+			flarov = "GUARANTEED"
+
+	return flarov

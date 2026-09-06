@@ -13,7 +13,7 @@
 
 #define QDEL_NULL(item) qdel(item); item = null
 #define QDEL_LIST(L) if(L) { for(var/I in L) qdel(I); L.Cut(); }
-#define QDEL_LIST_IN(L, time) addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(______qdel_list_wrapper), L), time, TIMER_STOPPABLE)
+//#define QDEL_LIST_IN(L, time) addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(______qdel_list_wrapper), L), time, TIMER_STOPPABLE)
 #define QDEL_LIST_CONTENTS(L) if(L) { for(var/I in L) qdel(I); L.Cut(); }
 #define QDEL_LIST_ASSOC(L) if(L) { for(var/I in L) { qdel(L[I]); qdel(I); } L.Cut(); }
 #define QDEL_LIST_ASSOC_VAL(L) if(L) { for(var/I in L) qdel(L[I]); L.Cut(); }
@@ -62,3 +62,15 @@
 #define HUMAN_NEEDS_HUD_LERP 0.15
 #define HUMAN_HUNGER_FULL_TIME (25 * 60 * 10)
 #define HUMAN_THIRST_FULL_TIME (30 * 60 * 10)
+
+// SKILLS
+
+#define CORP "CORP"
+#define GUNS "GUNS"
+#define PARANOIA "AAH!!!"
+#define MELEE "MELEE"
+#define HYDRO "HYDRO"
+#define PLUMB "PLUMB"
+#define TECH "TECH"
+#define MINE "MINE"
+#define MEDI "MEDI"

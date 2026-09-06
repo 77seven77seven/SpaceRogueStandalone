@@ -17,4 +17,6 @@
 	var/mworms = 10
 	var/mworms_price = 5
 
+	var/list/newplayer_start = list()
+
 /datum/system/station
