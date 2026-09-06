@@ -6,6 +6,7 @@
 /atom/proc/Initialize()
 	return
 
+/*
 /atom/movable/Click(location, control, params)
 	. = ..()
 	if(control == "infowindow.info")
@@ -17,6 +18,7 @@
 	if(screen_loc)
 		world << "[screen_loc]"
 	world << "---"
+*/
 
 /atom/movable/proc/forceMove(atom/destination)
 	. = FALSE

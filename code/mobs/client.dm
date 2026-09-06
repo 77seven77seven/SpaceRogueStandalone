@@ -2,33 +2,19 @@
 	var/xp = 6 // saves
 	var/datum/role/previously_played // saves too. reset when you successfully escape (do not set when success escape)
 
-	var/tx
-	var/px
-	var/ty
-	var/py
+	var/turf/movered
+	var/mpx = 0
+	var/mpy = 0
 
-/client/New()
+/client/MouseMove(object, location, control, params)
 	. = ..()
-	track_mouse(TRUE, )
+	movered = get_turf(location)
 
-/client/MouseUpdate(tx, px, ty, py)
-	src.tx = tx
-	src.px = px
-	src.ty = ty
-	src.py = py
+	var/list/marams = params2list(params)
+	mpx = text2num(marams["icon-x"])
+	mpy = text2num(marams["icon-y"])
 
-/client/proc/mouse_turf()
-	if(!mob || !tx || !ty)
-		return
-
-	var/view_text = "[view]"
-	var/view_separator = findtext(view_text, "x")
-	var/view_width = view_separator ? text2num(copytext(view_text, 1, view_separator)) : text2num(view_text)
-	var/view_height = view_separator ? text2num(copytext(view_text, view_separator + 1)) : view_width
-	var/center_x = round((view_width + 1) / 2)
-	var/center_y = round((view_height + 1) / 2)
-
-	return locate(mob.x + tx - center_x, mob.y + ty - center_y, mob.z)
+	//src << "[mpx] [mpy]"
 
 /client/verb/fuckyou()
 	world << "----"

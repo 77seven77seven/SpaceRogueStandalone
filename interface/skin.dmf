@@ -33,6 +33,9 @@ macro "macro"
 		name = "F"
 		command = ".inhand"
 	elem 
+		name = "Q"
+		command = ".drop"
+	elem 
 		name = "F1"
 		command = ".options"
 
@@ -271,7 +274,6 @@ window "outputwindow"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		titlebar = false
 		statusbar = false
@@ -279,10 +281,6 @@ window "outputwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
-		outer-size = 656x496
-		outer-pos = 384,0
-		inner-pos = 8,8
-		screen-size = 1920x1020
 	elem "output"
 		type = OUTPUT
 		pos = 0,0

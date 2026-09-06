@@ -15,7 +15,6 @@
 
 // BEGIN_INCLUDE
 #include "code\_defines.dm"
-#include "code\_mouse_track.dm"
 #include "code\adjacent.dm"
 #include "code\atom.dm"
 #include "code\auxtools.dm"

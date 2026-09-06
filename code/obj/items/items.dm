@@ -28,6 +28,25 @@
 
 	holding.use(src)
 
+/mob/human/verb/drop_item()
+	set name = ".drop"
+
+	if(dead || ragdolled || !holding || !client)
+		return FALSE
+
+	var/turf/drop_turf = client.movered
+	if(!drop_turf || drop_turf.z != z)
+		return FALSE
+	if(abs(drop_turf.x - x) > 1 || abs(drop_turf.y - y) > 1)
+		return FALSE
+
+	holding.forceMove(drop_turf)
+	holding.pixel_x = client.mpx - world.icon_size / 2
+	holding.pixel_y = client.mpy - world.icon_size / 2
+
+	holding = null
+	return TRUE
+
 /obj/item/consumable
 	name = "consumable"
 	var/nutrition = 0
@@ -48,39 +67,7 @@
 /obj/item/consumable/food
 	name = "meal"
 	nutrition = 35
-	mood = 5
 
 /obj/item/consumable/water
 	name = "water"
 	hydration = 35
-
-/client
-	var/image/item_hover_highlight
-
-/client/proc/highlight_item(obj/item/I)
-	if(!item_hover_highlight)
-		item_hover_highlight = image(loc = I)
-		item_hover_highlight.mouse_opacity = 2
-		item_hover_highlight.filters += filter(type = "outline", size = 1, color = "#A1E85F", flags = OUTLINE_SHARP) // drop the flags arg if your BYOND version doesn't define OUTLINE_SHARP
-	item_hover_highlight.icon = I.icon
-	item_hover_highlight.icon_state = I.icon_state
-	item_hover_highlight.dir = I.dir
-	item_hover_highlight.pixel_x = I.pixel_x
-	item_hover_highlight.pixel_y = I.pixel_y
-	item_hover_highlight.plane = I.plane
-	item_hover_highlight.layer = I.layer + 0.1
-	item_hover_highlight.loc = I
-	images |= item_hover_highlight
-
-/client/proc/clear_item_highlight()
-	if(item_hover_highlight)
-		images -= item_hover_highlight
-
-/obj/item/MouseEntered(location, control, params)
-	. = ..()
-	if(Adjacent(usr))
-		usr?.client?.highlight_item(src)
-
-/obj/item/MouseExited(location, control, params)
-	. = ..()
-	usr?.client?.clear_item_highlight()
