@@ -96,6 +96,8 @@
 	corporate = TRUE
 	shoes_is = "mercenary_shoes"
 
+	access = list("CORP")
+
 	antag_can_roll = FALSE
 
 /datum/role/merc/equip(mob/human/H)

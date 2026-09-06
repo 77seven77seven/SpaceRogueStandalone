@@ -4,30 +4,46 @@
 	icon = 'icons/obj/items.dmi'
 	var/storable = TRUE // Can it be put into the inventory?
 
+/obj/item/proc/use(/mob/human/H) // pressing F when held
+	return
+
+/obj/item/interact(mob/user, obj/item/held_item) // picking up
+	if(held_item || !ishuman(user))
+		return
+	var/mob/human/H = user
+
+	H.swing_anim(src, 8, 5, 3)
+
+	forceMove(H)
+	H.holding = src
+
+/mob/human/verb/inhand()
+	set name = ".inhand"
+
+	if(!holding)
+		return
+
+	if(!src || src.dead)
+		return FALSE
+
+	holding.use(src)
+
 /obj/item/consumable
 	name = "consumable"
 	var/nutrition = 0
 	var/hydration = 0
 	var/mood = 0
 
-/obj/item/consumable/interact(mob/user, obj/item/held_item)
-	. = ..()
-	if(!ishuman(user))
-		return FALSE
-	var/mob/human/H = user
-	return H.consume(src)
-
-/obj/item/consumable/proc/consume(mob/human/H)
-	if(!H || H.dead)
-		return FALSE
+/obj/item/consumable/use(mob/human/H)
 	if(nutrition)
 		H.AdjustHunger(-nutrition)
 	if(hydration)
 		H.AdjustThirst(-hydration)
 	if(mood)
 		H.AdjustSorrow(-mood)
+
+	H.holding = null
 	qdel(src)
-	return TRUE
 
 /obj/item/consumable/food
 	name = "meal"

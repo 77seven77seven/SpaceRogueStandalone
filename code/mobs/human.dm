@@ -124,6 +124,22 @@
 		sorrow = wealthnew
 		UpdateHUD()
 
+/mob/human/verb/drop_item()
+	set name = ".drop"
+
+	if(dead || ragdolled || !holding || !client)
+		return FALSE
+
+	var/turf/drop_turf = client.mouse_turf()
+	if(!drop_turf || drop_turf.z != z)
+		return FALSE
+	if(abs(drop_turf.x - x) > 1 || abs(drop_turf.y - y) > 1)
+		return FALSE
+
+	holding.forceMove(drop_turf)
+	holding = null
+	return TRUE
+
 /mob/human/proc/SetHealth(value)
 	if(dead)
 		return FALSE
@@ -278,11 +294,6 @@
 	else
 		TakeDamage(health, "heart attack")
 	return TRUE
-
-/mob/human/proc/consume(obj/item/consumable/C)
-	if(!C || dead)
-		return FALSE
-	return C.consume(src)
 
 /mob/human/proc/wristpad_display_change(colorina)
 	overlays -= wristpad_glow

@@ -34,13 +34,18 @@
 	var/atom/movable/door_dummy/l_door = new()
 	var/atom/movable/door_dummy/r_door = new()
 	l_door.icon_state = "[initial(icon_state)]_l"
+	l_door.dir = dir
+
 	r_door.icon_state = "[initial(icon_state)]_r"
+	r_door.dir = dir
 
 	door_l = l_door
 	door_r = r_door
 
 	vis_contents += door_l
 	vis_contents += door_r
+
+	filters += filter(type="drop_shadow", x=2, size=2, offset=1)
 
 	spawn()
 		for(var/obj/DC in range(1, loc))
@@ -53,14 +58,24 @@
 	if(doing)
 		// DOOR BUSY!
 		return FALSE
+
+	var/px = 0
+	var/py = 0
+
+	switch(dir)
+		if(NORTH, SOUTH)
+			px = 12 - rand(-2,2)
+		if(WEST, EAST)
+			py = 12 - rand(-2,2)
+
 	if(open)
 		// closing
-		animate(door_l, time, pixel_x = 0, easing = BOUNCE_EASING)
-		animate(door_r, time, pixel_x = 0, easing = BOUNCE_EASING)
+		animate(door_l, time, pixel_x = 0, pixel_y = 0, easing = BOUNCE_EASING)
+		animate(door_r, time, pixel_x = 0, pixel_y = 0, easing = BOUNCE_EASING)
 	else
 		// opening
-		animate(door_l, time, pixel_x = -12 - rand(-2,2), easing = QUAD_EASING)
-		animate(door_r, time, pixel_x = 12 - rand(-2,2), easing = QUAD_EASING)
+		animate(door_l, time, pixel_x = -px, pixel_y = -py, easing = QUAD_EASING)
+		animate(door_r, time, pixel_x = px, pixel_y = py, easing = QUAD_EASING)
 	doing = TRUE
 	opacity = !opacity
 	spawn(time / 2)
