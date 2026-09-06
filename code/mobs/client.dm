@@ -6,6 +6,14 @@
 	var/mpx = 0
 	var/mpy = 0
 
+/client/New()
+	. = ..()
+	master.clients += src
+
+/client/Del()
+	. = ..()
+	master.clients -= src
+
 /client/MouseMove(object, location, control, params)
 	. = ..()
 	movered = get_turf(location)

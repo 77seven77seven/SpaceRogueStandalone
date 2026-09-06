@@ -7,12 +7,45 @@
 /obj/item/proc/use(/mob/human/H) // pressing F when held
 	return
 
+/obj/item/proc/do_pickup_animation(atom/target)
+	set waitfor = FALSE
+	if(!istype(loc, /turf))
+		return
+	var/image/I = image(icon = src, loc = loc, layer = layer + 0.1)
+	I.transform *= 0.75
+	I.appearance_flags = RESET_COLOR|RESET_TRANSFORM|NO_CLIENT_COLOR|RESET_ALPHA|PIXEL_SCALE
+	var/turf/T = get_turf(src)
+	var/direction
+	var/to_x = 0
+	var/to_y = 0
+
+	direction = get_dir(T, target)
+	if(direction & NORTH)
+		to_y = 32
+	else if(direction & SOUTH)
+		to_y = -32
+	if(direction & EAST)
+		to_x = 32
+	else if(direction & WEST)
+		to_x = -32
+	if(!direction)
+		to_y = 16
+	for(var/client/C in master.clients)
+		C << I
+	var/matrix/M = new
+	M.Turn(pick(-30, 30))
+	animate(I, alpha = 30, pixel_x = to_x, pixel_y = to_y, time = 3, transform = M, easing = CUBIC_EASING)
+
+	sleep(3)
+
+	qdel(I)
+
 /obj/item/interact(mob/user, obj/item/held_item) // picking up
 	if(held_item || !ishuman(user))
 		return
 	var/mob/human/H = user
 
-	H.swing_anim(src, 8, 5, 3)
+	do_pickup_animation(H)
 
 	forceMove(H)
 	H.holding = src
@@ -41,8 +74,8 @@
 		return FALSE
 
 	holding.forceMove(drop_turf)
-	holding.pixel_x = client.mpx - world.icon_size / 2
-	holding.pixel_y = client.mpy - world.icon_size / 2
+	holding.pixel_x = clamp(client.mpx - world.icon_size / 2, -8, 8)
+	holding.pixel_y = clamp(client.mpy - world.icon_size / 2, -8, 8)
 
 	holding = null
 	return TRUE

@@ -3,6 +3,8 @@
 	var/list/name_occupations = list()
 	var/list/type_occupations = list()
 
+	var/list/client/clients = list()
+
 /datum/system/master/setup()
 	SetupJobs()
 
