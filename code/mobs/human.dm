@@ -299,11 +299,15 @@
 	hud_holder.bg_health = new /obj/hud/bg_health(src)
 	hud_holder.health = new /obj/hud/health(src)
 	hud_holder.combat = new /obj/hud/combat(src)
+	
+	hud_holder.zeropm = new /obj/hud/plane_master/zero(src)
 
 	client.screen += hud_holder.bg_stats
 	client.screen += hud_holder.bg_health
 	client.screen += hud_holder.health
 	client.screen += hud_holder.combat
+
+	client.screen += hud_holder.zeropm
 
 /mob/human/proc/UpdateHUD()
 	if(hud_hunger == null)
@@ -456,8 +460,15 @@
 	if(cmode == FALSE)
 		cmode = TRUE
 
-		animate(client, color = "#5c5c5c", time = 1)
-		animate(client, color = null, time = 1)
+		var/matrix/M = matrix()
+		M.Scale(1.2,1.2)
+
+		animate(client, color = "#ddababff", easing = SINE_EASING | EASE_IN | EASE_OUT, time = 2)
+		animate(hud_holder.zeropm, transform = M, easing = SINE_EASING | EASE_IN | EASE_OUT, time = 5)
+		spawn(2)
+			animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
+			animate(hud_holder.zeropm, transform = matrix(), easing = SINE_EASING | EASE_IN | EASE_OUT, time = 5)
+
 		animate(hud_holder.combat.backgroundo, pixel_y = 0, easing = BOUNCE_EASING, time = 2)
 	else
 		cmode = FALSE
