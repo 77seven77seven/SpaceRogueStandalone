@@ -245,3 +245,51 @@ proc/find_common_entry(list/list1, list/list2)
 			flarov = "GUARANTEED"
 
 	return flarov
+
+/**
+  * Hook for running code when a dir change occurs
+  *
+  * Not recommended to use, listen for the COMSIG_ATOM_DIR_CHANGE signal instead (sent by this proc)
+  */
+/atom/proc/setDir(newdir)
+	//SEND_SIGNAL(src, COMSIG_ATOM_DIR_CHANGE, dir, newdir)
+	dir = newdir
+
+/*
+	Misc helpers
+	face_atom: turns the mob towards what you clicked on
+*/
+
+/atom/proc/face_me(location, control, params)
+	return src
+
+// Simple helper to face another atom, much nicer than byond's dir = get_dir(src,A) which is biased in some ugly ways
+/atom/proc/face_atom(atom/A, location, control, params)
+	if(!A)
+		return
+	var/atom/holder = A.face_me(location, control, params)
+	if(!holder)
+		return
+	var/dx = holder.x - x
+	var/dy = holder.y - y
+	if(!dx && !dy) // Wall items are graphically shifted but on the floor
+		if(holder.pixel_y > 16)
+			setDir(NORTH)
+		else if(holder.pixel_y < -16)
+			setDir(SOUTH)
+		else if(holder.pixel_x > 16)
+			setDir(EAST)
+		else if(holder.pixel_x < -16)
+			setDir(WEST)
+		return
+
+	if(abs(dx) < abs(dy))
+		if(dy > 0)
+			setDir(NORTH)
+		else
+			setDir(SOUTH)
+	else
+		if(dx > 0)
+			setDir(EAST)
+		else
+			setDir(WEST)

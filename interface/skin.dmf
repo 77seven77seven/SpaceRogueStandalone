@@ -320,7 +320,8 @@ window "rpane"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = #a1e85f
+		background-color = #3A3A3A
+		text-color = #A4A4A2
 		is-visible = false
 		saved-params = "is-checked"
 		text = "TXT-MOD"
@@ -334,7 +335,8 @@ window "rpane"
 		size = 80x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = #a1e85f
+		background-color = #3A3A3A
+		text-color = #A4A4A2
 		is-visible = false
 		saved-params = "is-checked"
 		text = "CHAR-PANEL"
@@ -360,13 +362,13 @@ window "infowindow"
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = "System"
-		text-color = #a1e85f
+		text-color = #A4A4A2
 		background-color = #000000
 		is-default = true
 		border = sunken
 		saved-params = ""
-		tab-text-color = #7bff00
-		tab-background-color = #565656
+		tab-text-color = #A4A4A2
+		tab-background-color = #3A3A3A
 		tab-font-family = "monospace"
 		tab-font-size = 15
 		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""

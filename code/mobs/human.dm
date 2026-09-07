@@ -24,6 +24,7 @@
 
 	var/dead = FALSE
 	var/ragdolled = FALSE
+	var/cmode = FALSE
 
 	var/wealth = 0 // money
 	var/hunger = 0 // 0 is satisfied, HUMAN_MAX_NEED is starving
@@ -73,7 +74,7 @@
 
 	var/obj/hud/sysmas/hud_holder
 	var/need_update = FALSE
-	var/hud_color = "#A1E85F"
+	var/hud_color = "#A4A4A2"
 
 	var/xp_buffer = 0 // you wont get your XP unless you depart the station bro!
 
@@ -218,6 +219,8 @@
 	if(sorrow >= 90)
 		penalty++
 
+	penalty += broke_bones
+
 	move_delay = max(1, base_delay + penalty)
 	return move_delay
 
@@ -295,10 +298,12 @@
 	hud_holder.bg_stats = new /obj/hud/bg_stats(src)
 	hud_holder.bg_health = new /obj/hud/bg_health(src)
 	hud_holder.health = new /obj/hud/health(src)
+	hud_holder.combat = new /obj/hud/combat(src)
 
 	client.screen += hud_holder.bg_stats
 	client.screen += hud_holder.bg_health
 	client.screen += hud_holder.health
+	client.screen += hud_holder.combat
 
 /mob/human/proc/UpdateHUD()
 	if(hud_hunger == null)
@@ -446,6 +451,18 @@
 		src << "success"
 	else
 		src << "fail"
+
+/mob/human/verb/toggle_cmode()
+	if(cmode == FALSE)
+		cmode = TRUE
+
+		animate(client, color = "#5c5c5c", time = 1)
+		animate(client, color = null, time = 1)
+		animate(hud_holder.combat.backgroundo, pixel_y = 0, easing = BOUNCE_EASING, time = 2)
+	else
+		cmode = FALSE
+
+		animate(hud_holder.combat.backgroundo, pixel_y = -32, easing = BOUNCE_EASING, time = 2)
 
 /mob/human/Stat()
 	. = ..()

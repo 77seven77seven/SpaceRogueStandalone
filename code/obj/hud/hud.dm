@@ -3,17 +3,25 @@
 	layer = HUD_LAYER
 	plane = HUD_PLANE
 	var/mob/human/owner
+	var/processing = FALSE
 
 /obj/hud/New(owner)
 	src.owner = owner
+	if(processing)
+		processor.processing += src
+
+/obj/hud/Destroy(force)
+	processor.processing -= src
+	return ..()
 
 /obj/hud/sysmas
 	name = "HUD system master /per client"
 
 	var/obj/hud/bg_stats/bg_stats
-
 	var/obj/hud/bg_health/bg_health
 	var/obj/hud/health/health
+
+	var/obj/hud/combat/combat
 
 /obj/hud/sysmas/proc/Update()
 	if(bg_stats)
@@ -49,16 +57,20 @@
 
 /obj/hud/bg_health
 	icon = 'icons/obj/abstract/hud_32.dmi'
-	icon_state = "bg_health"
+	icon_state = "bg"
 	screen_loc = "13,3"
 
 /obj/hud/health
 	icon = 'icons/obj/abstract/hud_32.dmi'
 	icon_state = "health0"
-	var/iconismus = "health"
 	screen_loc = "13,3"
+	processing = TRUE
 
 	var/list/health_color_levels = list("#aeea77", "#ccd455", "#d48743", "#da6c31", "#7e3830", "#ffffff")
+	var/iconismus = "health"
+
+/obj/hud/health/Process()
+	alpha = rand(220,255)
 
 /obj/hud/health/proc/Update()
 	if(!owner)
@@ -84,3 +96,34 @@
 
 	var/colorissimo = health_color_levels[rastra]
 	animate(src, 2, color = colorissimo)
+
+/obj/hud/combat
+	screen_loc = "10:-3,1"
+	processing = TRUE
+
+	var/atom/movable/backgroundo
+	var/atom/movable/combatico
+
+/obj/hud/combat/New()
+	..()
+	backgroundo = new(src) // You might be confused on why we're doing this. The reason is that you can't move HUD objects out of bounds in BYOND without stretching the viewport.
+	backgroundo.icon = 'icons/obj/abstract/hud_32.dmi'
+	backgroundo.icon_state = "bg"
+
+	backgroundo.pixel_y = -32
+
+	backgroundo.layer = HUD_LAYER
+	backgroundo.plane = HUD_PLANE
+
+	combatico = new(src)
+	combatico.icon = 'icons/obj/abstract/hud_32.dmi'
+	combatico.icon_state = "combat"
+
+	combatico.layer = HUD_LAYER
+	combatico.plane = HUD_PLANE
+
+	vis_contents += backgroundo
+	backgroundo.vis_contents += combatico
+
+/obj/hud/combat/Process()
+	combatico.alpha = rand(220,255)
