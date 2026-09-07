@@ -20,7 +20,6 @@
 	var/obj/hud/bg_stats/bg_stats
 	var/obj/hud/bg_health/bg_health
 	var/obj/hud/health/health
-	var/obj/hud/plane_master/zero/zeropm
 
 	var/obj/hud/combat/combat
 
@@ -128,11 +127,3 @@
 
 /obj/hud/combat/Process()
 	combatico.alpha = rand(220,255)
-
-/obj/hud/plane_master
-	screen_loc = "1,1"
-	appearance_flags = PLANE_MASTER | NO_CLIENT_COLOR
-	mouse_opacity = 0    // nothing on this plane is mouse-visible
-
-/obj/hud/plane_master/zero
-	plane = 0

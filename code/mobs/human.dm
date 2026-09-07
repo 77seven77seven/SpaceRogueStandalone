@@ -38,7 +38,7 @@
 	var/starvation_damage = 2
 	var/dehydration_damage = 3
 
-	var/sorrow_recovery = 1
+	var/sorrow_recovery = 0.7
 
 	var/tmp/next_needs_process = 0
 	var/tmp/last_needs_process = 0
@@ -228,13 +228,14 @@
 	if(dead)
 		return FALSE
 
-	AdjustHunger(hunger_rate * elapsed)
-	AdjustThirst(thirst_rate * elapsed)
+	AdjustHunger(hunger_rate * elapsed * (cmode ? 1.4 : 1))
+	AdjustThirst(thirst_rate * elapsed * (cmode ? 1.3 : 1))
 
 	if(hunger >= starvation_threshold)
 		TakeDamage(starvation_damage, "starvation")
 	if(thirst >= dehydration_threshold)
 		TakeDamage(dehydration_damage, "dehydration")
+
 	if(dead)
 		return FALSE
 
@@ -299,15 +300,11 @@
 	hud_holder.bg_health = new /obj/hud/bg_health(src)
 	hud_holder.health = new /obj/hud/health(src)
 	hud_holder.combat = new /obj/hud/combat(src)
-	
-	hud_holder.zeropm = new /obj/hud/plane_master/zero(src)
 
 	client.screen += hud_holder.bg_stats
 	client.screen += hud_holder.bg_health
 	client.screen += hud_holder.health
 	client.screen += hud_holder.combat
-
-	client.screen += hud_holder.zeropm
 
 /mob/human/proc/UpdateHUD()
 	if(hud_hunger == null)
@@ -464,10 +461,10 @@
 		M.Scale(1.2,1.2)
 
 		animate(client, color = "#ddababff", easing = SINE_EASING | EASE_IN | EASE_OUT, time = 2)
-		animate(hud_holder.zeropm, transform = M, easing = SINE_EASING | EASE_IN | EASE_OUT, time = 5)
+		animate(client, pixel_z = 20, pixel_w = 20, easing = SINE_EASING | EASE_IN | EASE_OUT, time = 5)
 		spawn(2)
 			animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
-			animate(hud_holder.zeropm, transform = matrix(), easing = SINE_EASING | EASE_IN | EASE_OUT, time = 5)
+			animate(client, pixel_z = 0, pixel_w = 0, easing = SINE_EASING | EASE_IN | EASE_OUT, time = 5)
 
 		animate(hud_holder.combat.backgroundo, pixel_y = 0, easing = BOUNCE_EASING, time = 2)
 	else

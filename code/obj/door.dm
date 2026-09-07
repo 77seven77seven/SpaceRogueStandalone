@@ -72,10 +72,14 @@
 		// closing
 		animate(door_l, time, pixel_x = 0, pixel_y = 0, easing = BOUNCE_EASING)
 		animate(door_r, time, pixel_x = 0, pixel_y = 0, easing = BOUNCE_EASING)
+
+		door_l.filters += filter(type="motion_blur", x = px / 10, y = py / 10)
+		door_r.filters += filter(type="motion_blur", x = px / 10, y = py / 10)
 	else
 		// opening
 		animate(door_l, time, pixel_x = -px, pixel_y = -py, easing = QUAD_EASING)
 		animate(door_r, time, pixel_x = px, pixel_y = py, easing = QUAD_EASING)
+
 	doing = TRUE
 	opacity = !opacity
 	spawn(time / 2)
@@ -83,6 +87,9 @@
 
 		open = !open
 		density = !density
+
+		door_l.filters = null
+		door_r.filters = null
 	return TRUE
 
 /obj/door_control
