@@ -2,6 +2,11 @@
 	var/dissidence_preference = FALSE
 	var/presentation_preference = NEUTER // NEUTER = pick randomly between male or female
 
+/mob/Login()
+	. = ..()
+	src << browse_rsc('sound/music/spawn.ogg', "spawn.ogg")
+	//src << load_resource('sound/music/spawn.ogg', 'sound/effects/senses/combat_on.ogg', 'sound/effects/senses/combat_off.ogg', -1)
+
 /mob/lobbyman // for people in the lobby
 	name = "lobbym"
 	invisibility = 101
@@ -195,6 +200,7 @@
 		var/mob/human/H = new
 		H.ckey = ckey
 		H.Initialize_Humanity(quirks, chosing_job.get_skills(), chosing_job, roll_dissidence())
+		H.DoSpawnEffects()
 
 		qdel(src)
 	

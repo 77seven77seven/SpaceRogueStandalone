@@ -13,4 +13,8 @@
   animation: highlight-fade 2s ease-out forwards; 
 }
 
+IMG.icon {width: 96px; height: 96px}
+BIG IMG.icon {width: 256px; height: 256px}
+SMALL IMG.icon {width: 96px; height: 96px}
+
 </style>"}

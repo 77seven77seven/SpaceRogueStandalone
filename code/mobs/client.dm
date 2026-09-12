@@ -1,4 +1,6 @@
 /client
+	preload_rsc = 1
+	
 	var/xp = 6 // saves
 	var/datum/role/previously_played // saves too. reset when you successfully escape (do not set when success escape)
 

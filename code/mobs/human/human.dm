@@ -344,6 +344,11 @@
 		return FALSE
 	return C.remove_from_mob()
 
+/mob/human/proc/DoSpawnEffects()
+	client << sound('sound/music/spawn.ogg')
+	client.color = "#000000"
+	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 50)
+
 /mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE, randomize_certain_values = TRUE)
 	if(!mind)
 		var/datum/mind/new_mind = new /datum/mind(ckey)
@@ -398,7 +403,10 @@
 
 	eyes = image(src.icon, src, "eyes", MOB_LAYER)
 	eyes.appearance_flags = RESET_COLOR
-	eyes.color = rgb(rand(0,255),rand(0,255),rand(0,255))
+
+	var/eye_color = rgb(rand(0,255),rand(0,255),rand(0,255))
+	eyes.color = eye_color
+	voice_color = get_random_bright_color()
 	
 	var/image/wristpad = image(src.icon, src, "wristpad", MOB_LAYER + 0.01)
 	wristpad.appearance_flags = RESET_COLOR
@@ -416,6 +424,9 @@
 
 	Initialize_HUD()
 	UpdateHUD()
+
+	if(!voice_freq)
+		GenerateVoice()
 
 	if(istype(R.special_role_goal) && prob(R.special_role_goal_prob))
 		var/new_goal
@@ -454,22 +465,29 @@
 		src << "fail"
 
 /mob/human/verb/toggle_cmode()
+	set name = ".cmode"
+
 	if(cmode == FALSE)
 		cmode = TRUE
 
 		var/matrix/M = matrix()
 		M.Scale(1.2,1.2)
 
+		client << sound('sound/effects/senses/combat_on.ogg')
+
 		animate(client, color = "#ddababff", easing = SINE_EASING | EASE_IN | EASE_OUT, time = 2)
 		animate(client, pixel_z = 20, pixel_w = 20, easing = SINE_EASING | EASE_IN | EASE_OUT, time = 5)
 		spawn(2)
-			animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
+			animate(client, color = "#ffefef", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
 			animate(client, pixel_z = 0, pixel_w = 0, easing = SINE_EASING | EASE_IN | EASE_OUT, time = 5)
 
 		animate(hud_holder.combat.backgroundo, pixel_y = 0, easing = BOUNCE_EASING, time = 2)
 	else
 		cmode = FALSE
 
+		client << sound('sound/effects/senses/combat_off.ogg')
+
+		animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
 		animate(hud_holder.combat.backgroundo, pixel_y = -32, easing = BOUNCE_EASING, time = 2)
 
 /mob/human/Stat()
