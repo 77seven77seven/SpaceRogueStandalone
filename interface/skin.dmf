@@ -39,8 +39,17 @@ macro "macro"
 		name = "Q"
 		command = ".drop"
 	elem 
+		name = "T"
+		command = ".whistle"
+	elem 
 		name = "Y"
 		command = ".cmode"
+	elem 
+		name = "Subtract"
+		command = ".speak"
+	elem 
+		name = "Divide"
+		command = ".speak"
 	elem 
 		name = "F1"
 		command = ".options"

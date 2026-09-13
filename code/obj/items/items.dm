@@ -6,7 +6,10 @@
 	var/storable = TRUE // Can it be put into the inventory?
 	var/stored = FALSE
 
-/obj/item/proc/use(/mob/human/H) // pressing F when held
+/obj/item/proc/use(mob/human/H) // pressing F when held
+	return
+	
+/obj/item/proc/attack(mob/human/user, mob/human/target) // pressing F when held
 	return
 
 /obj/item/proc/do_pickup_animation(atom/target)

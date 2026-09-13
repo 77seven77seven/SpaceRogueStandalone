@@ -21,6 +21,10 @@
 	var/health = HUMAN_MAX_HEALTH
 	var/max_health = HUMAN_MAX_HEALTH
 	var/blood = 100
+	var/bleeding = 0
+
+	var/bones = 2 // how many bones you can break
+	var/broke_bones = 0
 
 	var/dead = FALSE
 	var/ragdolled = FALSE
@@ -47,9 +51,6 @@
 	var/tmp/hud_hunger
 	var/tmp/hud_thirst
 	var/tmp/list/cooldowns = list()
-
-	var/bones = 2 // how many bones you can break
-	var/broke_bones = 0
 
 	var/sorrow = 0 // if youre at 100 for too long, you suffer a heartattack, collapse and then die
 
@@ -119,12 +120,14 @@
 
 /mob/human/Click(location, control, params)
 	. = ..()
-	wristpad_display_change(rgb(rand(0,255),rand(0,255),rand(0,255)))
-	eyes_color_change(rgb(rand(0,255),rand(0,255),rand(0,255)))
-	var/wealthnew = input(usr, "update wealth") as num|null
-	if(wealthnew)
-		sorrow = wealthnew
-		UpdateHUD()
+	var/input = input(src, "bleed") as num|null
+	if(input)
+		AdjustBleeding(input)
+
+/mob/human/interact(mob/user, obj/item/held_item)
+	. = ..()
+	if(held_item)
+		held_item.attack(user, src)
 
 /mob/human/proc/cooldown(cooldown_name, cooldown_duration)
 	if(!cooldowns)
@@ -239,6 +242,22 @@
 		UpdateHUD()
 	return thirst - old_thirst
 
+/mob/human/proc/AdjustBlood(amount)
+	var/old_blood = blood
+	blood = max(0, min(100, blood + amount))
+	if(old_blood != blood)
+		if(blood <= 0 && !dead)
+			Die("blood loss")
+		UpdateHUD()
+	return blood - old_blood
+
+/mob/human/proc/AdjustBleeding(amount)
+	var/old_bleeding = bleeding
+	bleeding = max(0, bleeding + amount)
+	if(old_bleeding != bleeding)
+		UpdateHUD()
+	return bleeding - old_bleeding
+
 /mob/human/proc/AdjustSorrow(amount)
 	var/old_sorrow = sorrow
 	sorrow = max(0, min(max_need, sorrow + amount))
@@ -307,6 +326,9 @@
 		sorrow_cycles++
 		if(sorrow_cycles >= HUMAN_SORROW_MAX_CYCLES)
 			HeartAttack()
+	else
+		sorrow_cycles = 0
+	HandleBleeding()
 
 	UpdateMoveDelay()
 	return TRUE
@@ -536,13 +558,23 @@
 	else
 		src << "fail"
 
-/mob/human/verb/speak(msg as text)
-	set name = "speak"
+/mob/human/verb/speak()
+	set name = ".speak"
 
 	if(dead || !client)
 		return FALSE
 
-	VoiceBlip(msg)
+	var/timer = world.time + 60
+	var/msg = input(src, null, null) as null|text
+
+	if(msg)
+		VoiceBlip(msg)
+	else
+		if(world.time > timer)
+			for(var/mob/M in hearers(6, src))
+				if(M.client)
+					var/icon/I = getFlatIcon(src, SOUTH)
+					M << "\icon[I] <b>[src]</b> wanted to say something, but \he changed \his mind."
 
 /mob/human/verb/toggle_cmode()
 	set name = ".cmode"

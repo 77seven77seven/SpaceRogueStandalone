@@ -1,4 +1,4 @@
-/obj/Click(location, control, params)
+/atom/movable/Click(location, control, params)
 	if(!usr || !usr.client)
 		return FALSE
 	. = ..()
@@ -11,7 +11,7 @@
 		else
 			interact(user)
 	
-/obj/proc/interact(mob/user, obj/item/held_item)
+/atom/movable/proc/interact(mob/user, obj/item/held_item)
 	return
 
 /atom/movable/proc/swing_anim(atom/A, pixelirona = 16, rostra = 15, timera = 2)
