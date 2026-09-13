@@ -50,8 +50,8 @@
 	if(src in H.inventory)
 		H.inventory -= src
 
+	playsound('sound/effects/pickup.ogg', get_turf(src), falloff = 4, vol = 50)
 	do_pickup_animation(H)
-
 	forceMove(H)
 	H.holding = src
 
@@ -89,10 +89,12 @@
 		return FALSE
 	
 	if(!holding.storable)
-		return // You're gonna need bigger pants if you wanna put THIS in your pockets.
+		chat_info("You're gonna need bigger pants if you wanna put THIS in your pockets.", "bad")
+		return
 
 	if(inventory.len >= inventory_space)
-		return // Your pockets are full.
+		chat_info("Your pockets are full.", "bad")
+		return
 
 	inventory += holding
 	holding.forceMove(src)

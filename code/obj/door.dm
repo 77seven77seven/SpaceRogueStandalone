@@ -56,7 +56,6 @@
 
 /obj/solid/door/proc/do_door()
 	if(doing)
-		// DOOR BUSY!
 		return FALSE
 
 	var/px = 0
@@ -104,11 +103,19 @@
 	if(ishuman(user))
 		var/mob/human/H = user
 		if(linked_door)
+			if(linked_door.doing)
+				H.chat_pda("DOOR BUSY!", "bad")
+				return FALSE
 			if(!linked_door.access.len || (find_common_entry(H.mind?.current_job?.access, linked_door.access) || H.mind?.current_job?.access.Find("EVERYTHING")))
 				flick("[initial(icon_state)]-allow",src)
+				playsound('sound/effects/pda/airlock_grant.ogg', get_turf(src))
+
+				H.chat_pda("ACCESS GRANTED", "good")
 				linked_door.do_door()
 			else
 				flick("[initial(icon_state)]-deny",src)
+				H.chat_pda("ACCESS DENIED", "bad")
+				playsound('sound/effects/pda/airlock_deny.ogg', get_turf(src))
 				if(linked_door.shock_on_deny)
 					H.TakeDamage(linked_door.shock_damage, "access denial shock")
 

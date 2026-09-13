@@ -103,8 +103,4 @@
 	for(var/mob/M in hearer_list)
 		if(!M.client)
 			continue
-		var/sound/S = sound(sound_path)
-		S.frequency = freq
-		S.channel   = voice_channel
-		S.volume    = VOICE_BLIP_VOLUME
-		M.client << S
+		M.client.sound_system.PlaySound(sound_path, src, frequency = freq, channel = voice_channel, vol = VOICE_BLIP_VOLUME)
