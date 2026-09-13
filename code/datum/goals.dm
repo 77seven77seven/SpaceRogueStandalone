@@ -41,9 +41,9 @@
 	antag = TRUE
 
 /datum/goal/antag/debug_goal
-	name = "Debug Goal"
-	desc = "Do some evil shit!"
-	award = 77 // 7seven
+	name = "SABOTAGE"
+	desc = "Leave them hanging! Kill the reactor, kill them all! MAKE THEIR TUMORS GROW!"
+	award = 7 // 7seven
 	antag = TRUE
 
 /datum/goal/debug_goal

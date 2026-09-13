@@ -396,9 +396,26 @@
 	return C.remove_from_mob()
 
 /mob/human/proc/DoSpawnEffects()
-	client << sound('sound/music/spawn.ogg', volume = 75)
+	if(mind.dissident)
+		client << sound('sound/music/spawn.ogg', volume = 75)
+		spawn(5)
+			client << sound('sound/music/violent_terms.ogg', volume = 75)
+	else
+		client << sound('sound/music/spawn.ogg', volume = 75)
 	client.color = "#000000"
 	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 50)
+
+	chat_info("You are <b>[uppertext("[first_name] [last_name]")]</b>, the <b>[uppertext(mind.current_job.title)]</b>.")
+	chat_info("[mind.current_job.desc]\n")
+
+	chat_info("Your goal is: <b>[mind.goal]</b>")
+	chat_info("[mind.goal.desc] ([mind.goal.award] XP)")
+
+	if(mind.dissident)
+		chat_info("\n<b>----@#$%&!-------#$%---!!!HAAHAHAHHA---</b>\n","bad")
+		chat_info("TRANSMISSION DECRYPTED, COURTESY OF THE <b>[pick("BLIND EYES OF A COWARD","MISTAKES IN THE MAKING","CITADEL","CRYING ANGELS","RENNE DANG TOMBOLA","ONES FREED FROM DESIRE","STARMEN","TAK-TAK-TAKYON","GOLDEN BROWNS","AMERICANO","M.I.T.M","P.M.J","D.A.O.T.S","OKTOBERKLUB","VIOLENT TERMS")]!\n</b>","bad")
+		chat_info("<b>[pick("INTERNAL ARMISTICE!","TRYING TO DEFY THE EMPOWERED!","LITTLE FIRE THAT THEY CAN'T PUT OUT!","FETCH ME A BUCKET, THIS IS ABOUT TO BLOW!", "ONE DAY YOU'LL LEAVE THIS WORLD BEHIND!","MAYBE YOU SHOULD CONSIDER... MORE VIOLENT TERMS?!")]</b>, YOUR MISSION IS: <b>[uppertext(mind.special_goal)]</b>","bad")
+		chat_info("[mind.special_goal.desc] ([mind.special_goal.award] XP)","bad")
 
 /mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE, randomize_certain_values = TRUE)
 	if(!mind)
@@ -493,6 +510,7 @@
 	if(is_dissident)
 		var/new_special_goal = get_me_a_goal(is_dissident)
 		mind.special_goal = new new_special_goal()
+		mind.dissident = TRUE
 
 	for(var/datum/quirk/Q in mind.quirks)
 		Q.equip(src)
@@ -569,7 +587,8 @@
 	stat("GOAL: [mind.goal?.name] <br>[mind.goal?.desc] (+[mind.goal?.award] XP) [mind.goal?.IsCompleted() ? "(COMPLETED)" : null]")
 
 	if(mind.dissident)
-		stat("@#$%&!:", "[uppertext(mind.special_goal?.name)]")
+		stat("<br>")
+		stat("@#$%&!: [uppertext(mind.special_goal?.name)]")
 		stat("[mind.special_goal?.desc] (+[mind.special_goal?.award] XP) [mind.special_goal?.IsCompleted() ? "(COMPLETED)" : null]")
 
 	stat("<br><br>") // Ditto! (Not like the Pokémon) Check above!

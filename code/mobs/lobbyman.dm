@@ -31,7 +31,7 @@
 	winshow(src, "main_menu", TRUE)
 
 /mob/lobbyman/proc/roll_dissidence()
-	return FALSE
+	return TRUE // temp
 
 /mob/lobbyman/proc/UpdateMainMenu()
 	var/quirkozas = ""

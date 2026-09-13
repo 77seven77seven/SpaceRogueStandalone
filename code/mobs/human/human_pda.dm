@@ -5,4 +5,4 @@
 	playsound('sound/effects/pda/pda_message.ogg', get_turf(src), vol = 50)
 
 /mob/human/proc/chat_info(msg, style="good")
-	src << "<span class='[style]' style='font-family:Verdana'>[msg]</span>\n"
+	src << "<span class='[style]' style='font-family:Verdana'>[msg]</span>"

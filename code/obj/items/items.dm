@@ -50,7 +50,7 @@
 	if(src in H.inventory)
 		H.inventory -= src
 
-	playsound('sound/effects/pickup.ogg', get_turf(src), falloff = 4, vol = 50)
+	playsound('sound/effects/pickup.ogg', get_turf(src), falloff = 4, vol = 100)
 	do_pickup_animation(H)
 	forceMove(H)
 	H.holding = src
