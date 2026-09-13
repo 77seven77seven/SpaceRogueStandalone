@@ -46,6 +46,7 @@
 	var/tmp/heart_attack = FALSE
 	var/tmp/hud_hunger
 	var/tmp/hud_thirst
+	var/tmp/list/cooldowns = list()
 
 	var/bones = 2 // how many bones you can break
 	var/broke_bones = 0
@@ -53,7 +54,7 @@
 	var/sorrow = 0 // if youre at 100 for too long, you suffer a heartattack, collapse and then die
 
 	var/list/obj/item/inventory = list()
-	var/max_inv = 10
+	var/inventory_space = 10
 	var/obj/item/holding
 
 	var/obj/item/clothing/hat/hat
@@ -125,6 +126,37 @@
 		sorrow = wealthnew
 		UpdateHUD()
 
+/mob/human/proc/cooldown(cooldown_name, cooldown_duration)
+	if(!cooldowns)
+		cooldowns = list()
+
+	if(cooldowns[cooldown_name])
+		cooldowns[cooldown_name] = max(cooldowns[cooldown_name], world.time + cooldown_duration * world.tick_lag)
+	else
+		cooldowns[cooldown_name] = world.time + cooldown_duration * world.tick_lag
+
+// each parameter is the name of a cooldown to check, this
+// proc returns 1 if any of the names are still on cooldown
+/mob/human/proc/on_cooldown(a, b, c)
+	if(!cooldowns)
+		cooldowns = list()
+
+	for(var/arg in args)
+		if(arg in cooldowns)
+			if(cooldowns[arg] > world.time)
+				return TRUE
+	return FALSE
+
+/mob/human/proc/SetRagdolled(value)
+	ragdolled = value
+	dir = SOUTH
+	if(ragdolled)
+		var/matrix/M = matrix()
+		var/turnation = prob(50) ? 90 : -90
+		transform = M.Turn(turnation)
+	else
+		transform = null
+
 /mob/human/proc/SetHealth(value)
 	if(dead)
 		return FALSE
@@ -143,6 +175,7 @@
 
 	var/old_health = health
 	health = max(0, health - amount)
+
 	if(health <= 0)
 		Die(source)
 	else
@@ -165,16 +198,29 @@
 		return FALSE
 
 	dead = TRUE
-	ragdolled = TRUE
 	health = 0
 	is_moving = FALSE
+
+	UpdateHUD()
+	SetRagdolled(TRUE)
+	
 	if(processor)
 		processor.processing -= src
+
 	if(station)
 		station.humans -= src
 		if(!station.dead_humans.Find(src))
 			station.dead_humans += src
-	UpdateHUD()
+
+	var/obj/hud/fullscreen/death/death = new()
+	death.alpha = 0
+	
+	client.screen += death
+	client.color = "#000000"
+
+	animate(death, time = 20, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 150)
+	client << sound(null)
+	client << sound('sound/death.ogg')
 	return TRUE
 
 /mob/human/proc/AdjustHunger(amount)
@@ -206,7 +252,7 @@
 	var/penalty = 0
 	if(hunger >= 50)
 		penalty++
-	if(hunger >= 90)
+	if(hunger >= 70)
 		penalty++
 
 	if(thirst >= 50)
@@ -216,7 +262,12 @@
 
 	if(sorrow >= 50)
 		penalty++
-	if(sorrow >= 90)
+	if(sorrow >= 70)
+		penalty++
+
+	if(health <= 50)
+		penalty++
+	if(health <= 20)
 		penalty++
 
 	penalty += broke_bones
@@ -276,7 +327,7 @@
 	if(dead || heart_attack)
 		return FALSE
 	heart_attack = TRUE
-	ragdolled = TRUE
+	SetRagdolled(TRUE)
 	if(health <= 0)
 		Die("heart attack")
 	else
@@ -345,7 +396,7 @@
 	return C.remove_from_mob()
 
 /mob/human/proc/DoSpawnEffects()
-	client << sound('sound/music/spawn.ogg')
+	client << sound('sound/music/spawn.ogg', volume = 75)
 	client.color = "#000000"
 	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 50)
 
@@ -404,9 +455,9 @@
 	eyes = image(src.icon, src, "eyes", MOB_LAYER)
 	eyes.appearance_flags = RESET_COLOR
 
-	var/eye_color = rgb(rand(0,255),rand(0,255),rand(0,255))
+	var/eye_color = get_random_bright_color()
 	eyes.color = eye_color
-	voice_color = get_random_bright_color()
+	voice_color = get_random_light_color()
 	
 	var/image/wristpad = image(src.icon, src, "wristpad", MOB_LAYER + 0.01)
 	wristpad.appearance_flags = RESET_COLOR
@@ -464,8 +515,23 @@
 	else
 		src << "fail"
 
+/mob/human/verb/speak(msg as text)
+	set name = "speak"
+
+	if(dead || !client)
+		return FALSE
+
+	VoiceBlip(msg)
+
 /mob/human/verb/toggle_cmode()
 	set name = ".cmode"
+
+	if(dead || !client)
+		return FALSE
+
+	if(on_cooldown("cmode"))
+		return FALSE
+	cooldown("cmode", 20)
 
 	if(cmode == FALSE)
 		cmode = TRUE
@@ -492,6 +558,8 @@
 
 /mob/human/Stat()
 	. = ..()
+	if(dead)
+		return
 	stat("<br><br>") // The text looks ugly without this...
 	stat("<div style='font-size: 125%'>[first_name] [last_name]</div>")
 	stat("<div style='font-size: 110%'>[uppertext(mind.current_job?.title)]</div>")
@@ -521,3 +589,12 @@
 			stat("[S] ---- [skill_level_to_word(mind.GetSkill(S))] (~[mind.GetSkill(S)]%)<br>")
 	else
 		stat("● None? You're unemployable! Revel in the madness!")
+
+	stat("-----------------------------------")
+
+	stat("INVENTORIUM:")
+	if(inventory.len)
+		for(var/obj/item/I in inventory)
+			stat(I)
+	else
+		stat("EMPTY!")

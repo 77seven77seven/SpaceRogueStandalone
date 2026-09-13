@@ -2,7 +2,9 @@
 	name = "item"
 	desc = "It's an item."
 	icon = 'icons/obj/items.dmi'
+
 	var/storable = TRUE // Can it be put into the inventory?
+	var/stored = FALSE
 
 /obj/item/proc/use(/mob/human/H) // pressing F when held
 	return
@@ -45,6 +47,9 @@
 		return
 	var/mob/human/H = user
 
+	if(src in H.inventory)
+		H.inventory -= src
+
 	do_pickup_animation(H)
 
 	forceMove(H)
@@ -53,10 +58,7 @@
 /mob/human/verb/inhand()
 	set name = ".inhand"
 
-	if(!holding)
-		return
-
-	if(!src || src.dead)
+	if(dead || ragdolled || !holding || !client)
 		return FALSE
 
 	holding.use(src)
@@ -79,6 +81,22 @@
 
 	holding = null
 	return TRUE
+
+/mob/human/verb/store()
+	set name = ".store"
+
+	if(dead || ragdolled || !holding || !client)
+		return FALSE
+	
+	if(!holding.storable)
+		return // You're gonna need bigger pants if you wanna put THIS in your pockets.
+
+	if(inventory.len >= inventory_space)
+		return // Your pockets are full.
+
+	inventory += holding
+	holding.forceMove(src)
+	holding = null
 
 /obj/item/consumable
 	name = "consumable"

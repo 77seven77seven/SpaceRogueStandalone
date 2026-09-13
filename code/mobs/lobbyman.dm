@@ -4,8 +4,9 @@
 
 /mob/Login()
 	. = ..()
-	src << browse_rsc('sound/music/spawn.ogg', "spawn.ogg")
-	//src << load_resource('sound/music/spawn.ogg', 'sound/effects/senses/combat_on.ogg', 'sound/effects/senses/combat_off.ogg', -1)
+	src << load_resource('sound/music/spawn.ogg', 'sound/effects/senses/combat_on.ogg', 'sound/effects/senses/combat_off.ogg', 'sound/death.ogg', -1)
+	src << load_resource('icons/full.dmi', -1)
+	//src << 'icons/full.dmi'
 
 /mob/lobbyman // for people in the lobby
 	name = "lobbym"

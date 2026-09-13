@@ -221,6 +221,9 @@ proc/find_common_entry(list/list1, list/list2)
 /proc/get_random_bright_color()
 	return rgb(rand(0, 360), rand(0, 100), rand(21, 100), space = COLORSPACE_HSV)
 
+proc/get_random_light_color()
+    return rgb(rand(150, 255),rand(150, 255),rand(150, 255))
+
 // Parse number into a word. Essentially, 1 is NONCE and what so.
 /proc/skill_level_to_word(numero)
 	var/flarov = "WAS?!"

@@ -108,7 +108,3 @@
 		S.channel   = voice_channel
 		S.volume    = VOICE_BLIP_VOLUME
 		M.client << S
-
-/mob/human/verb/test_voice_blip(msg as text)
-	set name = "Speak"
-	VoiceBlip(msg)

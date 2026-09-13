@@ -66,6 +66,8 @@
 	screen_loc = "13,3"
 	processing = TRUE
 
+	var/prev_rastra = 1
+
 	var/list/health_color_levels = list("#aeea77", "#ccd455", "#d48743", "#da6c31", "#7e3830", "#ffffff")
 	var/iconismus = "health"
 
@@ -79,9 +81,9 @@
 	var/rastra
 
 	switch(health)
-		if(100 to INFINITY)
+		if(70 to INFINITY)
 			rastra = 1
-		if(60 to 100)
+		if(60 to 70)
 			rastra = 2
 		if(40 to 60)
 			rastra = 3
@@ -91,6 +93,10 @@
 			rastra = 5
 		else
 			rastra = 6
+
+	if(prev_rastra < rastra)
+		owner << sound('sound/effects/senses/health_face.ogg')
+	prev_rastra = rastra
 
 	icon_state = "[iconismus][rastra]"
 
@@ -127,3 +133,14 @@
 
 /obj/hud/combat/Process()
 	combatico.alpha = rand(220,255)
+
+/obj/hud/fullscreen
+	icon = 'icons/full.dmi'
+	icon_state = "black"
+	screen_loc = "CENTER-7,CENTER-7"
+	appearance_flags = NO_CLIENT_COLOR
+	layer = HUD_LAYER + 0.1
+	mouse_opacity = 2
+
+/obj/hud/fullscreen/death
+	icon_state = "death"

@@ -39,8 +39,8 @@
 /client/verb/wish(fuck as text)
 	fuck = text2path(fuck)
 	if(ispath(fuck))
-		new fuck(get_turf(mob))
-		usr << "Your wish is my command."
+		var/atom/movable/fucky = new fuck(get_turf(mob))
+		usr << "Your wish is my command. [fucky.type]"
 
 /mob/human/verb/trigger_skill_roll(fuck as text)
     SkillRoll(fuck)

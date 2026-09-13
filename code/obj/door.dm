@@ -110,5 +110,10 @@
 			else
 				flick("[initial(icon_state)]-deny",src)
 				if(linked_door.shock_on_deny)
-					flick("[initial(icon_state)]-deny",src) // temp
 					H.TakeDamage(linked_door.shock_damage, "access denial shock")
+
+					var/amplitude = min(4, (linked_door.shock_damage/100) + 1)
+					var/pixel_x_diff = rand(-amplitude, amplitude)
+					var/pixel_y_diff = rand(-amplitude/3, amplitude/3)
+					animate(H, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = amplitude / 3, loop = 6, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
+					animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE)

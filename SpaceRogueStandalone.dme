@@ -29,7 +29,9 @@
 #include "code\datum\systems\master.dm"
 #include "code\datum\systems\processor.dm"
 #include "code\datum\systems\station.dm"
-#include "code\libs\flat_icon.dm"
+#include "code\libs\flaticon\flat_icon.dm"
+#include "code\libs\sound\defines.dm"
+#include "code\libs\sound\soundtool.dm"
 #include "code\mobs\client.dm"
 #include "code\mobs\lobbyman.dm"
 #include "code\mobs\human\human.dm"
@@ -43,6 +45,7 @@
 #include "code\obj\items\weapons.dm"
 #include "code\turfs\autojoin.dm"
 #include "code\turfs\turfs.dm"
+#include "interface\stylesheet.dm"
 #include "interface\skin.dmf"
 #include "maps\map.dmm"
 // END_INCLUDE

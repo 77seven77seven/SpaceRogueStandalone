@@ -9,7 +9,8 @@
 "f" = (
 /obj/solid/door{
 	access = list("CORP");
-	dir = 4
+	dir = 4;
+	shock_on_deny = 1
 	},
 /turf/open/floor,
 /area)
