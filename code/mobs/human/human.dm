@@ -411,11 +411,14 @@
 	chat_info("Your goal is: <b>[mind.goal]</b>")
 	chat_info("[mind.goal.desc] ([mind.goal.award] XP)")
 
-	if(mind.dissident)
+	if(mind.dissident) // dissidence welcomings flavor text
 		chat_info("\n<b>----@#$%&!-------#$%---!!!HAAHAHAHHA---</b>\n","bad")
 		chat_info("TRANSMISSION DECRYPTED, COURTESY OF THE <b>[pick("BLIND EYES OF A COWARD","MISTAKES IN THE MAKING","CITADEL","CRYING ANGELS","RENNE DANG TOMBOLA","ONES FREED FROM DESIRE","STARMEN","TAK-TAK-TAKYON","GOLDEN BROWNS","AMERICANO","M.I.T.M","P.M.J","D.A.O.T.S","OKTOBERKLUB","VIOLENT TERMS")]!\n</b>","bad")
-		chat_info("<b>[pick("INTERNAL ARMISTICE!","TRYING TO DEFY THE EMPOWERED!","LITTLE FIRE THAT THEY CAN'T PUT OUT!","FETCH ME A BUCKET, THIS IS ABOUT TO BLOW!", "ONE DAY YOU'LL LEAVE THIS WORLD BEHIND!","MAYBE YOU SHOULD CONSIDER... MORE VIOLENT TERMS?!")]</b>, YOUR MISSION IS: <b>[uppertext(mind.special_goal)]</b>","bad")
+		chat_info("<b>[pick("INTERNAL ARMISTICE!","TRYING TO DEFY THE EMPOWERED!","LITTLE FIRE THAT THEY CAN'T PUT OUT!","FETCH ME A BUCKET, THIS IS ABOUT TO BLOW!", "ONE DAY YOU'LL LEAVE THIS WORLD BEHIND!","MAYBE YOU SHOULD CONSIDER... MORE VIOLENT TERMS?!","RING RING GOES THE TELEHPONE... I'M HANGING UP ON YOU!!")]</b>, YOUR MISSION IS: <b>[uppertext(mind.special_goal)]</b>","bad")
 		chat_info("[mind.special_goal.desc] ([mind.special_goal.award] XP)","bad")
+	else
+		if(client.dissidence_preference)
+			chat_info("\nYou FAILED the roll for becoming a dissident. <b>[pick("Better luck next time.","I'm sure you'll get to be a bad guy next time.","Aww... is someone sad? Don't worry, you can still kill people. Just with less leeway now.")]</b>","bad")
 
 /mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE, randomize_certain_values = TRUE)
 	if(!mind)

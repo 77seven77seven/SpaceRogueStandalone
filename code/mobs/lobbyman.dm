@@ -31,7 +31,12 @@
 	winshow(src, "main_menu", TRUE)
 
 /mob/lobbyman/proc/roll_dissidence()
-	return TRUE // temp
+	if(client.dissidence_preference)
+		if(chosing_job.antag_can_roll)
+			var/rand_chance = rand(chosing_job.antag_chance_min,chosing_job.antag_chance_max) - rand(-5,5)
+
+			return prob(rand_chance)
+	return FALSE
 
 /mob/lobbyman/proc/UpdateMainMenu()
 	var/quirkozas = ""
@@ -105,7 +110,7 @@
 			plist["text"] = "DISSIDENT: YES"
 			plist["text-color"] = "#f00f"
 		client.dissidence_preference = !client.dissidence_preference
-		world << "[client.dissidence_preference]"
+		//world << "[client.dissidence_preference]"
 
 		winset(src, "main_menu.dissident", list2params(plist))
 	
@@ -123,7 +128,7 @@
 		else
 			plist["text"] = "PRESENTATION: FEMALE"
 			client.presentation_preference = FEMALE
-		world << "[client.presentation_preference]"
+		//world << "[client.presentation_preference]"
 
 		winset(src, "main_menu.gender", list2params(plist))
 
@@ -141,7 +146,7 @@
 	set name = ".tab_panel"
 
 	var/winge = winget(src, "rpanewindow", "left")
-	world << winge
+	//world << winge
 	if(winge == "infowindow")
 		winset(src, "rpanewindow", "left=.")
 		winset(src, "infob", "is-checked=false")
@@ -198,9 +203,11 @@
 
 		client.xp -= chosing_job.cost
 
+		var/dissidence = roll_dissidence()
+
 		var/mob/human/H = new
 		H.ckey = ckey
-		H.Initialize_Humanity(quirks, chosing_job.get_skills(), chosing_job, roll_dissidence())
+		H.Initialize_Humanity(quirks, chosing_job.get_skills(), chosing_job, dissidence)
 		H.DoSpawnEffects()
 
 		qdel(src)
