@@ -9,7 +9,7 @@ var/global/list/landmarks_start_list = list()
 // Feel free to steal my game if you want, but you should probably be creative because being creative is cool.
 
 /world
-	name = "Fringe Sector: Roguestation Edition"
+	name = "Fringe Sector: Roguestation Endera"
 	fps = 30
 	//icon_size = 32	// 32x32 icon size by default
 	view = "13x13"
@@ -296,3 +296,15 @@ proc/get_random_light_color()
 			setDir(EAST)
 		else
 			setDir(WEST)
+
+/mob/human/verb/test()
+	var/image/blood = image('icons/human/blood.dmi', icon_state = "test")
+
+	// 2. Set the blend mode to automatically mask to the parent's pixels
+	blood.blend_mode = BLEND_INSET_OVERLAY
+
+	// 3. Ensure the layer sits nicely on top of the base sprite
+	blood.layer = src.layer + 0.5
+
+	// 4. Add it to the mob without needing KEEP_TOGETHER
+	src.overlays += blood

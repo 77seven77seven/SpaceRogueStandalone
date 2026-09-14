@@ -3,7 +3,7 @@
 	icon = 'icons/human/human.dmi'
 	icon_state = "human"
 
-	appearance_flags = KEEP_APART|TILE_BOUND|PIXEL_SCALE
+	appearance_flags = TILE_BOUND|PIXEL_SCALE
 
 	var/base_delay = 3
 	var/move_delay = 3
