@@ -23,7 +23,7 @@
 /atom/movable/proc/interact_ranged(mob/user, obj/item/held_item)
 	return
 
-/atom/movable/proc/swing_anim(atom/A, pixelirona = 16, rostra = 15, timera = 2)
+/atom/movable/proc/swing_anim(atom/A, pixelirona = 16, rostra = 15, timera = 2, rev = FALSE)
 	if(A == src)
 		return //don't do an animation if attacking self
 
@@ -51,20 +51,30 @@
 
 	var/matrix/initial_transform = matrix(transform)
 	var/matrix/rotated_transform = transform.Turn(rostra * turn_dir)
-	animate(
-		src,
-		pixel_x = pixel_x + pixel_x_diff,
-		pixel_y = pixel_y + pixel_y_diff,
-		transform = rotated_transform,
-		time = timera,
-		easing = CIRCULAR_EASING,
-		flags = ANIMATION_PARALLEL
-		)
-	animate(
-		pixel_x = pixel_x - pixel_x_diff,
-		pixel_y = pixel_y - pixel_y_diff,
-		transform = initial_transform,
-		time = timera * 2,
-		easing = SINE_EASING,
-		flags = ANIMATION_PARALLEL
-		)
+	if(!rev)
+		animate(
+			src,
+			pixel_x = pixel_x + pixel_x_diff,
+			pixel_y = pixel_y + pixel_y_diff,
+			transform = rotated_transform,
+			time = timera,
+			easing = CIRCULAR_EASING,
+			flags = ANIMATION_PARALLEL
+			)
+		animate(
+			pixel_x = pixel_x - pixel_x_diff,
+			pixel_y = pixel_y - pixel_y_diff,
+			transform = initial_transform,
+			time = timera * 2,
+			easing = SINE_EASING,
+			flags = ANIMATION_PARALLEL
+			)
+	else
+		animate(
+			pixel_x = pixel_x - pixel_x_diff,
+			pixel_y = pixel_y - pixel_y_diff,
+			transform = initial_transform,
+			time = timera,
+			easing = SINE_EASING,
+			flags = ANIMATION_PARALLEL
+			)

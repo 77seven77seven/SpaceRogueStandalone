@@ -31,9 +31,9 @@
 	H.first_name = "[pick(world.file2list("strings/corporate_[gendero].txt"))]"
 	H.name = "[H.first_name] [H.last_name]"
 
-/datum/quirk/generic
-	name = "Generic"
-	display_name = "You look generic."
+/datum/quirk/bloodybastard
+	name = "Bloody Bastard"
+	display_name = "Your blood pressure is double the normal rate, but you have enough to spare."
 
 /datum/quirk/nolast
 	name = "No Last Name"

@@ -154,14 +154,17 @@
 	return FALSE
 
 /mob/human/proc/SetRagdolled(value)
+	if(ragdolled == value)
+		return
+
 	ragdolled = value
-	dir = SOUTH
 	if(ragdolled)
 		var/matrix/M = matrix()
 		var/turnation = prob(50) ? 90 : -90
 		transform = M.Turn(turnation)
 	else
 		transform = null
+	dir = SOUTH
 
 /mob/human/proc/SetHealth(value)
 	if(dead)

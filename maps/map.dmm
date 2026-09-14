@@ -25,6 +25,14 @@
 /obj/door_control,
 /turf/solid/wall,
 /area)
+"D" = (
+/obj/item/weapon/knife,
+/turf/open/floor,
+/area)
+"M" = (
+/mob/human,
+/turf/open/floor,
+/area)
 "R" = (
 /obj/solid/door,
 /turf/open/floor,
@@ -153,8 +161,8 @@ a
 a
 a
 a
-a
-a
+M
+D
 a
 a
 "}

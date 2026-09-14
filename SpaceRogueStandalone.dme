@@ -35,6 +35,7 @@
 #include "code\mobs\lobbyman.dm"
 #include "code\mobs\human\human.dm"
 #include "code\mobs\human\human_bleeding.dm"
+#include "code\mobs\human\human_blood.dm"
 #include "code\mobs\human\human_pda.dm"
 #include "code\mobs\human\human_speech.dm"
 #include "code\obj\abstract.dm"

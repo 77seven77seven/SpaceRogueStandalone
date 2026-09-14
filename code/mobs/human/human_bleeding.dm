@@ -41,6 +41,8 @@ var/global/list/bleedout_lastwords = list(
 			vis_contents += blood_effect
 			flick("bleed", blood_effect)
 
+			new /atom/movable/blood/drip(get_turf(src))
+
 			spawn(BLEED_FX_LIFETIME)
 				clear_blood_effect(blood_effect)
 

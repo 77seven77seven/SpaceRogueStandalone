@@ -33,6 +33,10 @@
 	else
 		return FALSE
 
+/datum/mind/proc/HasQuirk(quirk_type)
+	for(var/datum/quirk/Q in quirks)
+		if(Q.type == quirk_type) return TRUE
+
 /// Setter for the current_job job datum.
 /datum/mind/proc/set_current_job(datum/role/new_role)
 	if(!istype(new_role))
