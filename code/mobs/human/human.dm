@@ -287,12 +287,12 @@
 	if(sorrow >= 70)
 		penalty++
 
-	if(health <= 50)
-		penalty++
-	if(health <= 20)
-		penalty++
+	if(health <= 50 || blood <= 60)
+		penalty += 2
+	if(health <= 20 || blood <= 40)
+		penalty += 3
 
-	penalty += broke_bones
+	penalty += broke_bones * 1.5
 
 	move_delay = max(1, base_delay + penalty)
 	return move_delay
