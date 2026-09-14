@@ -3,6 +3,9 @@
 	desc = "It's an item."
 	icon = 'icons/obj/items.dmi'
 
+	var/inhand_icon = 'icons/human/inhands/items.dmi'
+	var/inhand_icon_state = "generic"
+
 	var/storable = TRUE // Can it be put into the inventory?
 	var/stored = FALSE
 	var/harmful = FALSE // Only allows attack() calls when AWARENESS is toggled on.
@@ -47,6 +50,7 @@
 	qdel(I)
 
 /obj/item/interact(mob/user, obj/item/held_item) // picking up
+	. = ..()
 	if(held_item || !ishuman(user))
 		return
 	var/mob/human/H = user
@@ -58,6 +62,8 @@
 	do_pickup_animation(H)
 	forceMove(H)
 	H.holding = src
+
+	H.UpdateInhand()
 
 /mob/human/verb/inhand()
 	set name = ".inhand"
@@ -84,6 +90,7 @@
 	holding.pixel_y = clamp(client.mpy - world.icon_size / 2, -8, 8)
 
 	holding = null
+	UpdateInhand()
 	return TRUE
 
 /mob/human/verb/store()
@@ -103,6 +110,7 @@
 	inventory += holding
 	holding.forceMove(src)
 	holding = null
+	UpdateInhand()
 
 /obj/item/consumable
 	name = "consumable"
@@ -120,6 +128,7 @@
 
 	H.holding = null
 	qdel(src)
+	H.UpdateInhand()
 
 /obj/item/consumable/food
 	name = "meal"

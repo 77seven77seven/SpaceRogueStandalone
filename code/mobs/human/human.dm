@@ -57,6 +57,7 @@
 	var/list/obj/item/inventory = list()
 	var/inventory_space = 10
 	var/obj/item/holding
+	var/image/holding_inhand
 
 	var/obj/item/clothing/hat/hat
 	var/image/hat_overlay
@@ -162,6 +163,10 @@
 		var/matrix/M = matrix()
 		var/turnation = prob(50) ? 90 : -90
 		transform = M.Turn(turnation)
+
+		if(holding)
+			holding.forceMove(get_turf(src))
+			holding = null
 	else
 		transform = null
 	dir = SOUTH
@@ -299,6 +304,16 @@
 
 	move_delay = max(1, base_delay + penalty)
 	return move_delay
+
+/mob/human/proc/UpdateInhand()
+	if(!holding)
+		overlays -= holding_inhand
+		return
+
+	holding_inhand = image(holding.inhand_icon, src, holding.inhand_icon_state)
+	holding_inhand.appearance_flags = RESET_COLOR
+	holding_inhand.layer = MOB_LAYER + 0.02
+	overlays += holding_inhand
 
 /mob/human/proc/ProcessNeeds(elapsed = HUMAN_NEEDS_PROCESS_INTERVAL)
 	if(dead)

@@ -18,6 +18,7 @@
 			interact_ranged(user)
 	
 /atom/movable/proc/interact(mob/user, obj/item/held_item)
+	user.face_atom(src)
 	return
 
 /atom/movable/proc/interact_ranged(mob/user, obj/item/held_item)

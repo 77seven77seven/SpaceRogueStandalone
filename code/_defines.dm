@@ -18,6 +18,14 @@
 #define QDEL_LIST_ASSOC(L) if(L) { for(var/I in L) { qdel(L[I]); qdel(I); } L.Cut(); }
 #define QDEL_LIST_ASSOC_VAL(L) if(L) { for(var/I in L) qdel(L[I]); L.Cut(); }
 
+//wrapper macros for easier grepping
+#define DIRECT_OUTPUT(A, B) A << B
+#define SEND_IMAGE(target, image) DIRECT_OUTPUT(target, image)
+#define SEND_SOUND(target, sound) DIRECT_OUTPUT(target, sound)
+#define SEND_TEXT(target, text) DIRECT_OUTPUT(target, text)
+#define WRITE_FILE(file, text) DIRECT_OUTPUT(file, text)
+#define WRITE_LOG(log, text) text2file(text,log) //rustg_log_write
+
 //subtypesof(), typesof() without the parent path
 #define subtypesof(typepath) ( typesof(typepath) - typepath )
 

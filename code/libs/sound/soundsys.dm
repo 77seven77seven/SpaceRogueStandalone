@@ -26,8 +26,8 @@ sound_system
 		music_volume = 50
 
 		// The current channel to play music on. Two channel are required for
-		// fading between songs, so we're reserving channels 1 and to for music.
-		music_channel = 1 // (1 or 2)
+		// fading between songs, so we're reserving channels 2 and to for music.
+		music_channel = 2
 
 		// The current music file that the player is listening to.
 		sound/current_music = null
@@ -40,8 +40,40 @@ sound_system
 
 
 
+/proc/open_sound_channel()
+	var/static/next_channel = 1	//loop through the available 1024 - (the ones we reserve) channels and pray that its not still being used
+	. = ++next_channel
+	if(next_channel > 1012)
+		next_channel = 1
 
+/mob/proc/stop_sound_channel(chan)
+	SEND_SOUND(src, sound(null, repeat = 0, wait = 0, channel = chan))
 
+/mob/proc/mute_sound_channel(chan)
+	for(var/sound/S in client.SoundQuery())
+		if(S.channel == chan)
+			S.status |= SOUND_MUTE | SOUND_UPDATE
+			SEND_SOUND(src, S)
+			S.status &= ~SOUND_UPDATE
+
+/mob/proc/unmute_sound_channel(chan)
+	if(!client)
+		return
+	for(var/sound/S in client.SoundQuery())
+		if(S.channel == chan)
+			S.status |= SOUND_UPDATE
+			S.status &= ~SOUND_MUTE
+			SEND_SOUND(src, S)
+			S.status &= ~SOUND_UPDATE
+
+/mob/proc/mute_sound(sound/S)
+	if(!client)
+		return
+	if(!S)
+		return
+	S.status |= SOUND_MUTE | SOUND_UPDATE
+	SEND_SOUND(src, S)
+	S.status &= ~SOUND_UPDATE
 
 /*
 PLAY SOUND
@@ -64,10 +96,10 @@ Variables:
 			change the variable used to determine an object's altitude, you can change
 			the name of the variable used with this argument.
 */
-sound_system/proc/PlaySound(soundfile, atom/location, environment=-1, frequency=0, altitude_var="layer", falloff = 1, vol = 100, channel = 0)
+sound_system/proc/PlaySound(soundfile, atom/location, environment=-1, frequency=0, altitude_var="layer", falloff = 1, vol = 100, channel)
 	var/sound/sound = sound(soundfile)
 	sound.volume = vol
-	sound.channel = channel
+	sound.channel = channel || open_sound_channel()
 
 	// If a sound location is specified and the location is NOT the player who
 	// will be hearing the sound, then the sound will be played in 3D with location
@@ -90,7 +122,7 @@ sound_system/proc/PlaySound(soundfile, atom/location, environment=-1, frequency=
 	src.owner << sound
 	return
 
-/proc/playsound(soundfile, atom/location, environment=1, frequency=0, altitude_var="layer", falloff = 1, vol = 100, channel = 0)
+/proc/playsound(soundfile, atom/location, environment=1, frequency=0, altitude_var="layer", falloff = 1, vol = 100, channel)
 	for(var/mob/M in hearers(world.view, location))
 		if(M.client) M.client.sound_system.PlaySound(soundfile, location, environment, frequency, altitude_var, falloff, vol, channel)
 

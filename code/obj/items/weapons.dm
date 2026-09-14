@@ -1,6 +1,8 @@
 /obj/item/weapon
 	name = "weapon"
 	desc = "It's a weapon."
+	inhand_icon = 'icons/human/inhands/melee.dmi'
+	inhand_icon_state = "crowbar"
 	harmful = TRUE
 
 	var/sharp = FALSE // Is this weapon sharp? If false, it is classified as BLUNT.
@@ -12,6 +14,7 @@
 	var/attack_delay = 25 // Self explanatory. So you don't smeck someone thirty times in a milisecond.
 
 /obj/item/weapon/attack(mob/human/user, mob/human/target) // TODO: make a lot of these be affected by melee skill, both on defense and offense
+	. = ..()
 	if(user.on_cooldown("attack_cd"))
 		return FALSE
 	user.cooldown("attack_cd", attack_delay)
@@ -33,7 +36,7 @@
 		target.AdjustBleeding(damage_adjusted * bloodloss_coefficient)
 
 		var/blood_prob = 10
-		if(target.mind.HasQuirk(/datum/quirk/bloodybastard))
+		if(target.mind?.HasQuirk(/datum/quirk/bloodybastard))
 			blood_prob *= 3
 		if((prob(blood_prob) && target.blood))
 			new /atom/movable/blood/splatter(get_turf(target), target)
@@ -56,5 +59,6 @@
 
 /obj/item/weapon/knife
 	name = "knife"
+	inhand_icon_state = "knife"
 	sharp = TRUE
 	attack_delay = 15
