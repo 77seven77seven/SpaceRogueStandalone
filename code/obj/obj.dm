@@ -10,8 +10,17 @@
 			interact(H, H.holding)
 		else
 			interact(user)
+	else
+		if(ishuman(user))
+			var/mob/human/H = user
+			interact_ranged(H, H.holding)
+		else
+			interact_ranged(user)
 	
 /atom/movable/proc/interact(mob/user, obj/item/held_item)
+	return
+
+/atom/movable/proc/interact_ranged(mob/user, obj/item/held_item)
 	return
 
 /atom/movable/proc/swing_anim(atom/A, pixelirona = 16, rostra = 15, timera = 2)

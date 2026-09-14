@@ -126,8 +126,11 @@
 
 /mob/human/interact(mob/user, obj/item/held_item)
 	. = ..()
+	var/mob/human/Huser = user
 	if(held_item)
-		held_item.attack(user, src)
+		if(held_item.harmful && !Huser.cmode)
+			return
+		held_item.attack(Huser, src)
 
 /mob/human/proc/cooldown(cooldown_name, cooldown_duration)
 	if(!cooldowns)

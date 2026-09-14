@@ -92,7 +92,7 @@ sound_system/proc/PlaySound(soundfile, atom/location, environment=-1, frequency=
 
 /proc/playsound(soundfile, atom/location, environment=1, frequency=0, altitude_var="layer", falloff = 1, vol = 100, channel = 0)
 	for(var/mob/M in hearers(world.view, location))
-		M.client.sound_system.PlaySound(soundfile, location, environment, frequency, altitude_var, falloff, vol, channel)
+		if(M.client) M.client.sound_system.PlaySound(soundfile, location, environment, frequency, altitude_var, falloff, vol, channel)
 
 /*
 PLAY MUSIC
