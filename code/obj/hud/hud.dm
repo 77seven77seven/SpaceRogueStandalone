@@ -95,7 +95,7 @@
 			rastra = 6
 
 	if(prev_rastra < rastra)
-		owner << sound('sound/effects/senses/health_face.ogg')
+		SEND_SOUND(owner, sound('sound/effects/senses/health_face.ogg', channel = open_sound_channel()))
 	prev_rastra = rastra
 
 	icon_state = "[iconismus][rastra]"

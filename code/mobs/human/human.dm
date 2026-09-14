@@ -233,8 +233,9 @@
 	client.color = "#000000"
 
 	animate(death, time = 20, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 150)
-	client << sound(null)
-	client << sound('sound/death.ogg')
+
+	SEND_SOUND(client, null)
+	SEND_SOUND(client, sound('sound/death.ogg', channel = open_sound_channel()))
 	return TRUE
 
 /mob/human/proc/AdjustHunger(amount)
@@ -439,12 +440,9 @@
 	return C.remove_from_mob()
 
 /mob/human/proc/DoSpawnEffects()
+	SEND_SOUND(client, sound('sound/music/spawn.ogg', volume = 75, channel = open_sound_channel()))
 	if(mind.dissident)
-		client << sound('sound/music/spawn.ogg', volume = 75)
-		spawn(5)
-			client << sound('sound/music/violent_terms.ogg', volume = 75)
-	else
-		client << sound('sound/music/spawn.ogg', volume = 75)
+		spawn(5) SEND_SOUND(client, sound('sound/music/violent_terms.ogg', volume = 75, channel = open_sound_channel()))
 	client.color = "#000000"
 	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 50)
 
@@ -613,7 +611,7 @@
 		var/matrix/M = matrix()
 		M.Scale(1.2,1.2)
 
-		client << sound('sound/effects/senses/combat_on.ogg')
+		SEND_SOUND(client, sound('sound/effects/senses/combat_on.ogg'))
 
 		animate(client, color = "#ddababff", easing = SINE_EASING | EASE_IN | EASE_OUT, time = 2)
 		animate(client, pixel_z = 20, pixel_w = 20, easing = SINE_EASING | EASE_IN | EASE_OUT, time = 5)
@@ -625,7 +623,7 @@
 	else
 		cmode = FALSE
 
-		client << sound('sound/effects/senses/combat_off.ogg')
+		SEND_SOUND(client, sound('sound/effects/senses/combat_off.ogg'))
 
 		animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
 		animate(hud_holder.combat.backgroundo, pixel_y = -32, easing = BOUNCE_EASING, time = 2)
