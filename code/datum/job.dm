@@ -58,7 +58,8 @@
 			H.equip_clothing(new_pants)
 
 	if(shoes_is)
-		var/shoes = image('icons/clothing/accessories.dmi', H, shoes_is)
+		var/image/shoes = image('icons/clothing/accessories.dmi', H, shoes_is)
+		shoes.appearance_flags = RESET_COLOR
 		H.overlays += shoes
 
 	return TRUE

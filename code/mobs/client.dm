@@ -45,9 +45,6 @@
 /mob/human/verb/trigger_skill_roll(fuck as text)
     SkillRoll(fuck)
 
-/client/verb/test()
-	src << "<span class='hfade'>Oh no...</span>"
-
 /client/verb/tune_radio()
     var/stream_url = "https://stream.sepia.sk:8000/impuls128.mp3"
     var/html = {"<html><body style="margin:0;background:#111">
