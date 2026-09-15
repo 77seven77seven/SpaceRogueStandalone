@@ -1,22 +1,24 @@
 /obj/item/clothing
 	name = "clothing"
-	icon = 'icons/clothing/item.dmi'
+	icon = 'icons/obj/items.dmi'
+	icon_state = "fuck"
+
 	desc = "A piece of clothing."
 	storable = TRUE
 
 	var/onmob_icon = 'icons/clothing/shirts.dmi'
+	var/onmob_icon_state = null
 
 	var/slot = null
 	var/equipped = FALSE
 	var/wearer
-	var/list/possible_colors = list("#F4F4F4")
+	var/random_color = TRUE
 
-/obj/item/clothing/Initialize()
+/obj/item/clothing/New(loc)
 	. = ..()
-	if(!possible_colors || !length(possible_colors))
+	if(!random_color)
 		return
-	color = pick(possible_colors)
-	return
+	color = get_random_light_color()
 
 /obj/item/clothing/proc/equip_to(mob/human/H)
 	if(!istype(H))
@@ -44,20 +46,26 @@
 
 	if(slot == "hat")
 		H.hat = src
-		H.hat_overlay = image(src.onmob_icon, H, src.icon_state)
+		H.hat_overlay = image(src.onmob_icon, H, src.onmob_icon_state)
 		H.hat_overlay.appearance_flags = RESET_COLOR
+		H.hat_overlay.color = H.hat.color
+
 		H.overlays += H.hat_overlay
 		
 	else if(slot == "shirt")
 		H.shirt = src
-		H.shirt_overlay = image(src.onmob_icon, H, src.icon_state)
+		H.shirt_overlay = image(src.onmob_icon, H, src.onmob_icon_state)
 		H.shirt_overlay.appearance_flags = RESET_COLOR
+		H.shirt_overlay.color = H.shirt.color
+
 		H.overlays += H.shirt_overlay
 
 	else if(slot == "pants")
 		H.pants = src
-		H.pants_overlay = image(src.onmob_icon, H, src.icon_state)
+		H.pants_overlay = image(src.onmob_icon, H, src.onmob_icon_state)
 		H.pants_overlay.appearance_flags = RESET_COLOR
+		H.pants_overlay.color = H.pants.color
+
 		H.overlays += H.pants_overlay
 
 	if(H.client)
@@ -91,28 +99,26 @@
 	icon_state = "hat"
 
 	onmob_icon = 'icons/clothing/hats.dmi'
-
 	slot = "hat"
-	possible_colors = list("#534B3E", "#8B5A2B", "#8E9E99", "#2C3E50", "#7B3F00")
 
 /obj/item/clothing/shirt
 	name = "shirt"
-	icon_state = "shirt1"
+	icon_state = "shirt"
 
 	onmob_icon = 'icons/clothing/shirts.dmi'
-
 	slot = "shirt"
-	possible_colors = list("#4F5D75", "#A3B18A", "#C4A35C", "#B55446", "#6B7280")
+
+/obj/item/clothing/shirt/New(loc)
+	. = ..()
+	onmob_icon_state = "shirt[rand(1,39)]"
 
 /obj/item/clothing/pants
 	name = "pants"
-	icon_state = "pants1"
+	icon_state = "pants"
 
 	onmob_icon = 'icons/clothing/pants.dmi'
-
 	slot = "pants"
-	possible_colors = list("#3A3A3A", "#5A4A3A", "#2D5A3E", "#4A4F6A", "#7A5A3A")
 
 /obj/item/clothing/pants/New(loc)
 	. = ..()
-	icon_state = "pants[rand(1,39)]"
+	onmob_icon_state = "pants[rand(1,39)]"

@@ -84,6 +84,12 @@
 
 	antag_can_roll = FALSE
 
+/datum/role/director/equip(mob/human/H)
+	. = ..()
+	
+	var/badge = image('icons/clothing/accessories.dmi', H, "director_badge", MOB_LAYER + 0.01)
+	H.overlays += badge
+
 /datum/role/director/get_skills()
 	return list(CORP = 90, GUNS = 20 + rand(-10,10), PARANOIA = 60, MELEE = 10 + rand(-9,10))
 
