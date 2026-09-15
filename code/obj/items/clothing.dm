@@ -97,7 +97,7 @@
 
 /obj/item/clothing/shirt
 	name = "shirt"
-	icon_state = "shirt"
+	icon_state = "shirt1"
 
 	onmob_icon = 'icons/clothing/shirts.dmi'
 
@@ -106,9 +106,13 @@
 
 /obj/item/clothing/pants
 	name = "pants"
-	icon_state = "pants"
+	icon_state = "pants1"
 
 	onmob_icon = 'icons/clothing/pants.dmi'
 
 	slot = "pants"
 	possible_colors = list("#3A3A3A", "#5A4A3A", "#2D5A3E", "#4A4F6A", "#7A5A3A")
+
+/obj/item/clothing/pants/New(loc)
+	. = ..()
+	icon_state = "pants[rand(1,39)]"
