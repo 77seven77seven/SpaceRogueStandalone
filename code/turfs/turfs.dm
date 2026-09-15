@@ -1,5 +1,8 @@
 // manage
 
+/turf
+	var/base_icon_state = "rwall"
+
 /turf/Initialize()
 	..()
 
@@ -11,19 +14,30 @@
 	// give all dense turfs a 16-state autojoining outline.
 	else
 		var/n = autojoin16("density")
-		overlays += icon('icons/turf/rs_walls.dmi', "rwall[n]")
+		icon_state = "[base_icon_state][n]"
 
 // solid
 
 /turf/solid
 	density = TRUE
 	opacity = TRUE
+	layer = OBJ_LAYER + 0.1
 
 /turf/solid/wall
 	name = "wall"
 	icon = 'icons/turf/rs_walls.dmi'
+
+	base_icon_state = "rwall"
 	icon_state = "rwall0"
-	layer = OBJ_LAYER + 0.1
+
+/turf/solid/window
+	name = "window"
+	icon = 'icons/turf/rs_windows.dmi'
+
+	opacity = FALSE
+
+	base_icon_state = "fwindow"
+	icon_state = "fwindow0"
 
 // open
 

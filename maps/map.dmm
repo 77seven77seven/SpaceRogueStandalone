@@ -2,9 +2,18 @@
 "a" = (
 /turf/open/floor,
 /area)
+"b" = (
+/obj/decal{
+	icon_state = "endera1"
+	},
+/turf/solid/wall,
+/area)
 "d" = (
 /obj/item,
 /turf/open/floor,
+/area)
+"e" = (
+/turf/solid/window,
 /area)
 "f" = (
 /obj/solid/door{
@@ -13,6 +22,18 @@
 	shock_on_deny = 1
 	},
 /turf/open/floor,
+/area)
+"j" = (
+/obj/decal{
+	icon_state = "chezsign3"
+	},
+/turf/solid/wall,
+/area)
+"k" = (
+/obj/decal{
+	icon_state = "chezsign1"
+	},
+/turf/solid/wall,
 /area)
 "m" = (
 /obj/door_control,
@@ -29,13 +50,67 @@
 /obj/item/weapon/knife,
 /turf/open/floor,
 /area)
+"F" = (
+/obj/decal{
+	icon_state = "chezsign4"
+	},
+/turf/solid/wall,
+/area)
+"K" = (
+/obj/decal{
+	icon_state = "departures2"
+	},
+/turf/solid/wall,
+/area)
 "M" = (
 /mob/human,
 /turf/open/floor,
 /area)
+"N" = (
+/obj/decal{
+	icon_state = "chezsign2"
+	},
+/turf/solid/wall,
+/area)
+"P" = (
+/obj/decal{
+	icon_state = "endera3"
+	},
+/turf/solid/wall,
+/area)
 "R" = (
 /obj/solid/door,
 /turf/open/floor,
+/area)
+"S" = (
+/obj/decal{
+	icon_state = "departures4"
+	},
+/turf/solid/wall,
+/area)
+"V" = (
+/obj/decal{
+	icon_state = "departures1"
+	},
+/turf/solid/wall,
+/area)
+"W" = (
+/obj/decal{
+	icon_state = "endera2"
+	},
+/turf/solid/wall,
+/area)
+"X" = (
+/obj/decal{
+	icon_state = "departures3"
+	},
+/turf/solid/wall,
+/area)
+"Z" = (
+/obj/decal{
+	icon_state = "endera4"
+	},
+/turf/solid/wall,
 /area)
 
 (1,1,1) = {"
@@ -267,6 +342,7 @@ a
 a
 a
 a
+e
 a
 a
 a
@@ -280,7 +356,6 @@ a
 a
 a
 a
-n
 a
 a
 a
@@ -393,6 +468,11 @@ a
 a
 a
 a
+e
+e
+e
+a
+e
 a
 a
 a
@@ -403,11 +483,6 @@ a
 a
 a
 a
-a
-a
-a
-a
-n
 a
 a
 a
@@ -521,6 +596,11 @@ a
 a
 a
 a
+e
+a
+a
+a
+e
 a
 a
 a
@@ -530,11 +610,6 @@ a
 a
 a
 a
-a
-a
-a
-a
-n
 a
 a
 a
@@ -645,14 +720,14 @@ a
 a
 a
 a
-a
-a
-a
-a
-a
-a
-a
-a
+e
+e
+e
+e
+e
+e
+e
+e
 a
 a
 a
@@ -772,12 +847,12 @@ a
 a
 a
 a
+e
 a
 a
 a
 a
-a
-a
+e
 a
 a
 a
@@ -899,12 +974,12 @@ a
 a
 a
 a
+e
 a
 a
 a
-a
-a
-a
+e
+e
 a
 a
 a
@@ -1298,7 +1373,7 @@ a
 a
 a
 a
-n
+e
 a
 a
 a
@@ -1420,12 +1495,12 @@ a
 a
 n
 a
-n
+k
 a
 a
 a
 a
-n
+e
 a
 a
 a
@@ -1547,12 +1622,12 @@ a
 a
 a
 a
-n
+N
 a
 a
 a
 a
-n
+e
 a
 a
 a
@@ -1674,7 +1749,7 @@ a
 n
 n
 n
-n
+j
 a
 a
 a
@@ -1801,7 +1876,7 @@ a
 a
 a
 a
-a
+F
 a
 a
 a
@@ -1928,7 +2003,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -2055,7 +2130,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -2182,7 +2257,7 @@ a
 a
 a
 a
-a
+V
 a
 a
 a
@@ -2309,7 +2384,7 @@ a
 a
 a
 a
-a
+K
 a
 a
 a
@@ -2436,7 +2511,7 @@ a
 a
 a
 a
-a
+X
 a
 a
 a
@@ -2563,7 +2638,7 @@ a
 a
 a
 a
-a
+S
 a
 a
 a
@@ -2690,7 +2765,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -2817,7 +2892,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -2944,7 +3019,7 @@ a
 a
 a
 a
-a
+b
 a
 a
 a
@@ -3071,7 +3146,7 @@ a
 a
 a
 a
-a
+W
 a
 a
 a
@@ -3198,7 +3273,7 @@ a
 a
 a
 a
-a
+P
 a
 a
 a
@@ -3325,7 +3400,7 @@ a
 a
 a
 a
-a
+Z
 a
 a
 a
@@ -3452,7 +3527,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -3579,7 +3654,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -3706,7 +3781,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -3833,7 +3908,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -8585,7 +8660,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -8712,7 +8787,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -8839,7 +8914,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -8966,7 +9041,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -9093,7 +9168,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -9220,7 +9295,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -9347,7 +9422,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
@@ -9474,7 +9549,7 @@ a
 a
 a
 a
-a
+n
 a
 a
 a
