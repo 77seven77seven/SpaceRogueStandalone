@@ -135,12 +135,12 @@
 	combatico.alpha = rand(220,255)
 
 /obj/hud/fullscreen
-	icon = 'icons/full.dmi'
+	icon = 'icons/full_resized.dmi'
 	icon_state = "black"
-	screen_loc = "CENTER-7,CENTER-7"
+	screen_loc = "CENTER-6,CENTER-6"
 	appearance_flags = NO_CLIENT_COLOR
 	layer = HUD_LAYER + 0.1
-	mouse_opacity = 2
+	//mouse_opacity = 2
 
 /obj/hud/fullscreen/death
 	icon_state = "death"

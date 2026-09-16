@@ -164,11 +164,15 @@
 		var/turnation = prob(50) ? 90 : -90
 		transform = M.Turn(turnation)
 
+		density = FALSE
+
 		if(holding)
 			holding.forceMove(get_turf(src))
 			holding = null
 	else
 		transform = null
+		
+		density = TRUE
 	dir = SOUTH
 
 /mob/human/proc/SetHealth(value)
@@ -217,6 +221,9 @@
 
 	UpdateHUD()
 	SetRagdolled(TRUE)
+
+	QDEL_NULL(hud_holder)
+	client.screen.Cut()
 	
 	if(processor)
 		processor.processing -= src
@@ -225,6 +232,13 @@
 		station.humans -= src
 		if(!station.dead_humans.Find(src))
 			station.dead_humans += src
+	if(master)
+		if(mind.current_job)
+			mind.current_job.current_positions--
+		else
+			// Huh... that's... weird.
+			WRITE_LOG(world.log, "[src] [src.ckey] -- Died and didn't have a job!?")
+	client.xp--
 
 	var/obj/hud/fullscreen/death/death = new()
 	death.alpha = 0
@@ -232,10 +246,17 @@
 	client.screen += death
 	client.color = "#000000"
 
-	animate(death, time = 20, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 150)
-
 	SEND_SOUND(client, null)
 	SEND_SOUND(client, sound('sound/death.ogg', channel = open_sound_channel()))
+	animate(death, time = 50, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 255)
+	spawn(100)
+		client.color = null
+		animate(death, time = 5, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 0)
+		spawn(5)
+			qdel(death)
+
+		var/mob/lobbyman/newman = new()
+		newman.ckey = ckey
 	return TRUE
 
 /mob/human/proc/AdjustHunger(amount)

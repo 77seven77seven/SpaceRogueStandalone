@@ -5,7 +5,7 @@
 /mob/Login()
 	. = ..()
 	src << load_resource('sound/music/spawn.ogg', 'sound/effects/senses/combat_on.ogg', 'sound/effects/senses/combat_off.ogg', 'sound/death.ogg', -1)
-	src << load_resource('icons/full.dmi', -1)
+	//src << load_resource('icons/full_resized.dmi', -1)
 	//src << 'icons/full.dmi'
 
 /mob/lobbyman // for people in the lobby

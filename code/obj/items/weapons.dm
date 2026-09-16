@@ -34,8 +34,9 @@
 	world << "DEBUG: damage log, [damage_adjusted]"
 	if(sharp && prob(damage_adjusted * 9))
 		target.AdjustBleeding(damage_adjusted * bloodloss_coefficient)
+		target.AdjustBlood(rand(-10,-1))
 
-		var/blood_prob = 10
+		var/blood_prob = 25
 		if(target.mind?.HasQuirk(/datum/quirk/bloodybastard))
 			blood_prob *= 3
 		if((prob(blood_prob) && target.blood))
