@@ -15,11 +15,15 @@
 	landmarks_list -= src
 	return ..()
 
+/obj/abstract/landmark/start
+	name = "start"
+
 /obj/abstract/landmark/start/New()
-	landmarks_start_list += src
+	if(name == "lobbyman")
+		station.newplayer_start += src
+	else
+		landmarks_start_list += src
 	..()
-	if(name != "start")
-		tag = "start*[name]"
 
 /obj/abstract/landmark/start/Destroy()
 	landmarks_start_list -= src

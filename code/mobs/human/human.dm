@@ -235,8 +235,7 @@
 	if(master)
 		if(mind.current_job)
 			mind.current_job.current_positions--
-		else
-			// Huh... that's... weird.
+		else // Huh... that's... weird.
 			WRITE_LOG(world.log, "[src] [src.ckey] -- Died and didn't have a job!?")
 	client.xp--
 
@@ -475,8 +474,8 @@
 
 	if(mind.dissident) // dissidence welcomings flavor text
 		chat_info("\n<b>----@#$%&!-------#$%---!!!HAAHAHAHHA---</b>\n","bad")
-		chat_info("TRANSMISSION DECRYPTED, COURTESY OF THE <b>[pick("BLIND EYES OF A COWARD","MISTAKES IN THE MAKING","CITADEL","CRYING ANGELS","RENNE DANG TOMBOLA","ONES FREED FROM DESIRE","STARMEN","TAK-TAK-TAKYON","GOLDEN BROWNS","AMERICANO","M.I.T.M","P.M.J","D.A.O.T.S","OKTOBERKLUB","VIOLENT TERMS")]!\n</b>","bad")
-		chat_info("<b>[pick("INTERNAL ARMISTICE!","TRYING TO DEFY THE EMPOWERED!","LITTLE FIRE THAT THEY CAN'T PUT OUT!","FETCH ME A BUCKET, THIS IS ABOUT TO BLOW!", "ONE DAY YOU'LL LEAVE THIS WORLD BEHIND!","MAYBE YOU SHOULD CONSIDER... MORE VIOLENT TERMS?!","RING RING GOES THE TELEHPONE... I'M HANGING UP ON YOU!!")]</b>, YOUR MISSION IS: <b>[uppertext(mind.special_goal)]</b>","bad")
+		chat_info("TRANSMISSION DECRYPTED, COURTESY OF THE <b>[pick("BLIND EYES OF A COWARD","MISTAKES IN THE MAKING","CITADEL","CRYING ANGELS","RENNE DANG TOMBOLA","ONES FREED FROM DESIRE","STARMEN","TAK-TAK-TAKYON","GOLDEN BROWNS","AMERICANO","M.I.T.M","P.M.J","D.A.O.T.S","OKTOBERKLUB","VIOLENT TERMS","CZECHOSLOVAK LEGION OF FREEDOM FORCES","DISOBEDIENT","FREE GREEN YOUTH","KABAT","SHKWOR","DARK SABBATH-ON","SPACE CADETS")]!\n</b>","bad")
+		chat_info("<b>[pick("INTERNAL ARMISTICE!","HAVE YOU EVER SEEN THE BIRTH OF A STAR?!","FAR FAR FAR, FAR AWAY FROM THE FAME!","WE STILL REMEMBER YOUR NAME!","YOU ARE OUR GUIDE!","OUR PRIDE!","WE SHALL MOURN THE DAY YOU DIE!","TRYING TO DEFY THE EMPOWERED!","LITTLE FIRE THAT THEY CAN'T PUT OUT!","FETCH ME A BUCKET, THIS IS ABOUT TO BLOW!", "ONE DAY YOU'LL LEAVE THIS WORLD BEHIND!","LIFE IN IVORY BLACK!","MAYBE YOU SHOULD CONSIDER... MORE VIOLENT TERMS?!","RING RING GOES THE TELEPHONE... I'M HANGING UP ON YOU!!")]</b>, YOUR MISSION IS: <b>[uppertext(mind.special_goal)]</b>","bad")
 		chat_info("[mind.special_goal.desc] ([mind.special_goal.award] XP)","bad")
 	else
 		if(client.dissidence_preference)
@@ -497,11 +496,19 @@
 		mind.set_current_job(R)
 		R.equip(src)
 
-		var/turf/starto = locate(1,1,1)
+		var/turf/starto
 		for(var/obj/abstract/landmark/start/sloc in landmarks_start_list)
 			if(sloc.name != R.title)
 				continue
 			starto = get_turf(sloc)
+			
+		if(!starto)
+			for(var/obj/abstract/landmark/start/sloc in landmarks_start_list)
+				if(sloc.name == "backup")
+					starto = get_turf(sloc)
+
+		if(!starto)
+			starto = locate(1,1,1)
 		forceMove(starto)
 	
 	if(client.presentation_preference == NEUTER)
@@ -686,7 +693,7 @@
 
 	stat("-----------------------------------")
 
-	stat("INVENTORIUM:")
+	stat("INVENTORIUM:[holding ? " (HOLDING: [uppertext(holding.name)])" : null]")
 	if(inventory.len)
 		for(var/obj/item/I in inventory)
 			stat(I)

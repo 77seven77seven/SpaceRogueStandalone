@@ -16,7 +16,7 @@ var/global/list/landmarks_start_list = list()
 	movement_mode = TILE_MOVEMENT_MODE
 
 	mob = /mob/lobbyman
-	turf = /turf/open/floor
+	turf = /turf/open/space
 
 /world/New()
 	master.setup()

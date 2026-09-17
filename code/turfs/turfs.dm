@@ -52,3 +52,13 @@
 /turf/open/floor/Initialize()
 	. = ..()
 	icon_state = "[initial(icon_state)][rand(1,4)]"
+
+/turf/open/space
+	name = "space"
+	desc = "The final frontier."
+	icon = 'icons/turf/space.dmi'
+	icon_state = "roguespace"
+
+/turf/open/space/Initialize()
+	. = ..()
+	dir = pick(SOUTH,NORTH,WEST,EAST)
