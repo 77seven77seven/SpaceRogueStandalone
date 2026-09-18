@@ -3,4 +3,4 @@
 	density = FALSE
 	icon = 'icons/obj/decals.dmi'
 	icon_state = "nil"
-	layer = OBJ_LAYER + 0.2
+	layer = TURF_LAYER + 0.1

@@ -21,7 +21,7 @@
 /turf/solid
 	density = TRUE
 	opacity = TRUE
-	layer = OBJ_LAYER + 0.1
+	layer = TURF_LAYER + 0.1
 
 /turf/solid/wall
 	name = "wall"
@@ -52,6 +52,12 @@
 /turf/open/floor/Initialize()
 	. = ..()
 	icon_state = "[initial(icon_state)][rand(1,4)]"
+	dir = pick(NORTH,SOUTH,EAST,WEST)
+
+/turf/open/floor/dark
+	name = "floor"
+	icon = 'icons/turf/rs_floors.dmi'
+	icon_state = "dark"
 
 /turf/open/space
 	name = "space"

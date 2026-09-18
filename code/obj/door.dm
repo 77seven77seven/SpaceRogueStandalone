@@ -26,6 +26,7 @@
 /atom/movable/door_dummy
 	icon = 'icons/obj/Door1.dmi'
 	mouse_opacity = 2
+	layer = TURF_LAYER
 
 /obj/solid/door/Initialize()
 	. = ..()

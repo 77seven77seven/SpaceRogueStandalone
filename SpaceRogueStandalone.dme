@@ -40,6 +40,7 @@
 #include "code\mobs\human\human_speech.dm"
 #include "code\obj\abstract.dm"
 #include "code\obj\decals.dm"
+#include "code\obj\deco.dm"
 #include "code\obj\door.dm"
 #include "code\obj\movable.dm"
 #include "code\obj\hud\hud.dm"
