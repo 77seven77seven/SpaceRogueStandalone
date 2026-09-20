@@ -43,8 +43,7 @@ var/global/list/bleedout_lastwords = list(
 
 			new /atom/movable/blood/drip(get_turf(src))
 
-			spawn(BLEED_FX_LIFETIME)
-				clear_blood_effect(blood_effect)
+			addtimer(CALLBACK(src, PROC_REF(clear_blood_effect), blood_effect), BLEED_FX_LIFETIME)
 
 		if(dead)
 			return FALSE

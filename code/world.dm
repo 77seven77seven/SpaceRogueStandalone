@@ -17,6 +17,7 @@ var/global/list/landmarks_start_list = list()
 
 	mob = /mob/lobbyman
 	turf = /turf/open/space
+	area = /area/space
 
 /world/New()
 	master.setup()
@@ -308,3 +309,9 @@ proc/get_random_light_color()
 
 	// 4. Add it to the mob without needing KEEP_TOGETHER
 	src.overlays += blood
+
+	addtimer(CALLBACK_GLOBAL(/proc/test, src), 10)
+
+/proc/test(atom/tt)
+	world << "test complete"
+	world << "[tt.name]"

@@ -12,6 +12,8 @@
 	var/open = FALSE
 	var/doing = FALSE
 
+	var/opacita = TRUE
+
 	var/shock_on_deny = FALSE
 	var/shock_damage = 5 // 20 denials to kill someone with full health
 
@@ -22,6 +24,12 @@
 
 	var/atom/movable/door_l
 	var/atom/movable/door_r
+
+/obj/solid/door/glass
+	name = "win-door"
+	icon_state = "door_glass"
+	opacity = FALSE
+	opacita = FALSE
 
 /atom/movable/door_dummy
 	icon = 'icons/obj/Door1.dmi'
@@ -79,9 +87,11 @@
 		// opening
 		animate(door_l, time, pixel_x = -px, pixel_y = -py, easing = QUAD_EASING)
 		animate(door_r, time, pixel_x = px, pixel_y = py, easing = QUAD_EASING)
+	playsound('sound/effects/obj/door.ogg', get_turf(src))
 
 	doing = TRUE
-	opacity = !opacity
+	if(opacita)
+		opacity = !opacity
 	spawn(time / 2)
 		doing = FALSE
 

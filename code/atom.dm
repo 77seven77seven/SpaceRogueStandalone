@@ -1,3 +1,6 @@
+/atom
+	plane = GENERIC_PLANE
+
 /atom/New(loc)
 	. = ..()
 	spawn()

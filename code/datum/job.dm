@@ -178,7 +178,7 @@
 
 /datum/role/stowaway
 	title = "Stowaway"
-	desc = "By all means, you're not meant to be here. Nobody really knows who, or what you even are. But I doubt you'll be in trouble. Everybody likes company on this decaying heap of a newly-bought and refurbished roguestation. Beg the Director for a job, or don't and just enjoy the scenery. But keep in mind, if you're planning on getting a job, make sure you actually *know* how to work one."
+	desc = "By all means, you're not meant to be here. Nobody really knows who, or what you even are. But I doubt you'll be in trouble. Everybody likes some company on this decaying heap of a newly-bought and refurbished roguestation. Beg the Director for a job, or don't and just enjoy the scenery. But keep in mind, if you're planning on getting a job, make sure you actually *know* how to work one. Or don't, and just enjoy the raised pay."
 
 	total_positions = 20
 	probability = GUARANTEED

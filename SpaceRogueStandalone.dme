@@ -15,7 +15,11 @@
 
 // BEGIN_INCLUDE
 #include "code\_defines.dm"
+#include "code\_libs\flaticon\flat_icon.dm"
+#include "code\_libs\sound\soundsys.dm"
+#include "code\_libs\timer\timers.dm"
 #include "code\adjacent.dm"
+#include "code\areas.dm"
 #include "code\atom.dm"
 #include "code\auxtools.dm"
 #include "code\qdel.dm"
@@ -29,8 +33,6 @@
 #include "code\datum\systems\master.dm"
 #include "code\datum\systems\processor.dm"
 #include "code\datum\systems\station.dm"
-#include "code\libs\flaticon\flat_icon.dm"
-#include "code\libs\sound\soundsys.dm"
 #include "code\mobs\client.dm"
 #include "code\mobs\lobbyman.dm"
 #include "code\mobs\human\human.dm"

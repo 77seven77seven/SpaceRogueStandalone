@@ -1,16 +1,16 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "a" = (
 /turf/open/floor,
-/area)
+/area/station)
 "b" = (
 /obj/abstract/landmark/start{
 	name = "lobbyman"
 	},
 /turf/open/floor,
-/area)
+/area/station)
 "e" = (
 /turf/solid/window,
-/area)
+/area/station)
 "f" = (
 /obj/decal{
 	icon_state = "endera3";
@@ -18,7 +18,7 @@
 	pixel_y = 32
 	},
 /turf/open/space,
-/area)
+/area/space)
 "g" = (
 /obj/decal{
 	icon_state = "chezsign2";
@@ -26,7 +26,10 @@
 	pixel_y = -32
 	},
 /turf/open/floor,
-/area)
+/area/station)
+"h" = (
+/turf/solid/window,
+/area/station/medical)
 "i" = (
 /obj/decal{
 	icon_state = "chezsign1";
@@ -38,13 +41,19 @@
 	pixel_y = 22
 	},
 /turf/open/floor,
-/area)
+/area/station)
 "j" = (
 /obj/abstract/landmark/start{
 	name = "backup"
 	},
 /turf/open/floor,
-/area)
+/area/station)
+"l" = (
+/obj/deco/poster{
+	pixel_x = -32
+	},
+/turf/open/floor,
+/area/station)
 "m" = (
 /obj/decal{
 	icon_state = "endera2";
@@ -52,23 +61,23 @@
 	pixel_y = 32
 	},
 /turf/open/space,
-/area)
+/area/space)
 "n" = (
 /turf/solid/wall,
-/area)
+/area/station)
 "o" = (
 /obj/deco/plant{
 	pixel_x = -10;
 	pixel_y = 19
 	},
 /turf/open/floor,
-/area)
+/area/station)
 "p" = (
 /obj/solid/door{
 	access = list("DIRECTOR")
 	},
 /turf/open/floor,
-/area)
+/area/station)
 "q" = (
 /obj/decal{
 	icon_state = "chezsign1";
@@ -76,7 +85,13 @@
 	pixel_y = -32
 	},
 /turf/open/floor,
-/area)
+/area/station)
+"r" = (
+/obj/deco/poster{
+	pixel_y = 32
+	},
+/turf/open/floor,
+/area/station)
 "t" = (
 /obj/decal{
 	icon_state = "chezsign3";
@@ -84,20 +99,28 @@
 	pixel_y = -32
 	},
 /turf/open/floor,
-/area)
+/area/station)
 "v" = (
 /obj/door_control,
 /turf/solid/wall,
-/area)
+/area/station)
 "w" = (
 /obj/solid/door{
-	access = list("CORP")
+	access = list("CORP");
+	dir = 4
 	},
 /turf/open/floor,
-/area)
+/area/station)
+"y" = (
+/turf/solid/wall,
+/area/station/medical)
+"z" = (
+/obj/solid/door/glass,
+/turf/open/floor,
+/area/station)
 "A" = (
 /turf/open/floor/dark,
-/area)
+/area/station)
 "B" = (
 /obj/decal{
 	icon_state = "chezsign3";
@@ -105,7 +128,7 @@
 	pixel_y = 32
 	},
 /turf/open/floor,
-/area)
+/area/station)
 "C" = (
 /obj/decal{
 	icon_state = "chezsign4";
@@ -113,46 +136,48 @@
 	pixel_y = 32
 	},
 /turf/open/floor,
-/area)
+/area/station)
 "D" = (
 /obj/item/weapon/knife,
 /turf/open/floor,
-/area)
-"E" = (
-/obj/light,
-/turf/open/floor,
-/area)
+/area/station)
 "F" = (
 /obj/decal{
 	icon_state = "endera1";
 	pixel_y = 32
 	},
 /turf/open/space,
-/area)
+/area/space)
 "H" = (
-/obj/light/Small,
 /turf/open/floor,
-/area)
+/area/station/medical)
 "I" = (
 /obj/deco/plant{
 	pixel_x = 9;
 	pixel_y = 20
 	},
 /turf/open/floor,
-/area)
+/area/station)
+"J" = (
+/mob/human,
+/obj/deco/poster{
+	pixel_y = 32
+	},
+/turf/open/floor,
+/area/station)
 "K" = (
 /obj/decal{
 	icon_state = "departures2"
 	},
 /turf/solid/wall,
-/area)
+/area/station)
 "L" = (
 /turf/open/space,
-/area)
+/area/space)
 "M" = (
 /mob/human,
 /turf/open/floor,
-/area)
+/area/station)
 "N" = (
 /obj/decal{
 	icon_state = "endera4";
@@ -160,7 +185,7 @@
 	pixel_y = 32
 	},
 /turf/open/space,
-/area)
+/area/space)
 "O" = (
 /obj/decal{
 	icon_state = "chezsign4";
@@ -168,17 +193,23 @@
 	pixel_y = -32
 	},
 /turf/open/floor,
-/area)
+/area/station)
+"P" = (
+/obj/solid/door{
+	dir = 4
+	},
+/turf/open/floor,
+/area/station)
 "R" = (
 /obj/solid/door,
 /turf/open/floor,
-/area)
+/area/station)
 "S" = (
 /obj/decal{
 	icon_state = "departures4"
 	},
 /turf/solid/wall,
-/area)
+/area/station)
 "U" = (
 /obj/decal{
 	icon_state = "chezsign2";
@@ -186,19 +217,33 @@
 	pixel_y = 32
 	},
 /turf/open/floor,
-/area)
+/area/station)
 "V" = (
 /obj/decal{
 	icon_state = "departures1"
 	},
 /turf/solid/wall,
-/area)
+/area/station)
+"W" = (
+/obj/door_control,
+/turf/solid/wall,
+/area/station/medical)
 "X" = (
 /obj/decal{
 	icon_state = "departures3"
 	},
 /turf/solid/wall,
-/area)
+/area/station)
+"Y" = (
+/obj/solid/door/glass,
+/turf/open/floor,
+/area/station/medical)
+"Z" = (
+/obj/solid/door/glass{
+	dir = 4
+	},
+/turf/open/floor,
+/area/station/medical)
 
 (1,1,1) = {"
 L
@@ -6096,12 +6141,12 @@ n
 n
 n
 w
-n
+v
 n
 n
 n
 w
-n
+v
 n
 L
 n
@@ -6474,7 +6519,7 @@ a
 a
 a
 a
-n
+v
 a
 a
 a
@@ -6861,7 +6906,7 @@ a
 a
 a
 n
-a
+r
 a
 a
 n
@@ -7007,7 +7052,7 @@ L
 L
 n
 n
-R
+P
 n
 L
 L
@@ -7246,7 +7291,7 @@ a
 a
 a
 a
-a
+l
 a
 n
 a
@@ -7502,7 +7547,7 @@ a
 a
 a
 a
-n
+v
 a
 a
 a
@@ -7515,7 +7560,7 @@ L
 L
 n
 v
-R
+P
 n
 n
 n
@@ -7768,7 +7813,7 @@ L
 L
 L
 n
-M
+J
 a
 a
 a
@@ -7877,7 +7922,7 @@ a
 a
 a
 n
-E
+a
 a
 a
 n
@@ -7994,8 +8039,8 @@ a
 a
 a
 n
-n
-w
+v
+P
 n
 n
 n
@@ -8025,7 +8070,7 @@ V
 M
 a
 D
-E
+a
 n
 m
 L
@@ -8630,8 +8675,8 @@ a
 n
 n
 n
-n
-R
+v
+P
 n
 e
 e
@@ -8742,6 +8787,7 @@ a
 a
 a
 a
+l
 a
 a
 a
@@ -8755,8 +8801,7 @@ a
 a
 a
 a
-a
-a
+l
 a
 a
 a
@@ -8766,13 +8811,13 @@ a
 a
 a
 n
+r
 a
 a
 a
-H
 a
 a
-a
+l
 a
 a
 a
@@ -8911,7 +8956,7 @@ a
 a
 a
 n
-E
+r
 a
 a
 a
@@ -9019,7 +9064,7 @@ a
 a
 a
 a
-n
+v
 a
 a
 a
@@ -9127,19 +9172,19 @@ n
 n
 a
 n
+y
+y
+y
+y
+y
+h
+y
+Z
+W
+y
 n
-n
-n
-n
-n
-e
-e
-R
-n
-n
-n
-n
-R
+v
+P
 n
 n
 n
@@ -9254,16 +9299,16 @@ a
 a
 a
 a
-n
-a
-a
-a
-n
-a
-a
-a
-a
-n
+y
+H
+H
+H
+y
+H
+H
+H
+H
+y
 a
 a
 a
@@ -9381,16 +9426,16 @@ a
 a
 a
 a
-n
-a
-a
-a
-n
-a
-a
-a
-a
-n
+y
+H
+H
+H
+y
+H
+H
+H
+H
+y
 a
 a
 a
@@ -9508,16 +9553,16 @@ a
 a
 a
 a
-n
-a
-a
-a
-n
-a
-a
-a
-a
-n
+y
+H
+H
+H
+y
+H
+H
+H
+H
+y
 a
 a
 a
@@ -9550,7 +9595,7 @@ a
 a
 a
 a
-R
+z
 a
 a
 a
@@ -9635,16 +9680,16 @@ a
 a
 a
 a
-n
-a
-a
-a
-n
-a
-a
-a
-a
-n
+y
+H
+H
+H
+W
+H
+H
+H
+H
+y
 a
 a
 a
@@ -9762,22 +9807,22 @@ a
 a
 a
 a
-n
-a
-a
-a
-R
-a
-a
-a
-a
-n
-R
-n
-n
+y
+H
+H
+H
+Y
+H
+H
+H
+H
+y
+P
 n
 n
-R
+n
+v
+P
 n
 n
 n
@@ -9889,16 +9934,16 @@ a
 a
 a
 a
-n
-a
-a
-a
-n
-a
-a
-a
-a
-n
+y
+H
+H
+H
+y
+H
+H
+H
+H
+y
 a
 a
 n
@@ -10016,16 +10061,16 @@ a
 a
 a
 a
-n
-n
-n
-n
-n
-n
-n
-n
-n
-n
+y
+y
+y
+y
+y
+y
+y
+y
+y
+y
 a
 a
 n
@@ -10405,7 +10450,7 @@ n
 n
 n
 n
-a
+A
 A
 A
 A

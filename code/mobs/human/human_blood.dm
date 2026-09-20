@@ -11,10 +11,8 @@
 	pixel_x = rand(-5,5)
 	pixel_y = rand(-5,5)
 
-	spawn(500)
-		animate(src, 500, alpha = 0)
-		sleep(500)
-		qdel(src)
+	animate(src, 500, alpha = 0)
+	addtimer(CALLBACK_GLOBAL(/proc/qdel, src), 500)
 
 /atom/movable/blood/splatter/New(loc, ss)
 	. = ..()

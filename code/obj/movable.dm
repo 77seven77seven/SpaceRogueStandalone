@@ -7,21 +7,21 @@
 	if(Adjacent(user))
 		if(ishuman(user))
 			var/mob/human/H = user
-			interact(H, H.holding)
+			interact(H, H.holding, params)
 		else
-			interact(user)
+			interact(user, params = params)
 	else
 		if(ishuman(user))
 			var/mob/human/H = user
-			interact_ranged(H, H.holding)
+			interact_ranged(H, H.holding, params)
 		else
-			interact_ranged(user)
+			interact_ranged(user, params = params)
 	
-/atom/movable/proc/interact(mob/user, obj/item/held_item)
+/atom/movable/proc/interact(mob/user, obj/item/held_item, params)
 	user.face_atom(src)
 	return
 
-/atom/movable/proc/interact_ranged(mob/user, obj/item/held_item)
+/atom/movable/proc/interact_ranged(mob/user, obj/item/held_item, params)
 	return
 
 /atom/movable/proc/swing_anim(atom/A, pixelirona = 16, rostra = 15, timera = 2, rev = FALSE)

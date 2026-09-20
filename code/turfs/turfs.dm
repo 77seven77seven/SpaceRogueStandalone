@@ -9,7 +9,8 @@
 	// give all non-dense turfs a 47-state autojoining shadow.
 	if(!density)
 		var/n = autojoin47("density")
-		overlays += icon('icons/turf/autojoin/shadows.dmi', "[n]")
+		var/icon/shadow = icon('icons/turf/autojoin/shadows.dmi', "[n]")
+		overlays += shadow
 
 	// give all dense turfs a 16-state autojoining outline.
 	else
@@ -29,6 +30,11 @@
 
 	base_icon_state = "rwall"
 	icon_state = "rwall0"
+
+/turf/solid/wall/Initialize()
+	. = ..()
+	var/rando = rand(230,255)
+	src.color = rgb(rando,rando,rando)
 
 /turf/solid/window
 	name = "window"
@@ -64,7 +70,13 @@
 	desc = "The final frontier."
 	icon = 'icons/turf/space.dmi'
 	icon_state = "roguespace"
+	var/cahed
 
 /turf/open/space/Initialize()
 	. = ..()
 	dir = pick(SOUTH,NORTH,WEST,EAST)
+	
+	var/tim = 100 - rand(-20,20)
+
+	animate(src, color="#f00f", easing=QUAD_EASING|EASE_OUT, time=tim, loop=-1)
+	animate(color="#ffff", easing=QUAD_EASING|EASE_IN, time=tim)

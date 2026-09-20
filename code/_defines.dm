@@ -11,6 +11,7 @@
 #define PI 3.1416
 #define INFINITY 1e31 //closer then enough
 
+#define QDEL_IN(item, time) addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(qdel), item), time)
 #define QDEL_NULL(item) qdel(item); item = null
 #define QDEL_LIST(L) if(L) { for(var/I in L) qdel(I); L.Cut(); }
 //#define QDEL_LIST_IN(L, time) addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(______qdel_list_wrapper), L), time, TIMER_STOPPABLE)
@@ -41,12 +42,6 @@
 
 #define isitem(A) (istype(A, /obj/item))
 
-#define PROC_REF(X) (nameof(.proc/##X))
-#define VERB_REF(X) (nameof(.verb/##X))
-#define TYPE_PROC_REF(TYPE, X) (nameof(##TYPE.proc/##X))
-#define TYPE_VERB_REF(TYPE, X) (nameof(##TYPE.verb/##X))
-#define GLOBAL_PROC_REF(X) (/proc/##X)
-
 #define TODEGREES(radians) ((radians) * 57.2957795)
 
 #define TORADIANS(degrees) ((degrees) * 0.0174532925)
@@ -67,6 +62,9 @@
 #define HUD_PLANE 21
 #define HUD_LAYER 21
 
+#define AREA_PLANE 20
+#define GENERIC_PLANE 1
+
 // Human vital statistics. Needs are expressed as a percentage where zero is
 // satisfied and the maximum is critical.
 #define HUMAN_MAX_HEALTH 100
@@ -74,8 +72,8 @@
 #define HUMAN_NEEDS_PROCESS_INTERVAL 25
 #define HUMAN_SORROW_MAX_CYCLES 10
 #define HUMAN_NEEDS_HUD_LERP 0.15
-#define HUMAN_HUNGER_FULL_TIME (25 * 60 * 10)
-#define HUMAN_THIRST_FULL_TIME (30 * 60 * 10)
+#define HUMAN_HUNGER_FULL_TIME (25 * 80 * 10)
+#define HUMAN_THIRST_FULL_TIME (30 * 80 * 10)
 
 // SKILLS
 

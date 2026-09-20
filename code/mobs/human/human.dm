@@ -224,6 +224,8 @@
 
 	QDEL_NULL(hud_holder)
 	client.screen.Cut()
+
+	client << output(null, "outputwindow.output")
 	
 	if(processor)
 		processor.processing -= src
@@ -248,10 +250,14 @@
 	SEND_SOUND(client, null)
 	SEND_SOUND(client, sound('sound/death.ogg', channel = open_sound_channel()))
 	animate(death, time = 50, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 255)
+
+	chat_info("[pick("I wouldn't worry too much about it.","It happens. Be patient, you're gonna be good as new in no time.","Cry cry cry... far away from the fame.","Like the Pharaeon.","Chameleon? Chameleon?! SPEAK TO ME!","Axolotl, axolotl, hear my prayer...")] <b>(-1 XP)</b>", "bad")
+
 	spawn(100)
+		chat_info("[pick("Please, don't hate me. I'm only doing what I was meant to do.","I still love you... if that matters.","Life begins anew!","What were you expecting? It's a dangerous place.","Oh god, help me! HELP ME!")]")
 		client.color = null
-		animate(death, time = 5, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 0)
-		spawn(5)
+		animate(death, time = 10, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 0)
+		spawn(10)
 			qdel(death)
 
 		var/mob/lobbyman/newman = new()
@@ -301,12 +307,12 @@
 
 /mob/human/proc/UpdateMoveDelay()
 	var/penalty = 0
-	if(hunger >= 50)
-		penalty++
 	if(hunger >= 70)
 		penalty++
+	if(hunger >= 90)
+		penalty++
 
-	if(thirst >= 50)
+	if(thirst >= 70)
 		penalty++
 	if(thirst >= 90)
 		penalty++
@@ -474,12 +480,12 @@
 
 	if(mind.dissident) // dissidence welcomings flavor text
 		chat_info("\n<b>----@#$%&!-------#$%---!!!HAAHAHAHHA---</b>\n","bad")
-		chat_info("TRANSMISSION DECRYPTED, COURTESY OF THE <b>[pick("BLIND EYES OF A COWARD","MISTAKES IN THE MAKING","CITADEL","CRYING ANGELS","RENNE DANG TOMBOLA","ONES FREED FROM DESIRE","STARMEN","TAK-TAK-TAKYON","GOLDEN BROWNS","AMERICANO","M.I.T.M","P.M.J","D.A.O.T.S","OKTOBERKLUB","VIOLENT TERMS","CZECHOSLOVAK LEGION OF FREEDOM FORCES","DISOBEDIENT","FREE GREEN YOUTH","KABAT","SHKWOR","DARK SABBATH-ON","SPACE CADETS")]!\n</b>","bad")
+		chat_info("TRANSMISSION DECRYPTED, COURTESY OF THE <b>[pick("BLIND EYES OF A COWARD","MISTAKES IN THE MAKING","GUN TO MOUTH, FINGER TO TRIGGER","CRYING ANGELS","RENNE DANG TOMBOLA","ONES FREED FROM DESIRE","STARMEN","TAK-TAK-TAKYON","GOLDEN BROWNS","AMERICANO","M.I.T.M","P.M.J","D.A.O.T.S","OKTOBERKLUB","VIOLENT TERMS","CZECHOSLOVAK LEGION OF FREEDOM FORCES","DISOBEDIENT","FREE GREEN YOUTH","KABAT","SHKWOR","DARK SABBATH-ON","SPACE CADETS","MAINLINE EXILES","EAST SIDE MILITIA")]!\n</b>","bad")
 		chat_info("<b>[pick("INTERNAL ARMISTICE!","HAVE YOU EVER SEEN THE BIRTH OF A STAR?!","FAR FAR FAR, FAR AWAY FROM THE FAME!","WE STILL REMEMBER YOUR NAME!","YOU ARE OUR GUIDE!","OUR PRIDE!","WE SHALL MOURN THE DAY YOU DIE!","TRYING TO DEFY THE EMPOWERED!","LITTLE FIRE THAT THEY CAN'T PUT OUT!","FETCH ME A BUCKET, THIS IS ABOUT TO BLOW!", "ONE DAY YOU'LL LEAVE THIS WORLD BEHIND!","LIFE IN IVORY BLACK!","MAYBE YOU SHOULD CONSIDER... MORE VIOLENT TERMS?!","RING RING GOES THE TELEPHONE... I'M HANGING UP ON YOU!!")]</b>, YOUR MISSION IS: <b>[uppertext(mind.special_goal)]</b>","bad")
 		chat_info("[mind.special_goal.desc] ([mind.special_goal.award] XP)","bad")
 	else
 		if(client.dissidence_preference)
-			chat_info("\nYou FAILED the roll for becoming a dissident. <b>[pick("Better luck next time.","I'm sure you'll get to be a bad guy next time.","Aww... is someone sad? Don't worry, you can still kill people. Just with less leeway now.")]</b>","bad")
+			chat_info("\nYou FAILED the roll for becoming a dissident. <b>[pick("Better luck next time.","I'm sure you'll get to be a bad guy next time.","Aww... is someone sad? Don't worry, you can still kill people. Just with less leeway now.","TIME TO BOMB THE GOVERNME- Oh, we didn't get it? Oh. Okay.")]</b>","bad")
 
 /mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE, randomize_certain_values = TRUE)
 	if(!mind)
