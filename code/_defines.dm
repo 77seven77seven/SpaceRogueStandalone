@@ -20,9 +20,7 @@
 #define QDEL_LIST_ASSOC_VAL(L) if(L) { for(var/I in L) qdel(L[I]); L.Cut(); }
 
 //wrapper macros for easier grepping
-#define DIRECT_OUTPUT(A, B) A << B
 #define SEND_IMAGE(target, image) DIRECT_OUTPUT(target, image)
-#define SEND_SOUND(target, sound) DIRECT_OUTPUT(target, sound)
 #define SEND_TEXT(target, text) DIRECT_OUTPUT(target, text)
 #define WRITE_FILE(file, text) DIRECT_OUTPUT(file, text)
 #define WRITE_LOG(log, text) text2file(text,log) //rustg_log_write
@@ -86,3 +84,22 @@
 #define TECH "TECH"
 #define MINE "MINE"
 #define MEDI "MEDI"
+
+// FLICK OVERLAYS
+
+/proc/remove_images_from_clients(image/I, list/show_to)
+	for(var/client/C in show_to)
+		C.images -= I
+
+/proc/flick_overlay(image/I, list/show_to, duration)
+	for(var/client/C in show_to)
+		C.images += I
+	addtimer(CALLBACK_GLOBAL(/proc/remove_images_from_clients, I, show_to), duration, TIMER_CLIENT_TIME)
+
+/proc/flick_overlay_view(image/I, atom/target, duration) //wrapper for the above, flicks to everyone who can see the target atom
+	var/list/viewing = list()
+	for(var/m in viewers(target))
+		var/mob/M = m
+		if(M.client)
+			viewing += M.client
+	flick_overlay(I, viewing, duration)

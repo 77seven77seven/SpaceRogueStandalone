@@ -2,7 +2,6 @@
 #define BLOOD_VOLUME_RAGDOLL_RISK  40  // at/below this blood volume, collapse becomes possible
 #define BLEED_FX_MIN_SEVERITY      2   // minimum bleed_amount needed to show a blood-splash effect
 #define BLEED_FX_CHANCE            70  // % chance to show the splash when eligible
-#define BLEED_FX_LIFETIME          10  // deciseconds the splash effect persists (1 second)
 #define RAGDOLL_CHANCE_MIN         10  // per-tick collapse chance floor at low blood
 #define RAGDOLL_CHANCE_MAX         40  // per-tick collapse chance ceiling at low blood
 #define RAGDOLL_LASTWORDS_MIN      0   // chance floor of speaking a line when collapsing
@@ -35,15 +34,9 @@ var/global/list/bleedout_lastwords = list(
 		world << "BLOOD LOG: bleeding [bleeding], blood [blood], bleed amount [bleed_amount]"
 
 		if(bleed_amount >= BLEED_FX_MIN_SEVERITY && prob(BLEED_FX_CHANCE))
-			var/atom/movable/blood_effect = new()
-			blood_effect.icon = 'icons/human/human.dmi'
-			blood_effect.layer = MOB_LAYER + 0.1
-			vis_contents += blood_effect
-			flick("bleed", blood_effect)
+			flick_overlay_view(image('icons/human/human.dmi', src, "bleed", MOB_LAYER + 0.1), src, 10)
 
 			new /atom/movable/blood/drip(get_turf(src))
-
-			addtimer(CALLBACK(src, PROC_REF(clear_blood_effect), blood_effect), BLEED_FX_LIFETIME)
 
 		if(dead)
 			return FALSE

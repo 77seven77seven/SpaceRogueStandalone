@@ -14,10 +14,10 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
+#include "_libs\flaticon\flat_icon.dm"
+#include "_libs\sound\soundsys.dm"
+#include "_libs\timer\timers.dm"
 #include "code\_defines.dm"
-#include "code\_libs\flaticon\flat_icon.dm"
-#include "code\_libs\sound\soundsys.dm"
-#include "code\_libs\timer\timers.dm"
 #include "code\adjacent.dm"
 #include "code\areas.dm"
 #include "code\atom.dm"
@@ -45,6 +45,7 @@
 #include "code\obj\deco.dm"
 #include "code\obj\door.dm"
 #include "code\obj\movable.dm"
+#include "code\obj\vendmachines.dm"
 #include "code\obj\hud\hud.dm"
 #include "code\obj\items\clothing.dm"
 #include "code\obj\items\items.dm"

@@ -1,4 +1,5 @@
-
+#define DIRECT_OUTPUT(A, B) A << B // I'm stupid.
+#define SEND_SOUND(target, sound) DIRECT_OUTPUT(target, sound)
 
 /*
 When a client is created, this creates a sound system datum for them.
