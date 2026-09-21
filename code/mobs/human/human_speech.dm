@@ -43,11 +43,8 @@
 	var/pitch = pitch_override || voice_freq
 	var/my_seq = ++voice_seq
 
-	var/list/hearer_list = list()
 	for(var/mob/M in hearers(VOICE_HEAR_RANGE, src))
 		if(M.client)
-			hearer_list += M
-
 			var/icon/I = getFlatIcon(src, SOUTH)
 			M << "\icon[I] <b>[first_name] [last_name]</b> : \"<span style='color:[voice_color];font-family:Verdana'>[message]</span>\""
 
@@ -85,7 +82,7 @@
 		if(ch != " " && ch != "\n")
 			blip_count++
 			if(blip_count % VOICE_BLIP_EVERY == 0)
-				PlayBlip(hearer_list, pitch, sound_path)
+				PlayBlip(pitch, sound_path)
 
 		sleep(VOICE_TYPE_SPEED)
 
@@ -97,10 +94,8 @@
 		if(voice_bubble == bubble)
 			voice_bubble = null
 
-/mob/human/proc/PlayBlip(list/hearer_list, pitch, sound_path)
+/mob/human/proc/PlayBlip(pitch, sound_path)
 	var/wobble = 1 + (rand(-100, 100) * 0.01 * VOICE_JITTER)
 	var/freq = VOICE_BASE_FREQUENCY * pitch * wobble
-	for(var/mob/M in hearer_list)
-		if(!M.client)
-			continue
-		M.client.sound_system.PlaySound(sound_path, src, frequency = freq, channel = voice_channel, vol = VOICE_BLIP_VOLUME)
+
+	playsound(get_turf(src), sound_path, VOICE_BLIP_VOLUME, frequency = freq, channel = voice_channel)

@@ -248,7 +248,7 @@
 	client.color = "#000000"
 
 	SEND_SOUND(client, null)
-	SEND_SOUND(client, sound('sound/death.ogg', channel = open_sound_channel()))
+	SEND_SOUND(client, sound('sound/death.ogg'))
 	animate(death, time = 50, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 255)
 
 	chat_info("[pick("I wouldn't worry too much about it.","It happens. Be patient, you're gonna be good as new in no time.","Cry cry cry... far away from the fame.","Like the Pharaeon.","Chameleon? Chameleon?! SPEAK TO ME!","Axolotl, axolotl, hear my prayer...")] <b>(-1 XP)</b>", "bad")
@@ -466,9 +466,9 @@
 	return C.remove_from_mob()
 
 /mob/human/proc/DoSpawnEffects()
-	SEND_SOUND(client, sound('sound/music/spawn.ogg', volume = 75, channel = open_sound_channel()))
+	SEND_SOUND(client, sound('sound/music/spawn.ogg', volume = 75))
 	if(mind.dissident)
-		spawn(5) SEND_SOUND(client, sound('sound/music/violent_terms.ogg', volume = 75, channel = open_sound_channel()))
+		spawn(5) SEND_SOUND(client, sound('sound/music/violent_terms.ogg', volume = 75))
 	client.color = "#000000"
 	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 50)
 

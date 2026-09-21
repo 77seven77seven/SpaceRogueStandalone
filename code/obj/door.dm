@@ -87,7 +87,7 @@
 		// opening
 		animate(door_l, time, pixel_x = -px, pixel_y = -py, easing = QUAD_EASING)
 		animate(door_r, time, pixel_x = px, pixel_y = py, easing = QUAD_EASING)
-	playsound('sound/effects/obj/door.ogg', get_turf(src))
+	playsound(get_turf(src), 'sound/effects/obj/door.ogg', 75, TRUE, 1, 4)
 
 	doing = TRUE
 	if(opacita)
@@ -119,14 +119,14 @@
 				return FALSE
 			if(!linked_door.access.len || (find_common_entry(H.mind?.current_job?.access, linked_door.access) || H.mind?.current_job?.access.Find("EVERYTHING")))
 				flick("[initial(icon_state)]-allow",src)
-				playsound('sound/effects/pda/airlock_grant.ogg', get_turf(src))
+				playsound(get_turf(src), 'sound/effects/pda/airlock_grant.ogg')
 
 				H.chat_pda("ACCESS GRANTED", "good")
 				linked_door.do_door()
 			else
 				flick("[initial(icon_state)]-deny",src)
 				H.chat_pda("ACCESS DENIED", "bad")
-				playsound('sound/effects/pda/airlock_deny.ogg', get_turf(src))
+				playsound(get_turf(src), 'sound/effects/pda/airlock_deny.ogg')
 				if(linked_door.shock_on_deny)
 					H.TakeDamage(linked_door.shock_damage, "access denial shock")
 
