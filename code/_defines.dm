@@ -85,6 +85,15 @@
 #define MINE "MINE"
 #define MEDI "MEDI"
 
+// ECONOMY
+
+#define PAYCHECK_LOW 10
+#define PAYCHECK_STANDARD 25
+#define PAYCHECK_CORPO 50
+#define PAYCHECK_VHIGH 100 // For very important corporate roles, that are generally very rare.
+
+#define STATION_BUDGET_DEFAULT 1500
+
 // FLICK OVERLAYS
 
 /proc/remove_images_from_clients(image/I, list/show_to)

@@ -17,6 +17,9 @@
 
 	var/corporate = FALSE
 	var/fancy = FALSE
+	
+	var/unemployed = FALSE
+	var/paycheck = PAYCHECK_STANDARD
 
 	var/list/access = list()
 
@@ -80,6 +83,8 @@
 	probability = RARE
 	corporate = TRUE
 
+	paycheck = 0 // Doesn't get paychecks. Different from being unemployed.
+
 	access = list("EVERYTHING")
 
 	antag_can_roll = FALSE
@@ -102,6 +107,8 @@
 	probability = UNCOMMON
 	corporate = TRUE
 	shoes_is = "mercenary_shoes"
+
+	paycheck = PAYCHECK_CORPO
 
 	access = list("CORP")
 
@@ -144,6 +151,8 @@
 	total_positions = 2
 	probability = UNCOMMON
 
+	paycheck = PAYCHECK_CORPO
+
 	antag_chance_min = 10
 	antag_chance_max = 40
 
@@ -167,6 +176,8 @@
 	total_positions = 4
 	probability = COMMON
 
+	paycheck = PAYCHECK_CORPO
+
 /datum/role/medicaloid/equip(mob/human/H)
 	. = ..()
 	
@@ -182,6 +193,9 @@
 
 	total_positions = 20
 	probability = GUARANTEED
+
+	paycheck = PAYCHECK_LOW // Unemployed.
+	unemployed = TRUE
 
 	antag_chance_min = 1
 	antag_chance_max = 70

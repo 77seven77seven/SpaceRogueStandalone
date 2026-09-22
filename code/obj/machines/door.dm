@@ -1,13 +1,12 @@
-/obj/solid
-	density = TRUE
-	opacity = TRUE
-
-/obj/solid/door
+/obj/machine/door
 	name = "door"
 	desc = "It's a door."
 	icon = 'icons/obj/Door1.dmi'
 	icon_state = "door"
 	vis_flags = VIS_INHERIT_ID
+
+	density = TRUE
+	opacity = TRUE
 
 	var/open = FALSE
 	var/doing = FALSE
@@ -25,7 +24,7 @@
 	var/atom/movable/door_l
 	var/atom/movable/door_r
 
-/obj/solid/door/glass
+/obj/machine/door/glass
 	name = "win-door"
 	icon_state = "door_glass"
 	opacity = FALSE
@@ -36,7 +35,7 @@
 	mouse_opacity = 2
 	layer = TURF_LAYER
 
-/obj/solid/door/Initialize()
+/obj/machine/door/Initialize()
 	. = ..()
 	icon_state = null
 
@@ -63,7 +62,7 @@
 				DCC.linked_door = src
 				break
 
-/obj/solid/door/proc/do_door()
+/obj/machine/door/proc/do_door()
 	if(doing)
 		return FALSE
 
@@ -107,7 +106,7 @@
 	icon = 'icons/obj/Door1.dmi'
 	icon_state = "door_control"
 	layer = OBJ_LAYER + 0.2
-	var/obj/solid/door/linked_door
+	var/obj/machine/door/linked_door
 
 /obj/door_control/interact(user)
 	. = ..()

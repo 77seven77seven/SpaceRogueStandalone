@@ -1,8 +1,8 @@
-/obj/vendor
+/obj/machine/vendor
 	name = "WENDR"
 	desc = ""
 
-	icon = 'icons/obj/vendor.dmi'
+	icon = 'icons/obj/terminals.dmi'
 	icon_state = "vend"
 
 	density = TRUE
@@ -11,7 +11,7 @@
 	var/list/items = list()
 	var/jammed = FALSE
 
-/obj/vendor/interact(mob/user, obj/item/held_item, params)
+/obj/machine/vendor/interact(mob/user, obj/item/held_item, params)
 	. = ..()
 	var/_x = text2num(params2list(params)["icon-x"])
 	var/_y = text2num(params2list(params)["icon-y"])
@@ -32,6 +32,6 @@
 
 		world << "right"
 
-/obj/vendor/wall
+/obj/machine/vendor/wall
 	density = FALSE
 	icon_state = "vend_wall"

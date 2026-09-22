@@ -4,7 +4,7 @@
 	
 	var/datum/investment/investments = list()
 
-	var/treasury = 1500
+	var/treasury = STATION_BUDGET_DEFAULT
 	var/treasury_defaulted = 0 // when at 3, the Director gets wanted and FIRED!
 	var/mob/human/director
 
@@ -19,4 +19,7 @@
 
 	var/list/newplayer_start = list()
 
-/datum/system/station
+/datum/system/station/proc/do_paychecks()
+	for(var/mob/human/H in humans)
+		if(H.mind.current_job.unemployed)
+			H.chat_pda("Unemployed fucker.","pay")

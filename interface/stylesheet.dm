@@ -7,6 +7,7 @@
 
 .good				{color: #A4A4A2;}
 .bad				{color: #615f5f;}
+.pay				{color: #646682;}
 
 .icon				{height: 1em;	width: auto;}
 IMG.icon {width: 16px; height: 16px}

@@ -44,7 +44,7 @@
 		return ""
 	return {"
 		<div style='color:[owner.hud_color]; text-align:left; font-size: 70%; font-family: serif;'>
-		WEALTH: [owner.wealth]$
+		WEALTH: [owner.wealth]§
 		HUNGER: [floor(owner.hud_hunger)]%
 		THIRST: [floor(owner.hud_thirst)]%
 		SORROW: [floor(owner.sorrow)]%<br>
