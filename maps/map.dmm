@@ -73,7 +73,7 @@
 /turf/open/floor,
 /area/station)
 "p" = (
-/obj/solid/door{
+/obj/machine/door{
 	access = list("DIRECTOR")
 	},
 /turf/open/floor,
@@ -105,7 +105,7 @@
 /turf/solid/wall,
 /area/station)
 "w" = (
-/obj/solid/door{
+/obj/machine/door{
 	access = list("CORP");
 	dir = 4
 	},
@@ -115,7 +115,7 @@
 /turf/solid/wall,
 /area/station/medical)
 "z" = (
-/obj/solid/door/glass,
+/obj/machine/door/glass,
 /turf/open/floor,
 /area/station)
 "A" = (
@@ -139,6 +139,12 @@
 /area/station)
 "D" = (
 /obj/item/weapon/knife,
+/turf/open/floor,
+/area/station)
+"E" = (
+/obj/machine/pay{
+	pixel_x = -32
+	},
 /turf/open/floor,
 /area/station)
 "F" = (
@@ -195,13 +201,13 @@
 /turf/open/floor,
 /area/station)
 "P" = (
-/obj/solid/door{
+/obj/machine/door{
 	dir = 4
 	},
 /turf/open/floor,
 /area/station)
 "R" = (
-/obj/solid/door,
+/obj/machine/door,
 /turf/open/floor,
 /area/station)
 "S" = (
@@ -235,11 +241,11 @@
 /turf/solid/wall,
 /area/station)
 "Y" = (
-/obj/solid/door/glass,
+/obj/machine/door/glass,
 /turf/open/floor,
 /area/station/medical)
 "Z" = (
-/obj/solid/door/glass{
+/obj/machine/door/glass{
 	dir = 4
 	},
 /turf/open/floor,
@@ -8171,7 +8177,7 @@ a
 a
 a
 a
-a
+E
 a
 a
 q

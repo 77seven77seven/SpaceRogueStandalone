@@ -11,12 +11,12 @@
 	var/list/items = list()
 	var/jammed = FALSE
 
-/obj/machine/vendor/interact(mob/user, obj/item/held_item, params)
+/obj/machine/vendor/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()
 	var/_x = text2num(params2list(params)["icon-x"])
 	var/_y = text2num(params2list(params)["icon-y"])
 
-	if((_x >= 15 && _x <= 18) && (_y >= 12 && _y <= 18))
+	if((_x >= 15 && _x <= 18) && (_y >= 12 && _y <= 15))
 		flick_overlay_view(image(src.icon, src, "confirm"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
 		
