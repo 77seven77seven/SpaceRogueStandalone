@@ -22,6 +22,8 @@ var/global/list/landmarks_start_list = list()
 /world/New()
 	master.setup()
 	processor.setup()
+	station.next_paycheck = world.time + rand(4 MINUTES, 7 MINUTES)
+	processor.processing += station
 
 	var/datum/D = new /datum/process_tester
 	processor.processing += D
@@ -299,16 +301,7 @@ proc/get_random_light_color()
 			setDir(WEST)
 
 /mob/human/verb/test()
-	var/image/blood = image('icons/human/blood.dmi', icon_state = "test")
-
-	// 2. Set the blend mode to automatically mask to the parent's pixels
-	blood.blend_mode = BLEND_INSET_OVERLAY
-
-	// 3. Ensure the layer sits nicely on top of the base sprite
-	blood.layer = src.layer + 0.5
-
-	// 4. Add it to the mob without needing KEEP_TOGETHER
-	src.overlays += blood
+	station.do_paychecks()
 
 	addtimer(CALLBACK_GLOBAL(/proc/test, src), 10)
 

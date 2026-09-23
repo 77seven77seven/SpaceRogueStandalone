@@ -2,7 +2,7 @@
 
 /atom/movable/blood
 	icon = 'icons/human/blood.dmi'
-	mouse_opacity = 2
+	mouse_opacity = 0
 	layer = TURF_LAYER
 
 /atom/movable/blood/drip/Initialize()

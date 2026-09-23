@@ -12,6 +12,11 @@
 
 	var/dissident = FALSE
 
+	var/paycheck = 0
+	var/performance_paycheck = 0 // You can increase your normal paycheck by doing your JOB. This value gets added to the default paycheck your job gets.
+
+	var/bonus_paycheck = 0 // director assigned bonus that doesnt get wiped on pay cycle
+
 	var/datum/role/current_job
 
 /datum/mind/New(key)
@@ -47,3 +52,18 @@
 	
 	current_job = new_role
 	current_job.current_positions++
+
+/datum/mind/proc/get_paycheck_to_pay()
+	if(!current_job)
+		return 0
+	return current_job.paycheck + performance_paycheck + bonus_paycheck
+
+/datum/mind/proc/get_paycheck_amount()
+	if(!current_job)
+		return 0
+	return paycheck + performance_paycheck + bonus_paycheck
+
+/datum/mind/proc/nullify_paychecks()
+	paycheck = 0
+	performance_paycheck = 0
+	bonus_paycheck = 0

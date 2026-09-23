@@ -63,6 +63,7 @@
 				break
 
 /obj/machine/door/proc/do_door()
+	playsound(get_turf(src), 'sound/effects/obj/door.ogg', 75, TRUE, 1, 4)
 	if(doing)
 		return FALSE
 
@@ -86,7 +87,6 @@
 		// opening
 		animate(door_l, time, pixel_x = -px, pixel_y = -py, easing = QUAD_EASING)
 		animate(door_r, time, pixel_x = px, pixel_y = py, easing = QUAD_EASING)
-	playsound(get_turf(src), 'sound/effects/obj/door.ogg', 75, TRUE, 1, 4)
 
 	doing = TRUE
 	if(opacita)
