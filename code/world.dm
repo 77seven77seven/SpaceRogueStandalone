@@ -12,7 +12,7 @@ var/global/list/landmarks_start_list = list()
 /world
 	name = "Fringe Sector: Roguestation Endera"
 	fps = 30
-	//icon_size = 32	// 32x32 icon size by default
+	//icon_size = 64	// 32x32 icon size by default
 	view = "13x13"
 	movement_mode = TILE_MOVEMENT_MODE
 
@@ -307,7 +307,7 @@ proc/get_random_light_color()
 /mob/human/verb/test()
 	station.do_paychecks()
 
-	addtimer(CALLBACK_GLOBAL(/proc/test, src), 10)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(test), src), 10)
 
 /proc/test(atom/tt)
 	world << "test complete"

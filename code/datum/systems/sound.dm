@@ -150,7 +150,7 @@
 	sound_to_use.channel = channel || system_sound.random_available_channel()
 	sound_to_use.volume = vol
 
-	world << sound_to_use.channel
+	//world << sound_to_use.channel
 
 	if(vary)
 		if(frequency)

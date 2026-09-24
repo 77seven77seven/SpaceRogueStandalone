@@ -12,7 +12,7 @@
 	pixel_y = rand(-5,5)
 
 	animate(src, 500, alpha = 0)
-	addtimer(CALLBACK_GLOBAL(/proc/qdel, src), 500)
+	QDEL_IN(src, 500)
 
 /atom/movable/blood/splatter/New(loc, ss)
 	. = ..()
@@ -21,4 +21,4 @@
 	animate(src, 3, pixel_y = rand(-5,5), pixel_x = rand(-5,5))
 
 	animate(src, 500, alpha = 0)
-	addtimer(CALLBACK_GLOBAL(/proc/qdel, src), 500)
+	QDEL_IN(src, 500)

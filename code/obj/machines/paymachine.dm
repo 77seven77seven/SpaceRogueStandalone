@@ -6,6 +6,8 @@
 	var/mob/human/identified
 	var/atom/movable/whiteout
 
+	var/icon/overlay
+
 /obj/machine/pay/Initialize()
 	. = ..()
 	whiteout = new(src)
@@ -49,9 +51,29 @@
 			animate(whiteout, 0.5, alpha = 255)
 			animate(alpha = 0, time = 5)
 
-			addtimer(CALLBACK(src, PROC_REF(reset_ident)), 3 SECONDS)
+			get_portrait(user)
+
+			addtimer(CALLBACK(src, PROC_REF(reset_ident)), 3 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
 		else
 			user.chat_pda("What?","bad")
 
+/obj/machine/pay/proc/get_portrait(mob/human/H)
+	var/icon/I = getFlatIcon(H, SOUTH)
+	if(I)
+		var/icon/blend = icon(icon='icons/human/masking.dmi', icon_state="credits")
+		I.Blend(blend, ICON_MULTIPLY)
+		I.Scale(25,25)
+
+		var/mutable_appearance/MA = new /mutable_appearance(I)
+		MA.pixel_x = 4
+		MA.pixel_y = 2
+
+		overlay = MA
+		overlays += overlay
+
 /obj/machine/pay/proc/reset_ident()
 	identified = null
+	overlay = null
+	animate(whiteout, 1, alpha = 255)
+	spawn(1) overlays.Cut()
+	animate(alpha = 0, time = 2)

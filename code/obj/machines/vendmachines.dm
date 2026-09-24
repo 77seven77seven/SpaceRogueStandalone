@@ -19,18 +19,12 @@
 	if((_x >= 15 && _x <= 18) && (_y >= 12 && _y <= 15))
 		flick_overlay_view(image(src.icon, src, "confirm"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
-		
-		world << "confirm"
 	else if((_x >= 11 && _x <= 13) && (_y >= 12 && _y <= 15))
 		flick_overlay_view(image(src.icon, src, "left"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
-
-		world << "left"
 	else if((_x >= 20 && _x <= 22) && (_y >= 12 && _y <= 15))
 		flick_overlay_view(image(src.icon, src, "right"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
-
-		world << "right"
 
 /obj/machine/vendor/wall
 	density = FALSE

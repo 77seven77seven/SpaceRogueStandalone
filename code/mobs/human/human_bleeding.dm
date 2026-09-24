@@ -31,7 +31,7 @@ var/global/list/bleedout_lastwords = list(
 
 		AdjustBlood(-bleed_amount)
 		AdjustBleeding(-bleed_amount)
-		world << "BLOOD LOG: bleeding [bleeding], blood [blood], bleed amount [bleed_amount]"
+		//world << "BLOOD LOG: bleeding [bleeding], blood [blood], bleed amount [bleed_amount]"
 
 		if(bleed_amount >= BLEED_FX_MIN_SEVERITY && prob(BLEED_FX_CHANCE))
 			flick_overlay_view(image('icons/human/human.dmi', src, "bleed", MOB_LAYER + 0.1), src, 10)

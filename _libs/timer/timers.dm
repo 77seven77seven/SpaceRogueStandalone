@@ -37,8 +37,6 @@
 
 /// CALLBACK(target, PROC_REF(name), args...)
 #define CALLBACK new /datum/callback
-/// CALLBACK_GLOBAL(/proc/some_global_proc, args...)
-#define CALLBACK_GLOBAL(PATH, ...) new /datum/callback(GLOBAL_PROC, PATH, ##__VA_ARGS__)
 
 #if DM_VERSION >= 515
 	// nameof() validates at compile time that the proc actually exists.
@@ -415,5 +413,4 @@
  *
  * // Bound arguments, plus a global proc
  * addtimer(CALLBACK(src, PROC_REF(Say), "hello"), 1 SECOND)
- * addtimer(CALLBACK_GLOBAL(/proc/spawn_wave, 3), 30 SECONDS)
  */
