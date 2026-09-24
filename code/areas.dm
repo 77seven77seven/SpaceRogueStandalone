@@ -4,6 +4,8 @@
 	plane = AREA_PLANE
 	invisibility = 101
 
+	var/sound_environment = SOUND_ENVIRONMENT_NONE
+
 /area/space
 	name = "space"
 	icon_state = "space"

@@ -1,3 +1,5 @@
+var/list/extra_resources = list('interface/Tiny5-Regular.ttf')
+
 /client/script = {"<style>
 
 .small				{font-size: 50%;}

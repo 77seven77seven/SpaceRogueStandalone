@@ -15,7 +15,6 @@
 
 // BEGIN_INCLUDE
 #include "_libs\flaticon\flat_icon.dm"
-#include "_libs\sound\playsound.dm"
 #include "_libs\timer\timers.dm"
 #include "code\_defines.dm"
 #include "code\adjacent.dm"
@@ -32,6 +31,7 @@
 #include "code\datum\systems\_system.dm"
 #include "code\datum\systems\master.dm"
 #include "code\datum\systems\processor.dm"
+#include "code\datum\systems\sound.dm"
 #include "code\datum\systems\station.dm"
 #include "code\mobs\client.dm"
 #include "code\mobs\lobbyman.dm"
@@ -50,6 +50,7 @@
 #include "code\obj\items\items.dm"
 #include "code\obj\items\weapons.dm"
 #include "code\obj\machines\door.dm"
+#include "code\obj\machines\infoterminal.dm"
 #include "code\obj\machines\paymachine.dm"
 #include "code\obj\machines\vendmachines.dm"
 #include "code\turfs\autojoin.dm"

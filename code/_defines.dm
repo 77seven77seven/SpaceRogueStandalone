@@ -11,6 +11,37 @@
 #define PI 3.1416
 #define INFINITY 1e31 //closer then enough
 
+//default byond sound environments
+#define SOUND_ENVIRONMENT_NONE -1
+#define SOUND_ENVIRONMENT_GENERIC 0
+#define SOUND_ENVIRONMENT_PADDED_CELL 1
+#define SOUND_ENVIRONMENT_ROOM 2
+#define SOUND_ENVIRONMENT_BATHROOM 3
+#define SOUND_ENVIRONMENT_LIVINGROOM 4
+#define SOUND_ENVIRONMENT_STONEROOM 5
+#define SOUND_ENVIRONMENT_AUDITORIUM 6
+#define SOUND_ENVIRONMENT_CONCERT_HALL 7
+#define SOUND_ENVIRONMENT_CAVE 8
+#define SOUND_ENVIRONMENT_ARENA 9
+#define SOUND_ENVIRONMENT_HANGAR 10
+#define SOUND_ENVIRONMENT_CARPETED_HALLWAY 11
+#define SOUND_ENVIRONMENT_HALLWAY 12
+#define SOUND_ENVIRONMENT_STONE_CORRIDOR 13
+#define SOUND_ENVIRONMENT_ALLEY 14
+#define SOUND_ENVIRONMENT_FOREST 15
+#define SOUND_ENVIRONMENT_CITY 16
+#define SOUND_ENVIRONMENT_MOUNTAINS 17
+#define SOUND_ENVIRONMENT_QUARRY 18
+#define SOUND_ENVIRONMENT_PLAIN 19
+#define SOUND_ENVIRONMENT_PARKING_LOT 20
+#define SOUND_ENVIRONMENT_SEWER_PIPE 21
+#define SOUND_ENVIRONMENT_UNDERWATER 22
+#define SOUND_ENVIRONMENT_DRUGGED 23
+#define SOUND_ENVIRONMENT_DIZZY 24
+#define SOUND_ENVIRONMENT_PSYCHOTIC 25
+//If we ever make custom ones add them here
+#define SOUND_ENVIROMENT_PHASED list(1.8, 0.5, -1000, -4000, 0, 5, 0.1, 1, -15500, 0.007, 2000, 0.05, 0.25, 1, 1.18, 0.348, -5, 2000, 250, 0, 3, 100, 63)
+
 #define QDEL_IN(item, time) addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(qdel), item), time)
 #define QDEL_NULL(item) qdel(item); item = null
 #define QDEL_LIST(L) if(L) { for(var/I in L) qdel(I); L.Cut(); }
@@ -35,6 +66,8 @@
 #define get_area(A) (isarea(A) ? A : get_step(A, 0)?.loc)
 
 #define ishuman(A) (istype(A, /mob/human))
+
+#define isdatum(thing) (istype(thing, /datum))
 
 #define isobj(A) istype(A, /obj) //override the byond proc because it returns true on children of /atom/movable that aren't objs
 
@@ -112,3 +145,51 @@
 		if(M.client)
 			viewing += M.client
 	flick_overlay(I, viewing, duration)
+
+/// Returns TRUE if the input_text ends with the ending
+/proc/endswith(input_text, ending)
+	var/input_length = length(ending)
+	return !!findtext(input_text, ending, -input_length)
+
+/// Generate a grawlix string of length of the text argument.
+/proc/grawlix(text)
+	var/grawlix = ""
+	for(var/iteration in 1 to length_char(text))
+		grawlix += pick("@", "$", "?", "!", "#", "§", "*", "£", "%", "☠", "★", "☆", "¿")
+	return grawlix
+
+///Returns the top(last) element from the list and removes it from the list (typical stack function)
+/proc/pop(list/L)
+	if(L.len)
+		. = L[L.len]
+		L.len--
+
+/**
+ * Takes a directory and returns every file within every sub directory.
+ * If extensions_filter is provided then only files that end in that extension are given back.
+ * If extensions_filter is a list, any file that matches at least one entry is given back.
+ */
+/proc/pathwalk(path, extensions_filter)
+	var/list/jobs = list(path)
+	var/list/filenames = list()
+
+	while(jobs.len)
+		var/current_dir = pop(jobs)
+		var/list/new_filenames = flist(current_dir)
+		for(var/new_filename in new_filenames)
+			// if filename ends in / it is a directory, append to currdir
+			if(findtext(new_filename, "/", -1))
+				jobs += "[current_dir][new_filename]"
+				continue
+			// filename extension filtering
+			if(extensions_filter)
+				if(islist(extensions_filter))
+					for(var/allowed_extension in extensions_filter)
+						if(endswith(new_filename, allowed_extension))
+							filenames += "[current_dir][new_filename]"
+							break
+				else if(endswith(new_filename, extensions_filter))
+					filenames += "[current_dir][new_filename]"
+			else
+				filenames += "[current_dir][new_filename]"
+	return filenames

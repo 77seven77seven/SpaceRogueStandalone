@@ -1,6 +1,7 @@
 var/global/datum/system/master/master = new()
 var/global/datum/system/processor/processor = new()
 var/global/datum/system/station/station = new()
+var/global/datum/system/sound/system_sound = new()
 
 var/global/list/landmarks_list = list()
 var/global/list/landmarks_start_list = list()
@@ -22,6 +23,8 @@ var/global/list/landmarks_start_list = list()
 /world/New()
 	master.setup()
 	processor.setup()
+	system_sound.setup()
+
 	station.next_paycheck = world.time + rand(4 MINUTES, 7 MINUTES)
 	processor.processing += station
 

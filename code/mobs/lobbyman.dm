@@ -2,6 +2,10 @@
 	var/dissidence_preference = FALSE
 	var/presentation_preference = NEUTER // NEUTER = pick randomly between male or female
 
+/mob
+	var/deaf = FALSE
+	var/sound_environment_override = SOUND_ENVIRONMENT_NONE
+
 /mob/Login()
 	. = ..()
 	src << load_resource('sound/music/spawn.ogg', 'sound/effects/senses/combat_on.ogg', 'sound/effects/senses/combat_off.ogg', 'sound/death.ogg', -1)

@@ -63,7 +63,6 @@
 				break
 
 /obj/machine/door/proc/do_door()
-	playsound(get_turf(src), 'sound/effects/obj/door.ogg', 75, TRUE, 1, 4)
 	if(doing)
 		return FALSE
 
@@ -92,6 +91,7 @@
 	if(opacita)
 		opacity = !opacity
 	spawn(time / 2)
+		playsound(get_turf(src), 'sound/effects/obj/door.ogg', 75, TRUE, 1, 4, ignore_walls = TRUE)
 		doing = FALSE
 
 		open = !open
@@ -118,14 +118,14 @@
 				return FALSE
 			if(!linked_door.access.len || (find_common_entry(H.mind?.current_job?.access, linked_door.access) || H.mind?.current_job?.access.Find("EVERYTHING")))
 				flick("[initial(icon_state)]-allow",src)
-				playsound(get_turf(src), 'sound/effects/pda/airlock_grant.ogg')
+				playsound(get_turf(src), 'sound/effects/pda/airlock_grant.ogg', 150, ignore_walls = TRUE)
 
 				H.chat_pda("ACCESS GRANTED", "good")
 				linked_door.do_door()
 			else
 				flick("[initial(icon_state)]-deny",src)
 				H.chat_pda("ACCESS DENIED", "bad")
-				playsound(get_turf(src), 'sound/effects/pda/airlock_deny.ogg')
+				playsound(get_turf(src), 'sound/effects/pda/airlock_deny.ogg', 150, ignore_walls = TRUE)
 				if(linked_door.shock_on_deny)
 					H.TakeDamage(linked_door.shock_damage, "access denial shock")
 

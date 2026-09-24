@@ -20,6 +20,9 @@
 	var/list/newplayer_start = list()
 	var/next_paycheck = 0
 
+///datum/system/station/setup()
+//	processor.processing += src // Handled in world.New()
+
 /datum/system/station/proc/do_paychecks()
 	var/list/payroll = list() // mob = amount
 	var/total_payroll = 0

@@ -37,8 +37,7 @@
 				user.mind.nullify_paychecks()
 			else
 				user.chat_pda("CHEZ GROUP WOULD LIKE TO INFORM YOU THAT YOU DO NOT HAVE ANY STANDARD CURRENCY TO WITHDRAW FROM YOUR PAYSTUB ACCOUNT. PLEASE TRY NEXT TIME.")
-
-		world << "confirm"
+				
 	else if((_x >= 19 && _x <= 22) && (_y >= 10 && _y <= 13))
 		flick_overlay_view(image(src.icon, src, "ident_pay"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
@@ -47,13 +46,12 @@
 			identified = user
 			playsound(get_turf(src), 'sound/effects/obj/login.ogg', vol = 50)
 
-			animate(whiteout, 3, alpha = 255, easing=QUAD_EASING|EASE_IN)
-			animate(5, alpha = 0, easing=QUAD_EASING|EASE_IN)
+			animate(whiteout, 0.5, alpha = 255)
+			animate(alpha = 0, time = 5)
 
 			addtimer(CALLBACK(src, PROC_REF(reset_ident)), 3 SECONDS)
 		else
 			user.chat_pda("What?","bad")
-		world << "ident"
 
 /obj/machine/pay/proc/reset_ident()
 	identified = null

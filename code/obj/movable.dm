@@ -3,6 +3,8 @@
 		return FALSE
 	. = ..()
 	var/mob/user = usr
+	if(istype(user, /mob/lobbyman))
+		return
 
 	if(Adjacent(user))
 		if(ishuman(user))
