@@ -20,6 +20,9 @@
 	var/list/newplayer_start = list()
 	var/next_paycheck = 0
 
+	var/day = 1
+	var/next_day = 0
+
 ///datum/system/station/setup()
 //	processor.processing += src // Handled in world.New()
 
@@ -43,8 +46,10 @@
 		H.chat_pda("WE APOLOGIZE. YOUR PAYSTUB OF [payroll[H]][pick("§","€$")] IS CURRENTLY UNAVAILABLE TO BE PROCESSED DUE TO LACK OF STATION FUNDS. WE APOLOGIZE FOR THE INCONVENIENCE.","bad")
 
 /datum/system/station/Process()
-	if(world.time < next_paycheck)
-		return
+	if(world.time > next_paycheck)
+		do_paychecks()
+		next_paycheck = world.time + rand(4 MINUTES, 7 MINUTES)
 
-	do_paychecks()
-	next_paycheck = world.time + rand(4 MINUTES, 7 MINUTES)
+	if(world.time > next_day)
+		day++
+		next_day = world.time + 24 MINUTES

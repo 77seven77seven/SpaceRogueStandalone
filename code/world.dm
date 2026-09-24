@@ -26,6 +26,7 @@ var/global/list/landmarks_start_list = list()
 	system_sound.setup()
 
 	station.next_paycheck = world.time + rand(4 MINUTES, 7 MINUTES)
+	station.next_day = world.time + 24 MINUTES
 	processor.processing += station
 
 	var/datum/D = new /datum/process_tester
