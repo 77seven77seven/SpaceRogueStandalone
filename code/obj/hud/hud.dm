@@ -95,7 +95,7 @@
 			rastra = 6
 
 	if(prev_rastra < rastra)
-		SEND_SOUND(owner, sound('sound/effects/senses/health_face.ogg'))
+		owner.playsound_local(get_turf(owner), 'sound/effects/senses/health_face.ogg')
 	prev_rastra = rastra
 
 	icon_state = "[iconismus][rastra]"

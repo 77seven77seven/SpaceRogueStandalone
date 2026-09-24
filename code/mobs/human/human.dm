@@ -28,7 +28,9 @@
 
 	var/dead = FALSE
 	var/ragdolled = FALSE
+
 	var/cmode = FALSE
+	var/cmode_music = 'sound/music/songistia.mp3'
 
 	var/wealth = 0 // money
 	var/hunger = 0 // 0 is satisfied, HUMAN_MAX_NEED is starving
@@ -222,11 +224,6 @@
 	UpdateHUD()
 	SetRagdolled(TRUE)
 
-	QDEL_NULL(hud_holder)
-	client.screen.Cut()
-
-	client << output(null, "outputwindow.output")
-	
 	if(processor)
 		processor.processing -= src
 
@@ -235,17 +232,25 @@
 		if(!station.dead_humans.Find(src))
 			station.dead_humans += src
 	if(master)
-		if(mind.current_job)
-			mind.current_job.current_positions--
+		if(mind?.current_job)
+			mind?.current_job?.current_positions--
 		else // Huh... that's... weird.
-			WRITE_LOG(world.log, "[src] [src.ckey] -- Died and didn't have a job!?")
-	client.xp--
+			WRITE_LOG(world.log, "[src] [src?.ckey] -- Died and didn't have a job!?")
+
+	if(!client)
+		return
+
+	QDEL_NULL(hud_holder)
+	client?.screen?.Cut()
+
+	client << output(null, "outputwindow.output")
+	client?.xp--
 
 	var/obj/hud/fullscreen/death/death = new()
 	death.alpha = 0
 	
-	client.screen += death
-	client.color = "#000000"
+	client?.screen += death
+	client?.color = "#000000"
 
 	SEND_SOUND(client, null)
 	SEND_SOUND(client, sound('sound/death.ogg'))
@@ -642,10 +647,12 @@
 	if(cmode == FALSE)
 		cmode = TRUE
 
+		client.play_droning(cmode_music)
+
 		var/matrix/M = matrix()
 		M.Scale(1.2,1.2)
 
-		SEND_SOUND(client, sound('sound/effects/senses/combat_on.ogg'))
+		playsound_local(get_turf(src), 'sound/effects/senses/combat_on.ogg', 100)
 
 		animate(client, color = "#ddababff", easing = SINE_EASING | EASE_IN | EASE_OUT, time = 2)
 		animate(client, pixel_z = 20, pixel_w = 20, easing = SINE_EASING | EASE_IN | EASE_OUT, time = 5)
@@ -657,7 +664,9 @@
 	else
 		cmode = FALSE
 
-		SEND_SOUND(client, sound('sound/effects/senses/combat_off.ogg'))
+		client.stop_droning()
+
+		playsound_local(get_turf(src), 'sound/effects/senses/combat_off.ogg', 100)
 
 		animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
 		animate(hud_holder.combat.backgroundo, pixel_y = -32, easing = BOUNCE_EASING, time = 2)

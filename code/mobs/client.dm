@@ -8,6 +8,8 @@
 	var/mpx = 0
 	var/mpy = 0
 
+	var/sound/droning_sound
+
 /client/New()
 	. = ..()
 	master.clients += src
@@ -25,6 +27,21 @@
 	mpy = text2num(marams["icon-y"])
 
 	//src << "[mpx] [mpy]"
+
+/client/proc/play_droning(music = null, vol = 50)
+	if(!music)
+		return
+	var/sound/combat_music = sound(pick(music), repeat = TRUE, wait = 0, channel = 1017, volume = vol)
+	SEND_SOUND(src, combat_music)
+	droning_sound = combat_music
+	
+/client/proc/stop_droning()
+	if(!droning_sound)
+		return
+	var/sound/sound_killer = sound()
+	sound_killer.channel = droning_sound.channel
+	SEND_SOUND(src, sound_killer)
+	droning_sound = null
 
 /client/verb/fuckyou()
 	world << "----"
