@@ -117,6 +117,7 @@
 #define TECH "TECH"
 #define MINE "MINE"
 #define MEDI "MEDI"
+#define ENCY "ENCYCLOPEDIA"
 
 // ECONOMY
 

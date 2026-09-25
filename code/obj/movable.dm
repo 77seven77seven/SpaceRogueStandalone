@@ -1,9 +1,17 @@
+/atom/movable
+	var/desc_expansive = null
+
 /atom/movable/Click(location, control, params)
 	if(!usr || !usr.client)
 		return FALSE
 	. = ..()
 	var/mob/user = usr
 	if(istype(user, /mob/lobbyman))
+		return
+		
+	var/list/parms = params2list(params)
+	if(parms["shift"])
+		src.examine(user)
 		return
 
 	if(Adjacent(user))
@@ -25,6 +33,19 @@
 
 /atom/movable/proc/interact_ranged(mob/user, obj/item/held_item, params)
 	return
+
+/atom/movable/proc/examine(mob/human/user)
+	if(!desc)
+		return FALSE
+	var/icon/I = getFlatIcon(src)
+
+	user << "\icon[I] <b>[name]</b> — [desc]"
+	if(desc_expansive)
+		if(user.SkillRoll(ENCY, TRUE))
+			user.playsound_local(get_turf(user), 'sound/effects/senses/intelligence.ogg', 100)
+			user << "<B>ENCYCLOPEDIA</b> — [desc_expansive]"
+
+	return TRUE
 
 /atom/movable/proc/swing_anim(atom/A, pixelirona = 16, rostra = 15, timera = 2, rev = FALSE)
 	if(A == src)

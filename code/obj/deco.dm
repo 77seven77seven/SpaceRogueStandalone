@@ -6,6 +6,7 @@
 /obj/deco/plant
 	name = "plant"
 	desc = "What's wrong honey? Something not to your liking?"
+	desc_expansive = "A specific species of artificially created a common plant. Most commonly used by space station crew for help with filtering out contaminants in the early stages of space habitation. It is now rendered useless due to advances in modern air recycling. The aesthetic however, stayed."
 	icon_state = "plant"
 
 /obj/deco/plant/Initialize()

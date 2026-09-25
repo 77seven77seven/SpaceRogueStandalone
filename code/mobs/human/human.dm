@@ -599,23 +599,18 @@
 	for(var/datum/quirk/Q in mind.quirks)
 		Q.equip(src)
 
-/mob/human/proc/SkillRoll(skill_name)
-	var/skill_value = mind.GetSkill(skill_name)
-	
-	var/probability = 0
-	var/xp_bonus = 0.024 * 20
-	var/adjusted_chance = skill_value - ceil(sorrow / 10) + rand(-7,7) // 7seven
+/mob/human/proc/SkillRoll(skill_name, hidden = FALSE, difficulty = 0)
+	var/skill_value = mind?.GetSkill(skill_name) || 0
+	var/sorrow_penalty = round(sorrow / 5)
+	var/roll_modifier = rand(-10, 10)
+	var/adjusted_chance = skill_value - sorrow_penalty - difficulty + roll_modifier
+	var/probability = clamp(adjusted_chance, 1, 99)
+	var/roll = rand(1, 100)
+	var/result = roll <= probability
 
-	probability = adjusted_chance
-
-	if(probability >= 40)
-		xp_bonus /= 1.2
-
-	src << "[skill_name] --- PROB: [probability]% , VALUE: [skill_value] , VAL: [adjusted_chance]"
-	if(prob(probability + xp_bonus))
-		src << "success"
-	else
-		src << "fail"
+	if(!hidden)
+		src << "[skill_name] --- ROLL: [roll]/100 , CHANCE: [probability]% , SKILL: [skill_value] , SORROW: -[sorrow_penalty] , DIFFICULTY: -[difficulty]"
+	return result
 
 /mob/human/verb/speak()
 	set name = ".speak"
