@@ -135,6 +135,50 @@
 			return
 		held_item.attack(Huser, src)
 
+/mob/human/MouseEntered(location, control, params)
+	. = ..()
+	if(name && ismob(usr))
+		handle_mouseover(location, control, params)
+	
+/mob/human/MouseExited(location, control, params)
+	. = ..()
+	if(ismob(usr))
+		handle_mouseexit(params)
+
+/mob/human/proc/handle_mouseover(location, control, params)
+	var/mob/p = usr
+	var/showtext = name
+	if(p == src)
+		return FALSE
+	if(p.client)
+		p.client.mouseover_text = image(src.icon, src)
+		p.client.mouseover_text.maptext_width = 96
+		p.client.mouseover_text.maptext_height = 32
+		p.client.mouseover_text.maptext_y = 35
+		p.client.mouseover_text.maptext_x = -32
+		p.client.mouseover_text.alpha = 0
+
+		p.client.images |= p.client.mouseover_text
+
+		if(p.client.pixel_x || p.client.pixel_y)
+			return FALSE
+		if(alpha == 0)
+			return FALSE
+		if(!p.x || !p.y)
+			return FALSE
+
+		animate(p.client.mouseover_text, alpha = 255, time = 2)
+
+		p.client.mouseover_text.maptext = {"<div style='font-size: 80%;font-family:serif;color:#a4a4a2;text-shadow:0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073; display: flex; align-items: center; justify-content: center; width: 96px; height: 32px; text-align: center;'>[uppertext(showtext)]</div>"}
+		world << "enteered"
+
+/mob/human/proc/handle_mouseexit(params)
+	var/mob/p = usr
+	if(p?.client)
+		animate(p?.client?.mouseover_text, alpha = 0, time = 2)
+		world << "exited"
+	return TRUE
+
 /mob/human/proc/cooldown(cooldown_name, cooldown_duration)
 	if(!cooldowns)
 		cooldowns = list()

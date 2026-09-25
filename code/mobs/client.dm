@@ -8,6 +8,7 @@
 	var/mpx = 0
 	var/mpy = 0
 
+	var/image/mouseover_text
 	var/sound/droning_sound
 
 /client/New()

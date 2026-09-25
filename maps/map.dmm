@@ -181,7 +181,9 @@
 /turf/open/space,
 /area/space)
 "M" = (
-/mob/human,
+/mob/human{
+	name = "Mark X."
+	},
 /turf/open/floor,
 /area/station)
 "N" = (

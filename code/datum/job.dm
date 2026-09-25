@@ -134,7 +134,7 @@
 	return list(HYDRO = 80 + rand(-10,10))
 	
 /datum/role/plumber
-	title = "Plumber"
+	title = "Waterworker"
 	desc = "You work with water purification. Your life is alright, nothing too special. You're insured by CHEZ Group, well paid, and you have a safe, stable job. Thankfully, there's enough chaos on Endera to entertain you while you're on your break."
 
 	total_positions = 2
