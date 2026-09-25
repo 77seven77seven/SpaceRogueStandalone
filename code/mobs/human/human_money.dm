@@ -16,7 +16,7 @@
 		chat_pda("TRANSACTION LOGGED. YOU HAVE BEEN TRANSFERRED: [amount][pick("§","€$")]. <b>[pick(lines)]</b>","pay")
 
 /mob/human/proc/AdjustPaycheck(amount, silent = FALSE)
-	mind.paycheck += amount
+	mind.paycheck = amount
 	UpdateHUD()
 	if(silent)
 		return

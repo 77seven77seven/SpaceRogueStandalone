@@ -609,7 +609,7 @@
 	var/result = roll <= probability
 
 	if(!hidden)
-		src << "[skill_name] --- ROLL: [roll]/100 , CHANCE: [probability]% , SKILL: [skill_value] , SORROW: -[sorrow_penalty] , DIFFICULTY: -[difficulty]"
+		chat_info("[skill_name] --- ROLL: [roll]/100 , CHANCE: [probability]% , SKILL: [skill_value] , SORROW: -[sorrow_penalty] , DIFFICULTY: -[difficulty]")
 	return result
 
 /mob/human/verb/speak()

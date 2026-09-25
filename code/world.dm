@@ -306,9 +306,3 @@ proc/get_random_light_color()
 
 /mob/human/verb/test()
 	station.do_paychecks()
-
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(test), src), 10)
-
-/proc/test(atom/tt)
-	world << "test complete"
-	world << "[tt.name]"
