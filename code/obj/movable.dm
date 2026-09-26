@@ -58,19 +58,19 @@
 	var/direction = get_dir(src, A)
 	if(direction & NORTH)
 		pixel_y_diff = pixelirona
-		pixel_x_diff = rand(1,4)
+		pixel_x_diff = rand(2,8)
 		turn_dir = prob(50) ? -1 : 1
 	else if(direction & SOUTH)
 		pixel_y_diff = -pixelirona
-		pixel_x_diff = rand(-1,-4)
+		pixel_x_diff = rand(-2,-8)
 		turn_dir = prob(50) ? -1 : 1
 
 	if(direction & EAST)
 		pixel_x_diff = pixelirona
-		pixel_y_diff = rand(1,4)
+		pixel_y_diff = rand(2,8)
 	else if(direction & WEST)
 		pixel_x_diff = -pixelirona
-		pixel_y_diff = rand(-1,-4)
+		pixel_y_diff = rand(-2,-8)
 		turn_dir = -1
 
 	var/matrix/initial_transform = matrix(transform)

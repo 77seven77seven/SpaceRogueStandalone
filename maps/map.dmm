@@ -10,8 +10,8 @@
 /area/station)
 "d" = (
 /obj/deco/trashcan{
-	pixel_x = -8;
-	pixel_y = 1
+	pixel_x = -16;
+	pixel_y = 2
 	},
 /turf/open/floor,
 /area/station)
@@ -22,7 +22,7 @@
 /obj/decal{
 	icon_state = "endera3";
 	pixel_x = 0;
-	pixel_y = 32
+	pixel_y = 64
 	},
 /turf/open/space,
 /area/space)
@@ -30,7 +30,7 @@
 /obj/decal{
 	icon_state = "chezsign2";
 	pixel_x = 0;
-	pixel_y = -32
+	pixel_y = -64
 	},
 /turf/open/floor,
 /area/station)
@@ -41,11 +41,11 @@
 /obj/decal{
 	icon_state = "chezsign1";
 	pixel_x = 0;
-	pixel_y = 32
+	pixel_y = 64
 	},
 /obj/deco/plant{
-	pixel_x = -9;
-	pixel_y = 22
+	pixel_x = -18;
+	pixel_y = 44
 	},
 /turf/open/floor,
 /area/station)
@@ -57,7 +57,7 @@
 /area/station)
 "l" = (
 /obj/deco/poster{
-	pixel_x = -32
+	pixel_x = -64
 	},
 /turf/open/floor,
 /area/station)
@@ -65,7 +65,7 @@
 /obj/decal{
 	icon_state = "endera2";
 	pixel_x = 0;
-	pixel_y = 32
+	pixel_y = 64
 	},
 /turf/open/space,
 /area/space)
@@ -74,8 +74,8 @@
 /area/station)
 "o" = (
 /obj/deco/plant{
-	pixel_x = -10;
-	pixel_y = 19
+	pixel_x = -20;
+	pixel_y = 58
 	},
 /turf/open/floor,
 /area/station)
@@ -89,17 +89,17 @@
 /obj/decal{
 	icon_state = "chezsign1";
 	pixel_x = 0;
-	pixel_y = -32
+	pixel_y = -64
 	},
 /obj/deco/trashcan{
-	pixel_x = -8;
-	pixel_y = 1
+	pixel_x = -16;
+	pixel_y = 2
 	},
 /turf/open/floor,
 /area/station)
 "r" = (
 /obj/deco/poster{
-	pixel_y = 32
+	pixel_y = 64
 	},
 /turf/open/floor,
 /area/station)
@@ -107,7 +107,7 @@
 /obj/decal{
 	icon_state = "chezsign3";
 	pixel_x = 0;
-	pixel_y = -32
+	pixel_y = -64
 	},
 /turf/open/floor,
 /area/station)
@@ -136,7 +136,7 @@
 /obj/decal{
 	icon_state = "chezsign3";
 	pixel_x = 0;
-	pixel_y = 32
+	pixel_y = 64
 	},
 /turf/open/floor,
 /area/station)
@@ -144,7 +144,7 @@
 /obj/decal{
 	icon_state = "chezsign4";
 	pixel_x = 0;
-	pixel_y = 32
+	pixel_y = 64
 	},
 /turf/open/floor,
 /area/station)
@@ -154,21 +154,21 @@
 /area/station)
 "E" = (
 /obj/machine/pay{
-	pixel_x = -32
+	pixel_x = -64
 	},
 /turf/open/floor,
 /area/station)
 "F" = (
 /obj/decal{
 	icon_state = "endera1";
-	pixel_y = 32
+	pixel_y = 64
 	},
 /turf/open/space,
 /area/space)
 "G" = (
 /obj/deco/trashcan{
-	pixel_x = 7;
-	pixel_y = 18
+	pixel_x = 14;
+	pixel_y = 36
 	},
 /turf/open/floor,
 /area/station)
@@ -177,15 +177,15 @@
 /area/station/medical)
 "I" = (
 /obj/deco/plant{
-	pixel_x = 9;
-	pixel_y = 20
+	pixel_x = 18;
+	pixel_y = 40
 	},
 /turf/open/floor,
 /area/station)
 "J" = (
 /mob/human,
 /obj/deco/poster{
-	pixel_y = 32
+	pixel_y = 64
 	},
 /turf/open/floor,
 /area/station)
@@ -208,7 +208,7 @@
 /obj/decal{
 	icon_state = "endera4";
 	pixel_x = 0;
-	pixel_y = 32
+	pixel_y = 64
 	},
 /turf/open/space,
 /area/space)
@@ -216,7 +216,7 @@
 /obj/decal{
 	icon_state = "chezsign4";
 	pixel_x = 0;
-	pixel_y = -32
+	pixel_y = -64
 	},
 /turf/open/floor,
 /area/station)
@@ -238,8 +238,8 @@
 /area/station)
 "T" = (
 /obj/deco/trashcan{
-	pixel_x = -8;
-	pixel_y = 18
+	pixel_x = -16;
+	pixel_y = 36
 	},
 /turf/open/floor,
 /area/station)
@@ -247,7 +247,7 @@
 /obj/decal{
 	icon_state = "chezsign2";
 	pixel_x = 0;
-	pixel_y = 32
+	pixel_y = 64
 	},
 /turf/open/floor,
 /area/station)
@@ -8073,7 +8073,7 @@ a
 a
 n
 v
-P
+w
 n
 n
 n

@@ -18,13 +18,13 @@
 	var/_x = text2num(params2list(params)["icon-x"])
 	var/_y = text2num(params2list(params)["icon-y"])
 
-	if((_x >= 15 && _x <= 18) && (_y >= 12 && _y <= 15))
+	if((_x >= 30 && _x <= 36) && (_y >= 24 && _y <= 30))
 		flick_overlay_view(image(src.icon, src, "confirm"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
-	else if((_x >= 11 && _x <= 13) && (_y >= 12 && _y <= 15))
+	else if((_x >= 22 && _x <= 26) && (_y >= 24 && _y <= 30))
 		flick_overlay_view(image(src.icon, src, "left"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
-	else if((_x >= 20 && _x <= 22) && (_y >= 12 && _y <= 15))
+	else if((_x >= 40 && _x <= 44) && (_y >= 24 && _y <= 30))
 		flick_overlay_view(image(src.icon, src, "right"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
 

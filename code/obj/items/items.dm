@@ -30,15 +30,15 @@
 
 	direction = get_dir(T, target)
 	if(direction & NORTH)
-		to_y = 32
+		to_y = 64
 	else if(direction & SOUTH)
-		to_y = -32
+		to_y = -64
 	if(direction & EAST)
-		to_x = 32
+		to_x = 64
 	else if(direction & WEST)
-		to_x = -32
+		to_x = -64
 	if(!direction)
-		to_y = 16
+		to_y = 32
 	for(var/client/C in master.clients)
 		C << I
 	var/matrix/M = new

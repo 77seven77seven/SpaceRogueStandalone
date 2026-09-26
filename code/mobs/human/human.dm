@@ -153,10 +153,10 @@
 		return FALSE
 	if(p.client)
 		p.client.mouseover_text = image(src.icon, src)
-		p.client.mouseover_text.maptext_width = 96
-		p.client.mouseover_text.maptext_height = 32
-		p.client.mouseover_text.maptext_y = 35
-		p.client.mouseover_text.maptext_x = -32
+		p.client.mouseover_text.maptext_width = 128
+		p.client.mouseover_text.maptext_height = 64
+		p.client.mouseover_text.maptext_y = 70
+		p.client.mouseover_text.maptext_x = -64
 		p.client.mouseover_text.alpha = 0
 
 		p.client.images |= p.client.mouseover_text
@@ -716,7 +716,7 @@
 		playsound_local(get_turf(src), 'sound/effects/senses/combat_off.ogg', 100)
 
 		animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
-		animate(hud_holder.combat.backgroundo, pixel_y = -32, easing = BOUNCE_EASING, time = 2)
+		animate(hud_holder.combat.backgroundo, pixel_y = -64, easing = BOUNCE_EASING, time = 2)
 
 /mob/human/Stat()
 	. = ..()

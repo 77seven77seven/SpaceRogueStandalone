@@ -71,9 +71,9 @@
 
 	switch(dir)
 		if(NORTH, SOUTH)
-			px = 12 - rand(-2,2)
+			px = 24 - rand(-2,2)
 		if(WEST, EAST)
-			py = 12 - rand(-2,2)
+			py = 24 - rand(-2,2)
 
 	if(open)
 		// closing

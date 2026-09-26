@@ -6,13 +6,17 @@ var/global/datum/system/sound/system_sound = new()
 var/global/list/landmarks_list = list()
 var/global/list/landmarks_start_list = list()
 
+#define WORLD_ICON_SIZE 64
+#define PIXEL_MULTIPLIER (WORLD_ICON_SIZE/32)
+#define PIXEL_MULTIPLIER_SQUARE (PIXEL_MULTIPLIER*PIXEL_MULTIPLIER)
+
 // Just don't credit me. Do whatever, none of my ideas are copyrighted.
 // Feel free to steal my game if you want, but you should probably be creative because being creative is cool.
 
 /world
 	name = "Fringe Sector: Roguestation Endera"
-	fps = 30
-	//icon_size = 64	// 32x32 icon size by default
+	fps = 60
+	icon_size = WORLD_ICON_SIZE
 	view = "13x13"
 	movement_mode = TILE_MOVEMENT_MODE
 
@@ -283,13 +287,13 @@ proc/get_random_light_color()
 	var/dx = holder.x - x
 	var/dy = holder.y - y
 	if(!dx && !dy) // Wall items are graphically shifted but on the floor
-		if(holder.pixel_y > 16)
+		if(holder.pixel_y > 64)
 			setDir(NORTH)
-		else if(holder.pixel_y < -16)
+		else if(holder.pixel_y < -64)
 			setDir(SOUTH)
-		else if(holder.pixel_x > 16)
+		else if(holder.pixel_x > 64)
 			setDir(EAST)
-		else if(holder.pixel_x < -16)
+		else if(holder.pixel_x < -64)
 			setDir(WEST)
 		return
 

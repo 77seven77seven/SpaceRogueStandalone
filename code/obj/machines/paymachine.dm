@@ -25,7 +25,7 @@
 	var/_x = text2num(params2list(params)["icon-x"])
 	var/_y = text2num(params2list(params)["icon-y"])
 
-	if((_x >= 11 && _x <= 14) && (_y >= 10 && _y <= 13))
+	if((_x >= 22 && _x <= 28) && (_y >= 20 && _y <= 26))
 		flick_overlay_view(image(src.icon, src, "confirm_pay"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
 
@@ -50,7 +50,7 @@
 			else
 				user.chat_pda("CHEZ GROUP WOULD LIKE TO INFORM YOU THAT YOU DO NOT HAVE ANY STANDARD CURRENCY TO WITHDRAW FROM YOUR PAYSTUB ACCOUNT. PLEASE TRY NEXT TIME.", "bad")
 				
-	else if((_x >= 19 && _x <= 22) && (_y >= 10 && _y <= 13))
+	else if((_x >= 38 && _x <= 44) && (_y >= 20 && _y <= 26))
 		flick_overlay_view(image(src.icon, src, "ident_pay"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
 
@@ -73,11 +73,11 @@
 	if(I)
 		var/icon/blend = icon(icon='icons/human/masking.dmi', icon_state="credits")
 		I.Blend(blend, ICON_MULTIPLY)
-		I.Scale(25,25)
+		I.Scale(50,50)
 
 		var/mutable_appearance/MA = new /mutable_appearance(I)
-		MA.pixel_x = 4
-		MA.pixel_y = 2
+		MA.pixel_x = 8
+		MA.pixel_y = 4
 
 		overlay = MA
 		overlays += overlay

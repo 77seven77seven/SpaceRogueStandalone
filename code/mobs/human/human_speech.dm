@@ -8,7 +8,7 @@
 #define VOICE_TYPE_SPEED        0.6
 #define VOICE_BUBBLE_LINGER     15
 #define VOICE_HEAR_RANGE        7
-#define VOICE_BUBBLE_WIDTH      96
+#define VOICE_BUBBLE_WIDTH      128
 
 /mob/human
 	var/voice_freq    = 0
@@ -77,7 +77,7 @@
 		var/ch = copytext(message, i, i + 1)
 		shown += ch
 
-		bubble.maptext = "<span style='color:[voice_color];background-color: #23232391;text-align:center;font-family:Verdana;font-size:7px'>[shown]</span>"
+		bubble.maptext = "<span style='color:[voice_color];background-color: #23232391;text-align:center;font-family:Verdana;font-size:14px'>[shown]</span>"
 
 		if(ch != " " && ch != "\n")
 			blip_count++
@@ -88,7 +88,7 @@
 
 	voice_bubble.loc = get_turf(src)
 	vis_contents -= bubble
-	animate(voice_bubble, VOICE_BUBBLE_LINGER, alpha = 10,  maptext_y = 10)
+	animate(voice_bubble, VOICE_BUBBLE_LINGER, alpha = 10,  maptext_y = 20)
 	sleep(VOICE_BUBBLE_LINGER)
 	if(voice_seq == my_seq)
 		if(voice_bubble == bubble)

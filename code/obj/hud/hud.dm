@@ -33,9 +33,9 @@
 	icon_state = "bg"
 	screen_loc = "11,1"
 
-	maptext_width = 96
-	maptext_height = 64
-	maptext_x = 5
+	maptext_width = 192
+	maptext_height = 128
+	maptext_x = 10
 
 	maptext = "Help me!"
 
@@ -43,7 +43,7 @@
 	if(!owner)
 		return ""
 	return {"
-		<div style='color:[owner.hud_color]; text-align:left; font-size: 70%; font-family: serif;'>
+		<div style='color:[owner.hud_color]; text-align:left; font-size: 140%; font-family: serif;'>
 		WEALTH: [owner.wealth]§
 		HUNGER: [floor(owner.hud_hunger)]%
 		THIRST: [floor(owner.hud_thirst)]%
@@ -116,7 +116,7 @@
 	backgroundo.icon = 'icons/obj/abstract/hud_32.dmi'
 	backgroundo.icon_state = "bg"
 
-	backgroundo.pixel_y = -32
+	backgroundo.pixel_y = -64
 
 	backgroundo.layer = HUD_LAYER
 	backgroundo.plane = HUD_PLANE
