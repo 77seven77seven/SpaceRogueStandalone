@@ -8,6 +8,13 @@
 	},
 /turf/open/floor,
 /area/station)
+"d" = (
+/obj/deco/trashcan{
+	pixel_x = -8;
+	pixel_y = 1
+	},
+/turf/open/floor,
+/area/station)
 "e" = (
 /turf/solid/window,
 /area/station)
@@ -84,6 +91,10 @@
 	pixel_x = 0;
 	pixel_y = -32
 	},
+/obj/deco/trashcan{
+	pixel_x = -8;
+	pixel_y = 1
+	},
 /turf/open/floor,
 /area/station)
 "r" = (
@@ -154,6 +165,13 @@
 	},
 /turf/open/space,
 /area/space)
+"G" = (
+/obj/deco/trashcan{
+	pixel_x = 7;
+	pixel_y = 18
+	},
+/turf/open/floor,
+/area/station)
 "H" = (
 /turf/open/floor,
 /area/station/medical)
@@ -217,6 +235,13 @@
 	icon_state = "departures4"
 	},
 /turf/solid/wall,
+/area/station)
+"T" = (
+/obj/deco/trashcan{
+	pixel_x = -8;
+	pixel_y = 18
+	},
+/turf/open/floor,
 /area/station)
 "U" = (
 /obj/decal{
@@ -7300,7 +7325,7 @@ a
 a
 a
 l
-a
+d
 n
 a
 a
@@ -7694,7 +7719,7 @@ L
 L
 L
 n
-a
+T
 a
 a
 a
@@ -9599,7 +9624,7 @@ L
 L
 L
 n
-a
+G
 a
 a
 a

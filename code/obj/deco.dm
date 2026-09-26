@@ -21,3 +21,8 @@
 /obj/deco/poster/Initialize()
 	. = ..()
 	icon_state = "[initial(icon_state)]_[pick("un","cz","cz2","mountain","chez")]"
+
+/obj/deco/trashcan
+	name = "trashcan"
+	desc = "Not a tradition, more of a necesity. But beauty is in the eye of the beholder."
+	icon_state = "trashcan"

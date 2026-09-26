@@ -11,6 +11,8 @@
 	var/list/items = list()
 	var/jammed = FALSE
 
+/obj/machine/vendor
+
 /obj/machine/vendor/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()
 	var/_x = text2num(params2list(params)["icon-x"])

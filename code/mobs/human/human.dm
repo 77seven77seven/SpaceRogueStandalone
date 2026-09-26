@@ -137,8 +137,9 @@
 
 /mob/human/MouseEntered(location, control, params)
 	. = ..()
-	if(name && ismob(usr))
-		handle_mouseover(location, control, params)
+	if(name && ishuman(usr))
+		var/mob/human/user = usr
+		if(!user.cmode) handle_mouseover(location, control, params)
 	
 /mob/human/MouseExited(location, control, params)
 	. = ..()
@@ -170,13 +171,11 @@
 		animate(p.client.mouseover_text, alpha = 255, time = 2)
 
 		p.client.mouseover_text.maptext = {"<div style='font-size: 80%;font-family:serif;color:#a4a4a2;text-shadow:0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073; display: flex; align-items: center; justify-content: center; width: 96px; height: 32px; text-align: center;'>[uppertext(showtext)]</div>"}
-		world << "enteered"
 
 /mob/human/proc/handle_mouseexit(params)
 	var/mob/p = usr
-	if(p?.client)
+	if(p?.client && p?.client?.mouseover_text)
 		animate(p?.client?.mouseover_text, alpha = 0, time = 2)
-		world << "exited"
 	return TRUE
 
 /mob/human/proc/cooldown(cooldown_name, cooldown_duration)
@@ -280,6 +279,14 @@
 			mind?.current_job?.current_positions--
 		else // Huh... that's... weird.
 			WRITE_LOG(world.log, "[src] [src?.ckey] -- Died and didn't have a job!?")
+
+	for(var/mob/human/H in viewers(src))
+		var/list/lines = list("OH MY GOD! ARE THEY DEAD?!","ARE THEY MOVING?!","ARE THEY ALRIGHT?!","SOMEONE CALL A MEDICALOID!")
+		var/style = "bad"
+		var/mood = rand(10,30)
+
+		H.chat_info(pick(lines), style)
+		H.AdjustSorrow(mood)
 
 	if(!client)
 		return

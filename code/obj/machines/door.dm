@@ -91,7 +91,7 @@
 	if(opacita)
 		opacity = !opacity
 	spawn(time / 2)
-		playsound(get_turf(src), 'sound/effects/obj/door.ogg', 75, TRUE, 1, 4, ignore_walls = TRUE)
+		playsound(get_turf(src), 'sound/effects/obj/door.ogg', 100, TRUE, 1, 4, ignore_walls = TRUE)
 		doing = FALSE
 
 		open = !open

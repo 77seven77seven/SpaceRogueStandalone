@@ -4,8 +4,8 @@
 #define BLEED_FX_CHANCE            70  // % chance to show the splash when eligible
 #define RAGDOLL_CHANCE_MIN         10  // per-tick collapse chance floor at low blood
 #define RAGDOLL_CHANCE_MAX         40  // per-tick collapse chance ceiling at low blood
-#define RAGDOLL_LASTWORDS_MIN      0   // chance floor of speaking a line when collapsing
-#define RAGDOLL_LASTWORDS_MAX      20  // chance ceiling of speaking a line when collapsing
+#define RAGDOLL_LASTWORDS_MIN      20   // chance floor of speaking a line when collapsing
+#define RAGDOLL_LASTWORDS_MAX      60  // chance ceiling of speaking a line when collapsing
 
 // Pulled out of the pick() call so it's easy to extend or localize later.
 var/global/list/bleedout_lastwords = list(
