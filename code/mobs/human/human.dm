@@ -478,6 +478,8 @@
 	hud_holder.health = new /obj/hud/health(src)
 	hud_holder.combat = new /obj/hud/combat(src)
 
+	hud_holder.plane_masters += new /obj/hud/plane_master(src)
+
 	client.screen += hud_holder.bg_stats
 	client.screen += hud_holder.bg_health
 	client.screen += hud_holder.health

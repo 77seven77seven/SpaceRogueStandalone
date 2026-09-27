@@ -5,7 +5,7 @@
 	var/mob/human/owner
 	var/processing = FALSE
 
-/obj/hud/New(owner)
+/obj/hud/New(mob/human/owner)
 	src.owner = owner
 	if(processing)
 		processor.processing += src
@@ -22,6 +22,8 @@
 	var/obj/hud/health/health
 
 	var/obj/hud/combat/combat
+
+	var/list/plane_masters = list()
 
 /obj/hud/sysmas/proc/Update()
 	if(bg_stats)
@@ -145,3 +147,17 @@
 
 /obj/hud/fullscreen/death
 	icon_state = "death"
+
+/obj/hud/plane_master
+	name = "master plane master"
+
+	plane = GENERIC_PLANE
+	layer = 0
+	screen_loc = "CENTER"
+
+	mouse_opacity = 1
+	appearance_flags = PLANE_MASTER
+
+/obj/hud/plane_master/New(mob/human/owner)
+	. = ..()
+	owner.client.screen += src
