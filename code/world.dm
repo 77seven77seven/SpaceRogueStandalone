@@ -260,6 +260,11 @@ proc/get_random_light_color()
 
 	return flarov
 
+/proc/check_pixel_bounds(_x, _y, check_x, check_x2, check_y, check_y2)
+	if((_x >= check_x && _x <= check_x2) && (_y >= check_y && _y <= check_y2))
+		return TRUE
+	return FALSE
+
 /**
   * Hook for running code when a dir change occurs
   *

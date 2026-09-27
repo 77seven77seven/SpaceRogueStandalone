@@ -2,7 +2,7 @@
 	name = "EIPA Withdrawal Machine"
 	desc = "The place where the average employee gets his paycheck. Press the <font color='blue'>BLUE</font> button to identify yourself, and the <font color='green'>GREEN</font> button to withdraw."
 	desc_expansive = "The Employment Income Private Account withdrawal machine is linked to the CS&INB banking network to ensure all employees of CHEZ Group are easily paid. The machine was not manufactured by CHEZ, and it is instead being actively rented from Bluline Tech."
-	icon = 'icons/obj/terminals.dmi'
+	icon = 'icons/obj/terminals/terminals.dmi'
 	icon_state = "pay_machine"
 	var/mob/human/identified
 	var/atom/movable/whiteout

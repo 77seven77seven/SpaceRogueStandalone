@@ -83,6 +83,9 @@
 /obj/machine/door{
 	access = list("DIRECTOR")
 	},
+/obj/decal/floor{
+	icon_state = "wood_floor_transition"
+	},
 /turf/open/floor,
 /area/station)
 "q" = (
@@ -121,6 +124,12 @@
 	dir = 4
 	},
 /turf/open/floor,
+/area/station)
+"x" = (
+/obj/abstract/landmark/start{
+	name = "Director"
+	},
+/turf/open/floor/wood,
 /area/station)
 "y" = (
 /turf/solid/wall,
@@ -225,6 +234,9 @@
 	dir = 4
 	},
 /turf/open/floor,
+/area/station)
+"Q" = (
+/turf/open/floor/wood,
 /area/station)
 "R" = (
 /obj/machine/door,
@@ -6294,10 +6306,10 @@ A
 n
 A
 n
-a
-a
-a
-a
+Q
+Q
+Q
+Q
 n
 a
 a
@@ -6421,10 +6433,10 @@ n
 n
 A
 n
-a
-a
-a
-a
+Q
+x
+Q
+Q
 p
 a
 a
@@ -6548,10 +6560,10 @@ L
 n
 A
 n
-a
-a
-a
-a
+Q
+Q
+Q
+Q
 v
 a
 a
@@ -6675,10 +6687,10 @@ L
 n
 A
 n
-a
-a
-a
-a
+Q
+Q
+Q
+Q
 n
 a
 a
@@ -6802,10 +6814,10 @@ L
 n
 A
 n
-a
-a
-a
-a
+Q
+Q
+Q
+Q
 n
 a
 a
@@ -6929,10 +6941,10 @@ L
 n
 A
 n
-a
-a
-a
-a
+Q
+Q
+Q
+Q
 n
 a
 a
@@ -7319,7 +7331,7 @@ a
 a
 a
 a
-n
+e
 a
 a
 a
@@ -7446,7 +7458,7 @@ a
 a
 a
 a
-n
+e
 a
 a
 a
@@ -7573,7 +7585,7 @@ a
 a
 a
 a
-n
+e
 a
 a
 a
@@ -7700,7 +7712,7 @@ a
 a
 a
 a
-n
+e
 a
 a
 a
@@ -7827,7 +7839,7 @@ a
 a
 a
 a
-n
+e
 a
 a
 a

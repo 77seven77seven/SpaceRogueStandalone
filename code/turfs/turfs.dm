@@ -54,16 +54,28 @@
 	name = "floor"
 	icon = 'icons/turf/rs_floors.dmi'
 	icon_state = "floor"
+	var/artisinal = TRUE
 
 /turf/open/floor/Initialize()
 	. = ..()
-	icon_state = "[initial(icon_state)][rand(1,4)]"
-	dir = pick(NORTH,SOUTH,EAST,WEST)
+	if(artisinal)
+		icon_state = "[initial(icon_state)][rand(1,4)]"
+		dir = pick(NORTH,SOUTH,EAST,WEST)
 
 /turf/open/floor/dark
 	name = "floor"
 	icon = 'icons/turf/rs_floors.dmi'
 	icon_state = "dark"
+
+/turf/open/floor/wood
+	icon_state = "wood"
+	artisinal = FALSE
+
+/turf/open/floor/wood/alt
+	icon_state = "wood_alt"
+
+/turf/open/floor/wood/tile
+	icon_state = "wood_tile"
 
 /turf/open/space
 	name = "space"

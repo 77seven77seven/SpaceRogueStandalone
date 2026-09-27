@@ -36,6 +36,7 @@
 	maptext_width = 192
 	maptext_height = 128
 	maptext_x = 10
+	maptext_y = 2
 
 	maptext = "Help me!"
 

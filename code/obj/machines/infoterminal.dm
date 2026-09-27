@@ -5,5 +5,5 @@
 	maptext_height = 64
 	maptext_width = 64
 
-	icon = 'icons/obj/terminals.dmi'
+	icon = 'icons/obj/terminals/terminals.dmi'
 	icon_state = "infoscreen"

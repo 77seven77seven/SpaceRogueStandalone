@@ -6,6 +6,9 @@
 	var/inhand_icon = 'icons/human/inhands/items.dmi'
 	var/inhand_icon_state = "generic"
 
+	var/vendor_name = "YEAH" // Should be uppercase and four letters, five at a max.
+	var/vendor_price = -1 // Generic price to buy from a vendor. It's at a strange value for easy bugfinding.
+
 	var/storable = TRUE // Can it be put into the inventory?
 	var/stored = FALSE
 	var/harmful = FALSE // Only allows attack() calls when AWARENESS is toggled on.
@@ -86,8 +89,8 @@
 		return FALSE
 
 	holding.forceMove(drop_turf)
-	holding.pixel_x = clamp(client.mpx - world.icon_size / 2, -8, 8)
-	holding.pixel_y = clamp(client.mpy - world.icon_size / 2, -8, 8)
+	holding.pixel_x = clamp(client.mpx - world.icon_size / 2, -16, 16)
+	holding.pixel_y = clamp(client.mpy - world.icon_size / 2, -16, 16)
 
 	holding = null
 	UpdateInhand()

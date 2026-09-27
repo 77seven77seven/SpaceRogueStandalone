@@ -12,7 +12,7 @@
 /obj/deco/plant/Initialize()
 	. = ..()
 	icon_state = "[initial(icon_state)][rand(1,4)]"
-	desc = pick("What's wrong honey? Something not to your liking?","A genus of Tilia.","Tilia industria.","Smell the ashes.","Unsurprisingly, common plants don't thrive on space stations.","Blacker than a black hole sun.")
+	desc = pick("What's wrong honey? Something not to your liking?","A genus of Tilia.","Tilia industria.","Smell the ashes.","Unsurprisingly, plants don't thrive on space stations.","Blacker than a black hole sun.")
 
 /obj/deco/poster
 	name = "poster"

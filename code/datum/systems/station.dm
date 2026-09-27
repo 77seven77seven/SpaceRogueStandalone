@@ -2,11 +2,13 @@
 	var/list/humans = list()
 	var/list/dead_humans = list()
 	
+
+	var/mob/human/director
 	var/datum/investment/investments = list()
 
 	var/treasury = STATION_BUDGET_DEFAULT
 	var/treasury_defaulted = 0 // when at 3, the Director gets wanted and FIRED!
-	var/mob/human/director
+	var/treasury_tax = 0 // In percent, to get multiplier, use get_tax()
 
 	var/waters = 10 // Let them have some to start out with.
 	var/waters_price = 3 // Export price. Largely random, fluxuates. May drop temporarily on export.
@@ -44,6 +46,13 @@
 
 	for(var/mob/human/H in payroll)
 		H.chat_pda("WE APOLOGIZE. YOUR PAYSTUB OF [payroll[H]][pick("§","€$")] IS CURRENTLY UNAVAILABLE TO BE PROCESSED DUE TO LACK OF STATION FUNDS. WE APOLOGIZE FOR THE INCONVENIENCE.","bad")
+
+/datum/system/station/proc/get_tax()
+	var/tax_value = 0
+	if(treasury_tax)
+		tax_value = treasury_tax / 10
+
+	return tax_value
 
 /datum/system/station/Process()
 	if(world.time > next_paycheck)

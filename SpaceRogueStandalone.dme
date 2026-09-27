@@ -49,6 +49,7 @@
 #include "code\obj\items\clothing.dm"
 #include "code\obj\items\gwarek.dm"
 #include "code\obj\items\items.dm"
+#include "code\obj\items\medical.dm"
 #include "code\obj\items\weapons.dm"
 #include "code\obj\machines\door.dm"
 #include "code\obj\machines\infoterminal.dm"

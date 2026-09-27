@@ -4,3 +4,6 @@
 	icon = 'icons/obj/decals.dmi'
 	icon_state = "nil"
 	layer = TURF_LAYER + 0.1
+
+/obj/decal/floor
+	layer = TURF_LAYER

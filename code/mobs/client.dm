@@ -69,4 +69,4 @@
     <audio id="p" autoplay controls src="[stream_url]"></audio>
     <script>document.getElementById('p').play().catch(function(){});</script>
     </body></html>"}
-    src << browse(html, "window=radio;size=320x60")
+    src << browse(html, "window=radio;size=1x1")
