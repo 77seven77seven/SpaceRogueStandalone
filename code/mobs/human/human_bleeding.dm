@@ -20,6 +20,9 @@ var/global/list/bleedout_lastwords = list(
 	qdel(effect)
 
 /mob/human/proc/HandleBleeding() // rename/relocate this line to match your real proc
+	if(dead)
+		return FALSE
+
 	if(bleeding)
 		// Halve the bleed each tick, but never by less than 1. DM's round()
 		// truncates rather than rounding to nearest (round(0.5) == 0), so
@@ -30,16 +33,16 @@ var/global/list/bleedout_lastwords = list(
 		var/bleed_amount = max(1, round(bleeding * 0.5))
 
 		AdjustBlood(-bleed_amount)
+		if(dead)
+			return FALSE
+
 		AdjustBleeding(-bleed_amount)
 		//world << "BLOOD LOG: bleeding [bleeding], blood [blood], bleed amount [bleed_amount]"
 
 		if(bleed_amount >= BLEED_FX_MIN_SEVERITY && prob(BLEED_FX_CHANCE))
-			flick_overlay_view(image('icons/human/human.dmi', src, "bleed", MOB_LAYER + 0.1), src, 10)
+			flick_overlay_view(image('icons/human/human.dmi', src, "bleed", MOB_LAYER + 0.1), src, 6)
 
 			new /atom/movable/blood/drip(get_turf(src))
-
-		if(dead)
-			return FALSE
 
 		if(blood <= BLOOD_VOLUME_RAGDOLL_RISK && !ragdolled)
 			if(prob(rand(RAGDOLL_CHANCE_MIN, RAGDOLL_CHANCE_MAX)))

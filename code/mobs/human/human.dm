@@ -151,12 +151,14 @@
 	var/showtext = name
 	if(p == src)
 		return FALSE
+	if(dead)
+		return FALSE
 	if(p.client)
 		p.client.mouseover_text = image(src.icon, src)
-		p.client.mouseover_text.maptext_width = 128
-		p.client.mouseover_text.maptext_height = 64
+		p.client.mouseover_text.maptext_width = 256
+		p.client.mouseover_text.maptext_height = 128
 		p.client.mouseover_text.maptext_y = 70
-		p.client.mouseover_text.maptext_x = -64
+		p.client.mouseover_text.maptext_x = -96
 		p.client.mouseover_text.alpha = 0
 
 		p.client.images |= p.client.mouseover_text
@@ -170,7 +172,7 @@
 
 		animate(p.client.mouseover_text, alpha = 255, time = 2)
 
-		p.client.mouseover_text.maptext = {"<div style='font-size: 80%;font-family:serif;color:#a4a4a2;text-shadow:0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073; display: flex; align-items: center; justify-content: center; width: 96px; height: 32px; text-align: center;'>[uppertext(showtext)]</div>"}
+		p.client.mouseover_text.maptext = {"<div style='font-size: 200%;font-family:serif;color:#a4a4a2;text-shadow:0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073; display: flex; align-items: center; justify-content: center; width: 96px; height: 32px; text-align: center;'>[uppertext(showtext)]</div>"}
 
 /mob/human/proc/handle_mouseexit(params)
 	var/mob/p = usr
@@ -200,6 +202,8 @@
 	return FALSE
 
 /mob/human/proc/SetRagdolled(value)
+	if(dead)
+		value = TRUE
 	if(ragdolled == value)
 		return
 

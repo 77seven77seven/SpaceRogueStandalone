@@ -35,17 +35,20 @@
 	return
 
 /atom/movable/proc/examine(mob/human/user)
-	if(!desc)
+	if(!get_examine_text())
 		return FALSE
 	var/icon/I = getFlatIcon(src)
 
-	user << "\icon[I] <b>[name]</b> — [desc]"
+	user << "\icon[I] <b>[name]</b> — [get_examine_text()]"
 	if(desc_expansive)
 		if(user.SkillRoll(ENCY, TRUE))
 			user.playsound_local(get_turf(user), 'sound/effects/senses/intelligence.ogg', 100)
 			user << "<B>ENCYCLOPEDIA</b> — [desc_expansive]"
 
 	return TRUE
+
+/atom/movable/proc/get_examine_text()
+	return desc
 
 /atom/movable/proc/swing_anim(atom/A, pixelirona = 16, rostra = 15, timera = 2, rev = FALSE)
 	if(A == src)

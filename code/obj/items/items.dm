@@ -1,6 +1,5 @@
 /obj/item
 	name = "item"
-	desc = "It's an item."
 	icon = 'icons/obj/items.dmi'
 
 	var/inhand_icon = 'icons/human/inhands/items.dmi'

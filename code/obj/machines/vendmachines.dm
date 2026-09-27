@@ -32,7 +32,7 @@
 
 /obj/machine/vendor
 	name = "WENDR"
-	desc = ""
+	desc = "WENDR-type vz. 68. Not meant for civilian/consumer use. Limited in production. Tread lightly."
 
 	icon = 'icons/obj/terminals/terminals.dmi'
 	icon_state = "vend"
@@ -119,6 +119,7 @@
 
 /obj/machine/vendor/medic
 	name = "WENDR-MEDMED X36"
+	desc = "Most commonly used for use in medical areas. Features an expansive refridgerated sterile storage to minimize change of infection when using stored products."
 	overlay_icon = "medmed"
 	color_tint = "#bde9ff"
 

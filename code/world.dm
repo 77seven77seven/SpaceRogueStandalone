@@ -265,6 +265,16 @@ proc/get_random_light_color()
 		return TRUE
 	return FALSE
 
+/proc/is_stationbound(atom/A)
+	if(!A)
+		return
+	var/turf/T = get_turf(A)
+	if(!T)
+		return
+	var/area/AR = get_area(T)
+	if(istype(AR, /area/station))
+		return TRUE	
+
 /**
   * Hook for running code when a dir change occurs
   *

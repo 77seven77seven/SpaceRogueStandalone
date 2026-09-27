@@ -20,6 +20,19 @@
 		return
 	color = get_random_light_color()
 
+/obj/item/clothing/use(mob/human/H)
+	. = ..()
+	H.holding = null
+	H.UpdateInhand()
+
+	if(slot == "hat" && H.hat)
+		H.hat.remove_from_mob()
+	if(slot == "shirt" && H.shirt)
+		H.shirt.remove_from_mob()
+	if(slot == "pants" && H.pants)
+		H.pants.remove_from_mob()
+	H.equip_clothing(src)
+
 /obj/item/clothing/proc/equip_to(mob/human/H)
 	if(!istype(H))
 		return FALSE
@@ -91,7 +104,8 @@
 	wearer = null
 	if(!(src in old_wearer.inventory))
 		old_wearer.inventory += src
-	forceMove(get_turf(old_wearer))
+	else
+		forceMove(get_turf(old_wearer))
 	return TRUE
 
 /obj/item/clothing/hat
@@ -111,6 +125,12 @@
 /obj/item/clothing/shirt/New(loc)
 	. = ..()
 	onmob_icon_state = "shirt[rand(1,39)]"
+
+/obj/item/clothing/shirt/megadeathtether
+	name = "mega death tether fan shirt"
+	onmob_icon_state = "shirt40"
+
+/obj/item/clothing/shirt/megadeathtether/New(loc)
 
 /obj/item/clothing/pants
 	name = "pants"
