@@ -4,6 +4,7 @@
 
 /datum/vending_product
 	var/name = "generic"
+	var/full_name = "generico"
 	///Typepath of the product that is created when this record "sells"
 	var/product_path = null
 	///How many of this product we currently have
@@ -77,6 +78,7 @@
 		var/obj/item/temp = I
 		var/datum/vending_product/new_record = new
 		new_record.name = temp.vendor_name
+		new_record.full_name = uppertext(temp.name)
 		new_record.product_path = I
 		new_record.amount = amount
 		new_record.max_amount = amount
@@ -90,6 +92,10 @@
 		return
 	var/datum/vending_product/chosen = product_records[items_index]
 	maptext = "<div style='color:#A4A4A2; line-height: 0.6; text-align:center; font-size: 80%; font-family: Tiny5;'>[chosen.name]<br>[chosen.price]§</div>"
+
+/obj/machine/vendor/get_examine_text()
+	var/datum/vending_product/chosen = product_records[items_index]
+	return "<b>[chosen.name]:</b> [chosen.full_name] | <b>REMAINING STOCK:</b> [chosen.amount]"
 
 /obj/machine/vendor/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()

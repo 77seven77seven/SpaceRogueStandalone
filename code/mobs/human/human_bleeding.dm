@@ -1,6 +1,5 @@
 #define BLOOD_VOLUME_REGEN_RATE    2   // blood regained per tick while not bleeding
 #define BLOOD_VOLUME_RAGDOLL_RISK  40  // at/below this blood volume, collapse becomes possible
-#define BLEED_FX_MIN_SEVERITY      2   // minimum bleed_amount needed to show a blood-splash effect
 #define BLEED_FX_CHANCE            70  // % chance to show the splash when eligible
 #define RAGDOLL_CHANCE_MIN         10  // per-tick collapse chance floor at low blood
 #define RAGDOLL_CHANCE_MAX         40  // per-tick collapse chance ceiling at low blood
@@ -15,9 +14,6 @@ var/global/list/bleedout_lastwords = list(
 	"It's getting dark.",
 	"I'm scared of the dark, don't let me go!"
 )
-
-/mob/human/proc/clear_blood_effect(atom/movable/effect)
-	qdel(effect)
 
 /mob/human/proc/HandleBleeding() // rename/relocate this line to match your real proc
 	if(dead)
@@ -39,16 +35,43 @@ var/global/list/bleedout_lastwords = list(
 		AdjustBleeding(-bleed_amount)
 		//world << "BLOOD LOG: bleeding [bleeding], blood [blood], bleed amount [bleed_amount]"
 
-		if(bleed_amount >= BLEED_FX_MIN_SEVERITY && prob(BLEED_FX_CHANCE))
-			flick_overlay_view(image('icons/human/human.dmi', src, "bleed", MOB_LAYER + 0.1), src, 6)
-
-			new /atom/movable/blood/drip(get_turf(src))
+		if(prob(BLEED_FX_CHANCE))
+			bleed_effect()
 
 		if(blood <= BLOOD_VOLUME_RAGDOLL_RISK && !ragdolled)
 			if(prob(rand(RAGDOLL_CHANCE_MIN, RAGDOLL_CHANCE_MAX)))
 				SetRagdolled(TRUE)
+				go_blind(6)
 				if(prob(rand(RAGDOLL_LASTWORDS_MIN, RAGDOLL_LASTWORDS_MAX)))
 					chat_info(pick(bleedout_lastwords), "bad")
 
 	else if(!dead)
 		AdjustBlood(BLOOD_VOLUME_REGEN_RATE)
+
+/mob/human/proc/go_blind(tim = 5)
+	animate(client, color = "#000000", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 0.5)
+	sleep(1)
+	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = tim)
+
+/mob/human/proc/bleed_effect()
+	flick_overlay_view(image('icons/human/human.dmi', src, "bleed", MOB_LAYER + 0.1), src, 6)
+
+	new /atom/movable/blood/drip(get_turf(src))
+
+/mob/human/verb/planar()
+	var/duration = 10
+	var/intensity = 10
+	var/obj/hud/plane_master/PM = locate(/obj/hud/plane_master) in hud_holder.plane_masters
+
+	var/matrix/original_transform = PM.transform 
+	for(var/i in 1 to duration)
+		var/offset_x = rand(-intensity, intensity)
+		var/offset_y = rand(-intensity, intensity)
+
+		var/matrix/M = matrix(original_transform)
+		M.Translate(offset_x, offset_y)
+		
+		animate(PM, transform = M, time = 1, flags = ANIMATION_PARALLEL)
+		sleep(1)
+		
+	animate(PM, transform = original_transform, time = 1)

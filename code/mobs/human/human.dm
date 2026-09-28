@@ -44,7 +44,7 @@
 	var/starvation_damage = 2
 	var/dehydration_damage = 3
 
-	var/sorrow_recovery = 0.7
+	var/sorrow_recovery = 0.05
 
 	var/tmp/next_needs_process = 0
 	var/tmp/last_needs_process = 0
@@ -52,6 +52,7 @@
 	var/tmp/heart_attack = FALSE
 	var/tmp/hud_hunger
 	var/tmp/hud_thirst
+	var/tmp/hud_sorrow
 	var/tmp/list/cooldowns = list()
 
 	var/sorrow = 0 // if youre at 100 for too long, you suffer a heartattack, collapse and then die
@@ -95,6 +96,7 @@
 	last_needs_process = world.time
 	hud_hunger = hunger
 	hud_thirst = thirst
+	hud_sorrow = sorrow
 	UpdateMoveDelay()
 
 	filters += filter(type="drop_shadow", x=2, size=2, offset=1)
@@ -123,6 +125,7 @@
 
 /mob/human/Click(location, control, params)
 	. = ..()
+	if(usr != src) return
 	var/input = input(src, "bleed") as num|null
 	if(input)
 		AdjustBleeding(input)
@@ -427,7 +430,7 @@
 
 	if(stress)
 		AdjustSorrow(stress)
-	else if(sorrow < max_need)
+	else if(sorrow < max_need / 2)
 		AdjustSorrow(-sorrow_recovery)
 
 	if(sorrow >= max_need)
@@ -457,6 +460,7 @@
 	if(dead || heart_attack)
 		return FALSE
 	heart_attack = TRUE
+	go_blind(6)
 	SetRagdolled(TRUE)
 	if(health <= 0)
 		Die("heart attack")
@@ -502,6 +506,12 @@
 		hud_thirst = lerp(hud_thirst, thirst, HUMAN_NEEDS_HUD_LERP)
 		if(abs(hud_thirst - thirst) < 0.1)
 			hud_thirst = thirst
+	if(hud_sorrow == null)
+		hud_sorrow = sorrow
+	else
+		hud_sorrow = lerp(hud_sorrow, sorrow, HUMAN_NEEDS_HUD_LERP * 1.5)
+		if(abs(hud_sorrow - sorrow) < 0.1)
+			hud_sorrow = sorrow
 	hud_holder?.Update()
 
 /mob/human/proc/can_equip_clothing(obj/item/clothing/C)

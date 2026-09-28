@@ -25,8 +25,8 @@
 	damage_adjusted += rand(-3,4)
 
 	var/amplitude = min(4, (damage/100) + 1)
-	var/pixel_x_diff = rand(-amplitude, amplitude)
-	var/pixel_y_diff = rand(-amplitude/3, amplitude/2)
+	var/pixel_x_diff = ceil(rand(-amplitude, amplitude))
+	var/pixel_y_diff = ceil(rand(-amplitude/3, amplitude/2))
 	animate(target, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
 	animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE)
 
@@ -34,12 +34,15 @@
 	world << "DEBUG: damage log, [damage_adjusted]"
 	if(sharp && prob(damage_adjusted * 9))
 		target.AdjustBleeding(damage_adjusted * bloodloss_coefficient)
-		target.AdjustBlood(rand(-10,-1))
+		if(prob(10) && target.blood && !target.dead)
+			target.bleed_effect()
 
-		var/blood_prob = 25
+		var/blood_prob = 45
 		if(target.mind?.HasQuirk(/datum/quirk/bloodybastard))
 			blood_prob *= 3
-		if((prob(blood_prob) && target.blood))
+		if((prob(blood_prob) && target.blood) && !target.dead)
+			target.bleed_effect()
+			target.AdjustBlood(rand(-10,-1))
 			new /atom/movable/blood/splatter(get_turf(target), target)
 	else if(!sharp)
 		if(prob(rand(1,35)))

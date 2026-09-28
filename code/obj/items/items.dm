@@ -2,6 +2,8 @@
 	name = "item"
 	icon = 'icons/obj/items.dmi'
 
+	mouse_over_pointer = MOUSE_HAND_POINTER
+
 	var/inhand_icon = 'icons/human/inhands/items.dmi'
 	var/inhand_icon_state = "generic"
 
@@ -126,16 +128,41 @@
 	if(hydration)
 		H.AdjustThirst(-hydration)
 	if(mood)
-		H.AdjustSorrow(-mood)
+		var/moodrand = mood - rand(-4,4)
+		H.AdjustSorrow(-moodrand)
 
 	H.holding = null
-	qdel(src)
 	H.UpdateInhand()
+	
+	qdel(src)
 
-/obj/item/consumable/food
-	name = "meal"
-	nutrition = 35
+/obj/item/consumable/nutrition
+	name = "nutrition bar"
+	desc = "Imported from some backwater (compared to where <u>you</u> are though, it is quite close to human civilization at large) waterworld. Not very good, and the amount of time it took to transport here probably didn't do it any favors."
+	desc_expansive = "Fish offal and kelp, squeezed into a tightly packed nutritional brick through sheer tyranny of will."
+	nutrition = 20
+	mood = -12
 
-/obj/item/consumable/water
-	name = "water"
-	hydration = 35
+/obj/item/consumable/annegree
+	name = "Anne-Gree Cola"
+	icon_state = "drink"
+
+	desc = "A refreshing can of soda, mixed with chemicals to trick your taste buds into percepting it is colder than it is, even if stored at room temperature. Refreshing."
+	desc_expansive = "This product's name was censored after the UN Performative Display of Emotion Prohibition act was enacted, and prohibited brands from naming themselves or their products after emotions or feelings. Pronounced Anney-Gree. Supposedly."
+	hydration = 15
+	mood = 25
+
+	vendor_name = "ANNE"
+	vendor_price = 15
+
+/obj/item/consumable/limelite
+	name = "Lime-Lite"
+	icon_state = "tall_drink"
+
+	desc = "Lime-Lite™, a lithiated lemon-lime soda coming to space stations near you! Be refreshed, even in space."
+	desc_expansive = "Rumors are that the company behind Lime-Lite™ is owned by the same company that makes Anne-Gree®, using the fierce competition public angle as a mere marketing stunt between corporations."
+	hydration = 25
+	mood = 15
+
+	vendor_name = "LIME"
+	vendor_price = 15

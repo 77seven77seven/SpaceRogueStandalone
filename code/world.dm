@@ -18,7 +18,7 @@ var/global/list/landmarks_start_list = list()
 	fps = 60
 	icon_size = WORLD_ICON_SIZE
 	view = "13x13"
-	movement_mode = TILE_MOVEMENT_MODE
+	movement_mode = PIXEL_MOVEMENT_MODE
 
 	mob = /mob/lobbyman
 	turf = /turf/open/space
@@ -332,21 +332,3 @@ proc/get_random_light_color()
 	chat_announce("THEY CAN'T USE OUR SHAME AGAINST US!", "bad", sound('sound/effects/announce/two.ogg'))
 	sleep(3 SECONDS)
 	chat_announce("REGARDLESS OF RACE, SOCIAL STATUS, OR GENDER, WE'RE ALL AFFECTED!", "bad", sound('sound/effects/announce/three.ogg'))
-
-/mob/human/verb/planar()
-	var/duration = 10
-	var/intensity = 10
-	var/obj/hud/plane_master/PM = locate(/obj/hud/plane_master) in hud_holder.plane_masters
-
-	var/matrix/original_transform = PM.transform 
-	for(var/i in 1 to duration)
-		var/offset_x = rand(-intensity, intensity)
-		var/offset_y = rand(-intensity, intensity)
-
-		var/matrix/M = matrix(original_transform)
-		M.Translate(offset_x, offset_y)
-		
-		animate(PM, transform = M, time = 1, flags = ANIMATION_PARALLEL)
-		sleep(1)
-		
-	animate(PM, transform = original_transform, time = 1)

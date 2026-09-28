@@ -50,7 +50,7 @@
 		WEALTH: [owner.wealth]§
 		HUNGER: [floor(owner.hud_hunger)]%
 		THIRST: [floor(owner.hud_thirst)]%
-		SORROW: [floor(owner.sorrow)]%<br>
+		SORROW: [floor(owner.hud_sorrow)]%<br>
 		XP: [owner.client.xp]
 		</div>
 		"}
