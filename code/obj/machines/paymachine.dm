@@ -69,7 +69,7 @@
 			user.chat_pda("What?","bad")
 
 /obj/machine/pay/proc/get_portrait(mob/human/H)
-	var/icon/I = getFlatIcon(H, SOUTH)
+	var/icon/I = getFlatIcon(H, SOUTH, 0)
 	if(I)
 		var/icon/blend = icon(icon='icons/human/masking.dmi', icon_state="credits")
 		I.Blend(blend, ICON_MULTIPLY)
