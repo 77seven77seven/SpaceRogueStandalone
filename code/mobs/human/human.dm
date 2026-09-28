@@ -216,6 +216,9 @@
 		var/turnation = prob(50) ? 90 : -90
 		transform = M.Turn(turnation)
 
+		var/sund = pick('sound/effects/human/fall1.ogg','sound/effects/human/fall2.ogg')
+		playsound(get_turf(src), sund, vol = 150, ignore_walls = TRUE)
+
 		density = FALSE
 
 		if(holding)
@@ -274,6 +277,8 @@
 	UpdateHUD()
 	SetRagdolled(TRUE)
 
+	overlays -= eyes
+
 	if(processor)
 		processor.processing -= src
 
@@ -310,18 +315,18 @@
 	client?.screen += death
 	client?.color = "#000000"
 
-	SEND_SOUND(client, null)
-	SEND_SOUND(client, sound('sound/death.ogg'))
+	SEND_SOUND(src, null)
+	SEND_SOUND(src, sound('sound/death.ogg'))
 	animate(death, time = 50, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 255)
 
 	chat_info("[pick("I wouldn't worry too much about it.","It happens. Be patient, you're gonna be good as new in no time.","Cry cry cry... far away from the fame.","Like the Pharaeon.","Chameleon? Chameleon?! SPEAK TO ME!","Axolotl, axolotl, hear my prayer...")] <b>(-1 XP)</b>", "bad")
 
-	spawn(50)
+	spawn(16 SECONDS)
+		qdel(death)
+		client?.color = null
+
 		chat_info("[pick("Please, don't hate me. I'm only doing what I was meant to do.","I still love you... if that matters.","Life begins anew!","What were you expecting? It's a dangerous place.","Oh god, help me! HELP ME!")]")
 		client.color = null
-		animate(death, time = 10, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 0)
-		spawn(10)
-			qdel(death)
 
 		var/mob/lobbyman/newman = new()
 		newman.ckey = ckey
@@ -460,12 +465,23 @@
 	if(dead || heart_attack)
 		return FALSE
 	heart_attack = TRUE
-	go_blind(6)
+
+	var/amplitude = min(8, (100 / 100) + 2)
+	var/pixel_w_diff = rand(-amplitude, amplitude)
+	var/pixel_z_diff = rand(-amplitude / 1.5, amplitude / 1.5)
+	animate(src, pixel_w = pixel_w_diff, pixel_z = pixel_z_diff , time = 0.2 SECONDS, loop = 12, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
+	animate(pixel_w = -pixel_w_diff , pixel_z = -pixel_z_diff , time = 0.2 SECONDS, flags = ANIMATION_RELATIVE)
+
+	SEND_SOUND(client, sound('sound/effects/senses/heartattack.ogg'))
+	go_blind(1, 50)
 	SetRagdolled(TRUE)
-	if(health <= 0)
-		Die("heart attack")
-	else
-		TakeDamage(health, "heart attack")
+	chat_info("You feel a terrible pain spread through your chest, to your limbs, to the rest of your body.","bad")
+	spawn(10) chat_info("[pick("I don't wanna go.","It is the end.","I made my peace with.","God, forgive me.")]","bad")
+	spawn(40)
+		if(health <= 0)
+			Die("heart attack")
+		else
+			TakeDamage(health, "heart attack")
 	return TRUE
 
 /mob/human/proc/wristpad_display_change(colorina)

@@ -99,7 +99,7 @@
 	return list(CORP = 90, GUNS = 20 + rand(-10,10), PARANOIA = 60, MELEE = 10 + rand(-9,10))
 
 /datum/role/merc
-	title = "Contractor"
+	title = "Enforcer"
 	desc = "Make no mistake, you're a mercenary (Just don't let anyone talk about you like that.). A rent-a-cop from Sidereal Plexus, working on behalf of CHEZ Group and by extension the Director. As if the unofficial job title didn't make it clear enough, you're not here to 'give out fines' or 'detain people', or any of that official policeman business. You're here to keep the peace, no matter the cost. It's not like this recently bought roguestation has a prison. You're here to ensure the workers don't rise up, and profits soar. You're authorized to permanently neutralize any or all troublemakers and beat people that complain unconscious. Just make sure to only beat people that are wanted, wouldn't want you to be shocked, would we?"
 	cost = 4
 

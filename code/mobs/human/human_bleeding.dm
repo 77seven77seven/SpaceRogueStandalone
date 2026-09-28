@@ -41,17 +41,17 @@ var/global/list/bleedout_lastwords = list(
 		if(blood <= BLOOD_VOLUME_RAGDOLL_RISK && !ragdolled)
 			if(prob(rand(RAGDOLL_CHANCE_MIN, RAGDOLL_CHANCE_MAX)))
 				SetRagdolled(TRUE)
-				go_blind(6)
+				go_blind(4,10)
 				if(prob(rand(RAGDOLL_LASTWORDS_MIN, RAGDOLL_LASTWORDS_MAX)))
 					chat_info(pick(bleedout_lastwords), "bad")
 
 	else if(!dead)
 		AdjustBlood(BLOOD_VOLUME_REGEN_RATE)
 
-/mob/human/proc/go_blind(tim = 5)
-	animate(client, color = "#000000", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 0.5)
-	sleep(1)
-	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = tim)
+/mob/human/proc/go_blind(tim = 5, fade = 5)
+	animate(client, color = "#000000", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = tim)
+	sleep(5)
+	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = fade)
 
 /mob/human/proc/bleed_effect()
 	flick_overlay_view(image('icons/human/human.dmi', src, "bleed", MOB_LAYER + 0.1), src, 6)

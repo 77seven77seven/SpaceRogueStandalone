@@ -11,7 +11,32 @@
 	icon_state = "space"
 
 /area/station
+	name = "station"
 	icon_state = "generic"
 
 /area/station/medical
+	name = "medicaloids"
 	icon_state = "medicaloid"
+
+/area/station/corporate
+	name = "corpors"
+	icon_state = "corpo"
+
+/area/station/corporate/director
+	name = "director"
+
+/area/station/hydro
+	name = "hydroponics"
+	icon_state = "garden"
+
+/area/station/water
+	name = "waterworks"
+	icon_state = "waterworks"
+
+/area/station/tech
+	name = "techs"
+	icon_state = "engi"
+
+/area/station/tech/mining
+	name = "mining"
+	icon_state = "miner"
