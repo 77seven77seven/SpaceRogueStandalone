@@ -1,4 +1,4 @@
-#define VOICE_BLIP_SOUND        'sound/blip.wav'
+#define VOICE_BLIP_SOUND        'sound/blip.wav' // generic sound, override if needed :)
 #define VOICE_BASE_FREQUENCY    44100
 #define VOICE_PITCH_MIN         0.3
 #define VOICE_PITCH_MAX         0.65
@@ -11,11 +11,14 @@
 #define VOICE_BUBBLE_WIDTH      128
 
 /mob/human
+	var/voice_file = VOICE_BLIP_SOUND
 	var/voice_freq    = 0
 	var/voice_channel = 0
 	var/voice_seq     = 0
 	var/voice_color   = "white"
+
 	var/atom/movable/voice_bubble
+	var/atom/movable/emote_bubble
 
 // ---- Deterministic string hash (djb2-style, masked to stay float-exact) ----
 /proc/TextHash(text)
@@ -33,7 +36,37 @@
 	voice_freq = VOICE_PITCH_MIN + ((seed % 1000) / 1000) * spread
 	voice_channel = 1 + (seed % 1024)
 
-/mob/human/proc/VoiceBlip(message, sound_path = VOICE_BLIP_SOUND, pitch_override)
+/atom/movable/bubble
+	maptext_width = VOICE_BUBBLE_WIDTH
+	layer = MOB_LAYER + 0.5
+	maptext = ""
+
+/mob/human/verb/speak()
+	set name = ".speak"
+
+	if(dead || !client)
+		return FALSE
+
+	var/timer = world.time + 60
+	var/msg = input(src, null, null) as null|text
+
+	var/first_char = copytext(msg, 1, 2)
+
+	if(msg)
+		if(first_char == "*")
+			if(on_cooldown("emote"))
+				return FALSE
+			ParseEmote(copytext(msg, 2))
+		else
+			AnimatedSpeech(msg)
+	else
+		if(world.time > timer)
+			for(var/mob/M in hearers(6, src))
+				if(M.client)
+					var/icon/I = getFlatIcon(src, SOUTH)
+					M << "\icon[I] <b>[src]</b> wanted to say something, but \he changed \his mind."
+
+/mob/human/proc/AnimatedSpeech(message, sound_path = voice_file, pitch_override)
 	set waitfor = FALSE
 	if(!message || !length(message))
 		return
@@ -51,17 +84,14 @@
 	if(voice_bubble)
 		vis_contents -= voice_bubble
 
-	var/atom/movable/bubble = new()
-
 	var/mtet
 	WXH_TO_HEIGHT(client.MeasureText(message, null, VOICE_BUBBLE_WIDTH), mtet)
 
-	bubble.maptext_width = VOICE_BUBBLE_WIDTH
+	var/atom/movable/bubble/bubble = new()
 	bubble.maptext_height = mtet
 	bubble.maptext_x = (VOICE_BUBBLE_WIDTH - bound_width) * -0.5
 	bubble.pixel_y = bound_height * 0.95
-	bubble.layer = MOB_LAYER + 0.5
-	bubble.maptext = ""
+
 	voice_bubble = bubble
 	vis_contents += bubble
 
@@ -90,9 +120,63 @@
 	vis_contents -= bubble
 	animate(voice_bubble, VOICE_BUBBLE_LINGER, alpha = 10,  maptext_y = 20)
 	sleep(VOICE_BUBBLE_LINGER)
+	QDEL_NULL(bubble)
 	if(voice_seq == my_seq)
 		if(voice_bubble == bubble)
 			voice_bubble = null
+
+// EMOTES
+
+/mob/human/proc/ParseEmote(emote)
+	switch(emote)
+		if("gasp")
+			AnimatedEmote("gasps!", 'sound/effects/human/gasp_male.ogg')
+		else
+			AnimatedEmote(emote)
+
+/mob/human/proc/AnimatedEmote(message, sound_path = 'sound/effects/human/generic_emote.ogg')
+	set waitfor = FALSE
+	if(!message || !length(message))
+		return
+
+	if(emote_bubble)
+		vis_contents -= emote_bubble
+
+	cooldown("emote", 10 SECONDS)
+
+	var/mtet
+	WXH_TO_HEIGHT(client.MeasureText(message, null, VOICE_BUBBLE_WIDTH), mtet)
+
+	var/atom/movable/bubble/bubble = new()
+	bubble.maptext_height = mtet
+	bubble.maptext_x = (VOICE_BUBBLE_WIDTH - bound_width) * -0.5
+	bubble.pixel_y = bound_height * 0.95
+
+	emote_bubble = bubble
+	vis_contents += bubble
+
+	var/adjusted_message = "[first_name] [last_name] [message]"
+	bubble.maptext = "<span style='color:[voice_color];-dm-text-outline: 2px #23232391;text-align:center;font-size:13px'>[adjusted_message]</span>"
+
+	emote_bubble.loc = get_turf(src)
+	vis_contents -= bubble
+
+	if(sound_path)
+		playsound(get_turf(src), sound_path, 75)
+
+	animate(emote_bubble, 25, alpha = 0, maptext_y = 20)
+	sleep(25)
+	QDEL_NULL(bubble)
+	if(emote_bubble == bubble)
+		emote_bubble = null
+
+/mob/human/verb/count()
+	var/x = 0
+	for(var/atom/movable/bubble/B in world)
+		x++
+	world << x
+
+	AnimatedEmote("gasps!")
 
 /mob/human/proc/PlayBlip(pitch, sound_path)
 	var/wobble = 1 + (rand(-100, 100) * 0.01 * VOICE_JITTER)

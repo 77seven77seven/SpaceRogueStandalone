@@ -695,24 +695,6 @@
 		chat_info("[skill_name] --- ROLL: [roll]/100 , CHANCE: [probability]% , SKILL: [skill_value] , SORROW: -[sorrow_penalty] , DIFFICULTY: -[difficulty]")
 	return result
 
-/mob/human/verb/speak()
-	set name = ".speak"
-
-	if(dead || !client)
-		return FALSE
-
-	var/timer = world.time + 60
-	var/msg = input(src, null, null) as null|text
-
-	if(msg)
-		VoiceBlip(msg)
-	else
-		if(world.time > timer)
-			for(var/mob/M in hearers(6, src))
-				if(M.client)
-					var/icon/I = getFlatIcon(src, SOUTH)
-					M << "\icon[I] <b>[src]</b> wanted to say something, but \he changed \his mind."
-
 /mob/human/verb/toggle_cmode()
 	set name = ".cmode"
 

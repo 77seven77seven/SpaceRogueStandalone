@@ -14,8 +14,8 @@ var/global/list/landmarks_start_list = list()
 // Feel free to steal my game if you want, but you should probably be creative because being creative is cool.
 
 /world
-	name = "Fringe Sector: Roguestation Endera"
-	fps = 60
+	name = "Fringe Sector: In Rogue Space"
+	fps = 30
 	icon_size = WORLD_ICON_SIZE
 	view = "13x13"
 	movement_mode = PIXEL_MOVEMENT_MODE

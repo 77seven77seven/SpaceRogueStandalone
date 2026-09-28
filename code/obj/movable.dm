@@ -1,4 +1,6 @@
 /atom/movable
+	glide_size = 8
+	appearance_flags = TILE_BOUND|PIXEL_SCALE|LONG_GLIDE
 	var/desc_expansive = null
 
 /atom/movable/Click(location, control, params)
