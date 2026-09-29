@@ -23,17 +23,30 @@
 /client/MouseMove(object, location, control, params)
 	. = ..()
 	movered = get_turf(location)
+	mpx = null
+	mpy = null
 
-	if(isturf(location))
-		var/list/marams = params2list(params)
-		mpx = text2num(marams["icon-x"])
-		mpy = text2num(marams["icon-y"])
-	else
-		mpx = null
-		mpy = null
+	if(!isturf(location))
+		return
 
-	//src << "[mpx] [mpy]"
+	var/list/p = params2list(params)
+	var/screen_loc = p["screen-loc"]
+	if(!screen_loc)
+		return
 
+	var/list/parts = splittext(screen_loc, ",")
+	if(parts.len < 2)
+		return
+
+	mpx = screen_loc_pixel(parts[1])
+	mpy = screen_loc_pixel(parts[2])
+
+/proc/screen_loc_pixel(part)
+	var/list/bits = splittext(part, ":")
+	if(bits.len < 2)
+		return 0
+	return text2num(bits[bits.len]) // last element is the pixel offset
+	
 /client/proc/play_droning(music = null, vol = 50)
 	if(!music)
 		return
