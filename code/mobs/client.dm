@@ -24,9 +24,13 @@
 	. = ..()
 	movered = get_turf(location)
 
-	var/list/marams = params2list(params)
-	mpx = text2num(marams["icon-x"])
-	mpy = text2num(marams["icon-y"])
+	if(isturf(location))
+		var/list/marams = params2list(params)
+		mpx = text2num(marams["icon-x"])
+		mpy = text2num(marams["icon-y"])
+	else
+		mpx = null
+		mpy = null
 
 	//src << "[mpx] [mpy]"
 

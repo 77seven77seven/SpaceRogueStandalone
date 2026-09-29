@@ -90,8 +90,20 @@
 		return FALSE
 
 	holding.forceMove(drop_turf)
-	holding.pixel_x = clamp(client.mpx - world.icon_size / 2, -16, 16)
-	holding.pixel_y = clamp(client.mpy - world.icon_size / 2, -16, 16)
+
+	var/newx = 0
+	var/newy = 0
+	if(client.mpx != null && client.mpy != null)
+		newx = client.mpx - world.icon_size / 2
+		newy = client.mpy - world.icon_size / 2
+		if(!locate(/obj/deco/furniture/table) in drop_turf.contents)
+			newx = clamp(newx, -16, 16)
+			newy = clamp(newy, -16, 16)
+		else
+			newx = clamp(newx, -32, 32)
+			newy = clamp(newy, -32, 32)
+	holding.pixel_x = newx
+	holding.pixel_y = newy
 
 	holding = null
 	UpdateInhand()

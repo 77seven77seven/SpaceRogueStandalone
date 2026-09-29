@@ -108,16 +108,18 @@
 
 // SKILLS
 
-#define CORP "CORP"
-#define GUNS "GUNS"
+#define CORP "ESPRIT DE CORPO"
+#define GUNS "FIREARMS"
 #define PARANOIA "AAH!!!"
 #define MELEE "MELEE"
-#define HYDRO "HYDRO"
-#define PLUMB "PLUMB"
-#define TECH "TECH"
-#define MINE "MINE"
-#define MEDI "MEDI"
+#define HYDRO "HYDROPONICS"
+#define PLUMB "PLUMBING"
+#define TECH "TECHNOLOGY"
+#define MINE "MINING"
+#define MEDI "MEDICINE"
 #define ENCY "ENCYCLOPEDIA"
+#define MUSI "MUSIC"
+#define MYST "???" // Psionics
 
 // ECONOMY
 
