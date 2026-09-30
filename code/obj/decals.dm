@@ -7,3 +7,6 @@
 
 /obj/decal/floor
 	layer = TURF_LAYER
+
+/obj/decal/floor/turf
+	icon = 'icons/turf/decals.dmi'

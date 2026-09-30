@@ -21,15 +21,23 @@
 /turf/open/floor,
 /area/station)
 "dt" = (
-/obj/deco/trashcan{
-	pixel_x = -17;
-	pixel_y = 2
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 4
 	},
 /turf/open/floor,
 /area/station)
 "dy" = (
 /obj/machine/door{
 	dir = 4
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 4
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 8
 	},
 /turf/open/floor,
 /area/station/tech)
@@ -68,6 +76,21 @@
 "gF" = (
 /turf/solid/wall,
 /area/station/water)
+"hO" = (
+/obj/decal{
+	icon_state = "cantina0";
+	pixel_x = 0;
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station)
+"iz" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 1
+	},
+/turf/open/floor,
+/area/station/tech/mining)
 "iZ" = (
 /obj/decal{
 	icon_state = "chezsign2";
@@ -132,6 +155,13 @@
 /obj/door_control,
 /turf/solid/wall,
 /area/station/medical)
+"oK" = (
+/obj/deco/trashcan{
+	pixel_x = 15;
+	pixel_y = 3
+	},
+/turf/open/floor,
+/area/station)
 "oW" = (
 /obj/decal{
 	icon_state = "departures2"
@@ -181,6 +211,16 @@
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
+"sR" = (
+/obj/decal/floor{
+	icon_state = "wood_floor_transition";
+	dir = 1
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small"
+	},
+/turf/open/floor,
+/area/station/hydro)
 "tm" = (
 /obj/deco/plant{
 	pixel_x = 17;
@@ -253,6 +293,13 @@
 "Ao" = (
 /turf/solid/window,
 /area/station/corporate/director)
+"AG" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 1
+	},
+/turf/open/floor,
+/area/station)
 "BI" = (
 /turf/open/floor,
 /area/station/tech/mining)
@@ -269,6 +316,13 @@
 "Cg" = (
 /turf/solid/wall,
 /area/station)
+"CN" = (
+/obj/deco/plant{
+	pixel_x = 18;
+	pixel_y = 42
+	},
+/turf/open/floor/wood,
+/area/station/hydro)
 "DG" = (
 /obj/decal{
 	icon_state = "endera1";
@@ -324,6 +378,15 @@
 	},
 /turf/open/space,
 /area/space)
+"GL" = (
+/obj/deco/furniture/table{
+	icon_state = "12"
+	},
+/obj/decal/floor{
+	icon_state = "wood_floor_transition"
+	},
+/turf/open/floor,
+/area/station/hydro)
 "HL" = (
 /obj/item/gwarek{
 	pixel_x = -2;
@@ -367,6 +430,20 @@
 	},
 /turf/open/floor,
 /area/station/water)
+"MM" = (
+/obj/deco/furniture/table{
+	icon_state = "3"
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 8
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 4
+	},
+/turf/open/floor,
+/area/station/tech)
 "MS" = (
 /obj/machine/door{
 	dir = 4
@@ -384,6 +461,14 @@
 /obj/door_control,
 /turf/solid/wall,
 /area/station/tech)
+"Om" = (
+/obj/decal{
+	icon_state = "cantina1";
+	pixel_x = 0;
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station)
 "ON" = (
 /obj/door_control,
 /turf/solid/wall,
@@ -404,6 +489,9 @@
 	pixel_x = 0;
 	pixel_y = 64
 	},
+/obj/decal/floor/turf{
+	icon_state = "box_white"
+	},
 /turf/open/floor,
 /area/station)
 "Rm" = (
@@ -423,6 +511,13 @@
 "RT" = (
 /turf/open/space,
 /area/space)
+"Sw" = (
+/obj/deco/graffiti{
+	pixel_x = -64;
+	pixel_y = -2
+	},
+/turf/open/floor,
+/area/station)
 "SA" = (
 /obj/decal{
 	icon_state = "endera4";
@@ -487,6 +582,9 @@
 	},
 /turf/open/floor,
 /area/station)
+"Ye" = (
+/turf/open/floor/wood,
+/area/station/hydro)
 "Zd" = (
 /obj/decal{
 	icon_state = "departures4"
@@ -7436,7 +7534,7 @@ RT
 RT
 RT
 eM
-Zs
+Sw
 Zs
 eM
 RT
@@ -7534,7 +7632,7 @@ uY
 uY
 km
 MU
-dt
+Zs
 Zs
 no
 pa
@@ -7660,8 +7758,8 @@ uY
 uY
 uY
 RA
-Zs
-Zs
+dt
+dt
 pa
 pa
 pa
@@ -8424,7 +8522,7 @@ uY
 wi
 FE
 Zs
-Zs
+oK
 Zs
 Zs
 Cg
@@ -9705,9 +9803,9 @@ pU
 pU
 pU
 jN
-RT
-Cg
-Zs
+jN
+jN
+hO
 Zs
 Zs
 Cg
@@ -9830,11 +9928,11 @@ RT
 jN
 pU
 pU
-pU
+sR
+Ye
+Ye
 jN
-RT
-Cg
-Zs
+Om
 Zs
 Zs
 Cg
@@ -9957,11 +10055,11 @@ RT
 jN
 pU
 pU
-pU
-jN
-RT
-Cg
-Zs
+sR
+Ye
+Ye
+GL
+AG
 Zs
 Zs
 Cg
@@ -10084,11 +10182,11 @@ RT
 jN
 pU
 pU
-pU
-jN
-RT
-Cg
-Zs
+sR
+CN
+Ye
+GL
+AG
 Zs
 Zs
 Cg
@@ -10213,8 +10311,8 @@ pU
 pU
 pU
 jN
-RT
-Cg
+jN
+jN
 Zs
 Zs
 Zs
@@ -11084,8 +11182,8 @@ MZ
 dy
 KV
 KV
-TZ
-TZ
+MM
+MM
 KV
 KV
 KV
@@ -11216,7 +11314,7 @@ TZ
 TZ
 TZ
 TZ
-BI
+iz
 BI
 BI
 BI
@@ -11343,7 +11441,7 @@ TZ
 TZ
 TZ
 TZ
-BI
+iz
 BI
 BI
 BI

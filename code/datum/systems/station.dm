@@ -16,8 +16,8 @@
 	var/metals = 0
 	var/metals_price = 12
 
-	var/mworms = 10
-	var/mworms_price = 5
+	var/mlices = 10 // Meal Lice.
+	var/mlices_price = 5
 
 	var/list/newplayer_start = list()
 	var/next_paycheck = 0
