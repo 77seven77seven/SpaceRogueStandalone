@@ -154,11 +154,10 @@
 	plane = GENERIC_PLANE
 	layer = 0
 	screen_loc = "CENTER"
-	render_target = "render_all"
 
 	mouse_opacity = 1
 	appearance_flags = PLANE_MASTER
 
 /obj/hud/plane_master/New(mob/human/owner)
 	. = ..()
-	owner.client.screen += src
+	owner.client.screen |= src
