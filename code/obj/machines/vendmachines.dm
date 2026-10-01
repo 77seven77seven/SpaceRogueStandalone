@@ -44,11 +44,7 @@
 	density = TRUE
 	opacity = FALSE
 
-	maptext = "<div style='color:#A4A4A2; line-height: 0.6; text-align:center; font-size: 80%; font-family: Tiny5;'>OHNOE<br>900§</div>"
-	maptext_width = 40
-	maptext_height = 48
-	maptext_y = 32
-	maptext_x = 13
+	var/atom/movable/maptext_holder
 
 	var/list/items = list() // List of products this vendor sells, form should be list(/type/path = amount, /type/path2 = amount2)
 	var/list/datum/vending_product/product_records = list() // This is what is used for keeping track of items.
@@ -60,6 +56,16 @@
 
 /obj/machine/vendor/Initialize()
 	. = ..()
+
+	maptext_holder = new(src)
+	maptext_holder.maptext = "<div style='color:#A4A4A2; line-height: 0.6; text-align:center; font-size: 80%; font-family: Tiny5;'>OHNOE<br>900§</div>"
+	maptext_holder.maptext_width = 40
+	maptext_holder.maptext_height = 48
+	maptext_holder.maptext_y = 32
+	maptext_holder.maptext_x = 13
+
+	vis_contents += maptext_holder
+
 	build_inventory(product_records)
 	if(overlay_icon)
 		var/image/I = image('icons/obj/terminals/vendor_brands.dmi', src, overlay_icon)
@@ -70,6 +76,9 @@
 		I.alpha = 100
 		I.color = color_tint
 		overlays += I
+
+/obj/machine/vendor/proc/maptxt(text)
+	maptext_holder.maptext = text
 
 /obj/machine/vendor/proc/build_inventory(list/recordlist)
 	for(var/I in items)
@@ -91,7 +100,7 @@
 	if(!product_records.len)
 		return
 	var/datum/vending_product/chosen = product_records[items_index]
-	maptext = "<div style='color:#A4A4A2; line-height: 0.6; text-align:center; font-size: 80%; font-family: Tiny5;'>[chosen.name]<br>[chosen.price]§</div>"
+	maptxt("<div style='color:#A4A4A2; line-height: 0.6; text-align:center; font-size: 80%; font-family: Tiny5;'>[chosen.name]<br>[chosen.price]§</div>")
 
 /obj/machine/vendor/get_examine_text()
 	var/datum/vending_product/chosen = product_records[items_index]
@@ -105,6 +114,22 @@
 	if(check_pixel_bounds(_x, _y, 30, 36, 24, 30))
 		flick_overlay_view(image(src.icon, src, "confirm"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
+
+		var/datum/vending_product/VP = product_records[items_index]
+		if(VP.amount <= 0 || VP.price > user.wealth)
+			playsound(get_turf(src), 'sound/effects/pda/scanner0.ogg', vol = 75)
+			animate(maptext_holder, 0.5, color = "#ff0000")
+			animate(color = "#ffffff", time = 5)
+		else
+			user.AdjustMoney(-VP.price)
+			if(jammed)
+				user << "Tough luck, buddy." // TODO: temporary logic
+			else
+				VP.amount--
+				var/obj/item/new_item = new VP.product_path(src)
+				playsound(get_turf(src), 'sound/effects/obj/machine_vend.ogg', vol = 75)
+				sleep(0.331 SECONDS)
+				new_item.loc = get_turf(src)
 	else if(check_pixel_bounds(_x, _y, 22, 26, 24, 30))
 		flick_overlay_view(image(src.icon, src, "left"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)

@@ -167,6 +167,9 @@
 		. = L[L.len]
 		L.len--
 
+/proc/format_text(text)
+	return replacetext(replacetext(text,"\proper ",""),"\improper ","")
+
 /**
  * Takes a directory and returns every file within every sub directory.
  * If extensions_filter is provided then only files that end in that extension are given back.

@@ -20,7 +20,12 @@
 
 /obj/deco/poster/Initialize()
 	. = ..()
-	icon_state = "[initial(icon_state)]_[pick("un","cz","cz2","mountain","chez")]"
+	icon_state = "[initial(icon_state)]_[pick("un","cz","cz2","mdt","mountain","chez","hul")]"
+	var/matrix/turna = matrix(transform)
+	turna.Turn(rand(-3,3))
+	transform = turna
+
+	filters += filter(type="drop_shadow", x=2, size=1, offset=1)
 
 /obj/deco/graffiti
 	name = "graffiti"
@@ -105,3 +110,16 @@
 		var/obj/deco/furniture/table/east_table = locate(auto_type) in get_step(src, EAST)
 		if(north_table && east_table)
 			src.overlays += "NE"
+
+/obj/deco/fishtank
+	name = "fish tank"
+	desc = "Cool fish."
+	icon_state = "fishtank"
+	density = TRUE
+
+/obj/deco/fishtank/interact(mob/user, obj/item/held_item, params)
+	. = ..()
+	user << browse_rsc('interface/really_cool_fish.gif',"really_cool_fish.gif")
+	var/datum/popup/popup = new(user, "cool_fish", "Really Cool Fish")
+	popup.set_content("<p><img src=really_cool_fish.gif></p>[desc]")
+	popup.open()

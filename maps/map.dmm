@@ -3,6 +3,12 @@
 /obj/machine/door,
 /turf/open/floor,
 /area/station/hydro)
+"bl" = (
+/obj/deco/poster{
+	pixel_x = 64
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "bW" = (
 /mob/human{
 	name = "Mark X."
@@ -56,6 +62,10 @@
 	},
 /turf/open/floor,
 /area/station/water)
+"eI" = (
+/obj/machine/vendor/medic,
+/turf/open/floor/light,
+/area/station/medical)
 "eM" = (
 /turf/solid/window,
 /area/station)
@@ -63,7 +73,7 @@
 /obj/machine/door/glass{
 	dir = 4
 	},
-/turf/open/floor,
+/turf/open/floor/light,
 /area/station/medical)
 "fl" = (
 /obj/decal{
@@ -278,7 +288,7 @@
 /turf/solid/window,
 /area/station/maintenance)
 "wH" = (
-/turf/open/floor,
+/turf/open/floor/light,
 /area/station/medical)
 "yg" = (
 /obj/decal{
@@ -296,6 +306,12 @@
 /obj/door_control,
 /turf/solid/wall,
 /area/station/water)
+"zL" = (
+/obj/machine/vendor/wall{
+	pixel_x = -64
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "Ao" = (
 /turf/solid/window,
 /area/station/corporate/director)
@@ -426,9 +442,19 @@
 "KE" = (
 /turf/solid/window,
 /area/station/medical)
+"KN" = (
+/obj/abstract/landmark/start{
+	name = "Medicaloid"
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "KV" = (
 /turf/solid/wall,
 /area/station/tech)
+"Le" = (
+/obj/deco/furniture/table/auto,
+/turf/open/floor/light,
+/area/station/medical)
 "Lp" = (
 /turf/solid/wall,
 /area/station/medical)
@@ -481,6 +507,14 @@
 "Nu" = (
 /turf/solid/window,
 /area/space)
+"NU" = (
+/obj/machine/vendor/medic{
+	pixel_x = 0;
+	pixel_y = 37;
+	density = 0
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "Om" = (
 /obj/decal{
 	icon_state = "cantina1";
@@ -519,7 +553,7 @@
 	pixel_x = -16;
 	pixel_y = 36
 	},
-/turf/open/floor,
+/turf/open/floor/light,
 /area/station/medical)
 "RA" = (
 /obj/machine/door{
@@ -572,6 +606,12 @@
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
+"VY" = (
+/obj/deco/poster{
+	pixel_x = -64
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "WL" = (
 /obj/machine/door{
 	access = list("DIRECTOR")
@@ -7152,9 +7192,9 @@ IS
 IS
 IS
 Lp
-wH
-wH
-wH
+NU
+zL
+VY
 wH
 wH
 jj
@@ -7279,7 +7319,7 @@ ne
 ne
 ne
 Lp
-wH
+Rm
 wH
 wH
 wH
@@ -7535,7 +7575,7 @@ ne
 Lp
 wH
 wH
-wH
+KN
 wH
 wH
 KE
@@ -8041,9 +8081,9 @@ Cg
 ne
 ne
 Lp
-Lp
-eR
 ny
+eR
+Lp
 Lp
 Lp
 Lp
@@ -8170,9 +8210,9 @@ ne
 Lp
 Rm
 wH
+VY
 wH
-wH
-wH
+eI
 Lp
 Zs
 Zs
@@ -8552,8 +8592,8 @@ Lp
 wH
 wH
 wH
-wH
-wH
+KN
+Le
 Lp
 Zs
 Zs
@@ -8676,11 +8716,11 @@ Cg
 ne
 ne
 Lp
-wH
-wH
-wH
-wH
-wH
+NU
+bl
+Le
+Le
+Le
 Lp
 Zs
 Zs
@@ -10344,9 +10384,9 @@ RT
 RT
 RT
 RT
-IS
-IS
-IS
+gF
+gF
+gF
 RT
 RT
 RT

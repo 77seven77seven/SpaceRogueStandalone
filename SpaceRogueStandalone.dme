@@ -24,6 +24,7 @@
 #include "code\qdel.dm"
 #include "code\type2type.dm"
 #include "code\world.dm"
+#include "code\datum\browser.dm"
 #include "code\datum\goals.dm"
 #include "code\datum\job.dm"
 #include "code\datum\mind.dm"

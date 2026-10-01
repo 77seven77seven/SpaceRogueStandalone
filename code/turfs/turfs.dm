@@ -62,6 +62,15 @@
 		icon_state = "[initial(icon_state)][rand(1,4)]"
 		dir = pick(NORTH,SOUTH,EAST,WEST)
 
+/turf/open/floor/light
+	color = list(
+		1.25, 0,   0,   0,
+		0,   1.25, 0,   0,
+		0,   0,   1.25, 0,
+		0,   0,   0,   1, // Keeps alpha (transparency) normal
+		0,   0,   0,   0
+	)
+
 /turf/open/floor/dark
 	name = "floor"
 	icon = 'icons/turf/rs_floors.dmi'
