@@ -30,10 +30,13 @@ var/global/list/css_file_cache = list('interface/terminal.css')
 	var/content = ""
 	var/no_close_movement = FALSE
 
+	var/seen_enough = TRUE
+
 	var/default_stylesheet
 
 /datum/popup/terminal
 	default_stylesheet = 'interface/terminal.css'
+	seen_enough = FALSE
 
 /datum/popup/noclose
 	no_close_movement = TRUE
@@ -103,7 +106,7 @@ var/global/list/css_file_cache = list('interface/terminal.css')
 		[head_content]
 	</head>
 	<body scroll=auto>
-		<div style='text-align:right'><a href='byond://?src=[REF(user)];close=[window_id]'>I've seen enough.</a></div>
+		[seen_enough ? "<div style='text-align:right'><a href='byond://?src=[REF(user)];close=[window_id]'>I've seen enough.</a></div>" : null]
 	"}
 
 /datum/popup/proc/get_content()
@@ -120,6 +123,8 @@ var/global/list/css_file_cache = list('interface/terminal.css')
 	var/window_size = ""
 	if (width && height)
 		window_size = "size=[width]x[height];"
+	for (var/stylesheet in stylesheets)
+		user << browse_rsc(stylesheets[stylesheet], stylesheet)
 	user << browse(get_content(), "window=[window_id];[window_size][window_options]")
 	if (use_onclose)
 		setup_onclose()

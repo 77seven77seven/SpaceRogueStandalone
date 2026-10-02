@@ -19,6 +19,10 @@
 	var/mlices = 10 // Meal Lice.
 	var/mlices_price = 5
 
+	// FALSE = ILLEGAL, TRUE = LEGAL
+	var/legality_guns = FALSE
+	var/legality_gambling = FALSE
+
 	var/list/newplayer_start = list()
 	var/next_paycheck = 0
 

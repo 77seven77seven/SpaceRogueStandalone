@@ -23,6 +23,9 @@
 	var/blood = 100
 	var/bleeding = 0
 
+	var/shrapnel = 0 // how much shrapnel we have in us, shrapnel impedes natural blood clotting and causes pain
+	var/max_shrapnel = 3
+
 	var/bones = 2 // how many bones you can break
 	var/broke_bones = 0
 
@@ -394,6 +397,8 @@
 		penalty += 2
 	if(health <= 20 || blood <= 40)
 		penalty += 3
+
+	penalty += shrapnel
 
 	penalty += broke_bones * 1.5
 

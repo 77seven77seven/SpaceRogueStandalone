@@ -15,6 +15,12 @@
 	},
 /turf/open/floor,
 /area/station)
+"cq" = (
+/obj/machine/info{
+	pixel_x = 64
+	},
+/turf/open/floor,
+/area/station/tech)
 "cG" = (
 /turf/solid/wall,
 /area/station/corporate/director)
@@ -75,6 +81,12 @@
 	},
 /turf/open/floor/light,
 /area/station/medical)
+"eT" = (
+/obj/machine/info{
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station/hydro)
 "fl" = (
 /obj/decal{
 	icon_state = "chezsign4";
@@ -224,6 +236,13 @@
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
+"sK" = (
+/obj/deco/poster{
+	pixel_y = -62;
+	pixel_x = -3
+	},
+/turf/open/floor,
+/area/station)
 "sR" = (
 /obj/decal/floor{
 	icon_state = "wood_floor_transition";
@@ -329,12 +348,20 @@
 /turf/solid/wall,
 /area/space)
 "BR" = (
-/obj/deco/poster{
-	pixel_y = 67;
-	pixel_x = -2
+/obj/machine/info{
+	pixel_y = 64
 	},
 /turf/open/floor,
 /area/station)
+"Ce" = (
+/obj/abstract/landmark/start{
+	name = "Medicaloid"
+	},
+/obj/machine/info{
+	pixel_x = 128
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "Cg" = (
 /turf/solid/wall,
 /area/station)
@@ -345,6 +372,12 @@
 	},
 /turf/open/floor/wood,
 /area/station/hydro)
+"CP" = (
+/obj/machine/info{
+	pixel_x = 64
+	},
+/turf/open/floor,
+/area/station/water)
 "DG" = (
 /obj/decal{
 	icon_state = "endera1";
@@ -500,6 +533,12 @@
 	},
 /turf/open/floor,
 /area/station)
+"MY" = (
+/obj/machine/info{
+	pixel_x = 64
+	},
+/turf/open/floor,
+/area/station)
 "MZ" = (
 /obj/door_control,
 /turf/solid/wall,
@@ -604,6 +643,9 @@
 	pixel_x = 18;
 	pixel_y = 40
 	},
+/obj/machine/info{
+	pixel_x = 64
+	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
 "VY" = (
@@ -651,6 +693,12 @@
 	},
 /turf/solid/wall,
 /area/station)
+"Zl" = (
+/obj/machine/info{
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station/corporate)
 "Zs" = (
 /turf/open/floor,
 /area/station)
@@ -7832,7 +7880,7 @@ wH
 wH
 wH
 wH
-KE
+Lp
 Zs
 Zs
 Zs
@@ -8581,7 +8629,7 @@ uY
 uY
 wi
 FE
-Zs
+MY
 oK
 Zs
 Zs
@@ -8592,7 +8640,7 @@ Lp
 wH
 wH
 wH
-KN
+Ce
 Le
 Lp
 Zs
@@ -8958,7 +9006,7 @@ vu
 vu
 vu
 wi
-uY
+Zl
 uY
 wi
 RT
@@ -9370,7 +9418,7 @@ Zs
 Zs
 Zs
 Zs
-Zs
+sK
 Cg
 BR
 Zs
@@ -10373,7 +10421,7 @@ pU
 jN
 jN
 jN
-Zs
+BR
 Zs
 Zs
 Cg
@@ -10494,7 +10542,7 @@ ne
 ne
 ne
 jN
-pU
+eT
 pU
 pU
 jN
@@ -11113,7 +11161,7 @@ ne
 KV
 TZ
 TZ
-TZ
+cq
 TZ
 TZ
 TZ
@@ -11398,7 +11446,7 @@ gF
 JJ
 JJ
 JJ
-JJ
+CP
 JJ
 gF
 ne
@@ -12159,7 +12207,7 @@ RT
 gF
 EP
 JJ
-JJ
+CP
 JJ
 ev
 gF

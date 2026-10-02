@@ -1,7 +1,12 @@
 body, #inputcmd{
-  background-color: #333;
-  color: #00ff00;
+  background-color: #000000;
+  color: #707070;
   font-family: "andale mono",	/* MS WebFont */ "monotype.com",	/* MS WebFont, former name */ monaco,	/* MacOS */ /* Fallback options */ "courier new",	/* Windows, MacOS */ courier,	/* Unix+X, MacOS */ monospace;
+}
+
+a {
+	color: #707070;
+	text-shadow: 0 0 0 #707070;
 }
 
 #terminal-window {
@@ -9,16 +14,17 @@ body, #inputcmd{
   display: block;
   position : absolute;
   width: 100%;
-  height:100%;
+  height: auto;
   top : 0px;
   left : 0px;
-  background-color: #111;
+  background-color: #111111;
   overflow : hidden;
 }
 
 #terminal-window:before { 
     content: '';
     z-index: 4010;
+	pointer-events: none;
     width : 100%;
     height : 100%;
     position : absolute;
@@ -32,7 +38,7 @@ body, #inputcmd{
     animation: pulse 5s linear infinite;
 }
 #cursor {
-  color: #00ff00;
+  color: #707070;;
   box-sizing: border-box;
   border-left: .5em solid;
 }
@@ -48,6 +54,7 @@ body, #inputcmd{
 .scanlines:before {
   content : '';
   position : absolute;
+  pointer-events: none;
   top : 0px;
   left: 0px;
   width : 100%;
@@ -64,7 +71,7 @@ body, #inputcmd{
   font-size: 1em;
   /*hide default cursor*/
   color: transparent;
-  text-shadow: 0 0 0 #00ff00;
+  text-shadow: 0 0 0 #707070;
 }
 #inputcmd:focus{
     outline: none;
@@ -84,5 +91,5 @@ body, #inputcmd{
 }
 @keyframes blinking {
     from, to { border-color: transparent; }
-    50% { border-color: green; }
+    50% { border-color: #707070; }
 }

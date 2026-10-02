@@ -32,7 +32,15 @@ var/global/list/bleedout_lastwords = list(
 		if(dead)
 			return FALSE
 
-		AdjustBleeding(-bleed_amount)
+		var/bleeding_change = -bleed_amount * 0.7
+		switch(shrapnel)
+			if(1)
+				bleeding_change = -bleed_amount * 0.5
+			if(2) // It's pretty bad.
+				bleeding_change = -bleed_amount * 0.4
+			if(3) // If we have that much shrapnel in us, our bleeding never gets better.
+				bleeding_change = 0
+		AdjustBleeding(bleeding_change)
 		//world << "BLOOD LOG: bleeding [bleeding], blood [blood], bleed amount [bleed_amount]"
 
 		if(prob(BLEED_FX_CHANCE))
