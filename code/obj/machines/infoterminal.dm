@@ -7,3 +7,20 @@
 
 	icon = 'icons/obj/terminals/terminals.dmi'
 	icon_state = "infoscreen"
+
+/obj/machine/info/interact(mob/user, obj/item/held_item, params)
+	. = ..()
+	var/datum/popup/terminal/popup = new(user, "infoterminal", "Infoterminal")
+	popup.set_content(
+	{"
+
+	<div id="terminal-window">
+
+	OH FUCK
+	
+	</div>
+	<div class="scanlines"></div>
+	
+	"}
+	)
+	popup.open()

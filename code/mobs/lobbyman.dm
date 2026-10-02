@@ -6,6 +6,13 @@
 	var/deaf = FALSE
 	var/sound_environment_override = SOUND_ENVIRONMENT_NONE
 
+/mob/Topic(href, href_list)
+	. = ..()
+	if(href_list["close"])
+		var/windowid = href_list["close"]
+		src << browse(null, "window=[windowid]")
+		client.open_popups -= windowid
+
 /mob/Login()
 	. = ..()
 	src << load_resource('sound/music/spawn.ogg', 'sound/effects/senses/combat_on.ogg', 'sound/effects/senses/combat_off.ogg', 'sound/death.ogg', -1)

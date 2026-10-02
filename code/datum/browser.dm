@@ -1,3 +1,5 @@
+var/global/list/css_file_cache = list('interface/terminal.css')
+
 /client
 	var/list/open_popups = list()
 
@@ -18,7 +20,7 @@
 	var/width = 0
 	var/height = 0
 	var/atom/ref = null
-	var/window_options = "can_close=1;can_minimize=1;can_maximize=0;can_resize=1;titlebar=1;" // window option is set using window_id
+	var/window_options = "can_close=1;can_minimize=0;can_maximize=0;can_resize=1;titlebar=0;" // window option is set using window_id
 	var/stylesheets[0]
 	var/scripts[0]
 	var/title_image
@@ -27,6 +29,11 @@
 	var/head_content = ""
 	var/content = ""
 	var/no_close_movement = FALSE
+
+	var/default_stylesheet
+
+/datum/popup/terminal
+	default_stylesheet = 'interface/terminal.css'
 
 /datum/popup/noclose
 	no_close_movement = TRUE
@@ -52,6 +59,9 @@
 	if (nref)
 		ref = nref
 
+	if(default_stylesheet)
+		add_stylesheet("common", default_stylesheet)
+
 /datum/popup/proc/add_head_content(nhead_content)
 	head_content = nhead_content
 
@@ -60,6 +70,11 @@
 
 /datum/popup/proc/set_title_image(ntitle_image)
 	title_image = ntitle_image
+
+/datum/popup/proc/add_stylesheet(name, file)
+	var/asset_name = "[name].css"
+
+	stylesheets[asset_name] = file
 
 /datum/popup/proc/set_content(ncontent)
 	content = ncontent
@@ -75,8 +90,25 @@
 	</body>
 </html>"}
 
+/datum/popup/proc/get_header()
+	var/file
+	for (file in stylesheets)
+		head_content += "<link rel='stylesheet' type='text/css' href='[file]'>"
+		
+	return {"<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<head>
+		[head_content]
+	</head>
+	<body scroll=auto>
+		<div style='text-align:right'><a href='byond://?src=[REF(user)];close=[window_id]'>I've seen enough.</a></div>
+	"}
+
 /datum/popup/proc/get_content()
 	return {"
+	[get_header()]
 	[content]
 	[get_footer()]
 	"}
@@ -100,7 +132,7 @@
 			break
 
 /datum/popup/proc/close()
-	if(!isnull(window_id))//null check because this can potentially nuke goonchat
+	if(!isnull(window_id))//null check because this can potentially nuke goonchat, if I ever decide to add it
 		user << browse(null, "window=[window_id]")
 	else
 		CRASH("Browser [title] tried to close with a null ID")

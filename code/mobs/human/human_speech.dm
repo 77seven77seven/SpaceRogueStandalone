@@ -52,12 +52,14 @@
 
 	var/first_char = copytext(msg, 1, 2)
 
-	if(msg)
+	if(msg || msg != "")
+		msg = trim(copytext(sanitize(msg), 1, MAX_MESSAGE_LEN))
 		if(first_char == "*")
 			if(on_cooldown("emote"))
 				return FALSE
 			ParseEmote(copytext(msg, 2))
 		else
+			msg = punctualize(capitalize(msg))
 			AnimatedSpeech(msg)
 	else
 		if(world.time > timer)
@@ -94,6 +96,8 @@
 
 	voice_bubble = bubble
 	vis_contents += bubble
+
+	message = html_decode(message)
 
 	var/shown = ""
 	var/blip_count = 0

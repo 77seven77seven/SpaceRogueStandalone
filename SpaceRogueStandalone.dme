@@ -22,6 +22,7 @@
 #include "code\atom.dm"
 #include "code\auxtools.dm"
 #include "code\qdel.dm"
+#include "code\text.dm"
 #include "code\type2type.dm"
 #include "code\world.dm"
 #include "code\datum\browser.dm"

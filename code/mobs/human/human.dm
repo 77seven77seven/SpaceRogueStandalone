@@ -624,7 +624,7 @@
 		replicao += "fancy"
 
 	var/firsto = "[pick(world.file2list("strings/[pick(replicao)]_[gendero].txt"))]"
-	var/lasto = "[GetRandomLetterUpper()]."
+	var/lasto = "[random_capital_letter()]."
 
 	first_name = firsto
 	last_name = lasto
