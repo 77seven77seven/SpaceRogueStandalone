@@ -4,6 +4,9 @@
 
 	mouse_over_pointer = MOUSE_HAND_POINTER
 
+	var/dropshrink = 0.8
+	var/droprot = TRUE
+
 	var/inhand_icon = 'icons/human/inhands/items.dmi'
 	var/inhand_icon_state = "generic"
 
@@ -19,6 +22,16 @@
 	
 /obj/item/proc/attack(mob/human/user, mob/human/target) // when user clicks target, it prompts interact, which then prompts attack on the item.
 	return
+
+/obj/item/proc/update_transform()
+	transform = null
+	if(isturf(loc))
+		var/matrix/M = matrix()
+		if(dropshrink)
+			M.Scale(dropshrink,dropshrink)
+		if(droprot)
+			M.Turn(rand(50,350))
+		transform = M
 
 /obj/item/proc/do_pickup_animation(atom/target)
 	set waitfor = FALSE
@@ -52,6 +65,10 @@
 	sleep(3)
 
 	qdel(I)
+
+/obj/item/Initialize()
+	. = ..()
+	update_transform()
 
 /obj/item/interact(mob/user, obj/item/held_item) // picking up
 	. = ..()
@@ -90,6 +107,7 @@
 		return FALSE
 
 	holding.forceMove(drop_turf)
+	holding.update_transform()
 
 	var/newx = 0
 	var/newy = 0
@@ -125,6 +143,7 @@
 
 	inventory += holding
 	holding.forceMove(src)
+	holding.update_transform()
 	holding = null
 	UpdateInhand()
 

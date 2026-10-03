@@ -1,4 +1,4 @@
-/obj/item/weapon
+/obj/item/melee
 	name = "weapon"
 	desc = "It's a weapon."
 	inhand_icon = 'icons/human/inhands/melee.dmi'
@@ -13,7 +13,7 @@
 	
 	var/attack_delay = 25 // Self explanatory. So you don't smeck someone thirty times in a milisecond.
 
-/obj/item/weapon/attack(mob/human/user, mob/human/target) // TODO: make a lot of these be affected by melee skill, both on defense and offense
+/obj/item/melee/attack(mob/human/user, mob/human/target) // TODO: make a lot of these be affected by melee skill, both on defense and offense
 	. = ..()
 	if(user.on_cooldown("attack_cd"))
 		return FALSE
@@ -61,7 +61,7 @@
 				target.chat_info("MY TEETH!","bad")
 				// teeth knock out logic
 
-/obj/item/weapon/knife
+/obj/item/melee/knife
 	name = "knife"
 	inhand_icon_state = "knife"
 	sharp = TRUE

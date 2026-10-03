@@ -56,13 +56,15 @@ var/global/list/bleedout_lastwords = list(
 		AdjustBlood(BLOOD_VOLUME_REGEN_RATE)
 
 /mob/human/proc/go_blind(tim = 5, fade = 5)
+	if(!client)
+		return
 	animate(client, color = "#000000", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = tim)
 	sleep(5)
 	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = fade)
 
 /mob/human/proc/bleed_effect()
 	if(prob(BLEED_FX_CHANCE))
-		flick_overlay_view(image('icons/human/human.dmi', src, "bleed", MOB_LAYER + 0.1), src, 6)
+		flick_overlay_view(image('icons/human/blood.dmi', src, "bleed", MOB_LAYER + 0.1), src, 6)
 
 	var/vol2use
 	switch(rand(1,4))

@@ -96,7 +96,7 @@
 	H.overlays += badge
 
 /datum/role/director/get_skills()
-	return list(CORP = 90, GUNS = 20 + rand(-10,10), PARANOIA = 60, MELEE = 10 + rand(-9,10))
+	return list(CORP = 90, GUNS = 30 + rand(-10,20), PARANOIA = 60, MELEE = 10 + rand(-9,10))
 
 /datum/role/merc
 	title = "Enforcer"
@@ -121,7 +121,7 @@
 	H.overlays += merc_badge
 
 /datum/role/merc/get_skills()
-	return list(CORP = 60, GUNS = 40 + rand(-10,10), MELEE = 60 + rand(-10,10), PARANOIA = 40)
+	return list(CORP = 60, GUNS = 40 + rand(-10,40), MELEE = 60 + rand(-10,20), PARANOIA = 40)
 
 /datum/role/gardener
 	title = "Hydroponocist"

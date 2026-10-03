@@ -9,6 +9,7 @@
 	src << "<span class='[style]' style='font-family:Verdana'>[msg]</span>"
 
 /proc/chat_announce(msg, style="good", sound/optional_sound)
+	station.speakertower.do_blip()
 	for(var/mob/human/H in station.humans)
 		if(is_stationbound(H))
 			H << "<span class='[style]'>You hear a loud booming voice echoing through the halls:</span>"

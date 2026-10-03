@@ -16,6 +16,14 @@
 		chat_pda("TRANSACTION LOGGED. YOU HAVE BEEN TRANSFERRED: [amount][pick("§","€$")]. <b>[pick(lines)]</b>","pay", TRUE)
 	playsound(get_turf(src), 'sound/effects/pda/pay.ogg', 50, FALSE, -3)
 
+/mob/human/proc/AttemptTransaction(amount)
+	if(wealth > amount)
+		AdjustMoney(-amount)
+		return TRUE
+	else
+		chat_pda("TRANSACTION FAIL! <b>YOU'RE BROKE!</b>","bad")
+	return FALSE
+
 /mob/human/proc/AdjustPaycheck(amount, silent = FALSE)
 	mind.paycheck = amount
 	UpdateHUD()

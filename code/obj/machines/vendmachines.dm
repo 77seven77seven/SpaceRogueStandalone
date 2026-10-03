@@ -64,6 +64,9 @@
 	maptext_holder.maptext_y = 32
 	maptext_holder.maptext_x = 13
 
+	maptext_holder.layer = src.layer
+	maptext_holder.plane = src.plane
+
 	vis_contents += maptext_holder
 
 	build_inventory(product_records)
@@ -116,12 +119,11 @@
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
 
 		var/datum/vending_product/VP = product_records[items_index]
-		if(VP.amount <= 0 || VP.price > user.wealth)
+		if(VP.amount <= 0 || !user.AttemptTransaction(VP.price))
 			playsound(get_turf(src), 'sound/effects/pda/scanner0.ogg', vol = 75)
 			animate(maptext_holder, 0.5, color = "#ff0000")
 			animate(color = "#ffffff", time = 5)
 		else
-			user.AdjustMoney(-VP.price)
 			if(jammed)
 				user << "Tough luck, buddy." // TODO: temporary logic
 			else
@@ -130,6 +132,7 @@
 				playsound(get_turf(src), 'sound/effects/obj/machine_vend.ogg', vol = 75)
 				sleep(0.331 SECONDS)
 				new_item.loc = get_turf(src)
+				new_item.update_transform()
 	else if(check_pixel_bounds(_x, _y, 22, 26, 24, 30))
 		flick_overlay_view(image(src.icon, src, "left"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)

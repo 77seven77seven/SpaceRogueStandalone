@@ -244,6 +244,48 @@ proc/get_random_light_color()
 	if(istype(AR, /area/station))
 		return TRUE	
 
+/proc/firearm_recoil_mob(mob/human/M)
+	var/base_pixel_x = M.pixel_x
+	var/base_pixel_y = M.pixel_y
+
+	// FIREARMS skill (0-100) dampens recoil: 16 px with no skill, down to 2 px at skill 100
+	var/gun_skill = 0
+	if(istype(M, /mob/human))
+		gun_skill = clamp(M.mind?.GetSkill(GUNS) || 0, 0, 100)
+	var/recoil = 16 - round(gun_skill / 100 * 14)
+
+	var/pixel_x_diff = 0
+	var/pixel_y_diff = 0
+
+	switch(M.dir)
+		if(NORTH)
+			pixel_y_diff = -recoil
+		if(SOUTH)
+			pixel_y_diff = recoil
+		if(EAST)
+			pixel_x_diff = -recoil
+		if(WEST)
+			pixel_x_diff = recoil
+
+	M.pixel_x = base_pixel_x
+	M.pixel_y = base_pixel_y
+
+	animate(
+		M,
+		pixel_x = base_pixel_x + pixel_x_diff,
+		pixel_y = base_pixel_y + pixel_y_diff,
+		time = 1,
+		easing = CIRCULAR_EASING,
+		flags = ANIMATION_PARALLEL
+		)
+	animate(
+		pixel_x = base_pixel_x,
+		pixel_y = base_pixel_y,
+		time = 3,
+		easing = SINE_EASING,
+		flags = ANIMATION_PARALLEL
+		)
+
 /**
   * Hook for running code when a dir change occurs
   *

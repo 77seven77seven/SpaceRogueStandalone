@@ -123,3 +123,30 @@
 	var/datum/popup/popup = new(user, "cool_fish", "Really Cool Fish")
 	popup.set_content("<p><img src=really_cool_fish.gif></p>[desc]")
 	popup.open()
+
+/obj/deco/speakertower
+	name = "Public Announcement Terminal"
+	icon = 'icons/obj/64x128.dmi'
+	icon_state = "speakertower"
+
+	layer = FLY_LAYER
+	density = TRUE
+
+	var/atom/movable/blip
+
+	desc = "A temporary solution to P.A. addresses, pretty much just a pole with very, very loud speakers. Connected directly to the Director's console and the station's AI."
+	desc_expansive = "It has a stupidly done, very much makeshift design that allows for easy tampering and hijacking. As said, it is temporary. P.S: P.A. stands for Public Address, or Public Announcement."
+
+/obj/deco/speakertower/Initialize()
+	. = ..()
+	station.speakertower = src
+
+	blip = new(src)
+	blip.icon = src
+
+	blip.layer = FLY_LAYER
+	vis_contents += blip
+
+/obj/deco/speakertower/proc/do_blip(colori)
+	blip.color = colori
+	flick("speakertower-blip", blip)

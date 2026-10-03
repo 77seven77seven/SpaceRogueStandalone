@@ -1,7 +1,8 @@
 /datum/system/station
 	var/list/humans = list()
 	var/list/dead_humans = list()
-	
+
+	var/obj/deco/speakertower/speakertower
 
 	var/mob/human/director
 	var/datum/investment/investments = list()

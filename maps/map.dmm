@@ -30,9 +30,27 @@
 "cG" = (
 /turf/solid/wall,
 /area/station/corporate/director)
+"cQ" = (
+/obj/deco/speakertower{
+	pixel_y = 26;
+	pixel_x = -1
+	},
+/obj/decal/floor/turf{
+	icon_state = "box_white"
+	},
+/turf/open/floor,
+/area/station)
 "cU" = (
 /obj/decal{
 	icon_state = "chezsign1";
+	pixel_x = 0;
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station)
+"cV" = (
+/obj/decal{
+	icon_state = "medi1";
 	pixel_x = 0;
 	pixel_y = 64
 	},
@@ -101,12 +119,28 @@
 	},
 /turf/open/floor,
 /area/station/water)
+"fZ" = (
+/obj/decal{
+	icon_state = "chez1";
+	pixel_x = -32;
+	pixel_y = 64
+	},
+/turf/open/floor/wood,
+/area/station/corporate/director)
 "gF" = (
 /turf/solid/wall,
 /area/station/water)
 "hO" = (
 /obj/decal{
 	icon_state = "cantina0";
+	pixel_x = 0;
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station)
+"id" = (
+/obj/decal{
+	icon_state = "medi0";
 	pixel_x = 0;
 	pixel_y = 64
 	},
@@ -119,6 +153,22 @@
 	},
 /turf/open/floor,
 /area/station/tech/mining)
+"iH" = (
+/obj/decal{
+	icon_state = "chezsign3";
+	pixel_x = 0;
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station/corporate)
+"iP" = (
+/obj/decal{
+	icon_state = "chezsign2";
+	pixel_x = 0;
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station/corporate)
 "iZ" = (
 /obj/decal{
 	icon_state = "chezsign2";
@@ -186,6 +236,14 @@
 /obj/door_control,
 /turf/solid/wall,
 /area/station/medical)
+"nB" = (
+/obj/decal{
+	icon_state = "chez0";
+	pixel_x = -32;
+	pixel_y = 64
+	},
+/turf/open/floor/wood,
+/area/station/corporate/director)
 "oK" = (
 /obj/deco/trashcan{
 	pixel_x = 15;
@@ -219,6 +277,14 @@
 "pU" = (
 /turf/open/floor,
 /area/station/hydro)
+"qH" = (
+/obj/decal{
+	icon_state = "chezsign4";
+	pixel_x = 0;
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station/corporate)
 "qV" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small"
@@ -272,6 +338,17 @@
 	},
 /turf/open/floor,
 /area/station)
+"tH" = (
+/obj/abstract/landmark/start{
+	name = "Enforcer"
+	},
+/obj/decal{
+	icon_state = "chez1";
+	pixel_x = -32;
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station/corporate)
 "tR" = (
 /obj/decal{
 	icon_state = "chezsign4";
@@ -321,6 +398,21 @@
 "wH" = (
 /turf/open/floor/light,
 /area/station/medical)
+"xa" = (
+/obj/deco/plant{
+	pixel_x = 18;
+	pixel_y = 40
+	},
+/turf/open/floor,
+/area/station/corporate)
+"xd" = (
+/obj/decal{
+	icon_state = "chezsign1";
+	pixel_x = 0;
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station/corporate)
 "xr" = (
 /obj/abstract/landmark/start{
 	name = "Hydroponocist"
@@ -363,9 +455,6 @@
 	},
 /turf/open/floor/light,
 /area/station/medical)
-"Ao" = (
-/turf/solid/window,
-/area/station/corporate/director)
 "AG" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small";
@@ -612,6 +701,12 @@
 /obj/deco/furniture/table/auto,
 /turf/open/floor/wood,
 /area/station/corporate/director)
+"PO" = (
+/obj/abstract/landmark/start{
+	name = "Enforcer"
+	},
+/turf/open/floor,
+/area/station/corporate)
 "PU" = (
 /obj/deco/poster{
 	pixel_y = 64;
@@ -640,6 +735,14 @@
 /obj/machine/door{
 	access = list("CORP");
 	dir = 1
+	},
+/turf/open/floor,
+/area/station/corporate)
+"RL" = (
+/obj/decal{
+	icon_state = "chez0";
+	pixel_x = -32;
+	pixel_y = 64
 	},
 /turf/open/floor,
 /area/station/corporate)
@@ -731,7 +834,7 @@
 /turf/open/floor,
 /area/station)
 "Xc" = (
-/obj/item/weapon/knife,
+/obj/item/melee/knife,
 /turf/open/floor,
 /area/station)
 "Xr" = (
@@ -7666,13 +7769,13 @@ IS
 ne
 cG
 cG
-Ao
-Ao
+cG
+cG
 cG
 cG
 wi
-wi
-wi
+vu
+vu
 wi
 wi
 Cg
@@ -8071,7 +8174,7 @@ wH
 wH
 wH
 Lp
-Zs
+id
 Zs
 Zs
 Cg
@@ -8173,15 +8276,15 @@ RT
 IS
 ne
 cG
-Gn
+nB
 Gn
 Gn
 Pu
 cG
+PO
 uY
 uY
-uY
-uY
+Fw
 wi
 Qu
 Zs
@@ -8198,7 +8301,7 @@ Lp
 Lp
 Lp
 Lp
-Zs
+cV
 Zs
 Zs
 Cg
@@ -8300,15 +8403,15 @@ RT
 IS
 ne
 cG
-Gn
+fZ
 Gn
 lC
 Pu
 cG
+RL
 uY
 uY
-uY
-uY
+Fw
 wi
 cU
 Zs
@@ -8432,10 +8535,10 @@ SJ
 Pu
 Pu
 cG
+tH
 uY
 uY
-uY
-uY
+Fw
 wi
 iZ
 Zs
@@ -8562,7 +8665,7 @@ cG
 uY
 uY
 uY
-uY
+Fw
 wi
 TI
 Zs
@@ -8682,9 +8785,9 @@ IS
 ne
 wi
 pf
+PO
 uY
-uY
-uY
+PO
 uY
 uY
 uY
@@ -8935,7 +9038,7 @@ RT
 IS
 ne
 wi
-uY
+xd
 uY
 uY
 uY
@@ -9062,7 +9165,7 @@ RT
 IS
 ne
 wi
-uY
+iP
 uY
 wi
 vu
@@ -9189,7 +9292,7 @@ RT
 IS
 ne
 wi
-uY
+iH
 uY
 uY
 uY
@@ -9316,7 +9419,7 @@ RT
 IS
 ne
 wi
-uY
+qH
 uY
 uY
 uY
@@ -9443,7 +9546,7 @@ RT
 IS
 ne
 wi
-uY
+xa
 uY
 Fw
 Fw
@@ -9456,7 +9559,7 @@ wi
 RT
 Cg
 TI
-Zs
+cQ
 Zs
 Zs
 Zs
