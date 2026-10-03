@@ -43,8 +43,7 @@ var/global/list/bleedout_lastwords = list(
 		AdjustBleeding(bleeding_change)
 		//world << "BLOOD LOG: bleeding [bleeding], blood [blood], bleed amount [bleed_amount]"
 
-		if(prob(BLEED_FX_CHANCE))
-			bleed_effect()
+		bleed_effect()
 
 		if(blood <= BLOOD_VOLUME_RAGDOLL_RISK && !ragdolled)
 			if(prob(rand(RAGDOLL_CHANCE_MIN, RAGDOLL_CHANCE_MAX)))
@@ -62,7 +61,20 @@ var/global/list/bleedout_lastwords = list(
 	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = fade)
 
 /mob/human/proc/bleed_effect()
-	flick_overlay_view(image('icons/human/human.dmi', src, "bleed", MOB_LAYER + 0.1), src, 6)
+	if(prob(BLEED_FX_CHANCE))
+		flick_overlay_view(image('icons/human/human.dmi', src, "bleed", MOB_LAYER + 0.1), src, 6)
+
+	var/vol2use
+	switch(rand(1,4))
+		if(1)
+			vol2use = 'sound/effects/human/bleeding/BloodDrip0.ogg'
+		if(2)
+			vol2use = 'sound/effects/human/bleeding/BloodDrip1.ogg'
+		if(3)
+			vol2use = 'sound/effects/human/bleeding/BloodDrip2.ogg'
+		if(4)
+			vol2use = 'sound/effects/human/bleeding/BloodDrip3.ogg'
+	playsound(get_turf(src), vol2use, 30, TRUE, -1)
 
 	new /atom/movable/blood/drip(get_turf(src))
 

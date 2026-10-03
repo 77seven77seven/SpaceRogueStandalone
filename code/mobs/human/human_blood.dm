@@ -7,18 +7,17 @@
 
 /atom/movable/blood/drip/Initialize()
 	. = ..()
-	icon_state = "drip[rand(1,6)]"
+	icon_state = "drip[rand(1,4)]"
 	pixel_x = rand(-10,10)
 	pixel_y = rand(-10,10)
 
-	animate(src, 500, alpha = 0)
-	QDEL_IN(src, 500)
+	animate(src, 2 MINUTES, alpha = 0)
+	QDEL_IN(src, 2 MINUTES)
 
 /atom/movable/blood/splatter/New(loc, ss)
 	. = ..()
 	icon_state = "splatter[rand(1,4)]"
 	swing_anim(ss, rand(1,5), rand(7,8), rev = TRUE)
-	animate(src, 3, pixel_y = rand(-10,10), pixel_x = rand(-10,10))
 
-	animate(src, 500, alpha = 0)
-	QDEL_IN(src, 500)
+	animate(src, 2 MINUTES, alpha = 0)
+	QDEL_IN(src, 2 MINUTES)

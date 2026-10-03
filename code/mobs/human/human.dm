@@ -65,6 +65,8 @@
 	var/obj/item/holding
 	var/image/holding_inhand
 
+	var/image/damage_overlay
+
 	var/obj/item/clothing/hat/hat
 	var/image/hat_overlay
 
@@ -131,7 +133,7 @@
 	if(usr != src) return
 	var/input = input(src, "bleed") as num|null
 	if(input)
-		AdjustBleeding(input)
+		SetHealth(input)
 
 /mob/human/interact(mob/user, obj/item/held_item)
 	. = ..()
@@ -268,6 +270,16 @@
 	if(old_health != health)
 		UpdateHUD()
 	return health - old_health
+
+/mob/human/proc/UpdateHealth()
+	var/damage = 255 - (health * 2.55)
+
+	overlays -= damage_overlay
+	damage_overlay = image('icons/human/blood.dmi', src, "bodyblood")
+	damage_overlay.alpha = damage
+	damage_overlay.appearance_flags = RESET_COLOR
+	damage_overlay.layer = MOB_LAYER + 0.1
+	overlays += damage_overlay
 
 /mob/human/proc/Die(cause)
 	if(dead)
@@ -534,6 +546,7 @@
 		if(abs(hud_sorrow - sorrow) < 0.1)
 			hud_sorrow = sorrow
 	hud_holder?.Update()
+	UpdateHealth()
 
 /mob/human/proc/can_equip_clothing(obj/item/clothing/C)
 	if(!C)
@@ -653,6 +666,8 @@
 	overlays += wristpad
 	overlays += wristpad_glow
 	overlays += eyes
+
+	overlays += damage_overlay
 
 	var/rando = rand(220,255)
 	color = rgb(rando, rando + 5, rando) // Random skintone

@@ -150,14 +150,18 @@
 
 /obj/item/consumable/nutrition
 	name = "nutrition bar"
+	icon_state = "nutritionbar"
 	desc = "Imported from some backwater (compared to where <u>you</u> are though, it is quite close to human civilization at large) waterworld. Not very good, and the amount of time it took to transport here probably didn't do it any favors."
 	desc_expansive = "Fish offal and kelp, squeezed into a tightly packed nutritional brick through sheer tyranny of will."
 	nutrition = 20
 	mood = -12
 
+	vendor_name = "NBAR"
+	vendor_price = 20
+
 /obj/item/consumable/annegree
 	name = "Anne-Gree Cola"
-	icon_state = "drink"
+	icon_state = "annegree"
 
 	desc = "A refreshing can of soda, mixed with chemicals to trick your taste buds into percepting it is colder than it is, even if stored at room temperature. Refreshing."
 	desc_expansive = "This product's name was censored after the UN Performative Display of Emotion Prohibition act was enacted, and prohibited brands from naming themselves or their products after emotions or feelings. Pronounced Anney-Gree. Supposedly."
@@ -169,7 +173,7 @@
 
 /obj/item/consumable/limelite
 	name = "Lime-Lite"
-	icon_state = "tall_drink"
+	icon_state = "limelite"
 
 	desc = "Lime-Lite™, a lithiated lemon-lime soda coming to space stations near you! Be refreshed, even in space."
 	desc_expansive = "Rumors are that the company behind Lime-Lite™ is owned by the same company that makes Anne-Gree®, using the fierce competition public angle as a mere marketing stunt between corporations."

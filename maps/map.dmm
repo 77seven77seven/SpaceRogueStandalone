@@ -15,6 +15,12 @@
 	},
 /turf/open/floor,
 /area/station)
+"cg" = (
+/obj/abstract/landmark/start{
+	name = "Hydroponocist"
+	},
+/turf/open/floor,
+/area/station)
 "cq" = (
 /obj/machine/info{
 	pixel_x = 64
@@ -213,6 +219,12 @@
 "pU" = (
 /turf/open/floor,
 /area/station/hydro)
+"qV" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small"
+	},
+/turf/open/floor/light,
+/area/station/hydro)
 "re" = (
 /obj/door_control,
 /turf/solid/wall,
@@ -309,6 +321,26 @@
 "wH" = (
 /turf/open/floor/light,
 /area/station/medical)
+"xr" = (
+/obj/abstract/landmark/start{
+	name = "Hydroponocist"
+	},
+/turf/open/floor,
+/area/station/hydro)
+"xN" = (
+/obj/deco/plant{
+	pixel_x = 17;
+	pixel_y = 3
+	},
+/turf/open/floor,
+/area/station/hydro)
+"yf" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small"
+	},
+/obj/deco/furniture/table/auto,
+/turf/open/floor/light,
+/area/station/hydro)
 "yg" = (
 /obj/decal{
 	icon_state = "chezsign1";
@@ -441,6 +473,16 @@
 	icon_state = "wood_floor_transition"
 	},
 /turf/open/floor,
+/area/station/hydro)
+"GN" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small"
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 8
+	},
+/turf/open/floor/light,
 /area/station/hydro)
 "HL" = (
 /obj/item/gwarek{
@@ -638,6 +680,13 @@
 "TZ" = (
 /turf/open/floor,
 /area/station/tech)
+"UM" = (
+/obj/deco/trashcan{
+	pixel_x = -16;
+	pixel_y = 3
+	},
+/turf/open/floor,
+/area/station/hydro)
 "UW" = (
 /obj/deco/plant{
 	pixel_x = 18;
@@ -648,6 +697,13 @@
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
+"VL" = (
+/obj/deco/plant{
+	pixel_x = -18;
+	pixel_y = 44
+	},
+/turf/open/floor,
+/area/station/hydro)
 "VY" = (
 /obj/deco/poster{
 	pixel_x = -64
@@ -687,6 +743,9 @@
 "Ye" = (
 /turf/open/floor/wood,
 /area/station/hydro)
+"YR" = (
+/turf/solid/window,
+/area/station/hydro)
 "Zd" = (
 /obj/decal{
 	icon_state = "departures4"
@@ -706,6 +765,10 @@
 /obj/abstract/landmark/start{
 	name = "lobbyman"
 	},
+/turf/open/floor,
+/area/station)
+"ZU" = (
+/obj/machine/vendor/food,
 /turf/open/floor,
 /area/station)
 
@@ -8912,7 +8975,7 @@ eM
 eM
 eM
 Zd
-Zs
+ZU
 Zs
 Zs
 Zs
@@ -9657,7 +9720,7 @@ Zs
 Zs
 Zs
 Cg
-Cg
+eM
 Cg
 Zs
 Zs
@@ -9785,7 +9848,7 @@ IH
 Fs
 jN
 RT
-Cg
+eM
 Zs
 Zs
 Zs
@@ -9907,7 +9970,7 @@ Cg
 ne
 ne
 jN
-pU
+VL
 pU
 pU
 jN
@@ -10142,7 +10205,7 @@ RT
 IS
 ne
 Cg
-Zs
+ZU
 Zs
 Zs
 Zs
@@ -10162,7 +10225,7 @@ ne
 ne
 jN
 pU
-pU
+xr
 sR
 Ye
 Ye
@@ -10545,9 +10608,9 @@ jN
 eT
 pU
 pU
-jN
+YR
 RT
-Cg
+eM
 Zs
 Zs
 Zs
@@ -10670,7 +10733,7 @@ ne
 ne
 jN
 pU
-pU
+xr
 pU
 jN
 jN
@@ -10794,12 +10857,12 @@ IW
 IW
 IW
 ne
+ne
 jN
-jN
+GN
 pU
 pU
-pU
-pU
+UM
 jN
 Zs
 Zs
@@ -10921,15 +10984,15 @@ BI
 BI
 IW
 ne
+ne
 jN
-pU
-pU
+yf
 pU
 pU
 pU
 bd
 Zs
-Zs
+cg
 Zs
 Zs
 Cg
@@ -11048,12 +11111,12 @@ BI
 BI
 IW
 ne
+ne
 jN
+qV
 pU
 pU
-pU
-pU
-pU
+xN
 Fs
 Zs
 Zs
@@ -11175,11 +11238,11 @@ BI
 BI
 IW
 ne
+ne
 jN
-pU
-pU
-pU
-pU
+jN
+jN
+jN
 jN
 jN
 Cg
@@ -11302,12 +11365,12 @@ BI
 BI
 IW
 ne
-jN
-pU
-pU
-pU
-pU
-jN
+ne
+ne
+ne
+ne
+ne
+ne
 ne
 Cg
 Zs
@@ -11429,12 +11492,12 @@ BI
 BI
 IW
 ne
-jN
-pU
-pU
-pU
-pU
-jN
+ne
+ne
+ne
+ne
+ne
+ne
 ne
 Cg
 Zs
@@ -11556,12 +11619,12 @@ BI
 BI
 IW
 ne
-jN
-jN
-jN
-jN
-jN
-jN
+ne
+ne
+ne
+ne
+ne
+ne
 ne
 Cg
 Zs

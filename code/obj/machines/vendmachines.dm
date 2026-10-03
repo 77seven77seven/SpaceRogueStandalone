@@ -156,6 +156,13 @@
 
 	items = list(/obj/item/bandage = 20, /obj/item/splint = 15, /obj/item/vitamins = 10, /obj/item/magnesium = 10)
 
+/obj/machine/vendor/food
+	name = "WENDR-YUMNUM K9"
+	desc = "Eh."
+	color_tint = "#cdffbd"
+
+	items = list(/obj/item/consumable/annegree = 15, /obj/item/consumable/limelite = 15, /obj/item/consumable/nutrition = 10)
+
 #undef NO_TAXES
 #undef YES_TAXES
 #undef GAMBLE_A_TRON
