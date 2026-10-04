@@ -1,13 +1,3 @@
-#define RAY_INF 1e30
-
-// ------------------------------------------------------------
-//  Raycast result
-// ------------------------------------------------------------
-/datum/ray_hit
-	var/atom/target       // what was hit (null = nothing / max range / map edge)
-	var/zone              // zone name on the target: "head", "body", ...
-	var/dist = 0          // distance travelled, in pixels
-
 // ------------------------------------------------------------
 //  Hit zones
 //  A zone is list(x, y, width, height) in pixels, measured from the
@@ -25,141 +15,15 @@
 	// Swap boxes here if your head moves with facing / lying down / etc.
 	return list("head" = head_box, "body" = body_box)
 
-// ------------------------------------------------------------
-//  Ray vs. axis-aligned box (slab method).
-//  Returns distance along the ray where it enters the box, or -1.
-// ------------------------------------------------------------
-/proc/RayBoxIntersect(ox, oy, dx, dy, x1, y1, x2, y2, max_dist)
-	var/t_near = 0
-	var/t_far = max_dist
-	var/t1
-	var/t2
-	var/swap
-
-	if(dx == 0)
-		if(ox < x1 || ox > x2)
-			return -1
-	else
-		t1 = (x1 - ox) / dx
-		t2 = (x2 - ox) / dx
-		if(t1 > t2)
-			swap = t1
-			t1 = t2
-			t2 = swap
-		t_near = max(t_near, t1)
-		t_far = min(t_far, t2)
-		if(t_near > t_far)
-			return -1
-
-	if(dy == 0)
-		if(oy < y1 || oy > y2)
-			return -1
-	else
-		t1 = (y1 - oy) / dy
-		t2 = (y2 - oy) / dy
-		if(t1 > t2)
-			swap = t1
-			t1 = t2
-			t2 = swap
-		t_near = max(t_near, t1)
-		t_far = min(t_far, t2)
-		if(t_near > t_far)
-			return -1
-
-	return t_near
+/atom/movable/proc/GetHitZoneAt(icon_x, icon_y)
+	var/list/zones = GetHitZones()
+	for(var/zone_name in zones)
+		var/list/box = zones[zone_name]
+		if(icon_x >= box[1] && icon_x < box[1] + box[3] && icon_y >= box[2] && icon_y < box[2] + box[4])
+			return zone_name
 
 // ------------------------------------------------------------
-//  Pixel raycast.
-//  ox, oy      origin in WORLD pixels ((x-1)*WORLD_ICON_SIZE style)
-//  dx, dy      UNIT direction vector
-//  max_dist    in pixels
-//  ignore      atom to skip (the shooter)
-//  Walks tile-by-tile (Amanatides & Woo DDA), then tests the exact
-//  hit zone boxes of every dense movable in each tile it crosses.
-// ------------------------------------------------------------
-/proc/PixelRaycast(ox, oy, z, dx, dy, max_dist, atom/ignore)
-	var/datum/ray_hit/result = new
-
-	var/tx = floor(ox / WORLD_ICON_SIZE) + 1
-	var/ty = floor(oy / WORLD_ICON_SIZE) + 1
-	var/step_tx = 0
-	var/step_ty = 0
-	var/t_max_x = RAY_INF
-	var/t_max_y = RAY_INF
-	var/t_delta_x = RAY_INF
-	var/t_delta_y = RAY_INF
-
-	if(dx > 0)
-		step_tx = 1
-		t_max_x = (tx * WORLD_ICON_SIZE - ox) / dx
-		t_delta_x = WORLD_ICON_SIZE / dx
-	else if(dx < 0)
-		step_tx = -1
-		t_max_x = ((tx - 1) * WORLD_ICON_SIZE - ox) / dx
-		t_delta_x = -WORLD_ICON_SIZE / dx
-
-	if(dy > 0)
-		step_ty = 1
-		t_max_y = (ty * WORLD_ICON_SIZE - oy) / dy
-		t_delta_y = WORLD_ICON_SIZE / dy
-	else if(dy < 0)
-		step_ty = -1
-		t_max_y = ((ty - 1) * WORLD_ICON_SIZE - oy) / dy
-		t_delta_y = -WORLD_ICON_SIZE / dy
-
-	var/t_enter = 0
-	while(t_enter < max_dist)
-		var/turf/T = locate(tx, ty, z)
-		if(!T)
-			break   // left the map
-
-		// Solid turf: stop where the ray enters it
-		if(T.density)
-			result.target = T
-			result.dist = t_enter
-			return result
-
-		// Nearest hit zone among everything dense in this tile
-		var/t_exit = min(t_max_x, t_max_y)
-		var/best_t = RAY_INF
-		var/atom/best_atom
-		var/best_zone
-
-		for(var/atom/movable/AM in T)
-			if(AM == ignore || !AM.density)
-				continue
-			var/bx = (AM.x - 1) * WORLD_ICON_SIZE + AM.step_x
-			var/by = (AM.y - 1) * WORLD_ICON_SIZE + AM.step_y
-			var/list/zones = AM.GetHitZones()
-			for(var/zone_name in zones)
-				var/list/box = zones[zone_name]
-				var/t_hit = RayBoxIntersect(ox, oy, dx, dy, bx + box[1], by + box[2], bx + box[1] + box[3], by + box[2] + box[4], max_dist)
-				if(t_hit >= 0 && t_hit <= t_exit + 0.001 && t_hit < best_t)
-					best_t = t_hit
-					best_atom = AM
-					best_zone = zone_name
-
-		if(best_atom)
-			result.target = best_atom
-			result.zone = best_zone
-			result.dist = best_t
-			return result
-
-		// Step into the next tile
-		if(t_max_x < t_max_y)
-			tx += step_tx
-			t_enter = t_max_x
-			t_max_x += t_delta_x
-		else
-			ty += step_ty
-			t_enter = t_max_y
-			t_max_y += t_delta_y
-
-	result.dist = min(t_enter, max_dist)
-	return result
-
-// ------------------------------------------------------------
-//  Visual-only bullet tracer (the raycast itself is instant)
+//  Visual-only bullet tracer (the shot itself is instant)
 //  Give it a sprite that points NORTH; it gets rotated to the shot angle.
 // ------------------------------------------------------------
 /obj/tracer

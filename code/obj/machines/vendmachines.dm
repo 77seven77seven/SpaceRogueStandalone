@@ -166,6 +166,12 @@
 
 	items = list(/obj/item/consumable/annegree = 15, /obj/item/consumable/limelite = 15, /obj/item/consumable/nutrition = 10)
 
+/obj/machine/vendor/merc
+	name = "WENDR-LAYLAW A86"
+	overlay_icon = "laylaw"
+
+	items = list()
+
 #undef NO_TAXES
 #undef YES_TAXES
 #undef GAMBLE_A_TRON

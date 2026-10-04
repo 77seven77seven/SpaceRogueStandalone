@@ -25,6 +25,7 @@
 	
 	var/spread = 10                   // measured in pixels
 	var/spread_range = 4 * WORLD_ICON_SIZE  // ...measured at this distance (keep > spread)
+	var/accuracy = 1                  // Higher values reduce spread; override per gun type.
 	
 	var/fire_delay = 3                // deciseconds
 	var/next_fire = 0
@@ -55,8 +56,8 @@
 	ammo_loaded = 30
 	ammo_max = 30
 
-/obj/item/gun/proc/Fire(mob/shooter, aim_x, aim_y)
-	// aim_x / aim_y are WORLD pixel coordinates of where the shooter is aiming
+/obj/item/gun/proc/Fire(mob/shooter, atom/target, aim_x, aim_y)
+	// aim_x / aim_y are the cursor's WORLD pixel coordinates.
 	if(world.time < next_fire)
 		return
 	next_fire = world.time + fire_delay
@@ -68,22 +69,47 @@
 	// Unit vector toward the aim point
 	var/dx = aim_x - ox
 	var/dy = aim_y - oy
-	var/len = sqrt(dx * dx + dy * dy)
-	if(len < 1)
+	var/aim_distance = sqrt(dx * dx + dy * dy)
+	if(aim_distance < 1)
 		return
-	dx /= len
-	dy /= len
+	dx /= aim_distance
+	dy /= aim_distance
 
-	// Random spread: put a virtual target spread_range px away along the aim
-	// line, then nudge it by a random offset inside a circle of `spread` px.
-	if(spread > 0)
+	var/atom/movable/aimed_target
+	var/turf/aimed_turf
+	var/target_x
+	var/target_y
+	var/aimed_zone
+	if(istype(target, /atom/movable))
+		aimed_target = target
+		aimed_turf = get_turf(aimed_target)
+		if(aimed_turf)
+			target_x = (aimed_turf.x - 1) * WORLD_ICON_SIZE + aimed_target.step_x
+			target_y = (aimed_turf.y - 1) * WORLD_ICON_SIZE + aimed_target.step_y
+			aimed_zone = aimed_target.GetHitZoneAt(aim_x - target_x, aim_y - target_y)
+
+	var/gun_skill = 0
+	if(istype(shooter, /mob/human))
+		var/mob/human/human_shooter = shooter
+		gun_skill = clamp(human_shooter.mind?.GetSkill(GUNS) || 0, 0, 100)
+
+	var/skill_spread_multiplier = 1 - (gun_skill / 100 * 0.8)
+	var/head_aim_spread_multiplier = aimed_zone == "head" ? 3 : 1
+	var/effective_spread = spread * skill_spread_multiplier * head_aim_spread_multiplier / max(accuracy, 0.01)
+
+	var/shot_distance = min(aim_distance, range)
+	var/impact_x = ox + dx * shot_distance
+	var/impact_y = oy + dy * shot_distance
+	// Spread is measured at spread_range, so its impact grows with shot distance.
+	if(effective_spread > 0)
 		var/ang = rand() * 360
-		var/rad = spread * sqrt(rand())
-		dx = dx * spread_range + rad * cos(ang)
-		dy = dy * spread_range + rad * sin(ang)
-		len = sqrt(dx * dx + dy * dy)
-		dx /= len
-		dy /= len
+		var/rad = effective_spread * (shot_distance / max(spread_range, 1)) * sqrt(rand())
+		impact_x += rad * cos(ang)
+		impact_y += rad * sin(ang)
+
+	var/hit_zone
+	if(aim_distance <= range && target != shooter && aimed_target && aimed_turf)
+		hit_zone = aimed_target.GetHitZoneAt(impact_x - target_x, impact_y - target_y)
 
 	animate(shooter?.client, color = "#f3d4d4ff", easing = EASE_OUT, time = 0.5)
 	animate(color = "#ffefef", easing = EASE_IN, time = 0.5)
@@ -99,16 +125,14 @@
 			continue
 		M.playsound_local(M_turf, 'sound/effects/obj/guns/distantshot.ogg', 60, 1, get_rand_frequency(), falloff_exponent = 5)
 
-	var/datum/ray_hit/hit = PixelRaycast(ox, oy, shooter.z, dx, dy, range, shooter)
-
 	if(tracers)
-		new /obj/tracer(get_turf(shooter), ox, oy, ox + dx * hit.dist, oy + dy * hit.dist)
+		new /obj/tracer(get_turf(shooter), ox, oy, impact_x, impact_y)
 	new /atom/movable/casing(get_turf(shooter))
 
-	if(istype(hit.target, /mob/human))
-		var/mob/human/victim = hit.target
+	if(istype(target, /mob/human) && hit_zone)
+		var/mob/human/victim = target
 		var/dmg = damage
-		if(hit.zone == "head") // TODO: special headshot mood impacting reactions, better sound effects
+		if(hit_zone == "head") // TODO: special headshot mood impacting reactions, better sound effects
 
 			var/list/brainlines = list(
 			"EEEWWWWW!",
@@ -182,7 +206,7 @@
 			victim.go_blind(1,40)
 
 			victim.filters = filter(type="displace", icon=icon('icons/human/blood.dmi',"headshot_displacement_map"), size=13)
-		victim.TakeDamage(dmg, hit.zone, shooter)
+		victim.TakeDamage(dmg, hit_zone, shooter)
 		victim.bleed_effect()
 
 		victim.AdjustBleeding(rand(1,10))
@@ -213,10 +237,25 @@
 	if(!T)
 		return ..()
 	var/list/p = params2list(params)
-	// icon-x / icon-y are 1-based pixels inside the clicked icon
-	var/aim_x = (T.x - 1) * WORLD_ICON_SIZE + (text2num(p["icon-x"]) - 1)
-	var/aim_y = (T.y - 1) * WORLD_ICON_SIZE + (text2num(p["icon-y"]) - 1)
-	G.Fire(H, aim_x, aim_y)
+	// icon-x / icon-y are 1-based pixels inside the clicked icon.
+	var/click_x = text2num(p["icon-x"])
+	var/click_y = text2num(p["icon-y"])
+	if(!click_x)
+		click_x = WORLD_ICON_SIZE / 2
+	if(!click_y)
+		click_y = WORLD_ICON_SIZE / 2
+	click_x = max(1, min(WORLD_ICON_SIZE, click_x))
+	click_y = max(1, min(WORLD_ICON_SIZE, click_y))
+
+	var/target_offset_x = 0
+	var/target_offset_y = 0
+	if(istype(object, /atom/movable))
+		var/atom/movable/target_movable = object
+		target_offset_x = target_movable.step_x
+		target_offset_y = target_movable.step_y
+	var/aim_x = (T.x - 1) * WORLD_ICON_SIZE + target_offset_x + click_x - 1
+	var/aim_y = (T.y - 1) * WORLD_ICON_SIZE + target_offset_y + click_y - 1
+	G.Fire(H, object, aim_x, aim_y)
 
 /atom/movable/casing
 	icon = 'icons/obj/abstract/effects.dmi'

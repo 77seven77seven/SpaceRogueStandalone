@@ -1,4 +1,11 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"aA" = (
+/obj/deco/plant{
+	pixel_x = 17;
+	pixel_y = 3
+	},
+/turf/open/floor,
+/area/station/corporate)
 "bd" = (
 /obj/machine/door,
 /turf/open/floor,
@@ -111,6 +118,13 @@
 	},
 /turf/open/floor,
 /area/station/hydro)
+"eY" = (
+/obj/machine/vendor/merc{
+	pixel_y = 37;
+	density = 0
+	},
+/turf/open/floor,
+/area/station/corporate)
 "fl" = (
 /obj/decal{
 	icon_state = "chezsign4";
@@ -395,6 +409,13 @@
 "wv" = (
 /turf/solid/window,
 /area/station/maintenance)
+"wE" = (
+/obj/deco/plant{
+	pixel_x = -18;
+	pixel_y = 44
+	},
+/turf/open/floor,
+/area/station/corporate)
 "wH" = (
 /turf/open/floor/light,
 /area/station/medical)
@@ -411,6 +432,7 @@
 	pixel_x = 0;
 	pixel_y = 64
 	},
+/obj/deco/furniture/table/auto,
 /turf/open/floor,
 /area/station/corporate)
 "xr" = (
@@ -441,6 +463,12 @@
 	},
 /turf/open/floor,
 /area/station/water)
+"zy" = (
+/obj/machine/info{
+	pixel_y = -64
+	},
+/turf/open/floor,
+/area/station/corporate)
 "zA" = (
 /obj/machine/door,
 /turf/open/floor,
@@ -600,6 +628,10 @@
 "IW" = (
 /turf/solid/wall,
 /area/station/tech/mining)
+"JH" = (
+/obj/deco/furniture/table/auto,
+/turf/open/floor,
+/area/station/tech)
 "JJ" = (
 /turf/open/floor,
 /area/station/water)
@@ -8662,7 +8694,7 @@ cG
 cG
 cG
 cG
-uY
+eY
 uY
 uY
 Fw
@@ -8789,7 +8821,7 @@ PO
 uY
 PO
 uY
-uY
+wE
 uY
 uY
 uY
@@ -8911,7 +8943,7 @@ RT
 IS
 ne
 wi
-uY
+Fw
 uY
 uY
 uY
@@ -9166,7 +9198,7 @@ IS
 ne
 wi
 iP
-uY
+zy
 wi
 vu
 vu
@@ -9554,7 +9586,7 @@ Fw
 Fw
 Fw
 uY
-uY
+aA
 wi
 RT
 Cg
@@ -11706,7 +11738,7 @@ RT
 IS
 ne
 KV
-TZ
+JH
 TZ
 TZ
 TZ
