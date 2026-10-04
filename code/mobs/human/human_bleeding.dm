@@ -80,20 +80,34 @@ var/global/list/bleedout_lastwords = list(
 
 	new /atom/movable/blood/drip(get_turf(src))
 
-/mob/human/verb/planar()
-	var/duration = 10
-	var/intensity = 10
-	var/obj/hud/plane_master/PM = locate(/obj/hud/plane_master) in hud_holder.plane_masters
+/particles/brain_splatter
+	width = 64
+	height = 64
+	count = 40
+	spawning = 40              // whole burst on the first tick
+	lifespan = generator("num", 8, 16)   // ticks (1 tick = 0.1s)
+	fade = 20
+	icon = 'icons/human/blood.dmi'
+	icon_state = "chunk"       // small 2-3px pink/grey blob sprite
+	//color = generator("color", "#b5524f", "#e8a7a1")
+	position = generator("sphere", 0, 3)
+	scale = generator("vector", list(0.6, 0.6), list(1.4, 1.4))
+	spin = 5
+	gravity = list(0, -6)    // pulls chunks down
+	friction = 0.2
 
-	var/matrix/original_transform = PM.transform 
-	for(var/i in 1 to duration)
-		var/offset_x = rand(-intensity, intensity)
-		var/offset_y = rand(-intensity, intensity)
+/proc/headshot_splatter(turf/T, hit_dir)
+	var/obj/fx = new /obj(T)
+	fx.mouse_opacity = 0
+	fx.layer = FLY_LAYER
 
-		var/matrix/M = matrix(original_transform)
-		M.Translate(offset_x, offset_y)
-		
-		animate(PM, transform = M, time = 1, flags = ANIMATION_PARALLEL)
-		sleep(1)
-		
-	animate(PM, transform = original_transform, time = 1)
+	// direction of the exit spray
+	var/dx = ((hit_dir & EAST) ? 1 : 0) - ((hit_dir & WEST) ? 1 : 0)
+	var/dy = ((hit_dir & NORTH) ? 1 : 0) - ((hit_dir & SOUTH) ? 1 : 0)
+
+	var/particles/brain_splatter/P = new
+	P.velocity = generator("box", list(dx*5 - 3, dy*5 - 3, 0), list(dx*5 + 3, dy*5 + 3, 0))
+	fx.particles = P
+
+	spawn(1) P.spawning = 0
+	spawn(30) qdel(fx)         // clean up once the particles have faded

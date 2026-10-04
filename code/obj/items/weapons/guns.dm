@@ -108,8 +108,62 @@
 	if(istype(hit.target, /mob/human))
 		var/mob/human/victim = hit.target
 		var/dmg = damage
-		if(hit.zone == "head")
+		if(hit.zone == "head") // TODO: special headshot mood impacting reactions, better sound effects
+
+			var/list/brainlines = list(
+				"EEEWWWWW!",
+				"I THINK I'M GOING TO BE SICK!!!",
+				"THAT'S DISGUSTING!!!",
+				"OH MY GOD THAT'S THEIR EVERYTHING!!!",
+				"Ourgh.. OURG! I'M GONNA PUKE!",
+				"Oh my God, oh my GOD! WHAT IS THAT?!"
+			)
+			
+			/*
+			var/list/brainlines_psycho = list(
+			"Oh! Cool!",
+			"FIREWORKS!!",
+			"Now we can see what they really think!",
+			"The yeast of the mind!",
+			"Let me pick at their thoughts!",
+			"Penny for your thoughts? I'd gladly pay! Hehe.",
+			"Oooooh! I always wondered if it was pink or grey. Turns out its both!",
+			"Brilliant!"
+			)
+			
+			var/list/brainlines_minor = list(
+				"Not again...",
+				"I've cleaned up messes like this before... this won't be fun...",
+				"You could've aimed ANYWHERE else.",
+				"Unnecessary man... completely unnecessary.",
+				"Come on..."
+			)
+			*/
+
+			for(var/mob/human/H in oviewers(victim))
+				var/style = "bad"
+				var/mood = rand(20,40)
+
+				H.chat_info(pick(brainlines), style)
+				H.AdjustSorrow(mood)
+
 			dmg = headshot_damage
+
+			playsound(get_turf(victim), pick('sound/effects/human/bleeding/headshot1.ogg','sound/effects/human/bleeding/headshot2.ogg'), 75, TRUE)
+
+			victim.AdjustBlood(-80) // Lots of blood in the head.
+			victim.AdjustBleeding(rand(10,30))
+
+			var/dire = get_dir(get_turf(victim),get_turf(shooter))
+			dire = turn(dire, 180)
+
+			headshot_splatter(get_turf(victim), dire)
+			for(var/i in 1 to 31)
+				new /atom/movable/blood/splatter(get_turf(victim), victim)
+
+			victim.go_blind(1,40)
+
+			victim.filters = filter(type="displace", icon=icon('icons/human/blood.dmi',"headshot_displacement_map"), size=13)
 		victim.TakeDamage(dmg, hit.zone, shooter)
 		victim.bleed_effect()
 

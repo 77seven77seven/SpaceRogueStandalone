@@ -1,9 +1,12 @@
 /mob/human
 	name = "human being"
 	icon = 'icons/human/human.dmi'
-	icon_state = "human"
+	icon_state = "human" // overriden near immediately, used for Fringe cases in mapping; the body is an overlay now
 
-	appearance_flags = TILE_BOUND|PIXEL_SCALE
+	appearance_flags = TILE_BOUND|PIXEL_SCALE|KEEP_TOGETHER
+
+	var/image/body_overlay
+	var/skintone
 
 	var/base_delay = 3
 	var/move_delay = 3
@@ -86,8 +89,6 @@
 	var/obj/hud/sysmas/hud_holder
 	var/need_update = FALSE
 	var/hud_color = "#A4A4A2"
-
-	var/xp_buffer = 0 // you wont get your XP unless you depart the station bro!
 
 	var/wanted = FALSE
 	var/wanted_timer = 0 // the crime doesnt really matter, the severity of the crime only matters how long you need to hide
@@ -511,6 +512,16 @@
 	eyes.color = colorina
 	overlays += eyes
 
+/mob/human/proc/set_skintone(new_color)
+	if(icon_state)
+		icon_state = ""
+	skintone = new_color
+	overlays -= body_overlay   // remove before mutating/replacing, like you do elsewhere
+	body_overlay = image(icon, src, "human", MOB_LAYER - 0.01)
+	body_overlay.appearance_flags = RESET_COLOR
+	body_overlay.color = skintone
+	overlays += body_overlay
+
 /mob/human/proc/Initialize_HUD()
 	hud_holder = new /obj/hud/sysmas(src)
 
@@ -670,7 +681,7 @@
 	overlays += damage_overlay
 
 	var/rando = rand(220,255)
-	color = rgb(rando, rando + 5, rando) // Random skintone
+	set_skintone(rgb(rando, rando + 5, rando)) // Random skintone
 
 	wealth = floor(rand(0,12) + 2.857 * client.xp)
 	if(randomize_certain_values)

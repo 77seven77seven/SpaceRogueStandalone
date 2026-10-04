@@ -174,14 +174,6 @@
 	if(emote_bubble == bubble)
 		emote_bubble = null
 
-/mob/human/verb/count()
-	var/x = 0
-	for(var/atom/movable/bubble/B in world)
-		x++
-	world << x
-
-	AnimatedEmote("gasps!")
-
 /mob/human/proc/PlayBlip(pitch, sound_path)
 	var/wobble = 1 + (rand(-100, 100) * 0.01 * VOICE_JITTER)
 	var/freq = VOICE_BASE_FREQUENCY * pitch * wobble

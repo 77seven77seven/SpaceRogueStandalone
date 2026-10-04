@@ -333,14 +333,3 @@ proc/get_random_light_color()
 			setDir(EAST)
 		else
 			setDir(WEST)
-
-/mob/human/verb/do_paychecks()
-	station.do_paychecks()
-	HeartAttack()
-
-/mob/human/verb/test()
-	chat_announce("WE SHALL USE ALL PEACEFUL MEANS TO OVERCOME TYRANNY!", "bad", sound('sound/effects/announce/one.ogg'))
-	sleep(6 SECONDS)
-	chat_announce("THEY CAN'T USE OUR SHAME AGAINST US!", "bad", sound('sound/effects/announce/two.ogg'))
-	sleep(3 SECONDS)
-	chat_announce("REGARDLESS OF RACE, SOCIAL STATUS, OR GENDER, WE'RE ALL AFFECTED!", "bad", sound('sound/effects/announce/three.ogg'))

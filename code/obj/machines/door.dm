@@ -74,10 +74,6 @@
 				DCC.linked_door = src
 				break
 
-/mob/verb/knock()
-	for(var/obj/machine/door/D in orange())
-		D.knock()
-
 /obj/machine/door/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()
 	user << "click"

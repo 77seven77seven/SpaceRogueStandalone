@@ -1,0 +1,59 @@
+// DEBUG VERBS
+
+/client/verb/wish(fuck as text)
+	fuck = text2path(fuck)
+	if(ispath(fuck))
+		var/atom/movable/fucky = new fuck(get_turf(mob))
+		usr << "Your wish is my command. [fucky.type]"
+
+/mob/human/verb/trigger_skill_roll(fuck as text)
+    SkillRoll(fuck)
+
+/mob/human/verb/do_paychecks()
+	station.do_paychecks()
+	HeartAttack()
+
+/mob/human/verb/test()
+	chat_announce("WE SHALL USE ALL PEACEFUL MEANS TO OVERCOME TYRANNY!", "bad", sound('sound/effects/announce/one.ogg'))
+	sleep(6 SECONDS)
+	chat_announce("THEY CAN'T USE OUR SHAME AGAINST US!", "bad", sound('sound/effects/announce/two.ogg'))
+	sleep(3 SECONDS)
+	chat_announce("REGARDLESS OF RACE, SOCIAL STATUS, OR GENDER, WE'RE ALL AFFECTED!", "bad", sound('sound/effects/announce/three.ogg'))
+
+/mob/human/verb/planar()
+	var/duration = 10
+	var/intensity = 10
+	var/obj/hud/plane_master/PM = locate(/obj/hud/plane_master) in hud_holder.plane_masters
+
+	var/matrix/original_transform = PM.transform 
+	for(var/i in 1 to duration)
+		var/offset_x = rand(-intensity, intensity)
+		var/offset_y = rand(-intensity, intensity)
+
+		var/matrix/M = matrix(original_transform)
+		M.Translate(offset_x, offset_y)
+		
+		animate(PM, transform = M, time = 1, flags = ANIMATION_PARALLEL)
+		sleep(1)
+		
+	animate(PM, transform = original_transform, time = 1)
+
+/client/verb/tune_radio()
+    var/stream_url = "https://stream.sepia.sk:8000/impuls128.mp3"
+    var/html = {"<html><body style="margin:0;background:#111">
+    <audio id="p" autoplay controls src="[stream_url]"></audio>
+    <script>document.getElementById('p').play().catch(function(){});</script>
+    </body></html>"}
+    src << browse(html, "window=radio;size=1x1")
+
+/mob/human/verb/count()
+	var/x = 0
+	for(var/atom/movable/bubble/B in world)
+		x++
+	world << x
+
+	AnimatedEmote("gasps!")
+
+/mob/verb/knock()
+	for(var/obj/machine/door/D in orange())
+		D.knock()
