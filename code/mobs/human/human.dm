@@ -308,12 +308,55 @@
 		else // Huh... that's... weird.
 			WRITE_LOG(world.log, "[src] [src?.ckey] -- Died and didn't have a job!?")
 
-	for(var/mob/human/H in viewers(src))
-		var/list/lines = list("OH MY GOD! ARE THEY DEAD?!","ARE THEY MOVING?!","ARE THEY ALRIGHT?!","SOMEONE CALL A MEDICALOID!")
+	var/list/deathlines = list(
+		"OH MY GOD! ARE THEY DEAD?!",
+		"ARE THEY MOVING?!",
+		"ARE THEY ALRIGHT?!",
+		"SOMEONE CALL A MEDICALOID!"
+	)
+
+	var/list/deathlines_psycho = list(
+		"YES! YES! YES! NOTHING CAN STOP ME NOW!",
+		"WOOOHOO!!! YES! YES! YES!",
+		"HAHAHAHAHHA! LOOK AT THEM!",
+		"FALLING TO THE FLOOOOR LIKE A SACK OF POTATOOOOES!",
+		"OH BOY, JUST LIKE THE MOVIES!",
+		"JUST LIKE ON THE INTRANET VIDS!"
+	)
+
+	var/list/deathlines_minor = list(
+		"Ew.",
+		"Whatever... ew.",
+		"They're dead. Big deal.",
+		"Another one for the count wohoo...",
+		"Doesn't matter. Does it?"
+	)
+
+	for(var/mob/human/H in oviewers(src))
+		if(!H.client)
+			continue
+
 		var/style = "bad"
 		var/mood = rand(10,30)
 
-		H.chat_info(pick(lines), style)
+		var/line
+
+		switch(H?.mind?.mental_state)
+			if(MENTAL_STATE_DESENSITIZED)
+				mood = 0
+				line = pick(list("I just can't find a reason to care.","Okay.","Mhm. Do what you want.","Yeah..."))
+			if(MENTAL_STATE_BASELINE)
+				mood = rand(10,30)
+				line = pick(deathlines)
+			if(MENTAL_STATE_MILD)
+				mood = rand(5,10)
+				line = pick(deathlines_minor)
+			if(MENTAL_STATE_PSYCHO)
+				mood = rand(-10,-30)
+				line = pick(deathlines_psycho)
+				style = "good"
+
+		H.chat_info(line, style)
 		H.AdjustSorrow(mood)
 
 	if(!client)

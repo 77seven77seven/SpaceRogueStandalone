@@ -111,15 +111,14 @@
 		if(hit.zone == "head") // TODO: special headshot mood impacting reactions, better sound effects
 
 			var/list/brainlines = list(
-				"EEEWWWWW!",
-				"I THINK I'M GOING TO BE SICK!!!",
-				"THAT'S DISGUSTING!!!",
-				"OH MY GOD THAT'S THEIR EVERYTHING!!!",
-				"Ourgh.. OURG! I'M GONNA PUKE!",
-				"Oh my God, oh my GOD! WHAT IS THAT?!"
+			"EEEWWWWW!",
+			"I THINK I'M GOING TO BE SICK!!!",
+			"THAT'S DISGUSTING!!!",
+			"OH MY GOD THAT'S THEIR EVERYTHING!!!",
+			"Ourgh.. OURG! I'M GONNA PUKE!",
+			"Oh my God, oh my GOD! WHAT IS THAT?!"
 			)
 			
-			/*
 			var/list/brainlines_psycho = list(
 			"Oh! Cool!",
 			"FIREWORKS!!",
@@ -132,19 +131,38 @@
 			)
 			
 			var/list/brainlines_minor = list(
-				"Not again...",
-				"I've cleaned up messes like this before... this won't be fun...",
-				"You could've aimed ANYWHERE else.",
-				"Unnecessary man... completely unnecessary.",
-				"Come on..."
+			"Not again...",
+			"I've cleaned up messes like this before... this won't be fun...",
+			"You could've aimed ANYWHERE else.",
+			"Unnecessary man... completely unnecessary.",
+			"Come on..."
 			)
-			*/
 
 			for(var/mob/human/H in oviewers(victim))
+				if(!H.client)
+					continue
+
 				var/style = "bad"
 				var/mood = rand(20,40)
 
-				H.chat_info(pick(brainlines), style)
+				var/line
+
+				switch(H?.mind?.mental_state)
+					if(MENTAL_STATE_DESENSITIZED)
+						mood = 0
+						line = pick(list("I just can't find a reason to care.","Okay.","Mhm. Do what you want.","Yeah..."))
+					if(MENTAL_STATE_BASELINE)
+						mood = rand(20,40)
+						line = pick(brainlines)
+					if(MENTAL_STATE_MILD)
+						mood = rand(5,20)
+						line = pick(brainlines_minor)
+					if(MENTAL_STATE_PSYCHO)
+						mood = rand(-20,-40)
+						line = pick(brainlines_psycho)
+						style = "good"
+
+				H.chat_info(line, style)
 				H.AdjustSorrow(mood)
 
 			dmg = headshot_damage

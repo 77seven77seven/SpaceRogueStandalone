@@ -1,20 +1,18 @@
 /datum/mind
-	/// ckey
-	var/key
-	// current human
-	var/mob/human/current
+	var/key // ckey
+	var/mob/human/current // current human
 
 	var/list/skills = list()
 	var/list/datum/quirk/quirks = list()
+	
+	var/mental_state = MENTAL_STATE_BASELINE
 
 	var/datum/goal/goal
 	var/datum/goal/antag/special_goal // dissident goals
-
 	var/dissident = FALSE
 
 	var/paycheck = 0
 	var/performance_paycheck = 0 // You can increase your normal paycheck by doing your JOB. This value gets added to the default paycheck your job gets.
-
 	var/bonus_paycheck = 0 // director assigned bonus that doesnt get wiped on pay cycle
 
 	var/datum/role/current_job

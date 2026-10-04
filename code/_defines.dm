@@ -102,7 +102,7 @@
 #define HUMAN_MAX_NEED 100
 #define HUMAN_NEEDS_PROCESS_INTERVAL 25
 #define HUMAN_SORROW_MAX_CYCLES 10
-#define HUMAN_NEEDS_HUD_LERP 0.0009375
+#define HUMAN_NEEDS_HUD_LERP 0.2
 #define HUMAN_HUNGER_FULL_TIME (25 * 80 * 10)
 #define HUMAN_THIRST_FULL_TIME (30 * 80 * 10)
 
@@ -120,6 +120,13 @@
 #define ENCY "ENCYCLOPEDIA"
 #define MUSI "MUSIC"
 #define MYST "???" // Psionics
+
+// MENTAL STATES
+
+#define MENTAL_STATE_BASELINE "baseline" // Normal guy.
+#define MENTAL_STATE_MILD "mild" // Someone used to killing. Enforcers, etc.
+#define MENTAL_STATE_PSYCHO "psycho" // Enjoys murder.
+#define MENTAL_STATE_DESENSITIZED "desensitized"
 
 // ECONOMY
 

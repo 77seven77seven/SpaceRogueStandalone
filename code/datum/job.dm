@@ -116,6 +116,9 @@
 
 /datum/role/merc/equip(mob/human/H)
 	. = ..()
+
+	if(H.mind.mental_state == MENTAL_STATE_BASELINE)
+		H.mind.mental_state = MENTAL_STATE_MILD
 	
 	var/merc_badge = image('icons/clothing/accessories.dmi', H, "mercenary_badge[rand(1,2)]", MOB_LAYER + 0.01)
 	H.overlays += merc_badge
