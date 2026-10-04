@@ -20,6 +20,7 @@
 	var/ammo_type = SMALL_AMMO
 	var/ammo_loaded = 9
 	var/ammo_max = 9
+	var/ejects_casings = TRUE
 
 	var/range = 20 * WORLD_ICON_SIZE       // pixels, 20 tiles, enough basically
 	
@@ -36,6 +37,13 @@
 	name = "Alpha"
 	desc = "AlphaProj high-calibre revolvers are a staple of any self-respecting gun owner. Recently they have gotten a bad reputation due to their involvement in the Ganymedean Civil War."
 	desc_expansive = "A man pulls the trigger on a deserter, his brains are blown out, the executioner looks at the weapon of infamy in his hand. It is an Alpha. Holds six rounds, evidently."
+
+	icon_state = "revolver"
+	gunshot_sounds = list('sound/effects/obj/guns/revolver1.ogg','sound/effects/obj/guns/revolver2.ogg')
+	accuracy = 0.95 // It's a snubnose revolver.
+	fire_delay = 6
+
+	ejects_casings = FALSE
 
 	ammo_type = BIG_AMMO
 	ammo_loaded = 6
@@ -127,7 +135,8 @@
 
 	if(tracers)
 		new /obj/tracer(get_turf(shooter), ox, oy, impact_x, impact_y)
-	new /atom/movable/casing(get_turf(shooter))
+	if(ejects_casings)
+		new /atom/movable/casing(get_turf(shooter))
 
 	if(istype(target, /mob/human) && hit_zone)
 		var/mob/human/victim = target
