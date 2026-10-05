@@ -17,7 +17,6 @@
 /atom/movable/blood/splatter/New(loc, ss)
 	. = ..()
 	icon_state = "splatter[rand(1,4)]"
-	swing_anim(ss, rand(1,5), rand(7,8), rev = TRUE)
 
 	animate(src, 2 MINUTES, alpha = 0)
 	QDEL_IN(src, 2 MINUTES)

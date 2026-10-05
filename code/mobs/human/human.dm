@@ -25,6 +25,7 @@
 	var/max_health = HUMAN_MAX_HEALTH
 	var/blood = 100
 	var/bleeding = 0
+	var/brainsploded = FALSE
 
 	var/shrapnel = 0 // how much shrapnel we have in us, shrapnel impedes natural blood clotting and causes pain
 	var/max_shrapnel = 3
@@ -210,29 +211,27 @@
 				return TRUE
 	return FALSE
 
+/mob/human/var/ragdoll_angle = 90
+
 /mob/human/proc/SetRagdolled(value)
-	if(dead)
-		value = TRUE
-	if(ragdolled == value)
-		return
-
+	value = (dead || value) ? TRUE : FALSE
+	var/changed = (ragdolled != value)
 	ragdolled = value
+
 	if(ragdolled)
+		if(changed) // one-shot effects only on a real state change
+			ragdoll_angle = prob(50) ? 90 : -90
+			var/sund = pick('sound/effects/human/fall1.ogg','sound/effects/human/fall2.ogg')
+			playsound(get_turf(src), sund, vol = 150, ignore_walls = TRUE)
+			if(holding)
+				holding.forceMove(get_turf(src))
+				holding = null
 		var/matrix/M = matrix()
-		var/turnation = prob(50) ? 90 : -90
-		transform = M.Turn(turnation)
-
-		var/sund = pick('sound/effects/human/fall1.ogg','sound/effects/human/fall2.ogg')
-		playsound(get_turf(src), sund, vol = 150, ignore_walls = TRUE)
-
+		M.Turn(ragdoll_angle)
+		animate(src, transform = M, time = 0) // replaces any animation still running
 		density = FALSE
-
-		if(holding)
-			holding.forceMove(get_turf(src))
-			holding = null
 	else
-		transform = null
-		
+		animate(src, transform = matrix(), time = 0) // use time = 3 for a smooth stand-up
 		density = TRUE
 	dir = SOUTH
 

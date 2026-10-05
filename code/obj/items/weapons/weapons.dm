@@ -28,7 +28,7 @@
 	var/pixel_x_diff = ceil(rand(-amplitude, amplitude))
 	var/pixel_y_diff = ceil(rand(-amplitude/3, amplitude/2))
 	animate(target, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
-	animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE)
+	animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
 
 	target.TakeDamage(damage_adjusted, "[name]")
 	world << "DEBUG: damage log, [damage_adjusted]"

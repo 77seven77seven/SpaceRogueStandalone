@@ -141,8 +141,7 @@
 	if(istype(target, /mob/human) && hit_zone)
 		var/mob/human/victim = target
 		var/dmg = damage
-		if(hit_zone == "head") // TODO: special headshot mood impacting reactions, better sound effects
-
+		if(hit_zone == "head" && !victim.brainsploded)
 			var/list/brainlines = list(
 			"EEEWWWWW!",
 			"I THINK I'M GOING TO BE SICK!!!",
@@ -200,7 +199,8 @@
 
 			dmg = headshot_damage
 
-			playsound(get_turf(victim), pick('sound/effects/human/bleeding/headshot1.ogg','sound/effects/human/bleeding/headshot2.ogg'), 75, TRUE)
+			var/sound = list('sound/effects/human/bleeding/headshot/headcrush (1).ogg', 'sound/effects/human/bleeding/headshot/headcrush (2).ogg', 'sound/effects/human/bleeding/headshot/headcrush (3).ogg', 'sound/effects/human/bleeding/headshot/headcrush (4).ogg','sound/effects/human/bleeding/headshot/headcrush (5).ogg','sound/effects/human/bleeding/headshot/headcrush (6).ogg','sound/effects/human/bleeding/headshot/headcrush (7).ogg')
+			playsound(get_turf(victim), pick(sound), 65, TRUE)
 
 			victim.AdjustBlood(-80) // Lots of blood in the head.
 			victim.AdjustBleeding(rand(10,30))
@@ -209,12 +209,20 @@
 			dire = turn(dire, 180)
 
 			headshot_splatter(get_turf(victim), dire)
+			flick_overlay_view(image('icons/human/blood.dmi', victim, "bleed", MOB_LAYER + 0.1), victim, 6)
 			for(var/i in 1 to 31)
 				new /atom/movable/blood/splatter(get_turf(victim), victim)
 
 			victim.go_blind(1,40)
 
 			victim.filters = filter(type="displace", icon=icon('icons/human/blood.dmi',"headshot_displacement_map"), size=13)
+			victim.brainsploded = TRUE // His brain 'sploded!
+		var/amplitude = min(4, (damage/100) + 1)
+		var/pixel_x_diff = ceil(rand(-amplitude, amplitude))
+		var/pixel_y_diff = ceil(rand(-amplitude/3, amplitude/2))
+		animate(victim, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
+		animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE)
+
 		victim.TakeDamage(dmg, hit_zone, shooter)
 		victim.bleed_effect()
 
