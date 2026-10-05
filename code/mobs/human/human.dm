@@ -143,7 +143,10 @@
 	if(held_item)
 		if(held_item.harmful && !Huser.cmode)
 			return
-		held_item.attack(Huser, src)
+		if(Huser == src)
+			held_item.use(Huser)
+		else
+			held_item.attack(Huser, src)
 
 /mob/human/MouseEntered(location, control, params)
 	. = ..()

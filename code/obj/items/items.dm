@@ -35,6 +35,12 @@
 			M.Turn(rand(50,350))
 		transform = M
 
+/obj/item/proc/destroyself(mob/human/H)
+	H.holding = null
+	H.UpdateInhand()
+	
+	qdel(src)
+
 /obj/item/proc/do_pickup_animation(atom/target)
 	set waitfor = FALSE
 	if(!istype(loc, /turf))
@@ -168,10 +174,7 @@
 		var/moodrand = mood - rand(-4,4)
 		H.AdjustSorrow(-moodrand)
 
-	H.holding = null
-	H.UpdateInhand()
-	
-	qdel(src)
+	destroyself(H)
 
 /obj/item/consumable/nutrition
 	name = "nutrition bar"

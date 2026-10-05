@@ -5,12 +5,42 @@
 	name = "bandage"
 	desc = "Most commonly used to treat bleeding in bleeding patients. Usually has to be applied more than once."
 
+	icon_state = "bandage"
+
 	vendor_name = "BNDG"
 	vendor_price = 20
+
+/obj/item/medical/bandage/use(mob/human/H)
+	. = ..()
+	return bandagize(H, H)
+
+/obj/item/medical/bandage/attack(mob/human/user, mob/human/target)
+	. = ..()
+	return bandagize(user, target)
+
+/obj/item/medical/bandage/proc/bandagize(mob/human/user, mob/human/target)
+	if(!target || !user)
+		return
+
+	var/medicine_skill = user?.mind?.GetSkill(MEDI) || 0
+	var/bleeding_fix = clamp(7 + medicine_skill / 10, 3, 20)
+
+	playsound(get_turf(target), 'sound/effects/human/medical/bandage.ogg', 85, TRUE)
+	if(target.bleeding)
+		target.AdjustBleeding(-bleeding_fix)
+		target.chat_info("That helps.")
+		if(target != user)
+			user.chat_info("That should help them.")
+	else
+		user.chat_info("What?","bad")
+
+	destroyself(user)
 
 /obj/item/medical/splint
 	name = "splint"
 	desc = "A reinforced hardcloth medical item containing a hydrostatic regenerative gel that assists in osteogenesis."
+
+	icon_state = "splint"
 
 	vendor_name = "SPLT"
 	vendor_price = 25

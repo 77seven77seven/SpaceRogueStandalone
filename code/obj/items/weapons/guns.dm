@@ -137,6 +137,7 @@
 		new /obj/tracer(get_turf(shooter), ox, oy, impact_x, impact_y)
 	if(ejects_casings)
 		new /atom/movable/casing(get_turf(shooter))
+		playsound(get_turf(shooter), 'sound/effects/obj/guns/casing.ogg', 65, TRUE)
 
 	if(istype(target, /mob/human) && hit_zone)
 		var/mob/human/victim = target
@@ -199,7 +200,7 @@
 
 			dmg = headshot_damage
 
-			var/sound = list('sound/effects/human/bleeding/headshot/headcrush (1).ogg', 'sound/effects/human/bleeding/headshot/headcrush (2).ogg', 'sound/effects/human/bleeding/headshot/headcrush (3).ogg', 'sound/effects/human/bleeding/headshot/headcrush (4).ogg','sound/effects/human/bleeding/headshot/headcrush (5).ogg','sound/effects/human/bleeding/headshot/headcrush (6).ogg','sound/effects/human/bleeding/headshot/headcrush (7).ogg')
+			var/sound = list('sound/effects/human/medical/headshot/headcrush (1).ogg', 'sound/effects/human/medical/headshot/headcrush (2).ogg', 'sound/effects/human/medical/headshot/headcrush (3).ogg', 'sound/effects/human/medical/headshot/headcrush (4).ogg','sound/effects/human/medical/headshot/headcrush (5).ogg','sound/effects/human/medical/headshot/headcrush (6).ogg','sound/effects/human/medical/headshot/headcrush (7).ogg')
 			playsound(get_turf(victim), pick(sound), 65, TRUE)
 
 			victim.AdjustBlood(-80) // Lots of blood in the head.

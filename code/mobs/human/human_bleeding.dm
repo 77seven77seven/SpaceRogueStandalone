@@ -69,13 +69,13 @@ var/global/list/bleedout_lastwords = list(
 	var/vol2use
 	switch(rand(1,4))
 		if(1)
-			vol2use = 'sound/effects/human/bleeding/BloodDrip0.ogg'
+			vol2use = 'sound/effects/human/medical/BloodDrip0.ogg'
 		if(2)
-			vol2use = 'sound/effects/human/bleeding/BloodDrip1.ogg'
+			vol2use = 'sound/effects/human/medical/BloodDrip1.ogg'
 		if(3)
-			vol2use = 'sound/effects/human/bleeding/BloodDrip2.ogg'
+			vol2use = 'sound/effects/human/medical/BloodDrip2.ogg'
 		if(4)
-			vol2use = 'sound/effects/human/bleeding/BloodDrip3.ogg'
+			vol2use = 'sound/effects/human/medical/BloodDrip3.ogg'
 	playsound(get_turf(src), vol2use, 30, TRUE, -1)
 
 	new /atom/movable/blood/drip(get_turf(src))
