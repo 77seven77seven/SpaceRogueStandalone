@@ -25,7 +25,6 @@
 	desc_expansive_extra_skill = MEDI
 
 	icon_state = "pills"
-	droprot = FALSE
 	dropshrink = 0.5
 
 /obj/item/medical/pills/Initialize()

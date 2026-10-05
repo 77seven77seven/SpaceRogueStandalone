@@ -15,6 +15,8 @@
 
 	var/storable = TRUE // Can it be put into the inventory?
 	var/stored = FALSE
+
+	var/junk = FALSE // Can not be used. Can only be thrown away. "I eat something junk... Yes... a.. shit..."
 	var/harmful = FALSE // Only allows attack() calls when AWARENESS is toggled on.
 
 /obj/item/proc/use(mob/human/H) // pressing F when held
@@ -76,6 +78,9 @@
 		return
 	var/mob/human/H = user
 
+	if(H.dead || H.ragdolled || !H.client)
+		return FALSE
+
 	if(src in H.inventory)
 		H.inventory -= src
 
@@ -92,7 +97,8 @@
 	if(dead || ragdolled || !holding || !client)
 		return FALSE
 
-	holding.use(src)
+	if(!holding.junk)
+		holding.use(src)
 
 /mob/human/verb/drop_item()
 	set name = ".drop"
