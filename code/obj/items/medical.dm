@@ -45,6 +45,34 @@
 	vendor_name = "SPLT"
 	vendor_price = 25
 
+/obj/item/medical/splint/use(mob/human/H)
+	. = ..()
+	return splintize(H, H)
+
+/obj/item/medical/splint/attack(mob/human/user, mob/human/target)
+	. = ..()
+	return splintize(user, target)
+
+/obj/item/medical/splint/proc/splintize(mob/human/user, mob/human/target)
+	if(!target || !user)
+		return
+
+	playsound(get_turf(target), 'sound/effects/human/medical/bandage.ogg', 85, TRUE)
+
+	if(!user.SkillRoll(MEDI))
+		target.AdjustSorrow(1)
+		return
+
+	if(target.broke_bones)
+		target.broke_bones = max(0, target.broke_bones - 1)
+		target.chat_info("That helps.")
+		if(target != user)
+			user.chat_info("That should help them.")
+	else
+		user.chat_info("What?","bad")
+
+	destroyself(user)
+
 /obj/item/medical/pills
 	name = "pills"
 	desc = "A pill bottle. You're not sure what's inside, maybe if you knew something about medicine."

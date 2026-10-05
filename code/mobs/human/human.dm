@@ -221,11 +221,13 @@
 	var/changed = (ragdolled != value)
 	ragdolled = value
 
+	cooldown("ragdoll", 5 SECONDS)
+
 	if(ragdolled)
 		if(changed) // one-shot effects only on a real state change
 			ragdoll_angle = prob(50) ? 90 : -90
 			var/sund = pick('sound/effects/human/fall1.ogg','sound/effects/human/fall2.ogg')
-			playsound(get_turf(src), sund, vol = 150, ignore_walls = TRUE)
+			playsound(get_turf(src), sund, vol = 95, ignore_walls = TRUE)
 			if(holding)
 				holding.forceMove(get_turf(src))
 				holding = null
@@ -234,9 +236,23 @@
 		animate(src, transform = M, time = 0) // replaces any animation still running
 		density = FALSE
 	else
-		animate(src, transform = matrix(), time = 0) // use time = 3 for a smooth stand-up
+		animate(src, transform = matrix(), time = 2) // use time = 3 for a smooth stand-up
+
+		playsound(get_turf(src), 'sound/effects/human/getup.ogg', vol = 85, ignore_walls = TRUE)
+
 		density = TRUE
 	dir = SOUTH
+
+/mob/human/verb/ragdoll()
+	set name = ".ragdoll"
+
+	if(dead || !client || on_cooldown("ragdoll") || heart_attack)
+		return FALSE
+
+	if(ragdolled)
+		SetRagdolled(FALSE)
+	else
+		SetRagdolled(TRUE)
 
 /mob/human/proc/SetHealth(value)
 	if(dead)
@@ -768,7 +784,7 @@
 	var/result = roll <= probability
 
 	if(!hidden)
-		chat_info("[skill_name] --- ROLL: [roll]/100 , CHANCE: [probability]% , SKILL: [skill_value] , SORROW: -[sorrow_penalty] , DIFFICULTY: -[difficulty]")
+		chat_info("<b>SKILL CHECK ([skill_name])</b> — [result ? "SUCCESS" : "FAILURE"] ([probability]%)", "[result ? "good" : "bad"]")
 	return result
 
 /mob/human/verb/toggle_cmode()
@@ -844,6 +860,9 @@
 		stat("● None? You're unemployable! Revel in the madness!")
 
 	stat("-----------------------------------")
+
+	if(ragdolled)
+		stat("PRESS \[V\] TO STAND UP!")
 
 	stat("INVENTORIUM:[holding ? " (HOLDING: [uppertext(holding.name)])" : null]")
 	if(inventory.len)
