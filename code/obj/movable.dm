@@ -2,6 +2,7 @@
 	glide_size = 8
 	appearance_flags = TILE_BOUND|PIXEL_SCALE|LONG_GLIDE
 	var/desc_expansive = null
+	var/desc_expansive_extra_skill = null
 
 /atom/movable/Click(location, control, params)
 	if(!usr || !usr.client)
@@ -43,9 +44,14 @@
 
 	user << "\icon[I] <b>[name]</b> — [get_examine_text()]"
 	if(desc_expansive)
-		if(user.SkillRoll(ENCY, TRUE))
+		var/result = user.SkillRoll(ENCY, TRUE)
+		var/skill = "ENCYCLOPEDIA"
+		if(!result && desc_expansive_extra_skill)
+			result = user.SkillRoll(desc_expansive_extra_skill, TRUE)
+			skill = desc_expansive_extra_skill
+		if(result)
 			user.playsound_local(get_turf(user), 'sound/effects/senses/intelligence.ogg', 100)
-			user << "<B>ENCYCLOPEDIA</b> — [desc_expansive]"
+			user << "<B>[skill]</b> — [desc_expansive]"
 
 	return TRUE
 

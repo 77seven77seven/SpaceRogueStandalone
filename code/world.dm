@@ -204,6 +204,36 @@ proc/find_common_entry(list/list1, list/list2)
 proc/get_random_light_color()
     return rgb(rand(150, 255),rand(150, 255),rand(150, 255))
 
+/// Converts an rgb color into a list storing hsva
+/// Exists because it's useful to have a guaranteed alpha value
+/proc/rgb2hsv(rgb)
+	var/list/hsv = rgb2num(rgb, COLORSPACE_HSV)
+	if(length(hsv) < 4)
+		hsv += 255 // Max alpha, just to make life easy
+	return hsv
+
+/// Converts a list storing hsva into an rgb color
+/proc/hsv2rgb(hsv)
+	if(length(hsv) < 3)
+		return "#000"
+	if(length(hsv) == 3)
+		return rgb(hsv[1], hsv[2], hsv[3], space = COLORSPACE_HSV)
+	return rgb(hsv[1], hsv[2], hsv[3], hsv[4], space = COLORSPACE_HSV)
+
+/proc/RotateHue(rgb, angle)
+	var/list/HSV = rgb2hsv(rgb)
+
+	angle %= 360
+
+	HSV[1] = round(HSV[1] + angle)
+
+	HSV[1] %= 360
+
+	if(HSV[1] < 0)
+		HSV[1] += 360
+
+	return hsv2rgb(HSV)
+
 // Parse number into a word. Essentially, 1 is NONCE and what so.
 /proc/skill_level_to_word(numero)
 	var/flarov = "WAS?!"

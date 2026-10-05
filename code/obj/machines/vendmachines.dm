@@ -157,7 +157,7 @@
 	overlay_icon = "medmed"
 	color_tint = "#bde9ff"
 
-	items = list(/obj/item/bandage = 20, /obj/item/splint = 15, /obj/item/vitamins = 10, /obj/item/magnesium = 10)
+	items = list(/obj/item/medical/bandage = 20, /obj/item/medical/splint = 15, /obj/item/medical/pills/vitamins = 10, /obj/item/medical/pills/magnesium = 10)
 
 /obj/machine/vendor/food
 	name = "WENDR-YUMNUM K9"
