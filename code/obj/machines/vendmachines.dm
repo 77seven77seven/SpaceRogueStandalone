@@ -159,6 +159,10 @@
 
 	items = list(/obj/item/medical/bandage = 20, /obj/item/medical/splint = 15, /obj/item/medical/pills/vitamins = 10, /obj/item/medical/pills/magnesium = 10)
 
+/obj/machine/vendor/medic/internal
+	taxless = NO_TAXES
+	items = list(/obj/item/medical/bandage = 15, /obj/item/medical/splint = 15, /obj/item/medical/pills/vitamins = 12, /obj/item/medical/pills/magnesium = 12)
+
 /obj/machine/vendor/food
 	name = "WENDR-YUMNUM K9"
 	desc = "Eh."

@@ -24,8 +24,8 @@
 	. = ..()
 	var/_x = text2num(params2list(params)["icon-x"])
 	var/_y = text2num(params2list(params)["icon-y"])
-
-	if((_x >= 22 && _x <= 28) && (_y >= 20 && _y <= 26))
+	
+	if(check_pixel_bounds(_x, _y, 22, 28, 20, 26))
 		flick_overlay_view(image(src.icon, src, "confirm_pay"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
 
@@ -50,7 +50,7 @@
 			else
 				user.chat_pda("CHEZ GROUP WOULD LIKE TO INFORM YOU THAT YOU DO NOT HAVE ANY STANDARD CURRENCY TO WITHDRAW FROM YOUR PAYSTUB ACCOUNT. PLEASE TRY NEXT TIME.", "bad")
 				
-	else if((_x >= 38 && _x <= 44) && (_y >= 20 && _y <= 26))
+	else if(check_pixel_bounds(_x, _y, 38, 44, 20, 26))
 		flick_overlay_view(image(src.icon, src, "ident_pay"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
 

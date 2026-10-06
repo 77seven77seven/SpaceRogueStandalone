@@ -60,6 +60,7 @@
 #include "code\obj\items\weapons\weapons.dm"
 #include "code\obj\machines\door.dm"
 #include "code\obj\machines\infoterminal.dm"
+#include "code\obj\machines\medical.dm"
 #include "code\obj\machines\paymachine.dm"
 #include "code\obj\machines\vendmachines.dm"
 #include "code\turfs\autojoin.dm"

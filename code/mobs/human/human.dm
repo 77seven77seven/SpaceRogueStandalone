@@ -57,6 +57,7 @@
 	var/tmp/last_needs_process = 0
 	var/tmp/sorrow_cycles = 0
 	var/tmp/heart_attack = FALSE
+	var/tmp/list/datum/status_effect/status_effects = list()
 	var/tmp/hud_hunger
 	var/tmp/hud_thirst
 	var/tmp/hud_sorrow
@@ -114,6 +115,7 @@
 	if(station)
 		station.humans -= src
 		station.dead_humans -= src
+	ClearStatusEffects()
 	return ..()
 
 /mob/human/Move(NewLoc, Dir, step_x, step_y)
@@ -305,6 +307,7 @@
 		return FALSE
 
 	dead = TRUE
+	ClearStatusEffects()
 	health = 0
 	is_moving = FALSE
 
@@ -450,6 +453,36 @@
 		UpdateHUD()
 	return sorrow - old_sorrow
 
+/mob/human/proc/ApplyStatusEffect(effect_type)
+	if(dead || !ispath(effect_type, /datum/status_effect))
+		return FALSE
+
+	if(!status_effects)
+		status_effects = list()
+	for(var/datum/status_effect/effect in status_effects)
+		if(effect.type == effect_type)
+			effect.Refresh()
+			return effect
+
+	var/datum/status_effect/new_effect = new effect_type(src)
+	status_effects += new_effect
+	return new_effect
+
+/mob/human/proc/ProcessStatusEffects(elapsed)
+	if(dead || !status_effects?.len)
+		return FALSE
+
+	for(var/datum/status_effect/effect in status_effects.Copy())
+		effect.Advance(elapsed)
+	return TRUE
+
+/mob/human/proc/ClearStatusEffects()
+	if(!status_effects?.len)
+		return
+
+	for(var/datum/status_effect/effect in status_effects.Copy())
+		qdel(effect)
+
 /mob/human/proc/UpdateMoveDelay()
 	var/penalty = 0
 	if(hunger >= 70)
@@ -493,6 +526,7 @@
 	if(dead)
 		return FALSE
 
+	ProcessStatusEffects(elapsed)
 	AdjustHunger(hunger_rate * elapsed * (cmode ? 1.4 : 1))
 	AdjustThirst(thirst_rate * elapsed * (cmode ? 1.3 : 1))
 

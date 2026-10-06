@@ -11,7 +11,7 @@
 
 /obj/machine/info/interact(mob/user, obj/item/held_item, params)
 	. = ..()
-	var/datum/popup/terminal/popup = new(user, "infoterminal", "Infoterminal", 640, 480)
+	var/datum/popup/terminal/popup = new(user, "infoterminal", "Infoterminal", 640, 500)
 	popup.set_content(
 	{"
 

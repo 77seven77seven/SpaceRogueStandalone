@@ -16,6 +16,19 @@
 	},
 /turf/open/floor/light,
 /area/station/medical)
+"bU" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 8;
+	color = "#bde9ff"
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 1;
+	color = "#bde9ff"
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "bW" = (
 /mob/human{
 	name = "Mark X."
@@ -100,7 +113,7 @@
 /turf/open/floor,
 /area/station/water)
 "eI" = (
-/obj/machine/vendor/medic,
+/obj/machine/vendor/medic/internal,
 /turf/open/floor/light,
 /area/station/medical)
 "eM" = (
@@ -322,6 +335,12 @@
 	},
 /turf/open/floor,
 /area/station/water)
+"rZ" = (
+/obj/deco/furniture/table{
+	icon_state = "4"
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "sC" = (
 /obj/abstract/landmark/start{
 	name = "Director"
@@ -541,6 +560,13 @@
 	},
 /turf/open/floor,
 /area/station/water)
+"ER" = (
+/obj/machine/vendor/medic/internal{
+	pixel_y = 37;
+	density = 0
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "Fi" = (
 /obj/machine/door/glass,
 /turf/open/floor,
@@ -661,6 +687,17 @@
 	},
 /turf/open/floor,
 /area/station)
+"Mk" = (
+/obj/machine/medical/medscan_terminal{
+	pixel_x = 0;
+	pixel_y = -64
+	},
+/obj/decal/floor/turf{
+	icon_state = "box_white";
+	color = "#bde9ff"
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "MB" = (
 /obj/decal{
 	icon_state = "chezsign3";
@@ -822,6 +859,17 @@
 	},
 /turf/open/floor,
 /area/station/hydro)
+"UN" = (
+/obj/machine/medical/medscan{
+	pixel_x = 0;
+	pixel_y = 35
+	},
+/obj/decal/floor/turf{
+	icon_state = "box_white";
+	color = "#bde9ff"
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "UW" = (
 /obj/deco/plant{
 	pixel_x = 18;
@@ -832,6 +880,10 @@
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
+"Vs" = (
+/obj/deco/graffiti,
+/turf/solid/wall,
+/area/station/maintenance)
 "VL" = (
 /obj/deco/plant{
 	pixel_x = -18;
@@ -8076,8 +8128,8 @@ Lp
 wH
 wH
 wH
-wH
-wH
+rZ
+bU
 Lp
 Zs
 Zs
@@ -8202,9 +8254,9 @@ ne
 Lp
 wH
 wH
-wH
-wH
-wH
+Mk
+Lp
+UN
 Lp
 id
 Zs
@@ -8962,7 +9014,7 @@ Cg
 ne
 ne
 Lp
-NU
+ER
 bl
 Le
 Le
@@ -11142,7 +11194,7 @@ gF
 ne
 IS
 IS
-IS
+Vs
 IS
 RT
 RT

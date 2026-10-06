@@ -4,6 +4,8 @@
 	layer = AREA_LAYER
 	plane = AREA_PLANE
 
+	mouse_opacity = 0
+
 	var/sound_environment = SOUND_ENVIRONMENT_NONE
 
 /area/Initialize()
@@ -26,6 +28,7 @@
 	. = ..()
 	var/image/I = image('icons/obj/abstract/fuzz.dmi', src, "fuzz")
 	I.alpha = 50
+	I.mouse_opacity = 0
 	overlays += I
 
 /area/station/maintenance/Entered(mob/human/H, OldLoc)

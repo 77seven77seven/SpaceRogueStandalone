@@ -79,11 +79,29 @@
 
 	var/med_name = "Unobtainium"
 	var/med_desc = "Uh... you're still not sure, actually."
+	var/status_effect_type
+
+	var/pills_desc = "You don't feel anything."
 
 	desc_expansive_extra_skill = MEDI
 
 	icon_state = "pills"
 	dropshrink = 0.5
+
+/obj/item/medical/pills/use(mob/human/H)
+	if(!H || !status_effect_type)
+		return FALSE
+
+	if(!H.ApplyStatusEffect(status_effect_type))
+		return FALSE
+
+	playsound(get_turf(H), 'sound/effects/human/medical/take_pills.ogg', 75, TRUE)
+	if(prob(40))
+		pills_desc = pick("It's hard to describe.","I don't know what's happening.")
+	H.chat_info("I swallow the pills. <b>[pills_desc]</b>")
+	
+	destroyself(H)
+	return TRUE
 
 /obj/item/medical/pills/Initialize()
 	. = ..()
@@ -96,6 +114,7 @@
 /obj/item/medical/pills/vitamins
 	med_name = "Nosaphed"
 	med_desc = "The day Nosaphed® was invented might go down in history as one of the greater moments of man. Nosaphed® brand vitamin supplements, enhances natural healing of the human body to a staggering degree."
+	status_effect_type = /datum/status_effect/vitamin_regeneration
 
 	vendor_name = "NSFD"
 	vendor_price = 25
@@ -103,6 +122,65 @@
 /obj/item/medical/pills/magnesium
 	med_name = "Magnesolam"
 	med_desc = "A dietary supplement mostly used for helping people stay happier. Not an anti-depressant. Tread lightly."
+	status_effect_type = /datum/status_effect/magnesium_boost
 
 	vendor_name = "MAGN"
 	vendor_price = 25
+
+/datum/status_effect
+	var/mob/human/owner
+	var/duration = 0
+	var/tick_interval = 5 SECONDS
+	var/remaining_duration = 0
+	var/time_until_tick = 0
+
+/datum/status_effect/New(mob/human/new_owner)
+	. = ..()
+	owner = new_owner
+	remaining_duration = duration
+	time_until_tick = tick_interval
+
+/datum/status_effect/proc/Refresh()
+	remaining_duration = duration
+	time_until_tick = tick_interval
+
+/datum/status_effect/proc/Advance(elapsed)
+	if(!owner || owner.dead || duration <= 0 || tick_interval <= 0)
+		qdel(src)
+		return FALSE
+
+	var/old_remaining_duration = remaining_duration
+	remaining_duration -= elapsed
+	time_until_tick -= elapsed
+	while(time_until_tick <= 0)
+		var/tick_elapsed = elapsed + time_until_tick
+		if(tick_elapsed > old_remaining_duration)
+			break
+		on_tick()
+		time_until_tick += tick_interval
+
+	if(remaining_duration <= 0)
+		qdel(src)
+	return TRUE
+
+/datum/status_effect/proc/on_tick()
+	return
+
+/datum/status_effect/Destroy(force = FALSE)
+	if(owner?.status_effects)
+		owner.status_effects -= src
+	owner = null
+	return ..()
+
+/datum/status_effect/vitamin_regeneration
+	duration = 60 SECONDS
+
+/datum/status_effect/vitamin_regeneration/on_tick()
+	owner.Heal(2)
+	owner.AdjustHunger(1)
+
+/datum/status_effect/magnesium_boost
+	duration = 30 SECONDS
+
+/datum/status_effect/magnesium_boost/on_tick()
+	owner.AdjustSorrow(-4)

@@ -17,7 +17,7 @@
 	playsound(get_turf(src), 'sound/effects/pda/pay.ogg', 50, FALSE, -3)
 
 /mob/human/proc/AttemptTransaction(amount)
-	if(wealth > amount)
+	if(wealth >= amount)
 		AdjustMoney(-amount)
 		return TRUE
 	else
