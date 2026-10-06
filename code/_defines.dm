@@ -118,6 +118,7 @@
 #define MINE "MINING"
 #define MEDI "MEDICINE"
 #define ENCY "ENCYCLOPEDIA"
+#define FORI "FORENSICS"
 #define MUSI "MUSIC"
 #define MYST "???" // Psionics
 
