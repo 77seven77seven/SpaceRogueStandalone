@@ -69,8 +69,18 @@
 	world << "----"
 	if(master)
 		world << "master = OK"
+	else
+		world << "master = FAIL"
 	if(processor)
 		world << "processor = OK"
+	else
+		world << "processor = FAIL"
 	if(station)
 		world << "station = OK"
+	else
+		world << "station = FAIL"
+	if(shuttle)
+		world << "shuttle = OK"
+	else
+		world << "shuttle = FAIL"
 	world << "----"

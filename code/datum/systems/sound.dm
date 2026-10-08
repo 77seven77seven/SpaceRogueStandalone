@@ -18,8 +18,6 @@
 #define CALCULATE_SOUND_VOLUME(volume, distance, max_distance, falloff_distance, falloff_exponent)\
 	((max(distance - falloff_distance, 0) ** (1 / falloff_exponent)) / ((max(max_distance, distance) - falloff_distance) ** (1 / falloff_exponent)) * volume)
 
-#define SOUND_MINIMUM_PRESSURE 10
-
 /datum/system/sound
 	var/static/using_channels_max = CHANNEL_HIGHEST_AVAILABLE //BYOND max channels
 	var/static/random_channels_min = 50

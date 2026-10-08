@@ -18,6 +18,9 @@
 /obj/abstract/landmark/start
 	name = "start"
 
+/obj/abstract/landmark/shuttle_dock
+	name = "Shuttle Dock"
+
 /obj/abstract/landmark/start/New()
 	if(name == "lobbyman")
 		station.newplayer_start += src

@@ -604,6 +604,10 @@
 	},
 /turf/open/floor,
 /area/station/hydro)
+"zZ" = (
+/obj/abstract/landmark/shuttle_dock,
+/turf/open/space,
+/area/space)
 "AG" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small";
@@ -9606,7 +9610,7 @@ eM
 Zs
 Zs
 Zs
-Cg
+eM
 RT
 RT
 RT
@@ -9733,7 +9737,7 @@ eM
 Zs
 Zs
 Zs
-zA
+Fi
 RT
 RT
 RT
@@ -9860,7 +9864,7 @@ eM
 Zs
 Zs
 Zs
-Cg
+eM
 RT
 RT
 RT
@@ -10241,7 +10245,7 @@ eM
 Zs
 Zs
 Zs
-Cg
+eM
 RT
 RT
 RT
@@ -10368,8 +10372,8 @@ ON
 Zs
 Zs
 Zs
-zA
-RT
+Fi
+zZ
 RT
 RT
 RT
@@ -10495,7 +10499,7 @@ Fi
 Zs
 Zs
 Zs
-Cg
+eM
 RT
 RT
 RT

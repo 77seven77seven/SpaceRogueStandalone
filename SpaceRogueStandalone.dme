@@ -34,6 +34,7 @@
 #include "code\datum\systems\_system.dm"
 #include "code\datum\systems\master.dm"
 #include "code\datum\systems\processor.dm"
+#include "code\datum\systems\shuttle.dm"
 #include "code\datum\systems\sound.dm"
 #include "code\datum\systems\station.dm"
 #include "code\mobs\client.dm"

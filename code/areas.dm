@@ -15,6 +15,7 @@
 /area/space
 	name = "space"
 	icon_state = "space"
+	sound_environment = SOUND_ENVIRONMENT_MOUNTAINS
 
 /area/station
 	name = "station"
