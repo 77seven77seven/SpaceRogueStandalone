@@ -150,3 +150,8 @@
 /obj/deco/speakertower/proc/do_blip(colori)
 	blip.color = colori
 	flick("speakertower-blip", blip)
+
+/obj/deco/supports
+	name = "station support"
+	icon = 'icons/turf/rs_floors.dmi'
+	icon_state = "station_support"

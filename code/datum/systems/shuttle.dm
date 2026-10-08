@@ -8,11 +8,14 @@
 /datum/system/shuttle
 	var/obj/abstract/landmark/shuttle_dock/dock
 	var/obj/shuttle/arrived_shuttle
+
 	var/next_arrival = 0
 	var/next_departure = 0
 
+	var/shuttle_here = FALSE
+
 /datum/system/shuttle/setup()
-	dock = locate(/obj/abstract/landmark/shuttle_dock)
+	dock = locate(/obj/abstract/landmark/shuttle_dock) in landmarks_list
 	if(!dock)
 		CRASH("Shuttle system requires a mapped shuttle dock landmark.")
 
@@ -40,10 +43,14 @@
 	next_departure = world.time + SHUTTLE_DWELL_TIME
 	hyperport_effect(arrived_shuttle, arriving = TRUE)
 
+	shuttle_here = TRUE
+
 /datum/system/shuttle/proc/depart()
 	// Clear the reference first, otherwise this runs again on every tick.
 	var/obj/shuttle/leaving = arrived_shuttle
 	arrived_shuttle = null
+
+	shuttle_here = FALSE
 
 	chat_announce("PASSENGER SHUTTLE BUS 'PKD' HAS LEFT THE STATION VIA HYPERPORT. NEXT DESTINATION: '[pick("ROUTING HUB: GYRO", "MASTERLINE CINDER", "SPRAGA TRANSPORT HUB", "LITOMER", "NILSPACE")]'.")
 	hyperport_effect(leaving, arriving = FALSE)
@@ -88,6 +95,7 @@
 	bound_height = 128
 	bound_width = 192
 	pixel_x = SHUTTLE_REST_PIXEL_X
+	pixel_y = -128 // So we can interact with the bus when it is still considered 'outside'
 
 	appearance_flags = TILE_BOUND
 

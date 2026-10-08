@@ -49,10 +49,10 @@
 
 /turf/open
 	density = FALSE
+	icon = 'icons/turf/rs_floors.dmi'
 
 /turf/open/floor
 	name = "floor"
-	icon = 'icons/turf/rs_floors.dmi'
 	icon_state = "floor"
 	var/artisinal = TRUE
 
