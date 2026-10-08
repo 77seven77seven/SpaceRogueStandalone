@@ -56,9 +56,6 @@
 	animate(bloom, time = 50, size = 0, flags = ANIMATION_PARALLEL, easing = QUAD_EASING | EASE_IN | EASE_OUT)
 	animate(glow, time = 50, alpha = 0, flags = ANIMATION_PARALLEL, easing = QUAD_EASING | EASE_IN | EASE_OUT)
 
-	animate(arrived_shuttle, 10 SECONDS, -1, pixel_y = 5, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
-	animate(10 SECONDS, pixel_y = -5, flags = ANIMATION_RELATIVE)
-
 /obj/shuttle
 	name = "Passenger Shuttle Bus 'PKD'"
 	desc = "A Vlada-funded public transport bus that runs between stations, your final destination if you decide your stay here is done."
