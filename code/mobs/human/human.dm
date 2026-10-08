@@ -135,9 +135,9 @@
 /mob/human/Click(location, control, params)
 	. = ..()
 	if(usr != src) return
-	var/input = input(src, "bleed") as num|null
+	var/input = input(src, "sorrow") as num|null
 	if(input)
-		SetHealth(input)
+		AdjustSorrow(input)
 
 /mob/human/interact(mob/user, obj/item/held_item)
 	. = ..()
@@ -311,7 +311,7 @@
 	health = 0
 	is_moving = FALSE
 
-	UpdateHUD()
+	UpdateHUD(FALSE)
 	SetRagdolled(TRUE)
 
 	overlays -= eyes
@@ -579,6 +579,8 @@
 		return FALSE
 	heart_attack = TRUE
 
+	SetRagdolled(TRUE)
+
 	var/amplitude = min(8, (100 / 100) + 2)
 	var/pixel_w_diff = rand(-amplitude, amplitude)
 	var/pixel_z_diff = rand(-amplitude / 1.5, amplitude / 1.5)
@@ -587,14 +589,11 @@
 
 	SEND_SOUND(client, sound('sound/effects/senses/heartattack.ogg'))
 	go_blind(1, 50)
-	SetRagdolled(TRUE)
+
 	chat_info("You feel a terrible pain spread through your chest, to your limbs, to the rest of your body.","bad")
-	spawn(10) chat_info("[pick("I don't wanna go.","It is the end.","I made my peace with.","God, forgive me.")]","bad")
+	spawn(10) chat_info("[pick("I don't wanna go.","It is the end.","I made my peace with it a long time ago.","God, forgive me.")]","bad")
 	spawn(40)
-		if(health <= 0)
-			Die("heart attack")
-		else
-			TakeDamage(health, "heart attack")
+		Die("heart attack")
 	return TRUE
 
 /mob/human/proc/wristpad_display_change(colorina)
@@ -632,7 +631,7 @@
 	client.screen += hud_holder.health
 	client.screen += hud_holder.combat
 
-/mob/human/proc/UpdateHUD()
+/mob/human/proc/UpdateHUD(update_health = 1)
 	if(hud_hunger == null)
 		hud_hunger = hunger
 	else
@@ -652,7 +651,8 @@
 		if(abs(hud_sorrow - sorrow) < 0.1)
 			hud_sorrow = sorrow
 	hud_holder?.Update()
-	UpdateHealth()
+	if(update_health)
+		UpdateHealth()
 
 /mob/human/proc/can_equip_clothing(obj/item/clothing/C)
 	if(!C)
@@ -778,7 +778,7 @@
 	var/rando = rand(220,255)
 	set_skintone(rgb(rando, rando + 5, rando)) // Random skintone
 
-	wealth = floor(rand(0,12) + 2.857 * client.xp)
+	wealth = floor(rand(0,12) + 2.857 * client.xp) + mind.current_job.paycheck
 	if(randomize_certain_values)
 		thirst = rand(0,43)
 		hunger = rand(0,43)

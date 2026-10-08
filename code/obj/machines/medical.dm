@@ -5,7 +5,7 @@
 
 /obj/machine/medical/medscan_terminal
 	name = "NEMSKN-Terminal"
-	desc = "The interface terminal to the NEMSKN, operated only by medical professionals. Don't try, you'll hurt yourself."
+	desc = "The interface terminal to the NEMSKN, to be operated only by medical professionals. Don't try, you'll hurt yourself."
 	icon_state = "medscan_terminal"
 	density = FALSE
 	opacity = FALSE
@@ -67,6 +67,8 @@
 				scan_results["shrapenl"] = H.shrapnel
 				scan_results["bleeding"] = H.bleeding
 				scan_results["headshot"] = H.brainsploded
+
+				H.AdjustSorrow(8)
 
 				var/rastra
 				switch(H.health)
@@ -149,6 +151,7 @@
 /obj/machine/medical/medscan
 	name = "NEMSKN"
 	desc = "The NEMSKN is a vital piece of technology to any self-respecting medicaloid."
+	desc_expansive = "It works on the principle of blasting the unsuspecting patient with a high amount of radiation. For that reason, it should probably not be overused."
 	icon_state = "medscan"
 	density = FALSE
 	opacity = FALSE

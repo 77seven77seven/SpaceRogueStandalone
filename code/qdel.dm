@@ -17,8 +17,6 @@
 	if(hint == QDEL_HINT_DEL || force)
 		del(target)
 	else
-		// In a full SS13 implementation, you add `target` to a global processing list/queue here
-		// and check it later. If it persists after a timeout, call del(target).
 		loc_spoof_and_queue(target)
 
 /proc/loc_spoof_and_queue(datum/target)

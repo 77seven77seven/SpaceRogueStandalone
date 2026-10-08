@@ -1,4 +1,11 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"ap" = (
+/obj/deco/plant{
+	pixel_x = 17;
+	pixel_y = 3
+	},
+/turf/open/floor/wood,
+/area/station)
 "aA" = (
 /obj/deco/plant{
 	pixel_x = 17;
@@ -218,6 +225,12 @@
 "jx" = (
 /turf/solid/window,
 /area/station/water)
+"jD" = (
+/obj/deco/poster{
+	pixel_y = 64
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "jN" = (
 /turf/solid/wall,
 /area/station/hydro)
@@ -225,6 +238,24 @@
 /obj/door_control,
 /turf/solid/wall,
 /area/station/corporate)
+"kE" = (
+/obj/deco/furniture/chair{
+	dir = 4;
+	pixel_x = 16;
+	pixel_y = 7
+	},
+/turf/open/floor/wood,
+/area/station)
+"kX" = (
+/obj/deco/plant{
+	pixel_x = -18;
+	pixel_y = 44
+	},
+/obj/deco/poster{
+	pixel_y = 64
+	},
+/turf/open/floor/wood,
+/area/station)
 "lC" = (
 /obj/deco/furniture/chair{
 	dir = 4;
@@ -259,6 +290,14 @@
 	},
 /turf/open/floor,
 /area/station)
+"nv" = (
+/obj/deco/furniture/chair{
+	dir = 4;
+	pixel_x = 19;
+	pixel_y = 7
+	},
+/turf/open/floor/wood,
+/area/station)
 "ny" = (
 /obj/door_control,
 /turf/solid/wall,
@@ -271,6 +310,14 @@
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
+"nZ" = (
+/obj/deco/furniture/chair{
+	dir = 4;
+	pixel_x = 24;
+	pixel_y = 17
+	},
+/turf/open/floor/wood,
+/area/station)
 "oK" = (
 /obj/deco/trashcan{
 	pixel_x = 15;
@@ -335,12 +382,24 @@
 	},
 /turf/open/floor,
 /area/station/water)
+"rV" = (
+/obj/deco/furniture/chair{
+	dir = 8;
+	pixel_x = -17;
+	pixel_y = 6
+	},
+/turf/open/floor/wood,
+/area/station)
 "rZ" = (
 /obj/deco/furniture/table{
 	icon_state = "4"
 	},
 /turf/open/floor/light,
 /area/station/medical)
+"sw" = (
+/obj/deco/furniture/table/auto,
+/turf/open/floor/wood,
+/area/station)
 "sC" = (
 /obj/abstract/landmark/start{
 	name = "Director"
@@ -364,12 +423,23 @@
 	},
 /turf/open/floor,
 /area/station/hydro)
+"tg" = (
+/obj/deco/furniture/chair{
+	dir = 4;
+	pixel_x = 18;
+	pixel_y = 9
+	},
+/turf/open/floor/wood,
+/area/station)
 "tm" = (
 /obj/deco/plant{
 	pixel_x = 17;
 	pixel_y = 3
 	},
 /turf/open/floor,
+/area/station)
+"tA" = (
+/turf/open/floor/wood,
 /area/station)
 "tH" = (
 /obj/abstract/landmark/start{
@@ -389,6 +459,14 @@
 	pixel_y = 64
 	},
 /turf/open/floor,
+/area/station)
+"uG" = (
+/obj/deco/furniture/chair{
+	dir = 8;
+	pixel_x = -20;
+	pixel_y = 9
+	},
+/turf/open/floor/wood,
 /area/station)
 "uN" = (
 /turf/solid/window,
@@ -414,6 +492,12 @@
 "vu" = (
 /turf/solid/window,
 /area/station/corporate)
+"vC" = (
+/obj/deco/poster{
+	pixel_x = -64
+	},
+/turf/open/floor/wood,
+/area/station)
 "wi" = (
 /turf/solid/wall,
 /area/station/corporate)
@@ -454,6 +538,14 @@
 /obj/deco/furniture/table/auto,
 /turf/open/floor,
 /area/station/corporate)
+"xl" = (
+/obj/deco/furniture/chair{
+	dir = 8;
+	pixel_x = -18;
+	pixel_y = 8
+	},
+/turf/open/floor/wood,
+/area/station)
 "xr" = (
 /obj/abstract/landmark/start{
 	name = "Hydroponocist"
@@ -482,6 +574,10 @@
 	},
 /turf/open/floor,
 /area/station/water)
+"yF" = (
+/obj/deco/furniture/chair,
+/turf/open/floor/wood,
+/area/station)
 "zy" = (
 /obj/machine/info{
 	pixel_y = -64
@@ -502,6 +598,12 @@
 	},
 /turf/open/floor/light,
 /area/station/medical)
+"zV" = (
+/obj/deco/poster{
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station/hydro)
 "AG" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small";
@@ -553,6 +655,12 @@
 	},
 /turf/open/space,
 /area/space)
+"Ee" = (
+/obj/machine/info{
+	pixel_y = -64
+	},
+/turf/open/floor/wood,
+/area/station)
 "EP" = (
 /obj/deco/trashcan{
 	pixel_x = 16;
@@ -627,6 +735,16 @@
 	},
 /turf/open/floor/light,
 /area/station/hydro)
+"Hi" = (
+/obj/decal/floor{
+	icon_state = "wood_floor_transition";
+	dir = 1
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small"
+	},
+/turf/open/floor,
+/area/station)
 "HL" = (
 /obj/item/gwarek{
 	pixel_x = -2;
@@ -654,6 +772,14 @@
 "IW" = (
 /turf/solid/wall,
 /area/station/tech/mining)
+"Jf" = (
+/obj/deco/furniture/chair{
+	dir = 4;
+	pixel_x = 21;
+	pixel_y = 10
+	},
+/turf/open/floor/wood,
+/area/station)
 "JH" = (
 /obj/deco/furniture/table/auto,
 /turf/open/floor,
@@ -680,6 +806,17 @@
 "Lp" = (
 /turf/solid/wall,
 /area/station/medical)
+"LI" = (
+/obj/deco/furniture/chair{
+	dir = 8;
+	pixel_x = -19;
+	pixel_y = 4
+	},
+/obj/deco/poster{
+	pixel_x = 64
+	},
+/turf/open/floor/wood,
+/area/station)
 "LS" = (
 /obj/deco/plant{
 	pixel_x = -20;
@@ -743,6 +880,14 @@
 /obj/door_control,
 /turf/solid/wall,
 /area/station/tech)
+"Nr" = (
+/obj/deco/furniture/chair{
+	dir = 8;
+	pixel_x = -20;
+	pixel_y = 4
+	},
+/turf/open/floor/wood,
+/area/station)
 "Nu" = (
 /turf/solid/window,
 /area/space)
@@ -754,6 +899,14 @@
 	},
 /turf/open/floor/light,
 /area/station/medical)
+"Oe" = (
+/obj/deco/furniture/chair{
+	dir = 8;
+	pixel_x = -22;
+	pixel_y = 8
+	},
+/turf/open/floor/wood,
+/area/station)
 "Om" = (
 /obj/decal{
 	icon_state = "cantina1";
@@ -783,6 +936,12 @@
 	},
 /turf/open/floor,
 /area/station)
+"Qh" = (
+/obj/deco/poster{
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station/corporate)
 "Qu" = (
 /obj/machine/pay{
 	pixel_x = 0;
@@ -807,6 +966,13 @@
 	},
 /turf/open/floor,
 /area/station/corporate)
+"RD" = (
+/obj/deco/plant{
+	pixel_x = 18;
+	pixel_y = 42
+	},
+/turf/open/floor/wood,
+/area/station)
 "RL" = (
 /obj/decal{
 	icon_state = "chez0";
@@ -841,6 +1007,14 @@
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
+"TB" = (
+/obj/deco/furniture/chair{
+	dir = 4;
+	pixel_x = 22;
+	pixel_y = 9
+	},
+/turf/open/floor/wood,
+/area/station)
 "TI" = (
 /obj/decal{
 	icon_state = "chezsign3";
@@ -852,6 +1026,14 @@
 "TZ" = (
 /turf/open/floor,
 /area/station/tech)
+"UL" = (
+/obj/deco/furniture/chair{
+	dir = 1;
+	pixel_x = 6;
+	pixel_y = 18
+	},
+/turf/open/floor/wood,
+/area/station)
 "UM" = (
 /obj/deco/trashcan{
 	pixel_x = -16;
@@ -7998,7 +8180,7 @@ Cg
 ne
 ne
 Lp
-wH
+jD
 wH
 wH
 wH
@@ -8238,7 +8420,7 @@ Gn
 Gn
 Gn
 cG
-uY
+Qh
 uY
 uY
 uY
@@ -9914,9 +10096,9 @@ Zs
 Zs
 Cg
 Cg
-Cg
-Cg
-Cg
+eM
+eM
+eM
 Cg
 Cg
 jw
@@ -10040,11 +10222,11 @@ Zs
 Zs
 Zs
 Cg
-RT
-RT
-RT
-RT
-RT
+kX
+kE
+tg
+Jf
+vC
 Cg
 Cg
 Zs
@@ -10166,13 +10348,13 @@ jN
 hO
 Zs
 Zs
-Cg
-RT
-RT
-RT
-RT
-RT
-RT
+Hi
+yF
+sw
+sw
+sw
+tA
+tA
 Cg
 eM
 eM
@@ -10284,7 +10466,7 @@ Cg
 ne
 ne
 jN
-pU
+zV
 pU
 sR
 Ye
@@ -10293,14 +10475,14 @@ jN
 Om
 Zs
 Zs
+Hi
+tA
+rV
+Oe
+uG
+tA
+tA
 Cg
-RT
-RT
-RT
-RT
-RT
-RT
-RT
 RT
 RT
 RT
@@ -10420,14 +10602,14 @@ GL
 AG
 Zs
 Zs
+Hi
+tA
+TB
+nv
+nZ
+tA
+Ee
 Cg
-RT
-RT
-RT
-RT
-RT
-RT
-RT
 RT
 RT
 RT
@@ -10547,14 +10729,14 @@ GL
 AG
 Zs
 Zs
+Hi
+yF
+sw
+sw
+sw
+UL
+tA
 Cg
-RT
-RT
-RT
-RT
-RT
-RT
-RT
 RT
 RT
 RT
@@ -10665,9 +10847,9 @@ Cg
 ne
 ne
 jN
+zV
 pU
-pU
-pU
+jN
 jN
 jN
 jN
@@ -10675,13 +10857,13 @@ BR
 Zs
 Zs
 Cg
-RT
-RT
-RT
-RT
-RT
-RT
-RT
+RD
+Nr
+LI
+xl
+tA
+ap
+Cg
 gF
 gF
 gF
@@ -10802,7 +10984,7 @@ Zs
 Zs
 Zs
 Cg
-RT
+eM
 gF
 gF
 gF
