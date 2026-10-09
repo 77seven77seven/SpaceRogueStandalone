@@ -20,6 +20,11 @@
 
 	var/time = 2
 
+	var/auto_closes = TRUE
+	var/auto_opens = FALSE // MUTUALLY EXLCUSIVE, FUCKED UP THINGS HAPPEN IF YOU PAIR THESE TOGETHER!
+
+	var/obj/door_control/linked_dc
+
 	var/list/access = list() // If the person interacting has ANY OF THESE ACCESS TAGS, they can access the door and open/close it.
 							 // This means that you can't make doors that need more than one type of access tag to open. Not yet anyway.
 
@@ -27,6 +32,10 @@
 	var/atom/movable/door_r
 
 	var/atom/movable/whiteout
+
+/obj/machine/door/start_open/Initialize()
+	. = ..()
+	do_door()
 
 /obj/machine/door/glass
 	name = "win-door"
@@ -72,6 +81,7 @@
 			if(istype(DC, /obj/door_control))
 				var/obj/door_control/DCC = DC
 				DCC.linked_door = src
+				linked_dc = DCC
 				break
 
 /obj/machine/door/interact(mob/human/user, obj/item/held_item, params)
@@ -147,7 +157,27 @@
 
 		door_l.filters = null
 		door_r.filters = null
+		if(open && auto_closes)
+			addtimer(CALLBACK(src, PROC_REF(auto_close)), 2 MINUTES, TIMER_UNIQUE|TIMER_OVERRIDE)
+		if(!open && auto_opens)
+			addtimer(CALLBACK(src, PROC_REF(auto_open)), 5 MINUTES, TIMER_UNIQUE|TIMER_OVERRIDE)
 	return TRUE
+
+/obj/machine/door/proc/auto_close()
+	if(!open || doing)
+		return
+	if(locate(/mob/human) in get_turf(src))
+		addtimer(CALLBACK(src, PROC_REF(auto_close)), 2 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
+
+		playsound(get_turf(src), 'sound/effects/pda/airlock_deny.ogg', 150, ignore_walls = TRUE)
+		flick("[initial(linked_dc.icon_state)]-deny",linked_dc)
+		return
+	do_door()
+
+/obj/machine/door/proc/auto_open()
+	if(open || doing)
+		return
+	do_door()
 
 /obj/door_control
 	name = "door control"
@@ -163,6 +193,13 @@
 		if(linked_door)
 			if(linked_door.doing)
 				H.chat_pda("DOOR BUSY!", "bad")
+				flick("[initial(icon_state)]-deny",src)
+				return FALSE
+			if(locate(/mob/human) in get_turf(linked_door))
+				H.chat_pda("DOOR BLOCKED!", "bad")
+
+				flick("[initial(icon_state)]-deny",src)
+				playsound(get_turf(src), 'sound/effects/pda/airlock_deny.ogg', 150, ignore_walls = TRUE)
 				return FALSE
 			if(!linked_door.access.len || (find_common_entry(H.mind?.current_job?.access, linked_door.access) || H.mind?.current_job?.access.Find("EVERYTHING")))
 				flick("[initial(icon_state)]-allow",src)

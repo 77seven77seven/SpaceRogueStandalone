@@ -58,6 +58,32 @@
 	desc = "It's a chair."
 	desc_expansive = "A chair is a piece of furniture with a raised surface supported by legs, commonly used to seat a single person. Chairs are supported most often by four legs and have a back; however, a chair can have three legs or can have a different shape. Chairs are made of a wide variety of materials, ranging from wood to metal to synthetic material (e.g. plastic), and they may be padded or upholstered in various colors and fabrics, either just on the seat (as with some dining room chairs) or on the entire chair. Chairs are used in a number of rooms in homes (e.g. in living rooms, dining rooms, and dens), in schools and offices (with desks), and in various other workplaces, such as Roguestation Endera."
 
+/obj/deco/furniture/bed
+	name = "bed"
+	desc = "For sleeping or for dying in. Fifty percent of the time, it also comes with a bedsheet for extra snuggling."
+	desc_expansive = "For some strange reason, you've got a feeling that laying on a bed makes it easier for a caretaker to administer aid."
+	desc_expansive_extra_skill = MEDI
+
+	icon_state = "bed"
+
+/obj/deco/furniture/bed/Initialize()
+	. = ..()
+	if(prob(50))
+		var/image/sheet = image(src.icon, src, "sheet")
+		sheet.color = get_random_light_color()
+		var/image/sheet_overlay = image(src.icon, src, "sheet-overlay")
+
+		overlays += sheet
+		overlays += sheet_overlay
+
+	if(prob(10))
+		desc = "Planetfall, is this the one? I haven't slept in so long. I want a bed to lie in!"
+	
+	if(prob(0.1))
+		name = "cool bed"
+		desc = "For sleeping or for dying in. In addition, it also looks really cool."
+		icon_state = "bed_racecar"
+
 /obj/deco/furniture/table
 	name = "table"
 	icon = 'icons/obj/furniture/table.dmi'

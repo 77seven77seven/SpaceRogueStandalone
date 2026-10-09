@@ -200,6 +200,10 @@
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
+"gm" = (
+/obj/deco/furniture/bed,
+/turf/open/floor/light,
+/area/station/medical)
 "gw" = (
 /obj/deco/poster{
 	pixel_y = 58;
@@ -218,6 +222,13 @@
 /obj/machine/vendor,
 /turf/open/floor,
 /area/station/tech)
+"hG" = (
+/obj/door_control{
+	pixel_x = 64
+	},
+/obj/deco/furniture/bed,
+/turf/open/floor/wood/tile,
+/area/station)
 "hO" = (
 /obj/decal{
 	icon_state = "cantina0";
@@ -295,6 +306,7 @@
 /obj/deco/poster{
 	pixel_y = 64
 	},
+/obj/deco/furniture/bed,
 /turf/open/floor/light,
 /area/station/medical)
 "jJ" = (
@@ -476,8 +488,10 @@
 	icon_state = "wood_tile_floor_transition";
 	dir = 4
 	},
-/obj/machine/door{
-	dir = 4
+/obj/machine/door/start_open{
+	dir = 4;
+	auto_closes = 0;
+	auto_opens = 1
 	},
 /turf/open/floor,
 /area/station)
@@ -809,6 +823,13 @@
 /obj/deco/maint_tunnel,
 /turf/solid/wall,
 /area/station)
+"Cb" = (
+/obj/item/gwarek{
+	pixel_x = -2;
+	pixel_y = 27
+	},
+/turf/open/floor/dark,
+/area/station/maintenance)
 "Ce" = (
 /obj/abstract/landmark/start{
 	name = "Medicaloid"
@@ -888,6 +909,10 @@
 	pixel_y = 64;
 	pixel_x = -2
 	},
+/obj/door_control{
+	pixel_x = 64
+	},
+/obj/deco/furniture/bed,
 /turf/open/floor/wood/tile,
 /area/station)
 "Fi" = (
@@ -928,6 +953,11 @@
 "Gi" = (
 /obj/deco/poster{
 	pixel_y = 64
+	},
+/obj/deco/fishtank{
+	pixel_x = 0;
+	pixel_y = 34;
+	density = 0
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
@@ -989,9 +1019,9 @@
 /turf/open/floor,
 /area/station)
 "HL" = (
-/obj/item/gwarek{
-	pixel_x = -2;
-	pixel_y = 27
+/obj/deco/plant{
+	pixel_x = -18;
+	pixel_y = 3
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
@@ -1393,13 +1423,10 @@
 /turf/open/floor/light,
 /area/station/medical)
 "UW" = (
-/obj/deco/plant{
-	pixel_x = 18;
-	pixel_y = 40
-	},
 /obj/machine/info{
 	pixel_x = 64
 	},
+/obj/deco/furniture/bed,
 /turf/open/floor/wood,
 /area/station/corporate/director)
 "UY" = (
@@ -6657,13 +6684,13 @@ RT
 RT
 RT
 Cg
-Gp
+hG
 Gp
 Cg
 EV
 Gp
 Cg
-Gp
+hG
 Gp
 Cg
 GW
@@ -6784,13 +6811,13 @@ qj
 eC
 eC
 Cg
-ON
+Cg
 rp
 Cg
-ON
+Cg
 rp
 Cg
-ON
+Cg
 rp
 Cg
 Zs
@@ -8161,7 +8188,7 @@ RT
 IS
 wv
 wv
-ne
+Cb
 HV
 ne
 ne
@@ -8311,8 +8338,8 @@ ne
 ne
 ne
 Lp
-wH
-wH
+gm
+gm
 wH
 wH
 wH
@@ -8419,8 +8446,8 @@ ne
 IS
 Co
 cG
-cG
 NX
+cG
 cG
 cG
 cG
@@ -8438,8 +8465,8 @@ Cg
 ne
 ne
 Lp
-wH
-wH
+Le
+Le
 KN
 wH
 wH
@@ -8546,10 +8573,10 @@ wv
 IS
 ne
 cG
-HL
 Gn
 ox
 Gn
+HL
 re
 uY
 uY
@@ -8566,7 +8593,7 @@ Co
 ne
 Lp
 jD
-wH
+gm
 wH
 wH
 wH
