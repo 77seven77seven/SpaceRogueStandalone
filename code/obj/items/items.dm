@@ -203,7 +203,7 @@
 	name = "Lime-Lite"
 	icon_state = "limelite"
 
-	desc = "Lime-Lite™, a lithiated lemon-lime soda coming to space stations near you! Be refreshed, even in space."
+	desc = "Lime-Lite™, a lithiated lemon-lime soda coming to space stations near you! Be refreshed, even in space. \"Be Lime-Wired!\""
 	desc_expansive = "Rumors are that the company behind Lime-Lite™ is owned by the same company that makes Anne-Gree®, using the fierce competition public angle as a mere marketing stunt between corporations."
 	hydration = 25
 	mood = 15
