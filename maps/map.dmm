@@ -391,6 +391,12 @@
 	},
 /turf/open/floor/wood,
 /area/station)
+"ox" = (
+/obj/door_control{
+	pixel_x = -64
+	},
+/turf/open/floor/wood,
+/area/station/corporate/director)
 "oK" = (
 /obj/deco/trashcan{
 	pixel_x = 15;
@@ -725,6 +731,14 @@
 	name = "Enforcer"
 	},
 /turf/open/floor/dark,
+/area/station)
+"yo" = (
+/obj/deco/fishtank{
+	pixel_x = 0;
+	pixel_y = 34;
+	density = 0
+	},
+/turf/open/floor,
 /area/station)
 "yF" = (
 /obj/deco/furniture/chair,
@@ -1075,8 +1089,13 @@
 /turf/open/floor,
 /area/station)
 "Mh" = (
-/turf/open/floor,
-/area/space)
+/obj/deco/fishtank{
+	pixel_x = 0;
+	pixel_y = 34;
+	density = 0
+	},
+/turf/open/floor/dark,
+/area/station/maintenance)
 "Mk" = (
 /obj/machine/medical/medscan_terminal{
 	pixel_x = 0;
@@ -1152,6 +1171,17 @@
 	},
 /turf/open/floor/light,
 /area/station/medical)
+"NX" = (
+/obj/decal/floor{
+	icon_state = "wood_floor_transition";
+	dir = 8
+	},
+/obj/machine/door{
+	access = list("DIRECTOR");
+	dir = 4
+	},
+/turf/open/floor/dark,
+/area/station/corporate/director)
 "Oe" = (
 /obj/deco/furniture/chair{
 	dir = 8;
@@ -6996,7 +7026,7 @@ IS
 ne
 ne
 Cg
-Zs
+yo
 Zs
 Zs
 Zs
@@ -7863,8 +7893,8 @@ RT
 RT
 RT
 RT
-RT
-RT
+eC
+eC
 eC
 eC
 eC
@@ -7985,14 +8015,14 @@ RT
 RT
 RT
 RT
-RT
-RT
-RT
-RT
-RT
-RT
-RT
+BO
+Dl
 eC
+eC
+eC
+eC
+wv
+wv
 IS
 IS
 IS
@@ -8112,15 +8142,15 @@ RT
 RT
 RT
 RT
-RT
-RT
-RT
-RT
-RT
+eC
 RT
 RT
 RT
 IS
+wv
+wv
+ne
+HV
 ne
 ne
 ne
@@ -8239,15 +8269,15 @@ RT
 RT
 RT
 RT
+eC
 RT
 RT
 RT
-RT
-RT
-RT
-RT
-RT
-IS
+IK
+ne
+ne
+ne
+IK
 ne
 ne
 ne
@@ -8366,19 +8396,19 @@ RT
 RT
 RT
 RT
-RT
-RT
-RT
-RT
-RT
+eC
 RT
 RT
 RT
 IS
+pB
+ne
+ne
+IS
 Co
 cG
 cG
-cG
+NX
 cG
 cG
 cG
@@ -8493,20 +8523,20 @@ RT
 RT
 RT
 RT
+eC
 RT
 RT
 RT
-RT
-RT
-RT
-RT
-RT
+wv
+wv
+wv
+wv
 IS
 ne
 cG
 HL
 Gn
-Gn
+ox
 Gn
 re
 uY
@@ -8533,13 +8563,13 @@ Zs
 Zs
 Zs
 Cg
-BO
-BO
-BO
-BO
-BO
-BO
-BO
+Cg
+Cg
+Cg
+Cg
+Cg
+Cg
+Cg
 RT
 RT
 RT
@@ -8620,14 +8650,14 @@ RT
 RT
 RT
 RT
-RT
-RT
-RT
-RT
-RT
-RT
-RT
-RT
+BO
+bt
+eC
+eC
+eC
+eC
+eC
+eC
 IS
 pB
 cG
@@ -8660,13 +8690,13 @@ Zs
 Zs
 Zs
 Cg
-Mh
-Mh
-Mh
-Mh
-Mh
-Mh
-BO
+Zs
+Zs
+Zs
+Zs
+Zs
+Zs
+Cg
 RT
 RT
 RT
@@ -8753,8 +8783,8 @@ RT
 RT
 RT
 RT
-RT
-RT
+eC
+eC
 IS
 ne
 cG
@@ -8787,13 +8817,13 @@ id
 Zs
 Zs
 Cg
-Mh
-Mh
-Mh
-Mh
-Mh
-Mh
-BO
+Zs
+Zs
+Zs
+Zs
+Zs
+Zs
+Cg
 eC
 eC
 eC
@@ -8881,7 +8911,7 @@ RT
 RT
 RT
 RT
-RT
+eC
 IS
 ne
 cG
@@ -8914,13 +8944,13 @@ cV
 Zs
 Zs
 Zs
-Mh
-Mh
-Mh
-Mh
-Mh
-Mh
-BO
+Zs
+Zs
+Zs
+Zs
+Zs
+Zs
+Cg
 eC
 eC
 eC
@@ -9008,7 +9038,7 @@ RT
 RT
 RT
 RT
-RT
+eC
 IS
 ne
 cG
@@ -9041,13 +9071,13 @@ Zs
 Zs
 Zs
 Cg
-Mh
-Mh
-Mh
-Mh
-Mh
-Mh
-BO
+Zs
+Zs
+Zs
+Zs
+Zs
+Zs
+Cg
 eC
 eC
 eC
@@ -9135,7 +9165,7 @@ RT
 RT
 RT
 RT
-RT
+eC
 IS
 ne
 cG
@@ -9168,13 +9198,13 @@ Zs
 Zs
 Zs
 Cg
-Mh
-Mh
-Mh
-Mh
-Mh
-Mh
-BO
+Zs
+Zs
+Zs
+Zs
+Zs
+Zs
+Cg
 RT
 RT
 RT
@@ -9262,7 +9292,7 @@ RT
 RT
 RT
 RT
-RT
+eC
 IS
 ne
 cG
@@ -9295,13 +9325,13 @@ Zs
 Zs
 Zs
 Cg
-BO
-BO
-BO
-BO
-BO
-BO
-BO
+Cg
+Cg
+Cg
+Cg
+Cg
+Cg
+Cg
 RT
 RT
 RT
@@ -9810,8 +9840,8 @@ eC
 eC
 Cg
 Cg
-ZU
 Zs
+ZU
 cy
 ON
 Zs
@@ -10573,8 +10603,8 @@ vC
 Cg
 Cg
 cy
-Zs
 ZU
+Zs
 ON
 Zs
 Zs
@@ -11440,7 +11470,7 @@ RT
 eC
 RT
 IS
-ne
+Mh
 ne
 ne
 jN

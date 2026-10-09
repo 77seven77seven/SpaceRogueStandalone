@@ -32,8 +32,6 @@
 
 	// Schedule the next cycle before doing anything that can yield.
 	next_arrival = world.time + (rand(16, 23) MINUTES)
-	spawn()
-		arrive()
 
 /datum/system/shuttle/proc/arrive()
 	chat_announce("PASSENGER SHUTTLE BUS 'PKD' IS ARRIVING VIA HYPERPORT TO 'ENDERA' CIVILIAN DOCKING PORT ONE. ALL WILLING PAID PASSENGERS PLEASE PREPARE TO BOARD.")
