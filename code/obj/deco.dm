@@ -32,6 +32,18 @@
 	desc = "Where is Wednesday's teaser?"
 	icon_state = "graffiti"
 
+/obj/deco/graffiti/moids
+	name = "graffiti"
+	desc = "Moids not welcome!"
+	desc_expansive = "A common graffiti to see in Roider territory due to them seeing medical treatment as... agaisnt their culture. Moid is a deragotary slang term used against medicaloids."
+	desc_expansive_extra_skill = MEDI
+	icon_state = "graffiti-2"
+
+/obj/deco/graffiti/slaughterhouse
+	name = "graffiti"
+	desc = "ONAGER SLAUGHTER-HOUSE. Makes you wonder who wrote this."
+	icon_state = "slaughterhouse"
+
 /obj/deco/trashcan
 	name = "trashcan"
 	desc = "Not a tradition, more of a necesity. But beauty is in the eye of the beholder."

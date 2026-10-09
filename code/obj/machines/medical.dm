@@ -70,6 +70,16 @@
 
 				H.AdjustSorrow(8)
 
+				switch(H.brain_damage)
+					if(0)
+						scan_results["braindam"] = "NOMINAL :)"
+					if(1)
+						scan_results["braindam"] = "FAIR :I"
+					if(2)
+						scan_results["braindam"] = "IMPAIRED :("
+					if(3)
+						scan_results["braindam"] = "BARELY FUNCTIONING (ᗒᗣᗕ)"
+
 				var/rastra
 				switch(H.health)
 					if(70 to INFINITY)
@@ -112,6 +122,7 @@
 
 			>PHYS. HEALTH: <b>[scan_results["health"]]</b><br>
 			>DETECTED FRACTURES: <b>[scan_results["fractures"]]</b><br>
+			>BRAIN HEALTH: <b>[scan_results["braindam"]]</b><br>
 			>BLOOD LV.: <b>[scan_results["blood"]]</b><br>
 			>ILLNESSES: <b>[scan_results["disease"] ? scan_results["disease"] : "ALL CLEAN! :)"]</b><br>
 			[scan_results["shrapnel"] ? ">WARNING! DETECTED FOREIGN OBJECTS!<br>" : null]

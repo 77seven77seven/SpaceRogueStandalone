@@ -56,8 +56,10 @@ var/global/list/bleedout_lastwords = list(
 		AdjustBlood(BLOOD_VOLUME_REGEN_RATE)
 
 /mob/human/proc/go_blind(tim = 5, fade = 5)
+	set waitfor = FALSE
 	if(!client)
 		return
+
 	animate(client, color = "#000000", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = tim)
 	sleep(5)
 	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = fade)

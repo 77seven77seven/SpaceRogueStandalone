@@ -76,7 +76,6 @@
 
 /obj/machine/door/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()
-	user << "click"
 	if(!open)
 		knock(user)
 

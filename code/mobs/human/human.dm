@@ -27,6 +27,8 @@
 	var/bleeding = 0
 	var/brainsploded = FALSE
 
+	var/brain_damage = 0 // Yes, there is a difference. Brainsploded means headshotted by a gun. Even if it occassionally leads to brain damage, it doesn't always... since you're dead.
+
 	var/shrapnel = 0 // how much shrapnel we have in us, shrapnel impedes natural blood clotting and causes pain
 	var/max_shrapnel = 3
 
@@ -505,6 +507,9 @@
 	if(health <= 20 || blood <= 40)
 		penalty += 3
 
+	if(istype(get_area(src), /area/station/maintenance))
+		penalty += 2
+
 	penalty += shrapnel
 
 	penalty += broke_bones * 1.5
@@ -715,16 +720,23 @@
 		mind.set_current_job(R)
 		R.equip(src)
 
-		var/turf/starto
+		var/list/start_candidates = list()
 		for(var/obj/abstract/landmark/start/sloc in landmarks_start_list)
-			if(sloc.name != R.title)
-				continue
-			starto = get_turf(sloc)
-			
-		if(!starto)
+			if(sloc.name == R.title)
+				start_candidates += get_turf(sloc)
+
+		if(!start_candidates.len)
 			for(var/obj/abstract/landmark/start/sloc in landmarks_start_list)
 				if(sloc.name == "backup")
-					starto = get_turf(sloc)
+					start_candidates += get_turf(sloc)
+
+		var/turf/starto
+		if(start_candidates.len)
+			var/list/unobserved_starts = list()
+			for(var/turf/candidate in start_candidates)
+				if(!viewers(world.view, candidate).len)
+					unobserved_starts += candidate
+			starto = pick(unobserved_starts.len ? unobserved_starts : start_candidates)
 
 		if(!starto)
 			starto = locate(1,1,1)
