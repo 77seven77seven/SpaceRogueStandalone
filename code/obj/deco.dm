@@ -44,6 +44,16 @@
 	desc = "ONAGER SLAUGHTER-HOUSE. Makes you wonder who wrote this."
 	icon_state = "slaughterhouse"
 
+/obj/deco/graffiti/barnyard
+	name = "graffiti"
+	desc = "THIS STATION IS A BARNYARD!"
+	icon_state = "barnyard"
+
+/obj/deco/graffiti/delegate
+	name = "graffiti"
+	desc = "We're not in ***** anymore, Delegate."
+	icon_state = "delegate"
+
 /obj/deco/trashcan
 	name = "trashcan"
 	desc = "Not a tradition, more of a necesity. But beauty is in the eye of the beholder."

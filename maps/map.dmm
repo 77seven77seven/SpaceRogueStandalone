@@ -339,6 +339,10 @@
 	},
 /turf/open/floor/wood,
 /area/station)
+"kN" = (
+/obj/deco/graffiti/barnyard,
+/turf/solid/wall,
+/area/station)
 "kX" = (
 /obj/deco/plant{
 	pixel_x = -18;
@@ -590,6 +594,10 @@
 	},
 /turf/open/floor,
 /area/station)
+"tr" = (
+/obj/deco/graffiti/delegate,
+/turf/solid/wall,
+/area/station/maintenance)
 "tA" = (
 /turf/open/floor/wood,
 /area/station)
@@ -1098,6 +1106,10 @@
 "JJ" = (
 /turf/open/floor,
 /area/station/water)
+"JU" = (
+/obj/deco/graffiti/barnyard,
+/turf/solid/wall,
+/area/space)
 "KE" = (
 /turf/solid/window,
 /area/station/medical)
@@ -5584,7 +5596,7 @@ RT
 eC
 eC
 eC
-RT
+eC
 RT
 eC
 Cg
@@ -5711,7 +5723,7 @@ RT
 RT
 RT
 RT
-RT
+eC
 RT
 eC
 eM
@@ -5834,12 +5846,12 @@ eC
 RT
 RT
 eC
-RT
-RT
-RT
-RT
-RT
-RT
+eC
+eC
+eC
+eC
+JU
+eC
 eC
 eM
 Zs
@@ -5965,7 +5977,7 @@ RT
 RT
 RT
 RT
-RT
+eC
 RT
 eC
 eM
@@ -6092,7 +6104,7 @@ RT
 RT
 RT
 RT
-RT
+eC
 eC
 eC
 Cg
@@ -8101,7 +8113,7 @@ IS
 IS
 IS
 IS
-IS
+Vs
 IS
 IS
 Co
@@ -8218,7 +8230,7 @@ RT
 RT
 wv
 wv
-IS
+tr
 Cb
 HV
 ne
@@ -11032,7 +11044,7 @@ Zs
 Zs
 Zs
 Zs
-Cg
+kN
 ne
 vP
 jN
