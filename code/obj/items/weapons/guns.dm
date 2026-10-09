@@ -33,6 +33,8 @@
 	var/next_fire = 0
 
 	var/tracers = FALSE
+	var/pellets = 1
+	var/pellet_damage_multiplier = 1
 
 /obj/item/gun/revolver
 	name = "Alpha"
@@ -60,15 +62,45 @@
 
 	icon = 'icons/obj/guns/guns_wide.dmi'
 	icon_state = "arifle"
+	inhand_icon_state = "arifle"
 
-	dropshrink = 0.5
+	dropshrink = 0.7
 
+	fire_delay = 1
 	damage = 40
 	headshot_damage = 100
+
+	gunshot_sounds = list('sound/effects/obj/guns/rifle.ogg')
 	
 	ammo_type = BIG_AMMO
 	ammo_loaded = 30
 	ammo_max = 30
+
+/obj/item/gun/shotgun
+	name = "Blunder"
+	desc = "A light, close-range scattergun built for stopping power at point-blank range."
+	desc_expansive = "The Blunder fires eight pellets in a spread, making it effective at close quarters. Holds six shells."
+
+	icon = 'icons/obj/guns/guns_wide.dmi'
+	icon_state = "shotgun"
+	inhand_icon_state = "shotgun"
+	gunshot_sounds = list('sound/effects/obj/guns/rifle.ogg')
+
+	ammo_type = SHOTG_AMMO
+	ammo_loaded = 6
+	ammo_max = 6
+
+	dropshrink = 0.7
+
+	damage = 8
+	headshot_damage = 80
+	fire_delay = 12
+	spread = 30
+	spread_range = 3 * WORLD_ICON_SIZE
+	pellets = 8
+	accuracy = 0.8
+
+	tracers = TRUE
 
 /obj/item/gun/proc/Fire(mob/shooter, atom/target, aim_x, aim_y)
 	// aim_x / aim_y are the cursor's WORLD pixel coordinates.
@@ -114,23 +146,34 @@
 	var/shot_distance = min(aim_distance, range)
 	var/impact_x = ox + dx * shot_distance
 	var/impact_y = oy + dy * shot_distance
-	// Spread is measured at spread_range, so its impact grows with shot distance.
-	if(effective_spread > 0)
-		var/ang = rand() * 360
-		var/rad = effective_spread * (shot_distance / max(spread_range, 1)) * sqrt(rand())
-		impact_x += rad * cos(ang)
-		impact_y += rad * sin(ang)
+	var/pellet_count = max(1, pellets)
+	var/list/pellet_impacts = list()
+	for(var/i in 1 to pellet_count)
+		var/shot_impact_x = impact_x
+		var/shot_impact_y = impact_y
+		if(effective_spread > 0)
+			var/ang = rand() * 360
+			var/rad = effective_spread * (shot_distance / max(spread_range, 1)) * sqrt(rand())
+			shot_impact_x += rad * cos(ang)
+			shot_impact_y += rad * sin(ang)
+		pellet_impacts += list(list("x" = shot_impact_x, "y" = shot_impact_y))
 
-	var/hit_zone
-	if(aim_distance <= range && target != shooter && aimed_target && aimed_turf)
-		hit_zone = aimed_target.GetHitZoneAt(impact_x - target_x, impact_y - target_y)
+	var/pellet_hits = 0
+	var/headshot_hits = 0
+	for(var/list/impact in pellet_impacts)
+		if(aim_distance <= range && target != shooter && aimed_target && aimed_turf)
+			var/pellet_zone = aimed_target.GetHitZoneAt(impact["x"] - target_x, impact["y"] - target_y)
+			if(pellet_zone)
+				pellet_hits++
+				if(pellet_zone == "head")
+					headshot_hits++
 
 	animate(shooter?.client, color = "#f3d4d4ff", easing = EASE_OUT, time = 0.5)
 	animate(color = "#ffefef", easing = EASE_IN, time = 0.5)
 
 	firearm_recoil_mob(shooter)
 
-	playsound(get_turf(shooter), pick(gunshot_sounds), 75, TRUE)
+	playsound(get_turf(shooter), pick(gunshot_sounds), 75, TRUE, ignore_walls = TRUE)
 	for(var/mob/M in station.humans)
 		var/turf/M_turf = get_turf(M)
 		if(!M_turf)
@@ -140,15 +183,18 @@
 		M.playsound_local(M_turf, 'sound/effects/obj/guns/distantshot.ogg', 60, 1, get_rand_frequency(), falloff_exponent = 5)
 
 	if(tracers)
-		new /obj/tracer(get_turf(shooter), ox, oy, impact_x, impact_y)
+		for(var/list/impact in pellet_impacts)
+			new /obj/tracer(get_turf(shooter), ox, oy, impact["x"], impact["y"])
 	if(ejects_casings)
 		new /atom/movable/casing(get_turf(shooter))
 		playsound(get_turf(shooter), 'sound/effects/obj/guns/casing.ogg', 65, TRUE)
 
-	if(istype(target, /mob/human) && hit_zone)
+	if(istype(target, /mob/human) && pellet_hits)
 		var/mob/human/victim = target
-		var/dmg = damage
-		if(hit_zone == "head" && !victim.brainsploded)
+		var/hit_zone = headshot_hits ? "head" : "body"
+		var/pellet_damage = max(1, round(damage * pellet_damage_multiplier))
+		var/dmg = pellet_damage * pellet_hits
+		if(headshot_hits && !victim.brainsploded)
 			var/list/brainlines = list(
 			"EEEWWWWW!",
 			"I THINK I'M GOING TO BE SICK!!!",
@@ -204,7 +250,7 @@
 				H.chat_info(line, style)
 				H.AdjustSorrow(mood)
 
-			dmg = headshot_damage
+			dmg += headshot_damage - pellet_damage
 
 			var/sound = list('sound/effects/human/medical/headshot/headcrush (1).ogg', 'sound/effects/human/medical/headshot/headcrush (2).ogg', 'sound/effects/human/medical/headshot/headcrush (3).ogg', 'sound/effects/human/medical/headshot/headcrush (4).ogg','sound/effects/human/medical/headshot/headcrush (5).ogg','sound/effects/human/medical/headshot/headcrush (6).ogg','sound/effects/human/medical/headshot/headcrush (7).ogg')
 			playsound(get_turf(victim), pick(sound), 65, TRUE)
@@ -224,7 +270,7 @@
 
 			victim.filters = filter(type="displace", icon=icon('icons/human/blood.dmi',"headshot_displacement_map"), size=13)
 			victim.brainsploded = TRUE // His brain 'sploded!
-		var/amplitude = min(4, (damage/100) + 1)
+		var/amplitude = min(4, (dmg/100) + 1)
 		var/pixel_x_diff = ceil(rand(-amplitude, amplitude))
 		var/pixel_y_diff = ceil(rand(-amplitude/3, amplitude/2))
 		animate(victim, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)

@@ -83,6 +83,25 @@
 	if(!holding.junk)
 		holding.use(src)
 
+// Cache of icon file -> list(width, height) so we don't build an /icon on every drop
+var/list/icon_dim_cache = list()
+
+/atom/movable/proc/get_icon_dims()
+	if(!icon)
+		return list(world.icon_size, world.icon_size)
+	if(!isfile(icon))
+		// runtime /icon datum, can't be cached by key
+		var/icon/runtime_icon = icon(icon)
+		return list(runtime_icon.Width(), runtime_icon.Height())
+	var/key = "[icon]"
+	var/list/dims = icon_dim_cache[key]
+	if(!dims)
+		var/icon/I = icon(icon)
+		dims = list(I.Width(), I.Height())
+		icon_dim_cache[key] = dims
+	return dims
+
+
 /mob/human/verb/drop_item()
 	set name = ".drop"
 
@@ -98,6 +117,13 @@
 	holding.forceMove(drop_turf)
 	holding.update_transform()
 
+	// How far the icon overhangs the tile on each axis, split evenly per side.
+	// 0 for a standard icon, 32 for a 128x128 icon on a 64x64 tile.
+	var/list/dims = holding.get_icon_dims()
+	var/overhang_x = round((dims[1] - world.icon_size) / 2)
+	var/overhang_y = round((dims[2] - world.icon_size) / 2)
+
+	// Offset of the item's *center* from the tile's center
 	var/newx = 0
 	var/newy = 0
 	if(client.mpx != null && client.mpy != null)
@@ -109,8 +135,10 @@
 		else
 			newx = clamp(newx, -32, 32)
 			newy = clamp(newy, -32, 32)
-	holding.pixel_x = newx
-	holding.pixel_y = newy
+
+	// Shift back by the overhang so the icon's center, not its corner, lands there
+	holding.pixel_x = newx - overhang_x
+	holding.pixel_y = newy - overhang_y
 
 	holding = null
 	UpdateInhand()

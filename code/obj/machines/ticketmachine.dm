@@ -1,5 +1,5 @@
 /obj/machine/tickets
-	name = "TIKETS"
+	name = "WENDR-TIKETS PKD2"
 	desc = "WENDR-type vz. 71. A popular choice in the automatic selling of public transport permits. You determine your destination on board, no need for pesky menus! ...At least here."
 	desc_expansive = "You are well versed! The ticket price fluctuates with PKD Transport stock price. You understand it is mostly around 100§ and 200§ most of the time."
 	desc_expansive_extra_skill = TECH
