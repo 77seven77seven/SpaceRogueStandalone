@@ -51,7 +51,7 @@
 			ticket_amt--
 			update()
 			
-			var/obj/item/new_item = new(src)
+			var/obj/item/ticket/new_item = new(src)
 			playsound(get_turf(src), 'sound/effects/obj/machine_vend.ogg', vol = 75)
 			sleep(0.331 SECONDS)
 			new_item.loc = get_turf(src)

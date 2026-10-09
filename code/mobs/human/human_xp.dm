@@ -1,7 +1,7 @@
 /mob/human/proc/AddRewardPip() // ● / ○
-	var/list/lines = list("Good deeds are rewarded.","Success!","I knew I could do it!","Good for me.")
+	var/list/lines = list("Good deeds are rewarded.","Success!","I knew I could do it!","Good for me.","REWARD!","Triumph!")
 
-	if(client.rewardpips < client.max_rewardpips)
+	if(client.rewardpips <= client.max_rewardpips)
 		client.rewardpips++
 
 		var/pips

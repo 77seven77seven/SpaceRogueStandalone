@@ -57,3 +57,6 @@
 /mob/verb/knock()
 	for(var/obj/machine/door/D in orange())
 		D.knock()
+
+/mob/human/verb/arrive()
+	shuttle.arrive()

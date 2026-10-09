@@ -28,6 +28,8 @@
 	var/brainsploded = FALSE
 
 	var/brain_damage = 0 // Yes, there is a difference. Brainsploded means headshotted by a gun. Even if it occassionally leads to brain damage, it doesn't always... since you're dead.
+	var/infection = 0 // Infection results in a mild health drain when allowed to build up. You cannot gain infection while in a bed. Infection happens when you have low health for a long period of time while not under the influence of vitamins.
+	var/max_infection = 5
 
 	var/shrapnel = 0 // how much shrapnel we have in us, shrapnel impedes natural blood clotting and causes pain
 	var/max_shrapnel = 3
@@ -139,7 +141,7 @@
 	if(usr != src) return
 	var/input = input(src, "sorrow") as num|null
 	if(input)
-		AdjustSorrow(input)
+		AdjustMoney(input)
 
 /mob/human/interact(mob/user, obj/item/held_item)
 	. = ..()

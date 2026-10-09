@@ -36,10 +36,10 @@
 	var/_x = text2num(params2list(params)["icon-x"])
 	var/_y = text2num(params2list(params)["icon-y"])
 
-	if(!user.SkillRoll(MEDI))
-		return
-
 	if(check_pixel_bounds(_x, _y, 29, 36, 19, 26))
+		if(!user.SkillRoll(MEDI))
+			return
+			
 		if(scanning)
 			whiteout.color = "#ff0000"
 			animate(whiteout, 0.5, alpha = 255)
@@ -80,6 +80,17 @@
 					if(3)
 						scan_results["braindam"] = "BARELY FUNCTIONING (ᗒᗣᗕ)"
 
+				switch(H.infection)
+					if(0 to 2) // Virtually undetectable.
+						if(prob(40))
+							scan_results["infection"] = "???"
+						else
+							scan_results["infection"] = "NONE/LOW"
+					if(3 to 4)
+						scan_results["infection"] = "UH OH... :("
+					if(5)
+						scan_results["infection"] = "PESTERING!!! (ᗒᗣᗕ)"
+
 				var/rastra
 				switch(H.health)
 					if(70 to INFINITY)
@@ -101,6 +112,9 @@
 		spawn(20)
 			scanning = FALSE
 	else if(check_pixel_bounds(_x, _y, 17, 48, 29, 52))
+		if(!user.SkillRoll(MEDI))
+			return
+
 		var/datum/popup/terminal/popup = new(user, "medscan", "Medscan", 640, 500)
 		if(scan_results.len)
 			popup.set_content(
@@ -124,6 +138,7 @@
 			>DETECTED FRACTURES: <b>[scan_results["fractures"]]</b><br>
 			>BRAIN HEALTH: <b>[scan_results["braindam"]]</b><br>
 			>BLOOD LV.: <b>[scan_results["blood"]]</b><br>
+			>XENOBIOTIC INFECTIONS: <b>[scan_results["infection"]]</b><br>
 			>ILLNESSES: <b>[scan_results["disease"] ? scan_results["disease"] : "ALL CLEAN! :)"]</b><br>
 			[scan_results["shrapnel"] ? ">WARNING! DETECTED FOREIGN OBJECTS!<br>" : null]
 			[scan_results["bleeding"] ? ">WARNING! SUBJECT IS BLEEDING!<br>" : null]

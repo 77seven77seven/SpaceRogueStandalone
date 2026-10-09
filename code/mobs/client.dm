@@ -3,8 +3,10 @@
 	fps = 100
 	
 	var/xp = 6 // saves
+
+
 	var/rewardpips = 0
-	var/max_rewardpips = 6
+	var/max_rewardpips = 7
 
 	var/datum/role/previously_played // saves too. reset when you successfully escape (do not set when success escape)
 

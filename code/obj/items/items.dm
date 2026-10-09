@@ -74,29 +74,6 @@
 
 	qdel(I)
 
-/obj/item/Initialize()
-	. = ..()
-	update_transform()
-
-/obj/item/interact(mob/user, obj/item/held_item) // picking up
-	. = ..()
-	if(held_item || !ishuman(user))
-		return
-	var/mob/human/H = user
-
-	if(H.dead || H.ragdolled || !H.client)
-		return FALSE
-
-	if(src in H.inventory)
-		H.inventory -= src
-
-	playsound(get_turf(src), 'sound/effects/pickup.ogg', falloff_exponent = 4, vol = 75)
-	do_pickup_animation(H)
-	forceMove(H)
-	H.holding = src
-
-	H.UpdateInhand()
-
 /mob/human/verb/inhand()
 	set name = ".inhand"
 
@@ -158,6 +135,35 @@
 	holding.update_transform()
 	holding = null
 	UpdateInhand()
+
+/obj/item/Initialize()
+	. = ..()
+	update_transform()
+
+/obj/item/interact(mob/user, obj/item/held_item) // picking up
+	. = ..()
+	if(held_item || !ishuman(user))
+		return
+	var/mob/human/H = user
+
+	if(H.dead || H.ragdolled || !H.client)
+		return FALSE
+
+	if(src in H.inventory)
+		H.inventory -= src
+
+	playsound(get_turf(src), 'sound/effects/pickup.ogg', falloff_exponent = 4, vol = 75)
+	do_pickup_animation(H)
+	forceMove(H)
+	H.holding = src
+
+	H.UpdateInhand()
+
+/obj/item/ticket
+	name = "bus ticket"
+	desc = "A public transport permit, your key to the rest of civilized space."
+
+	icon_state = "ticket"
 
 /obj/item/consumable
 	name = "consumable"

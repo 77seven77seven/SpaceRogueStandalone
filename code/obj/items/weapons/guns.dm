@@ -8,6 +8,7 @@
 	desc = "The Wonder is one of the Wonder Nines family of firearms. An iconic, all-metal small bulleted semi-automatic pistol."
 	desc_expansive = "The Wonder Nines family of firearms has nine sons, all which have only nine bullet capacity due to legal standards. This gun is most widely used in CHEZ Group operated regions, even though most employees of the corporation use alternatives."
 
+	icon = 'icons/obj/guns/guns_small.dmi'
 	icon_state = "gun"
 	inhand_icon = 'icons/human/inhands/guns.dmi'
 	inhand_icon_state = "gun"
@@ -56,6 +57,11 @@
 	name = "Template"
 	desc = "Template 58. These firearms combined have more lives claimed than disease and famine, while bringing death and war."
 	desc_expansive = "There is nothing more to say about it. Holds thirty rounds of large calibers."
+
+	icon = 'icons/obj/guns/guns_wide.dmi'
+	icon_state = "arifle"
+
+	dropshrink = 0.5
 
 	damage = 40
 	headshot_damage = 100

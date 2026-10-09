@@ -110,3 +110,20 @@
 	icon = 'icons/obj/shuttle.dmi'
 	icon_state = "generic"
 	layer = FLY_LAYER
+
+/obj/shuttle/interact(mob/human/user, obj/item/held_item, params)
+	. = ..()
+	if(istype(held_item, /obj/item/ticket))
+		user.chat_info("[pick("Freedom!","Ah, the sweet winds of adventure!","Success!")]")
+
+		var/turf/old_turf = get_turf(user)
+		user.client.perspective = EYE_PERSPECTIVE
+		user.client.eye = get_turf(old_turf)
+		var/atom/movable/dummy = new(get_turf(old_turf))
+
+		user.loc = null // Nullspace my beloved!
+
+		dummy.appearance = user.appearance
+		animate(dummy, time = 3 SECONDS, alpha = 0)
+	else
+		user.chat_info("That doesn't seem like a ticket..?", "bad")
