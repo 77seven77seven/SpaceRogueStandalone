@@ -446,6 +446,13 @@
 		UpdateHUD()
 	return bleeding - old_bleeding
 
+/mob/human/proc/IsOnBed()
+	var/bed = locate(/obj/deco/furniture/bed) in get_turf(src)
+	var/result = FALSE
+	if(bed && ragdolled)
+		result = TRUE
+	return result
+
 /mob/human/proc/AdjustSorrow(amount)
 	var/old_sorrow = sorrow
 	sorrow = max(0, min(max_need, sorrow + amount))

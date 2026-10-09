@@ -58,8 +58,8 @@
 		return
 
 	playsound(get_turf(target), 'sound/effects/human/medical/bandage.ogg', 85, TRUE)
-
-	if(!user.SkillRoll(MEDI))
+	
+	if(!user.SkillRoll(MEDI, FALSE, target.IsOnBed() ? -20 : 0))
 		target.AdjustSorrow(1)
 		return
 

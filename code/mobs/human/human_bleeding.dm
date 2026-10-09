@@ -27,8 +27,9 @@ var/global/list/bleedout_lastwords = list(
 		// no further blood loss, but it also never reaches the regen branch.
 
 		var/bleed_amount = max(1, round(bleeding * 0.5))
+		var/blood_loss = IsOnBed() ? bleed_amount * 0.5 : bleed_amount
 
-		AdjustBlood(-bleed_amount)
+		AdjustBlood(-blood_loss)
 		if(dead)
 			return FALSE
 
