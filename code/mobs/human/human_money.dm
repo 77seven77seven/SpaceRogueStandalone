@@ -1,5 +1,13 @@
+/mob/human/proc/get_money_balance()
+	if(station && mind && istype(mind.current_job, /datum/role/director))
+		return station.treasury
+	return wealth
+
 /mob/human/proc/AdjustMoney(amount, silent = FALSE)
-	wealth += amount
+	if(station && mind && istype(mind.current_job, /datum/role/director))
+		station.treasury += amount
+	else
+		wealth += amount
 	UpdateHUD()
 	if(silent)
 		return
@@ -17,7 +25,7 @@
 	playsound(get_turf(src), 'sound/effects/pda/pay.ogg', 50, FALSE, -3)
 
 /mob/human/proc/AttemptTransaction(amount)
-	if(wealth >= amount)
+	if(get_money_balance() >= amount)
 		AdjustMoney(-amount)
 		return TRUE
 	else
