@@ -759,7 +759,10 @@
 	if(R.fancy)
 		replicao += "fancy"
 
-	var/firsto = "[pick(world.file2list("strings/[pick(replicao)]_[gendero].txt"))]"
+	var/nameso = world.file2list("strings/[pick(replicao)]_[gendero].txt")
+	nameso = shuffle(nameso)
+
+	var/firsto = "[pick(nameso)]"
 	var/lasto = "[random_capital_letter()]."
 
 	first_name = firsto

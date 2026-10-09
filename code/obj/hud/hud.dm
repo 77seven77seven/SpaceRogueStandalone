@@ -26,6 +26,8 @@
 	var/list/plane_masters = list()
 
 /obj/hud/sysmas/proc/Update()
+	if(!owner || !owner.client)
+		return
 	if(bg_stats)
 		bg_stats.Update()
 	if(health)
@@ -56,6 +58,8 @@
 		"}
 
 /obj/hud/bg_stats/proc/Update()
+	if(!owner || !owner.client)
+		return
 	maptext = GenerateMapText()
 
 /obj/hud/bg_health
@@ -78,7 +82,7 @@
 	alpha = rand(220,255)
 
 /obj/hud/health/proc/Update()
-	if(!owner)
+	if(!owner || !owner.client)
 		return
 	var/health = owner.health
 	var/rastra

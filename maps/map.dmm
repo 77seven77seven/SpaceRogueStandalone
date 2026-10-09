@@ -71,7 +71,11 @@
 /turf/open/floor,
 /area/station/tech)
 "cy" = (
-/obj/deco/plant,
+/obj/machine/tickets{
+	pixel_x = 0;
+	pixel_y = 34;
+	density = 0
+	},
 /turf/open/floor,
 /area/station)
 "cG" = (
@@ -533,6 +537,7 @@
 	pixel_y = -62;
 	pixel_x = -3
 	},
+/obj/deco/trashcan,
 /turf/open/floor,
 /area/station)
 "sR" = (
@@ -711,6 +716,13 @@
 	},
 /turf/open/floor,
 /area/station/hydro)
+"xY" = (
+/obj/machine/vendor/food{
+	pixel_y = 34;
+	density = 0
+	},
+/turf/open/floor,
+/area/station)
 "yf" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small"
@@ -9840,9 +9852,9 @@ eC
 eC
 Cg
 Cg
+xY
 Zs
-ZU
-cy
+GW
 ON
 Zs
 Zs
@@ -10603,8 +10615,8 @@ vC
 Cg
 Cg
 cy
-ZU
 Zs
+tm
 ON
 Zs
 Zs

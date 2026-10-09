@@ -122,6 +122,17 @@ proc/find_common_entry(list/list1, list/list2)
 
 	return null
 
+///Randomize: Return the list in a random order
+/proc/shuffle(list/inserted_list)
+	if(!inserted_list)
+		return
+	inserted_list = inserted_list.Copy()
+
+	for(var/i in 1 to inserted_list.len - 1)
+		inserted_list.Swap(i, rand(i, inserted_list.len))
+
+	return inserted_list
+
 /**
  * Like pick_weight, but allowing for nested lists.
  *

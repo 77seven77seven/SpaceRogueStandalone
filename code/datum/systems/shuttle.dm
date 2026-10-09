@@ -11,15 +11,22 @@
 
 	var/next_arrival = 0
 	var/next_departure = 0
+	
+	var/ticket_price
+	var/obj/machine/tickets/ticket_machine
 
 	var/shuttle_here = FALSE
 
 /datum/system/shuttle/setup()
-	dock = locate(/obj/abstract/landmark/shuttle_dock) in landmarks_list
+	dock = locate(/obj/abstract/landmark/shuttle_dock)
 	if(!dock)
 		CRASH("Shuttle system requires a mapped shuttle dock landmark.")
 
-	next_arrival = world.time + (rand(16, 23) MINUTES)
+	ticket_price = rand(115,285)
+	world.log << "TICKET PRICE: [ticket_price]"
+	spawn()
+		ticket_machine.update()
+		next_arrival = world.time + (rand(16, 23) MINUTES)
 
 /datum/system/shuttle/Process()
 	if(arrived_shuttle)
@@ -49,6 +56,9 @@
 	arrived_shuttle = null
 
 	shuttle_here = FALSE
+
+	ticket_price = rand(115,285)
+	ticket_machine.update()
 
 	chat_announce("PASSENGER SHUTTLE BUS 'PKD' HAS LEFT THE STATION VIA HYPERPORT. NEXT DESTINATION: '[pick("ROUTING HUB: GYRO", "MASTERLINE CINDER", "SPRAGA TRANSPORT HUB", "LITOMER", "NILSPACE")]'.")
 	hyperport_effect(leaving, arriving = FALSE)
