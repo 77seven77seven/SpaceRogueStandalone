@@ -128,7 +128,7 @@
 
 /datum/role/gardener
 	title = "Hydroponocist"
-	desc = "Since the dawn of mankind, every society needed someone to make food for people. Well, that's who you are. Operate the mealworm farms, press them into bricks, and then give them some texture in the cooking machines. Remember, this is a respectful occupation where everyone will eventually grow to like you. Ensure it stays that way."
+	desc = "Since the dawn of mankind, every society needed someone to make food for people. Well, that's who you are. Operate the mealwood farms, press them into bricks, and then give them some texture in the cooking machines. Remember, this is a respectful occupation where everyone will eventually grow to like you. Ensure it stays that way."
 
 	total_positions = 2
 	probability = COMMON

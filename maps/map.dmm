@@ -107,6 +107,10 @@
 	},
 /turf/open/floor,
 /area/station)
+"dc" = (
+/obj/deco/maint_tunnel,
+/turf/solid/wall,
+/area/station/medical)
 "dt" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small";
@@ -457,6 +461,13 @@
 /obj/deco/supports,
 /turf/open/space,
 /area/space)
+"qF" = (
+/obj/machine/vendor/food{
+	pixel_y = 34;
+	density = 0
+	},
+/turf/open/floor/dark,
+/area/station/maintenance)
 "qH" = (
 /obj/decal{
 	icon_state = "chezsign4";
@@ -1002,8 +1013,16 @@
 /turf/open/floor,
 /area/station)
 "GX" = (
+/obj/decal/maintsign{
+	pixel_x = 1;
+	pixel_y = 63
+	},
+/obj/machine/vendor/food{
+	pixel_y = 34;
+	density = 0
+	},
 /turf/open/floor/dark,
-/area/space)
+/area/station/maintenance)
 "Hc" = (
 /obj/deco/graffiti/slaughterhouse,
 /turf/solid/wall,
@@ -1149,6 +1168,10 @@
 	},
 /turf/open/floor/light,
 /area/station/medical)
+"Mt" = (
+/obj/deco/furniture/table/auto,
+/turf/open/floor/dark,
+/area/station/maintenance)
 "MB" = (
 /obj/decal{
 	icon_state = "chezsign3";
@@ -1429,6 +1452,14 @@
 /obj/deco/furniture/bed,
 /turf/open/floor/wood,
 /area/station/corporate/director)
+"UX" = (
+/obj/decal/maintsign{
+	pixel_x = 1;
+	pixel_y = 63
+	},
+/obj/deco/furniture/table/auto,
+/turf/open/floor/dark,
+/area/station/maintenance)
 "UY" = (
 /obj/deco/plant{
 	pixel_x = -18;
@@ -6033,8 +6064,8 @@ RT
 RT
 RT
 eC
-BO
-BO
+IS
+IS
 IS
 pB
 ne
@@ -6160,13 +6191,13 @@ RT
 RT
 RT
 eC
-BO
-GX
+IS
+ne
 vb
 ne
 ne
 IS
-Co
+GX
 IS
 ne
 ne
@@ -6287,8 +6318,8 @@ RT
 RT
 RT
 eC
-BO
-BO
+IS
+IS
 IS
 ne
 ne
@@ -6420,7 +6451,7 @@ IS
 ne
 ne
 IS
-ne
+Mt
 ne
 ne
 ne
@@ -6547,7 +6578,7 @@ IS
 ne
 ne
 IS
-ne
+qF
 ne
 ne
 ne
@@ -7957,7 +7988,7 @@ IS
 ne
 ne
 Lp
-Lp
+dc
 Lp
 Lp
 Lp
@@ -8185,9 +8216,9 @@ eC
 RT
 RT
 RT
+wv
+wv
 IS
-wv
-wv
 Cb
 HV
 ne
@@ -8439,7 +8470,7 @@ eC
 RT
 RT
 RT
-IS
+wv
 pB
 ne
 ne
@@ -8567,7 +8598,7 @@ RT
 RT
 RT
 wv
-wv
+IS
 wv
 wv
 IS
@@ -10621,8 +10652,8 @@ Zs
 Zs
 Zs
 Cg
-ne
-ne
+Mt
+Mt
 jN
 jN
 IH
@@ -10748,7 +10779,7 @@ mg
 Zs
 Zs
 Cg
-Co
+UX
 ne
 jN
 VL

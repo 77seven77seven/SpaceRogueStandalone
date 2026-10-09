@@ -93,7 +93,7 @@
 	bubble.maptext_height = mtet
 	bubble.maptext_x = (VOICE_BUBBLE_WIDTH - bound_width) * -0.5
 	bubble.pixel_y = bound_height * 0.95
-	bubble.appearance_flags = KEEP_APART
+	bubble.appearance_flags = KEEP_APART|RESET_TRANSFORM
 
 	voice_bubble = bubble
 	vis_contents += bubble
