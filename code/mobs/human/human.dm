@@ -32,6 +32,7 @@
 	var/infection = 0 // Builds up when badly hurt without rest or vitamins, and causes health loss when severe.
 	var/max_infection = 5
 	var/tmp/infection_exposure = 0
+	var/tmp/low_blood_exposure = 0
 
 	var/shrapnel = 0 // how much shrapnel we have in us, shrapnel impedes natural blood clotting and causes pain
 	var/max_shrapnel = 3
@@ -502,6 +503,19 @@
 		TakeDamage(infection >= max_infection ? 2 : 1, "infection")
 	return TRUE
 
+/mob/human/proc/ProcessLowBloodBrainDamage(elapsed)
+	if(dead)
+		return FALSE
+
+	if(blood <= 40)
+		low_blood_exposure += elapsed
+		if(low_blood_exposure >= 20 SECONDS)
+			AdjustBrainDamage(1)
+			low_blood_exposure = 0
+	else
+		low_blood_exposure = max(0, low_blood_exposure - elapsed)
+	return TRUE
+
 /mob/human/proc/IsOnBed()
 	var/bed = locate(/obj/deco/furniture/bed) in get_turf(src)
 	var/result = FALSE
@@ -613,6 +627,10 @@
 		return FALSE
 
 	ProcessInfection(elapsed)
+	if(dead)
+		return FALSE
+
+	ProcessLowBloodBrainDamage(elapsed)
 	if(dead)
 		return FALSE
 

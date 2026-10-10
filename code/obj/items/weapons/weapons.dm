@@ -31,6 +31,8 @@
 	animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
 
 	target.TakeDamage(damage_adjusted, "[name]")
+	if(!target.dead && prob(clamp(damage_adjusted * 2, 1, 20)))
+		target.AdjustBrainDamage(1)
 	world << "DEBUG: damage log, [damage_adjusted]"
 	if(sharp && prob(damage_adjusted * 9))
 		target.AdjustBleeding(damage_adjusted * bloodloss_coefficient)
