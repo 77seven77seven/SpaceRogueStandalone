@@ -29,8 +29,9 @@
 
 	var/brain_damage = 0 // Yes, there is a difference. Brainsploded means headshotted by a gun. Even if it occassionally leads to brain damage, it doesn't always... since you're dead.
 	var/max_brain_damage = 10
-	var/infection = 0 // Infection results in a mild health drain when allowed to build up. You cannot gain infection while in a bed. Infection happens when you have low health for a long period of time while not under the influence of vitamins.
+	var/infection = 0 // Builds up when badly hurt without rest or vitamins, and causes health loss when severe.
 	var/max_infection = 5
+	var/tmp/infection_exposure = 0
 
 	var/shrapnel = 0 // how much shrapnel we have in us, shrapnel impedes natural blood clotting and causes pain
 	var/max_shrapnel = 3
@@ -452,6 +453,55 @@
 		UpdateHUD()
 	return bleeding - old_bleeding
 
+/mob/human/proc/AdjustBrainDamage(amount)
+	if(dead || !amount)
+		return 0
+
+	var/old_brain_damage = brain_damage
+	brain_damage = clamp(brain_damage + amount, 0, max_brain_damage)
+	if(old_brain_damage != brain_damage)
+		UpdateMoveDelay()
+		if(brain_damage > old_brain_damage)
+			chat_info("Awgh... What's... [brain_damage >= 7 ? "AGH! My HEAD!" : "Ouch... Ow..."]", "bad")
+		else
+			chat_info("Okay, okay... I feel better.", "good")
+	return brain_damage - old_brain_damage
+
+/mob/human/proc/AdjustInfection(amount)
+	if(dead || !amount)
+		return 0
+
+	var/old_infection = infection
+	infection = clamp(infection + amount, 0, max_infection)
+	if(old_infection != infection)
+		if(infection > old_infection && infection >= 3)
+			chat_info(pick("It's hard to describe.","I don't know what's happening."), "bad")
+		else if(infection < old_infection && !infection)
+			chat_info("Okay, okay... I feel better.", "good")
+	return infection - old_infection
+
+/mob/human/proc/HasStatusEffect(effect_type)
+	for(var/datum/status_effect/effect in status_effects)
+		if(effect.type == effect_type)
+			return TRUE
+	return FALSE
+
+/mob/human/proc/ProcessInfection(elapsed)
+	if(dead)
+		return FALSE
+
+	if(health <= 60 && !IsOnBed() && !HasStatusEffect(/datum/status_effect/vitamin_regeneration))
+		infection_exposure += elapsed
+		if(infection_exposure >= 20 SECONDS)
+			AdjustInfection(1)
+			infection_exposure = 0
+	else
+		infection_exposure = max(0, infection_exposure - elapsed)
+
+	if(infection >= 3)
+		TakeDamage(infection >= max_infection ? 2 : 1, "infection")
+	return TRUE
+
 /mob/human/proc/IsOnBed()
 	var/bed = locate(/obj/deco/furniture/bed) in get_turf(src)
 	var/result = FALSE
@@ -520,6 +570,12 @@
 	if(health <= 20 || blood <= 40)
 		penalty += 3
 
+	penalty += round(brain_damage / 3)
+	if(infection >= 4)
+		penalty++
+	if(infection >= max_infection)
+		penalty++
+
 	if(istype(get_area(src), /area/station/maintenance))
 		penalty += 2
 
@@ -553,6 +609,10 @@
 	if(thirst >= dehydration_threshold)
 		TakeDamage(dehydration_damage, "dehydration")
 
+	if(dead)
+		return FALSE
+
+	ProcessInfection(elapsed)
 	if(dead)
 		return FALSE
 
@@ -839,8 +899,9 @@
 /mob/human/proc/SkillRoll(skill_name, hidden = FALSE, difficulty = 0)
 	var/skill_value = mind?.GetSkill(skill_name) || 0
 	var/sorrow_penalty = round(sorrow / 5)
+	var/brain_penalty = round(brain_damage * 2)
 	var/roll_modifier = rand(-10, 10)
-	var/adjusted_chance = skill_value - sorrow_penalty - difficulty + roll_modifier
+	var/adjusted_chance = skill_value - sorrow_penalty - brain_penalty - difficulty + roll_modifier
 	var/probability = clamp(adjusted_chance, 1, 99)
 	var/roll = rand(1, 100)
 	var/result = roll <= probability

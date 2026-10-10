@@ -187,6 +187,39 @@
 /datum/status_effect/magnesium_boost/on_tick()
 	owner.AdjustSorrow(rand(-1,-4))
 
+/obj/item/medical/pills/antibiotics
+	med_name = "Bioprofen"
+	med_desc = "A broad-spectrum antibiotic that gradually suppresses infection. Rest and vitamins help prevent further infection."
+	status_effect_type = /datum/status_effect/antibiotic_treatment
+	pills_desc = "I hope this clears me up."
+
+	vendor_name = "ANTI"
+	vendor_price = 35
+
+/datum/status_effect/antibiotic_treatment
+	duration = 15 SECONDS
+	tick_interval = 5 SECONDS
+
+/datum/status_effect/antibiotic_treatment/on_tick()
+	owner.AdjustInfection(-1)
+
+/obj/item/medical/pills/neuroregenerative
+	med_name = "Neurovance"
+	med_desc = "A neuroregenerative course commonly used in improving brain health. Occasionaly also used recreationally by more wealthier individuals."
+	status_effect_type = /datum/status_effect/neuroregeneration
+	pills_desc = "This should help me think more clearly."
+
+	vendor_name = "NEUR"
+	vendor_price = 60
+
+/datum/status_effect/neuroregeneration
+	duration = 60 SECONDS
+	tick_interval = 10 SECONDS
+
+/datum/status_effect/neuroregeneration/on_tick()
+	owner.AdjustBrainDamage(-1)
+	owner.AdjustSorrow(-1)
+
 /obj/item/medical/injector
 	name = "medical injector"
 	desc = "A medical injector. You're not sure what's inside, maybe if you knew something about medicine."
@@ -277,3 +310,17 @@
 	var/pixel_z_diff = rand(-amplitude / 1.5, amplitude / 1.5)
 	animate(target, pixel_w = pixel_w_diff, pixel_z = pixel_z_diff , time = 0.2 SECONDS, loop = 6, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
 	animate(pixel_w = -pixel_w_diff , pixel_z = -pixel_z_diff , time = 0.2 SECONDS, flags = ANIMATION_RELATIVE)
+
+/obj/item/medical/injector/infection
+	med_name = "Bacteriostat"
+	med_desc = ""
+
+	vendor_name = "BACT"
+	vendor_price = 80
+
+	inject_desc = "Eugh. It tingles."
+
+/obj/item/medical/injector/infection/effect(mob/human/target)
+	. = ..()
+	target.AdjustInfection(-4)
+	target.AdjustBlood(-15)

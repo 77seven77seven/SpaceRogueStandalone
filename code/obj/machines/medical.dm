@@ -75,9 +75,11 @@
 						scan_results["braindam"] = "NOMINAL :)"
 					if(1)
 						scan_results["braindam"] = "FAIR :I"
-					if(2)
+					if(2 to 3)
 						scan_results["braindam"] = "IMPAIRED :("
-					if(3)
+					if(4 to 6)
+						scan_results["braindam"] = "SEVERELY IMPAIRED :("
+					if(7 to INFINITY)
 						scan_results["braindam"] = "BARELY FUNCTIONING (ᗒᗣᗕ)"
 
 				switch(H.infection)

@@ -157,11 +157,19 @@
 	overlay_icon = "medmed"
 	color_tint = "#bde9ff"
 
-	items = list(/obj/item/medical/bandage = 20, /obj/item/medical/splint = 15, /obj/item/medical/pills/vitamins = 10, /obj/item/medical/pills/magnesium = 10)
+	items = list(/obj/item/medical/bandage = 20, /obj/item/medical/splint = 15, /obj/item/medical/pills/vitamins = 10, /obj/item/medical/pills/magnesium = 10, /obj/item/medical/pills/antibiotics = 5)
+
+/obj/machine/vendor/medic/get_examine_text()
+	var/datum/vending_product/chosen = product_records[items_index]
+
+	var/chosen_name = chosen.full_name
+	if(ispath(chosen.product_path, /obj/item/medical/pills) || ispath(chosen.product_path, /obj/item/medical/injector))
+		chosen_name = uppertext(chosen.product_path:med_name)
+	return "<b>[chosen.name]:</b> [chosen_name] | <b>REMAINING STOCK:</b> [chosen.amount]"
 
 /obj/machine/vendor/medic/internal
 	taxless = NO_TAXES
-	items = list(/obj/item/medical/bandage = 15, /obj/item/medical/splint = 15, /obj/item/medical/pills/vitamins = 12, /obj/item/medical/pills/magnesium = 12, /obj/item/medical/injector/blood = 5, /obj/item/medical/injector/bones = 5)
+	items = list(/obj/item/medical/bandage = 15, /obj/item/medical/splint = 15, /obj/item/medical/pills/vitamins = 12, /obj/item/medical/pills/magnesium = 12, /obj/item/medical/pills/antibiotics = 5, /obj/item/medical/pills/neuroregenerative = 5, /obj/item/medical/injector/blood = 5, /obj/item/medical/injector/bones = 5, /obj/item/medical/injector/infection = 5)
 
 /obj/machine/vendor/food
 	name = "WENDR-YUMNUM K9"
