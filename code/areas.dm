@@ -7,23 +7,42 @@
 	mouse_opacity = 0
 
 	var/sound_environment = SOUND_ENVIRONMENT_NONE
+	var/list/ambience = null
+	var/ambience_volume = 35
 
 /area/Initialize()
 	icon_state = ""
 	. = ..()
 
+/area/Entered(atom/movable/arrived, atom/oldloc)
+	. = ..()
+	if(ismob(arrived))
+		var/mob/M = arrived
+		if(M.client)
+			M.client.update_area_ambience(src)
+
+/area/Exited(atom/movable/leaving, atom/newloc)
+	. = ..()
+	if(!newloc && ismob(leaving))
+		var/mob/M = leaving
+		if(M.client)
+			M.client.update_area_ambience(null)
+
 /area/space
 	name = "space"
 	icon_state = "space"
 	sound_environment = SOUND_ENVIRONMENT_MOUNTAINS
+	ambience = list('sound/music/ambiance/space.ogg')
 
 /area/station
 	name = "station"
 	icon_state = "generic"
+	ambience = list('sound/music/ambiance/selene.ogg')
 
 /area/station/maintenance
 	name = "Maintenance Tunnels"
 	icon_state = "maints"
+	ambience = list('sound/music/ambiance/maint.ogg')
 
 /area/station/maintenance/New(loc)
 	. = ..()
@@ -63,6 +82,7 @@
 /area/station/corporate
 	name = "corpors"
 	icon_state = "corpo"
+	ambience = list('sound/music/ambiance/corpo.ogg')
 
 /area/station/corporate/director
 	name = "director"
@@ -82,3 +102,4 @@
 /area/station/tech/mining
 	name = "mining"
 	icon_state = "miner"
+	ambience = list('sound/music/ambiance/maint.ogg')

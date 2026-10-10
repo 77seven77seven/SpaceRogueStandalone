@@ -16,6 +16,12 @@
 
 	var/image/mouseover_text
 	var/sound/droning_sound
+	var/current_ambience
+	var/current_ambience_channel
+	var/current_ambience_volume = 0
+	var/area_ambience_transition = 0
+	var/list/area_ambience_channels = list()
+	var/list/area_ambience_track_order = list()
 
 /client/New()
 	. = ..()
@@ -55,7 +61,7 @@
 /client/proc/play_droning(music = null, vol = 50)
 	if(!music)
 		return
-	var/sound/combat_music = sound(pick(music), repeat = TRUE, wait = 0, channel = 1017, volume = vol)
+	var/sound/combat_music = sound(pick(music), repeat = TRUE, wait = 0, channel = CHANNEL_COMBAT_MUSIC, volume = vol)
 	SEND_SOUND(src, combat_music)
 	droning_sound = combat_music
 	
@@ -66,6 +72,102 @@
 	sound_killer.channel = droning_sound.channel
 	SEND_SOUND(src, sound_killer)
 	droning_sound = null
+
+/client/proc/update_area_ambience(area/A)
+	var/track
+	if(A && islist(A.ambience) && A.ambience.len)
+		track = pick(A.ambience)
+
+	var/target_volume = track ? A.ambience_volume : 0
+	if(track == current_ambience && target_volume == current_ambience_volume)
+		return
+
+	area_ambience_transition++
+	var/transition_id = area_ambience_transition
+	spawn()
+		transition_area_ambience(track, target_volume, transition_id)
+
+/client/proc/transition_area_ambience(track, target_volume, transition_id)
+	if(current_ambience && current_ambience != track)
+		fade_area_ambience("[current_ambience]", 0, transition_id)
+		if(transition_id != area_ambience_transition)
+			return
+
+		var/sound/pause_sound = sound(null, repeat = TRUE, channel = current_ambience_channel)
+		pause_sound.status = SOUND_PAUSED
+		SEND_SOUND(src, pause_sound)
+		current_ambience = null
+		current_ambience_channel = null
+		current_ambience_volume = 0
+
+	if(!track || transition_id != area_ambience_transition)
+		return
+
+	var/track_key = "[track]"
+	var/channel = area_ambience_channels[track_key]
+	var/new_track = !channel
+	if(new_track)
+		channel = allocate_area_ambience_channel()
+		if(!channel)
+			CRASH("Unable to allocate an area ambience sound channel.")
+
+	var/track_already_playing = (track == current_ambience)
+	if(area_ambience_track_order.Find(track_key))
+		var/track_position = area_ambience_track_order.Find(track_key)
+		area_ambience_track_order.Cut(track_position, track_position + 1)
+	area_ambience_track_order += track_key
+
+	current_ambience = track
+	current_ambience_channel = channel
+	if(new_track)
+		var/sound/ambience = sound(track, repeat = TRUE, wait = 0, channel = channel, volume = 0)
+		SEND_SOUND(src, ambience)
+	else if(!track_already_playing)
+		var/sound/resume_sound = sound(null, repeat = TRUE, channel = channel, volume = 0)
+		resume_sound.status = SOUND_UPDATE
+		SEND_SOUND(src, resume_sound)
+
+	area_ambience_channels[track_key] = channel
+	fade_area_ambience(track_key, target_volume, transition_id)
+
+/client/proc/allocate_area_ambience_channel()
+	for(var/channel in CHANNEL_AREA_AMBIENCE_MIN to CHANNEL_AREA_AMBIENCE_MAX)
+		if(channel == CHANNEL_COMBAT_MUSIC)
+			continue
+		var/channel_in_use = FALSE
+		for(var/cached_track in area_ambience_track_order)
+			if(area_ambience_channels[cached_track] == channel)
+				channel_in_use = TRUE
+				break
+		if(!channel_in_use)
+			return channel
+
+	for(var/cached_track in area_ambience_track_order)
+		if(area_ambience_channels[cached_track] == current_ambience_channel)
+			continue
+		var/channel = area_ambience_channels[cached_track]
+		SEND_SOUND(src, sound(null, repeat = 0, wait = 0, channel = channel))
+		area_ambience_channels -= cached_track
+		area_ambience_track_order -= cached_track
+		return channel
+	return null
+
+/client/proc/fade_area_ambience(track_key, target_volume, transition_id)
+	var/channel = area_ambience_channels[track_key]
+	var/start_volume = current_ambience_volume
+	if(start_volume == target_volume)
+		return
+
+	var/step_count = 10
+	for(var/step in 1 to step_count)
+		if(transition_id != area_ambience_transition)
+			return
+		var/volume = start_volume + ((target_volume - start_volume) * step / step_count)
+		var/sound/volume_update = sound(null, repeat = TRUE, channel = channel, volume = volume)
+		volume_update.status = SOUND_UPDATE
+		SEND_SOUND(src, volume_update)
+		current_ambience_volume = volume
+		sleep(1)
 
 /client/verb/fuckyou()
 	world << "----"

@@ -15,6 +15,8 @@
 
 /mob/Login()
 	. = ..()
+	if(client)
+		client.update_area_ambience(get_area(src))
 	src << load_resource('sound/music/spawn.ogg', 'sound/effects/senses/combat_on.ogg', 'sound/effects/senses/combat_off.ogg', 'sound/death.ogg', -1)
 	//src << load_resource('icons/full_resized.dmi', -1)
 	//src << 'icons/full.dmi'
