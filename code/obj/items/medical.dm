@@ -313,7 +313,7 @@
 
 /obj/item/medical/injector/infection
 	med_name = "Bacteriostat"
-	med_desc = ""
+	med_desc = "Originally developed as a bioweapon, it was shown to be quite effective at stifling infection. And practically anything else in the vicinity of it."
 
 	vendor_name = "BACT"
 	vendor_price = 80
