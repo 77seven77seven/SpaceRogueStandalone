@@ -28,6 +28,7 @@
 	var/brainsploded = FALSE
 
 	var/brain_damage = 0 // Yes, there is a difference. Brainsploded means headshotted by a gun. Even if it occassionally leads to brain damage, it doesn't always... since you're dead.
+	var/max_brain_damage = 10
 	var/infection = 0 // Infection results in a mild health drain when allowed to build up. You cannot gain infection while in a bed. Infection happens when you have low health for a long period of time while not under the influence of vitamins.
 	var/max_infection = 5
 
@@ -147,6 +148,8 @@
 	. = ..()
 	var/mob/human/Huser = user
 	if(held_item)
+		if(held_item.junk)
+			return
 		if(held_item.harmful && !Huser.cmode)
 			return
 		if(Huser == src)
@@ -174,6 +177,8 @@
 		return FALSE
 	if(p.client)
 		p.client.mouseover_text = image(src.icon, src)
+		p.client.mouseover_text.appearance_flags = KEEP_APART|RESET_TRANSFORM
+
 		p.client.mouseover_text.maptext_width = 256
 		p.client.mouseover_text.maptext_height = 128
 		p.client.mouseover_text.maptext_y = 70
@@ -190,8 +195,7 @@
 			return FALSE
 
 		animate(p.client.mouseover_text, alpha = 255, time = 2)
-
-		p.client.mouseover_text.maptext = {"<div style='font-size: 200%;font-family:serif;color:#a4a4a2;text-shadow:0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073; display: flex; align-items: center; justify-content: center; width: 96px; height: 32px; text-align: center;'>[uppertext(showtext)]</div>"}
+		p.client.mouseover_text.maptext = {"<div style='font-size: 200%;font-family:serif;color:#333333;text-shadow:0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073; display: flex; align-items: center; justify-content: center; width: 96px; height: 32px; text-align: center;'>[uppertext(showtext)]</div>"}
 
 /mob/human/proc/handle_mouseexit(params)
 	var/mob/p = usr

@@ -56,7 +56,7 @@ var/global/list/bleedout_lastwords = list(
 	else if(!dead)
 		AdjustBlood(BLOOD_VOLUME_REGEN_RATE)
 
-/mob/human/proc/go_blind(tim = 5, fade = 5)
+/mob/human/proc/go_blind(tim = 0.3, fade = 4)
 	set waitfor = FALSE
 	if(!client)
 		return

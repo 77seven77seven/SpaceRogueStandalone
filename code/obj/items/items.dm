@@ -10,7 +10,7 @@
 	var/inhand_icon = 'icons/human/inhands/items.dmi'
 	var/inhand_icon_state = "generic"
 
-	var/vendor_name = "YEAH" // Should be uppercase and four letters, five at a max.
+	var/vendor_name // Optional short vendor label; generated from the item name when unset.
 	var/vendor_price = -1 // Generic price to buy from a vendor. It's at a strange value for easy bugfinding.
 
 	var/storable = TRUE // Can it be put into the inventory?
@@ -40,6 +40,11 @@
 	H.UpdateInhand()
 	
 	qdel(src)
+
+/obj/item/proc/junkize(mob/human/H)
+	src.junk = TRUE
+	if(src.desc_expansive) // Mostly for medical items, so you can tell they're JUNK when it matters.
+		desc_expansive = null
 
 /obj/item/proc/do_pickup_animation(atom/target)
 	set waitfor = FALSE
@@ -100,7 +105,6 @@ var/list/icon_dim_cache = list()
 		dims = list(I.Width(), I.Height())
 		icon_dim_cache[key] = dims
 	return dims
-
 
 /mob/human/verb/drop_item()
 	set name = ".drop"
@@ -167,6 +171,12 @@ var/list/icon_dim_cache = list()
 /obj/item/Initialize()
 	. = ..()
 	update_transform()
+
+/obj/item/get_examine_text()
+	var/desco = desc
+	if(junk)
+		desco = "[desc] <b>\[JUNK\]</b>"
+	return desco
 
 /obj/item/interact(mob/user, obj/item/held_item) // picking up
 	. = ..()

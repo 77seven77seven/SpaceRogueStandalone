@@ -276,7 +276,7 @@
 		animate(victim, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
 		animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE)
 
-		victim.TakeDamage(dmg, hit_zone, shooter)
+		victim.TakeDamage(dmg, "[shooter] - [hit_zone]")
 		victim.bleed_effect()
 
 		victim.AdjustBleeding(rand(1,10))

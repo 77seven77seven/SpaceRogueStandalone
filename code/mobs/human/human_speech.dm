@@ -136,6 +136,8 @@
 	switch(emote)
 		if("gasp")
 			AnimatedEmote("gasps!", 'sound/effects/human/gasp_male.ogg')
+		if("scream")
+			AnimatedEmote("screams!", 'sound/effects/human/scream.ogg')
 		else
 			AnimatedEmote(emote)
 

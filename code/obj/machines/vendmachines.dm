@@ -89,7 +89,7 @@
 
 		var/obj/item/temp = I
 		var/datum/vending_product/new_record = new
-		new_record.name = temp.vendor_name
+		new_record.name = temp.vendor_name ? temp.vendor_name : uppertext(copytext(temp.name, 1, 5))
 		new_record.full_name = uppertext(temp.name)
 		new_record.product_path = I
 		new_record.amount = amount
@@ -161,7 +161,7 @@
 
 /obj/machine/vendor/medic/internal
 	taxless = NO_TAXES
-	items = list(/obj/item/medical/bandage = 15, /obj/item/medical/splint = 15, /obj/item/medical/pills/vitamins = 12, /obj/item/medical/pills/magnesium = 12)
+	items = list(/obj/item/medical/bandage = 15, /obj/item/medical/splint = 15, /obj/item/medical/pills/vitamins = 12, /obj/item/medical/pills/magnesium = 12, /obj/item/medical/injector/blood = 5, /obj/item/medical/injector/bones = 5)
 
 /obj/machine/vendor/food
 	name = "WENDR-YUMNUM K9"

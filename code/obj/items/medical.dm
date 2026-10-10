@@ -106,7 +106,7 @@
 /obj/item/medical/pills/Initialize()
 	. = ..()
 	var/image/cap = image(src.icon, src, "cap")
-	cap.color = get_random_light_color()
+	cap.color = get_random_bright_color()
 	overlays += cap
 
 	desc_expansive = "I know! It's [med_name]. [med_desc]"
@@ -186,3 +186,94 @@
 
 /datum/status_effect/magnesium_boost/on_tick()
 	owner.AdjustSorrow(rand(-1,-4))
+
+/obj/item/medical/injector
+	name = "medical injector"
+	desc = "A medical injector. You're not sure what's inside, maybe if you knew something about medicine."
+	var/med_name = "Unobtainium"
+	var/med_desc = "Uh... you're still not sure, actually."
+
+	var/inject_desc = "I don't feel anything."
+
+	desc_expansive_extra_skill = MEDI
+
+	icon_state = "injector"
+	dropshrink = 0.7
+
+/obj/item/medical/injector/Initialize()
+	. = ..()
+	var/image/stripe = image(src.icon, src, "injector_stripe")
+	stripe.color = get_random_bright_color()
+	overlays += stripe
+
+	desc_expansive = "I know! It's [med_name]. [med_desc]"
+
+/obj/item/medical/injector/use(mob/human/H)
+	. = ..()
+	return injectize(H, H)
+
+/obj/item/medical/injector/attack(mob/human/user, mob/human/target)
+	. = ..()
+	return injectize(user, target)
+
+/obj/item/medical/injector/proc/effect(mob/human/target)
+	return
+
+/obj/item/medical/injector/proc/injectize(mob/human/user, mob/human/target)
+	if(!target || !user)
+		return
+
+	playsound(get_turf(target), 'sound/effects/human/medical/inject.ogg', 85, TRUE)
+	
+	if(!user.SkillRoll(MEDI, FALSE, target.IsOnBed() ? -20 : 0))
+		target.AdjustSorrow(5)
+		target.chat_info("I messed it up...","bad")
+	else
+		effect(target)
+
+	junkize()
+
+/obj/item/medical/injector/blood
+	med_name = "Tranethamsylate"
+	med_desc = "Alternative and arguably better shorter names exist, and those include... Tran, Etham, or even just Sylate. Injection causes the patient to experience extreme thirst, side effects include increased blood regeneration."
+
+	vendor_name = "BLUD"
+	vendor_price = 80
+
+	inject_desc = "This feels weird..."
+
+/obj/item/medical/injector/blood/effect(mob/human/target)
+	. = ..()
+	target.AdjustBlood(60)
+	target.AdjustThirst(30)
+	target.AdjustBleeding(-10) // You know, for kicks. Blood clotting, maybe?
+
+/obj/item/medical/injector/bones
+	med_name = "Osteogenitorix"
+	med_desc = "Uses a wide variety of BMPs, BPM-7s, Chrysalins, assorted biomaterials and scaffolds mixed with PTH to rapidly speed up osteogenesis, basically healing fractures in a fraction of a second. It's a good thing Medicaloids aren't legally considered doctors, because you're pretty sure this thing is incredibly illegal."
+
+	vendor_name = "FRAC"
+	vendor_price = 90
+
+	inject_desc = "OH NO! OH NO! OW! OWWWW! OWWWWWWWW!!!"
+
+/obj/item/medical/injector/bones/effect(mob/human/target)
+	. = ..()
+	target.broke_bones = 0
+	if(target.bleeding)
+		target.AdjustBleeding(20)
+		target.AdjustSorrow(10)
+		target.TakeDamage(20, "osteogenitorix malpractice")
+
+		target.ParseEmote("scream")
+	target.AdjustHunger(30)
+	target.AdjustSorrow(10)
+
+	target.SetRagdolled(TRUE)
+	target.go_blind()
+
+	var/amplitude = min(8, (100 / 100) + 2)
+	var/pixel_w_diff = rand(-amplitude, amplitude)
+	var/pixel_z_diff = rand(-amplitude / 1.5, amplitude / 1.5)
+	animate(target, pixel_w = pixel_w_diff, pixel_z = pixel_z_diff , time = 0.2 SECONDS, loop = 6, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
+	animate(pixel_w = -pixel_w_diff , pixel_z = -pixel_z_diff , time = 0.2 SECONDS, flags = ANIMATION_RELATIVE)
