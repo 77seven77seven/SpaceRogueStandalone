@@ -4,6 +4,8 @@
 	var/desc_expansive = null
 	var/desc_expansive_extra_skill = null
 
+	var/letpassthrow = FALSE
+
 /atom/movable/Click(location, control, params)
 	if(!usr || !usr.client)
 		return FALSE

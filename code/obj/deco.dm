@@ -100,6 +100,7 @@
 	icon_state = "0"
 	mouse_opacity = 0
 	density = TRUE
+	letpassthrow = TRUE
 
 	var/auto_type = /obj/deco/furniture/table/auto
 	var/auto = FALSE

@@ -96,6 +96,9 @@
 			continue
 		if(mover && (!mover && !O.density))
 			continue
+		if(O == target_atom || O == mover || O.letpassthrow) //check if there's a dense object present on the turf
+			continue // LETPASSTHROW is used for anything you can click through (or the firedoor special case, see above)
+
 		else if( !border_only ) // dense, not on border, cannot pass over
 			return 0
 	return 1
