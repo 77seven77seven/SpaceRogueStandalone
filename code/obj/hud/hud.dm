@@ -152,6 +152,15 @@
 /obj/hud/fullscreen/death
 	icon_state = "death"
 
+/obj/hud/fullscreen/success
+	icon_state = "success"
+
+/obj/hud/fullscreen/nothing
+	icon_state = "nothing"
+
+/obj/hud/fullscreen/dissident
+	icon_state = "dissidence"
+
 /obj/hud/plane_master
 	name = "master plane master"
 

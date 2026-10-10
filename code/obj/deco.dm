@@ -20,7 +20,7 @@
 
 /obj/deco/poster/Initialize()
 	. = ..()
-	icon_state = "[initial(icon_state)]_[pick("un","cz","cz2","mdt","mountain","chez","hul")]"
+	icon_state = "[initial(icon_state)]_[pick("un","cz","cz2","cz3","cz4","mdt","mountain","chez","hul")]"
 	var/matrix/turna = matrix(transform)
 	turna.Turn(rand(-3,3))
 	transform = turna

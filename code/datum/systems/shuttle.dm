@@ -122,8 +122,50 @@
 		var/atom/movable/dummy = new(get_turf(old_turf))
 
 		user.loc = null // Nullspace my beloved!
+		user.client << output(null, "outputwindow.output")
 
 		dummy.appearance = user.appearance
 		animate(dummy, time = 3 SECONDS, alpha = 0)
+
+		var/obj/hud/fullscreen/title = new()
+		title.alpha = 0
+		user.client.screen += title
+
+		user << sound(null)
+
+		var/line
+		var/tagline = "SUCCESS!"
+		var/xp_reward = 0
+		var/mus_file
+
+		if(user.mind.goal.IsCompleted())
+			title.icon_state = "success"
+			line = "You've completed your goal. Congratulations! Most people don't get this far. But what matters now, is that you can finally move on."
+			mus_file = 'sound/music/success.ogg'
+
+			xp_reward += user.mind.goal.award
+		else
+			title.icon_state = "nothing"
+			line = "Your fields remain unplowed, and your harvest botched. At least you get a second chance."
+			mus_file = 'sound/music/pain.ogg'
+
+			tagline = "FAILURE!"
+
+		if(user.mind.special_goal?.IsCompleted())
+			title.icon_state = "dissidence"
+			line = "No matter how you achieved your goals, they were but a mere speck in the required prerequisites before REAL work can commence. You were but a single cogwheel in a mechanism, but your efforts won't go unnoticed."
+			mus_file = 'sound/music/needles.ogg'
+
+			tagline = "TRIUMPH!"
+
+			xp_reward += user.mind.special_goal.award
+		animate(title, time = 6 SECONDS, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 255)
+
+		user.playsound_local(get_turf(user), mus_file, 75, FALSE)
+		spawn(6 SECONDS)
+			user.chat_info("<b>[tagline]</b> [line]")
+			if(xp_reward)
+				user.chat_info("<b>REWARD:</b> +[xp_reward] XP")
+				user.AdjustXP(xp_reward, TRUE)
 	else
 		user.chat_info("That doesn't seem like a ticket..?", "bad")
