@@ -56,6 +56,7 @@
 #include "code\obj\items\gwarek.dm"
 #include "code\obj\items\items.dm"
 #include "code\obj\items\medical.dm"
+#include "code\obj\items\weapons\explosives.dm"
 #include "code\obj\items\weapons\guns.dm"
 #include "code\obj\items\weapons\guns_raycasting.dm"
 #include "code\obj\items\weapons\weapons.dm"
@@ -71,4 +72,3 @@
 #include "interface\skin.dmf"
 #include "maps\map.dmm"
 // END_INCLUDE
-

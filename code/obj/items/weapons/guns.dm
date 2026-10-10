@@ -278,7 +278,7 @@
 
 		victim.TakeDamage(dmg, "[shooter] - [hit_zone]")
 		if(headshot_hits && !victim.dead)
-			victim.AdjustBrainDamage(headshot_hits)
+			victim.AdjustBrainDamage(headshot_hits * 3)
 		victim.bleed_effect()
 
 		victim.AdjustBleeding(rand(1,10))

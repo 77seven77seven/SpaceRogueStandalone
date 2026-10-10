@@ -32,7 +32,7 @@
 
 	target.TakeDamage(damage_adjusted, "[name]")
 	if(!target.dead && prob(clamp(damage_adjusted * 2, 1, 20)))
-		target.AdjustBrainDamage(1)
+		target.AdjustBrainDamage(rand(1,3))
 	world << "DEBUG: damage log, [damage_adjusted]"
 	if(sharp && prob(damage_adjusted * 9))
 		target.AdjustBleeding(damage_adjusted * bloodloss_coefficient)
