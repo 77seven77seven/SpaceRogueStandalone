@@ -32,8 +32,16 @@
 	if(!seed_text || !length(seed_text))
 		seed_text = "[ckey]"
 	var/seed = TextHash(seed_text)
-	var/spread = VOICE_PITCH_MAX - VOICE_PITCH_MIN
-	voice_freq = VOICE_PITCH_MIN + ((seed % 1000) / 1000) * spread
+	var/min_pitch = VOICE_PITCH_MIN
+	var/max_pitch = VOICE_PITCH_MAX
+	if(gender == MALE)
+		min_pitch = 0.22
+		max_pitch = 0.52
+	else if(gender == FEMALE)
+		min_pitch = 0.38
+		max_pitch = 0.7
+	var/spread = max_pitch - min_pitch
+	voice_freq = min_pitch + ((seed % 1000) / 1000) * spread
 	voice_channel = 1 + (seed % 1024)
 
 /atom/movable/bubble
