@@ -778,8 +778,6 @@
 /mob/human/proc/DoSpawnEffects()
 	client << output(null, "outputwindow.output")
 	SEND_SOUND(client, sound('sound/music/spawn.ogg', volume = 75))
-	if(mind.dissident)
-		spawn(5) SEND_SOUND(client, sound('sound/music/violent_terms.ogg', volume = 75))
 	client.color = "#000000"
 	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 50)
 
@@ -790,13 +788,15 @@
 	chat_info("[mind.goal.desc] ([mind.goal.award] XP)")
 
 	if(mind.dissident) // dissidence welcomings flavor text
+		spawn(5) SEND_SOUND(client, sound('sound/music/violent_terms.ogg', volume = 75))
+
 		chat_info("\n<b>----@#$%&!-------#$%---!!!HAAHAHAHHA---</b>\n","bad")
-		chat_info("TRANSMISSION DECRYPTED, COURTESY OF THE <b>[pick("BLIND EYES OF A COWARD","MISTAKES IN THE MAKING","GUN TO MOUTH, FINGER TO TRIGGER","CRYING ANGELS","RENNE DANG TOMBOLA","ONES FREED FROM DESIRE","PURE ROTTEN LIGHT","TAK-TAK-TAKYON","GOLDEN BROWNS","REMNANTS OF THE AMERICANO DREAM","HUDSON AND ASSOCIATES","GUROFRIENDS","SERVANTS OF PICASSO","OKTOBERKLUB","VIOLENT TERMS","CZECHOSLOVAK LEGION OF FREEDOM FORCES","DISOBEDIENT","FREE GREEN YOUTH","KABAT","SHKWOR","DARK SABBATH-ON","SPACE CADETS","MAINLINE EXILES","EAST SIDE MILITIA")]!\n</b>","bad")
+		chat_info("TRANSMISSION DECRYPTED, COURTESY OF THE <b>[pick("BLIND EYES OF A COWARD","MISTAKES IN THE MAKING","GUN TO MOUTH, FINGER TO TRIGGER","CRYING ANGELS","RENNE DANG TOMBOLA","ONES FREED FROM DESIRE","PURE ROTTEN LIGHT","TAK-TAK-TAKYON","GOLDEN BROWNS","REMNANTS OF THE AMERICANO DREAM","HUDSON AND ASSOCIATES","GUROFRIENDS","SERVANTS OF PICASSO","OKTOBERKLUB","VIOLENT TERMS","CZECHOSLOVAK LEGION OF FREEDOM FORCES","PSYCHIC WARS VETERAN'S CLUB","FREE GREEN YOUTH","KABAT","SHKWOR","DARK SABBATH-ON","SPACE CADETS","MAINLINE EXILES","EAST SIDE MILITIA")]!\n</b>","bad")
 		chat_info("<b>[pick("INTERNAL ARMISTICE!","HAVE YOU EVER SEEN THE BIRTH OF A STAR?!","FAR FAR FAR, FAR AWAY FROM THE FAME!","WE STILL REMEMBER YOUR NAME!","YOU ARE OUR GUIDE!","OUR PRIDE!","WE SHALL MOURN THE DAY YOU DIE!","TRYING TO DEFY THE EMPOWERED!","LITTLE FIRE THAT THEY CAN'T PUT OUT!","FETCH ME A BUCKET, THIS IS ABOUT TO BLOW!", "ONE DAY YOU'LL LEAVE THIS WORLD BEHIND!","LIFE IN IVORY BLACK!","MAYBE YOU SHOULD CONSIDER... MORE VIOLENT TERMS?!","RING RING GOES THE TELEPHONE... I'M HANGING UP ON YOU!!")]</b>, YOUR MISSION IS: <b>[uppertext(mind.special_goal)]</b>","bad")
 		chat_info("[mind.special_goal.desc] ([mind.special_goal.award] XP)","bad")
 	else
 		if(client.dissidence_preference)
-			chat_info("\nYou FAILED the roll for becoming a dissident. <b>[pick("Better luck next time.","I'm sure you'll get to be a bad guy next time.","Aww... is someone sad? Don't worry, you can still kill people. Just with less leeway now.","TIME TO BOMB THE GOVERNME- Oh, we didn't get it? Oh. Okay.")]</b>","bad")
+			chat_info("\nYou FAILED the roll for becoming a dissident. <b>[pick("Better luck next time.","I'm sure you'll get to be a bad guy next time.","Aww... is someone sad? Don't worry.","Time to KILL people- Oh, we didn't get it? Oh. Okay.")]</b>","bad")
 
 /mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE, randomize_certain_values = TRUE)
 	if(!mind)

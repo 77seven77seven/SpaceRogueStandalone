@@ -54,10 +54,25 @@
 	desc = "We're not in ***** anymore, Delegate."
 	icon_state = "delegate"
 
+/obj/deco/graffiti/psychic
+	name = "graffiti"
+	desc = "I'M A VETERAN OF THE PSYCHIC WARS."
+	icon_state = "veteran"
+
 /obj/deco/trashcan
 	name = "trashcan"
 	desc = "Not a tradition, more of a necesity. But beauty is in the eye of the beholder."
 	icon_state = "trashcan"
+
+/obj/deco/trashcan/interact(mob/human/user, obj/item/held_item, params)
+	. = ..()
+	if(held_item.junk)
+		user.holding = null
+		user.UpdateInhand()
+
+		held_item.forceMove(src)
+
+		user.mind.performance_paycheck += 2
 
 /obj/deco/furniture
 	icon = 'icons/obj/furniture/furniture.dmi'

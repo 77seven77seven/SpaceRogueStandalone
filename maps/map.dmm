@@ -29,6 +29,11 @@
 /obj/deco/poster{
 	pixel_x = 64
 	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	color = "#bde9ff";
+	dir = 4
+	},
 /turf/open/floor/light,
 /area/station/medical)
 "bt" = (
@@ -172,6 +177,15 @@
 /area/station/water)
 "eI" = (
 /obj/machine/vendor/medic/internal,
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 8;
+	color = "#bde9ff"
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	color = "#bde9ff"
+	},
 /turf/open/floor/light,
 /area/station/medical)
 "eM" = (
@@ -196,6 +210,23 @@
 	},
 /turf/open/floor,
 /area/station/corporate)
+"ff" = (
+/obj/deco/trashcan{
+	pixel_x = -16;
+	pixel_y = 36
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 1;
+	color = "#bde9ff"
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 8;
+	color = "#bde9ff"
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "fl" = (
 /obj/decal{
 	icon_state = "chezsign4";
@@ -204,6 +235,14 @@
 	},
 /turf/open/floor,
 /area/station/water)
+"fB" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 1;
+	color = "#bde9ff"
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "fC" = (
 /obj/decal/floor/turf{
 	icon_state = "warningline_white"
@@ -224,6 +263,10 @@
 /area/station/corporate/director)
 "gm" = (
 /obj/deco/furniture/bed,
+/obj/decal/floor/turf{
+	icon_state = "box_white";
+	color = "#bde9ff"
+	},
 /turf/open/floor/light,
 /area/station/medical)
 "gr" = (
@@ -322,6 +365,14 @@
 /obj/machine/door/glass,
 /turf/open/floor,
 /area/station/medical)
+"jl" = (
+/obj/deco/furniture/table/auto,
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	color = "#bde9ff"
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "jw" = (
 /obj/deco/plant{
 	pixel_x = 18;
@@ -337,6 +388,10 @@
 	pixel_y = 64
 	},
 /obj/deco/furniture/bed,
+/obj/decal/floor/turf{
+	icon_state = "box_white";
+	color = "#bde9ff"
+	},
 /turf/open/floor/light,
 /area/station/medical)
 "jJ" = (
@@ -366,9 +421,11 @@
 /turf/open/floor/wood,
 /area/station)
 "kN" = (
-/obj/deco/graffiti/barnyard,
-/turf/solid/wall,
-/area/station)
+/obj/deco/graffiti/psychic{
+	pixel_y = 64
+	},
+/turf/open/floor/dark,
+/area/station/maintenance)
 "kX" = (
 /obj/deco/plant{
 	pixel_x = -18;
@@ -399,6 +456,14 @@
 	},
 /turf/solid/wall,
 /area/station)
+"mU" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 8;
+	color = "#bde9ff"
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "ne" = (
 /turf/open/floor/dark,
 /area/station/maintenance)
@@ -487,6 +552,19 @@
 	},
 /turf/open/floor/dark,
 /area/station/maintenance)
+"pI" = (
+/obj/deco/furniture/table/auto,
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	color = "#bde9ff"
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	color = "#bde9ff";
+	dir = 4
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "pJ" = (
 /obj/decal{
 	icon_state = "departures3"
@@ -560,6 +638,13 @@
 	},
 /turf/open/floor,
 /area/station)
+"rK" = (
+/obj/deco/plant{
+	pixel_x = 18;
+	pixel_y = 42
+	},
+/turf/open/floor,
+/area/station)
 "rT" = (
 /obj/machine/door{
 	dir = 4
@@ -623,6 +708,14 @@
 	},
 /turf/open/floor/wood,
 /area/station)
+"ti" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	color = "#bde9ff";
+	dir = 4
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "tm" = (
 /obj/deco/plant{
 	pixel_x = 17;
@@ -905,6 +998,13 @@
 "Cg" = (
 /turf/solid/wall,
 /area/station)
+"Ci" = (
+/obj/decal/floor/turf{
+	icon_state = "warningline_white";
+	dir = 1
+	},
+/turf/open/floor/dark,
+/area/station)
 "Co" = (
 /obj/decal/maintsign{
 	pixel_x = 1;
@@ -964,6 +1064,16 @@
 /obj/machine/vendor/medic/internal{
 	pixel_y = 37;
 	density = 0
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 1;
+	color = "#bde9ff"
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	color = "#bde9ff";
+	dir = 4
 	},
 /turf/open/floor/light,
 /area/station/medical)
@@ -1152,6 +1262,13 @@
 "IW" = (
 /turf/solid/wall,
 /area/station/tech/mining)
+"IY" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	color = "#bde9ff"
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "Jf" = (
 /obj/deco/furniture/chair{
 	dir = 4;
@@ -1160,6 +1277,17 @@
 	},
 /turf/open/floor/wood,
 /area/station)
+"Jr" = (
+/obj/deco/poster{
+	pixel_x = -64
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 8;
+	color = "#bde9ff"
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "JH" = (
 /obj/deco/furniture/table/auto,
 /turf/open/floor,
@@ -1177,6 +1305,11 @@
 "KN" = (
 /obj/abstract/landmark/start{
 	name = "Medicaloid"
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 1;
+	color = "#bde9ff"
 	},
 /turf/open/floor/light,
 /area/station/medical)
@@ -1392,6 +1525,11 @@
 	pixel_x = -16;
 	pixel_y = 36
 	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	color = "#bde9ff";
+	dir = 4
+	},
 /turf/open/floor/light,
 /area/station/medical)
 "RA" = (
@@ -1419,6 +1557,17 @@
 "RT" = (
 /turf/open/space,
 /area/space)
+"RU" = (
+/obj/decal/maintsign{
+	pixel_x = 1;
+	pixel_y = 63
+	},
+/obj/decal/floor/turf{
+	icon_state = "warningline_white";
+	dir = 1
+	},
+/turf/open/floor/dark,
+/area/station)
 "Sw" = (
 /obj/deco/graffiti/moids{
 	pixel_x = -2;
@@ -1453,6 +1602,12 @@
 	},
 /turf/open/floor,
 /area/station)
+"SS" = (
+/obj/deco/graffiti/barnyard{
+	pixel_y = 64
+	},
+/turf/open/floor/dark,
+/area/station/maintenance)
 "TB" = (
 /obj/deco/furniture/chair{
 	dir = 4;
@@ -1625,6 +1780,15 @@
 "YY" = (
 /turf/open/floor/dark,
 /area/station)
+"Zb" = (
+/obj/deco/furniture/table/auto,
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	color = "#bde9ff";
+	dir = 4
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "Zd" = (
 /obj/decal{
 	icon_state = "departures4"
@@ -5144,7 +5308,7 @@ ne
 ne
 ne
 Cg
-YY
+Ci
 YY
 Cg
 eC
@@ -5271,7 +5435,7 @@ ne
 ne
 ne
 BV
-YY
+Ci
 YY
 Cg
 Cg
@@ -5398,7 +5562,7 @@ ne
 ne
 ne
 Cg
-La
+RU
 YY
 YY
 YY
@@ -5658,7 +5822,7 @@ eC
 eC
 eC
 eC
-RT
+eC
 eC
 Cg
 La
@@ -5904,8 +6068,8 @@ eC
 RT
 eC
 eC
-RT
-RT
+eC
+eC
 eC
 eC
 eC
@@ -6530,9 +6694,9 @@ ne
 ne
 IS
 eC
-RT
-RT
-RT
+eC
+eC
+eC
 Cg
 Um
 FP
@@ -8316,7 +8480,7 @@ ne
 ne
 Lp
 Rm
-wH
+ti
 wH
 wH
 wH
@@ -8444,7 +8608,7 @@ ne
 Lp
 gm
 gm
-wH
+fB
 wH
 wH
 KE
@@ -8698,7 +8862,7 @@ ne
 Lp
 jD
 gm
-wH
+fB
 wH
 wH
 KE
@@ -8823,8 +8987,8 @@ Cg
 ne
 ne
 Lp
-wH
-wH
+mU
+mU
 wH
 rZ
 bU
@@ -9204,10 +9368,10 @@ Cg
 ne
 ne
 Lp
-Rm
-wH
-VY
-wH
+ff
+mU
+Jr
+mU
 eI
 Lp
 Zs
@@ -9331,11 +9495,11 @@ Cg
 Co
 ne
 Lp
+fB
 wH
 wH
 wH
-wH
-wH
+IY
 Lp
 Zs
 Zs
@@ -9458,11 +9622,11 @@ Cg
 ne
 ne
 Lp
+fB
 wH
 wH
 wH
-wH
-wH
+IY
 Lp
 Zs
 Zs
@@ -9585,11 +9749,11 @@ Cg
 ne
 ne
 Lp
-wH
+fB
 wH
 wH
 Ce
-Le
+jl
 Lp
 Zs
 Zs
@@ -9714,9 +9878,9 @@ ne
 Lp
 ER
 bl
-Le
-Le
-Le
+Zb
+Zb
+pI
 Lp
 Zs
 Zs
@@ -11105,8 +11269,8 @@ Zs
 Zs
 Zs
 Zs
-kN
-ne
+Cg
+SS
 vP
 jN
 pU
@@ -12397,7 +12561,7 @@ JJ
 CP
 JJ
 gF
-Co
+ne
 IS
 eC
 RT
@@ -12524,7 +12688,7 @@ gF
 gF
 gF
 gF
-ne
+kN
 IS
 RT
 RT
@@ -13147,9 +13311,9 @@ eC
 IS
 pB
 BV
+rK
 Zs
-Zs
-Zs
+tm
 Cg
 RT
 gF
@@ -13275,7 +13439,7 @@ IS
 ne
 Cg
 Cg
-Cg
+BV
 Cg
 Cg
 wv
