@@ -45,37 +45,37 @@ macro "macro"
 
 menu "menu"
 	elem 
-		name = "&File"
+		name = "&Prerequisites"
 		command = ""
 		saved-params = "is-checked"
 	elem 
 		name = "&Options and Messages...\tF1"
 		command = ".options"
-		category = "&File"
+		category = "&Prerequisites"
 		saved-params = "is-checked"
 	elem 
 		name = "&Quick screenshot\tF2"
 		command = ".screenshot auto"
-		category = "&File"
+		category = "&Prerequisites"
 		saved-params = "is-checked"
 	elem 
 		name = "&Save screenshot as...\tShift+F2"
 		command = ".screenshot"
-		category = "&File"
+		category = "&Prerequisites"
 		saved-params = "is-checked"
 	elem 
 		name = "&Quit"
 		command = ".quit"
-		category = "&File"
+		category = "&Prerequisites"
 		saved-params = "is-checked"
 	elem 
-		name = "&Icons"
+		name = "&Drawing"
 		command = ""
 		saved-params = "is-checked"
 	elem "stretch"
 		name = "&Stretch to fit"
 		command = ".winset \"mapwindow.map.icon-size=0\""
-		category = "&Icons"
+		category = "&Drawing"
 		is-checked = true
 		can-check = true
 		group = "size"
@@ -83,22 +83,36 @@ menu "menu"
 	elem "icon32"
 		name = "&32x32"
 		command = ".winset \"mapwindow.map.icon-size=32\""
-		category = "&Icons"
+		category = "&Drawing"
 		can-check = true
 		group = "size"
 		saved-params = "is-checked"
 	elem "icon16"
 		name = "&16x16"
 		command = ".winset \"mapwindow.map.icon-size=16\""
-		category = "&Icons"
+		category = "&Drawing"
 		can-check = true
 		group = "size"
 		saved-params = "is-checked"
 	elem "textmode"
-		name = "&Text"
+		name = "&Text (UNSUPPORTED)"
 		command = ".winset \"menu.textmode.is-checked=true?mapwindow.map.text-mode=true:mapwindow.map.text-mode=false\""
-		category = "&Icons"
+		category = "&Drawing"
 		can-check = true
+		saved-params = "is-checked"
+	elem 
+		name = "&Legal"
+		command = ""
+		saved-params = "is-checked"
+	elem 
+		name = "&License"
+		command = ".license"
+		category = "&Legal"
+		saved-params = "is-checked"
+	elem 
+		name = "&About"
+		command = ".about"
+		category = "&Legal"
 		saved-params = "is-checked"
 
 

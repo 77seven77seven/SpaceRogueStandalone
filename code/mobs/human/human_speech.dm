@@ -134,16 +134,41 @@
 
 /mob/human/proc/ParseEmote(emote)
 	switch(emote)
-		if("gasp")
-			AnimatedEmote("gasps!", 'sound/effects/human/gasp_male.ogg')
-		if("scream")
-			AnimatedEmote("screams!", 'sound/effects/human/scream.ogg')
+		if("gasp" || "gasps")
+			var/file = 'sound/effects/human/gasp_male.ogg'
+			if(gender == FEMALE)
+				file = 'sound/effects/human/gasp_female.ogg'
+			AnimatedEmote("gasps!", file)
+		if("scream" || "screams")
+			var/file = 'sound/effects/human/scream_male.ogg'
+			if(gender == FEMALE)
+				file = 'sound/effects/human/scream_female.ogg'
+			AnimatedEmote("screams!", file)
+		if("laugh" || "laughs")
+			var/file = 'sound/effects/human/laugh_male.ogg'
+			if(gender == FEMALE)
+				file = 'sound/effects/human/laugh_female.ogg'
+			AnimatedEmote("laughs!", file)
+		if("hem" || "hems")
+			var/file = 'sound/effects/human/hem_male.ogg'
+			if(gender == FEMALE)
+				file = 'sound/effects/human/hem_female.ogg'
+			AnimatedEmote("hems.", file)
+		if("cough" || "coughs")
+			var/file = 'sound/effects/human/cough_male.ogg'
+			if(gender == FEMALE)
+				file = 'sound/effects/human/cough_female.ogg'
+			AnimatedEmote("coughs.", file)
+		if("clap" || "claps")
+			AnimatedEmote("claps.", 'sound/effects/human/clap.ogg')
+		if("sob" || "sobs")
+			AnimatedEmote("sobs.", 'sound/effects/human/sob.ogg')
 		else
 			AnimatedEmote(emote)
 
 /mob/human/proc/AnimatedEmote(message, sound_path = 'sound/effects/human/generic_emote.ogg')
 	set waitfor = FALSE
-	if(!message || !length(message))
+	if(!message || !length(message) || !client)
 		return
 
 	if(emote_bubble)

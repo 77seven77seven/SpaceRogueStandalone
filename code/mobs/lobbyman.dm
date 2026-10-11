@@ -12,6 +12,10 @@
 		var/windowid = href_list["close"]
 		src << browse(null, "window=[windowid]")
 		client.open_popups -= windowid
+	if(href_list["link"])
+		var/dest = href_list["link"]
+		if(dest)
+			src << link(dest) // This launches the URL in the user's OS default browser
 
 /mob/Login()
 	. = ..()
@@ -66,7 +70,7 @@
 
 		<br><br>
 
-		<b>DESCRIPTION:</b> [chosing_job ? chosing_job.desc : "Not a job in sight! Click a open job slot on the left!"]
+		<b>DESCRIPTION:</b> [chosing_job ? chosing_job.desc : "Not a job in sight! Click an open job slot on the left!"]
 
 		<br><br>
 
@@ -88,13 +92,21 @@
 			roles += "<br>"
 
 	var/roles_browser = {"
-	<style>
-		div.menu {
-			font-size: 9px;
-		}
-	</style>
-
 	<html>
+		<head>
+			<style>
+				div.menu {
+					font-size: 9px;
+				}
+
+				body {
+					overflow: hide;
+					overflow-y: hidden;
+					overflow-x: hidden;
+				}
+			</style>
+		</head>
+
 		<body>
 		<div style="height:256px;overflow:auto;" class="menu">
 

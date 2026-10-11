@@ -31,10 +31,8 @@
 	animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
 
 	target.TakeDamage(damage_adjusted, "[name]")
-	if(!target.dead && prob(clamp(damage_adjusted * 2, 1, 20)))
-		target.AdjustBrainDamage(rand(1,3))
 	world << "DEBUG: damage log, [damage_adjusted]"
-	if(sharp && prob(damage_adjusted * 9))
+	if(sharp && prob(damage_adjusted * 9)) // SHARP WEAPONS!
 		target.AdjustBleeding(damage_adjusted * bloodloss_coefficient)
 		if(prob(10) && target.blood && !target.dead)
 			target.bleed_effect()
@@ -46,7 +44,7 @@
 			target.bleed_effect()
 			target.AdjustBlood(rand(-10,-1))
 			new /atom/movable/blood/splatter(get_turf(target), target)
-	else if(!sharp)
+	else if(!sharp) // BLUNT WEAPONS!
 		if(prob(rand(1,35)))
 			if(prob(damage_adjusted * 7))
 				world << "DEBUG: bones proc'd"
@@ -58,10 +56,13 @@
 					target.AdjustBleeding(rand(7,13))
 					world << "DEBUG: bones broken: [target.broke_bones]/[target.bones]"
 			else if(prob(damage_adjusted * 5))
-				world << "DEBUG: teeth proc'd"
-				target.AdjustBleeding(rand(1,3))
-				target.chat_info("MY TEETH!","bad")
-				// teeth knock out logic
+				if(!target.dead && prob(clamp(damage_adjusted * 2, 1, 20)))
+					target.AdjustBrainDamage(rand(1,3))
+				else
+					world << "DEBUG: teeth proc'd"
+					target.AdjustBleeding(rand(1,3))
+					target.chat_info("MY TEETH!","bad")
+					// teeth knock out logic
 
 /obj/item/melee/knife
 	name = "knife"

@@ -64,11 +64,19 @@
 				scan_results["dead"] = H.dead ? "DEAD" : null
 				scan_results["fractures"] = H.broke_bones
 				scan_results["blood"] = "[H.blood]%"
-				scan_results["shrapenl"] = H.shrapnel
+				scan_results["shrapnel"] = H.shrapnel
 				scan_results["bleeding"] = H.bleeding
 				scan_results["headshot"] = H.brainsploded
 
 				H.AdjustSorrow(8)
+				if(H.shrapnel)
+					H.TakeDamage(H.shrapnel * 10, "rapid shrapnel removal malpractice")
+					H.ParseEmote("scream")
+					H.SetRagdolled(TRUE)
+					H.go_blind()
+					H.AdjustSorrow(4)
+
+					H.shrapnel = 0
 
 				switch(H.brain_damage)
 					if(0)

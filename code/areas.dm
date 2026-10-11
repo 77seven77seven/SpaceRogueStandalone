@@ -83,6 +83,7 @@
 	name = "corpors"
 	icon_state = "corpo"
 	ambience = list('sound/music/ambiance/corpo.ogg')
+	ambience_volume = 20
 
 /area/station/corporate/director
 	name = "director"

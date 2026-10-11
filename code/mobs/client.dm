@@ -188,3 +188,17 @@
 	else
 		world << "shuttle = FAIL"
 	world << "----"
+
+/client/verb/license()
+	set name = ".license"
+
+	var/datum/popup/popup = new(mob, "license", "License")
+	popup.set_content("Some sprites taken from unlicensed obsolete codebases. A small amount of sprites taken from /tg/station 13, licensed under CC BY-SA 3.0.")
+	popup.open()
+
+/client/verb/about()
+	set name = ".about"
+
+	var/datum/popup/popup = new(src, "about", "About")
+	popup.set_content()
+	popup.open()

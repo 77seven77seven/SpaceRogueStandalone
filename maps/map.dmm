@@ -582,7 +582,8 @@
 "qF" = (
 /obj/machine/vendor/food{
 	pixel_y = 34;
-	density = 0
+	density = 0;
+	taxless = 2
 	},
 /turf/open/floor/dark,
 /area/station/maintenance)
@@ -1181,7 +1182,8 @@
 	},
 /obj/machine/vendor/food{
 	pixel_y = 34;
-	density = 0
+	density = 0;
+	taxless = 2
 	},
 /turf/open/floor/dark,
 /area/station/maintenance)
