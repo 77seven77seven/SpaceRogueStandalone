@@ -389,9 +389,28 @@
 
 /obj/item/ammo_box
 	name = "ammo box"
+	desc = "It's a box of ammunition. Maybe if you knew something about firearms you'd know what's inside."
+	desc_expansive_extra_skill = GUNS
+
+	vendor_name = "S.AM"
+	vendor_price = 40
 
 	var/ammo_type = AMMO_SMALL
 	var/ammo_amt = 16
+
+/obj/item/ammo_box/Initialize()
+	. = ..()
+	var/falvor = "...something?"
+	switch(ammo_type)
+		if(AMMO_SMALL)
+			falvor = "small ammo, these are handy for pistols and other small arms."
+		if(AMMO_MEDIU)
+			falvor = "medium ammunition. These were largely phased out of production due to standardization efforts. These are still handy for antiques."
+		if(AMMO_BIG)
+			falvor = "big ammunition. Used for high-calibre rifles, such as assault rifles."
+		if(AMMO_SHELLS)
+			falvor = "shotgun shells. Self-explanatory. Used in shotguns."
+	desc_expansive = "I know! It's a box of [falvor]"
 
 /obj/item/ammo_box/use(mob/human/H)
 	. = ..()
@@ -399,25 +418,41 @@
 		H.ammo = list()
 	if(ammo_type && ammo_amt)
 		H.ammo[ammo_type] += ammo_amt
+		H.chat_info("Sweet, sweet ammo.")
 	else
 		H.ammo[AMMO_SMALL] += rand(8,32)
 		H.ammo[AMMO_BIG] += rand(15,60)
 		H.ammo[AMMO_SHELLS] += rand(8,32)
 		if(prob(20))
 			H.ammo[AMMO_MEDIU] += rand(1,40)
+		H.chat_info("Good, that's all they left.")
+	junkize(H)
 
 /obj/item/ammo_box/big
 	ammo_type = AMMO_BIG
 	ammo_amt = 30
 
+	vendor_name = "B.AM"
+	vendor_price = 60
+
 /obj/item/ammo_box/med
 	ammo_type = AMMO_MEDIU
+
+	vendor_name = "M.AM"
+	vendor_price = 90
+
 	ammo_amt = 24 // NON-STANDARD! Intended. :)
 
 /obj/item/ammo_box/shells
 	ammo_type = AMMO_SHELLS
 	ammo_amt = 16
 
+	vendor_name = "SH.AM"
+	vendor_price = 65
+
 /obj/item/ammo_box/random
 	ammo_type = null
 	ammo_amt = null
+
+	vendor_name = "ASS."
+	vendor_price = 75 // Dissident only, lets keep it cheap-ish.

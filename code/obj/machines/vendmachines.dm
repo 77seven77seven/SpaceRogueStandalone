@@ -179,10 +179,10 @@
 	items = list(/obj/item/consumable/annegree = 15, /obj/item/consumable/limelite = 15, /obj/item/consumable/nutrition = 10)
 
 /obj/machine/vendor/merc
-	name = "WENDR-LAYLAW A86"
+	name = "WENDR-LAYLAW A47"
 	overlay_icon = "laylaw"
 
-	items = list()
+	items = list(/obj/item/ammo_box = 12, /obj/item/ammo_box/big = 6, /obj/item/ammo_box/shells = 6)
 
 #undef NO_TAXES
 #undef YES_TAXES
