@@ -117,6 +117,8 @@
 	density = TRUE
 	letpassthrow = TRUE
 
+	layer = 2.9
+
 	var/auto_type = /obj/deco/furniture/table/auto
 	var/auto = FALSE
 

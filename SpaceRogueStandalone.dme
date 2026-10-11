@@ -60,6 +60,7 @@
 #include "code\obj\items\weapons\guns.dm"
 #include "code\obj\items\weapons\guns_raycasting.dm"
 #include "code\obj\items\weapons\weapons.dm"
+#include "code\obj\machines\directorisms.dm"
 #include "code\obj\machines\door.dm"
 #include "code\obj\machines\infoterminal.dm"
 #include "code\obj\machines\medical.dm"

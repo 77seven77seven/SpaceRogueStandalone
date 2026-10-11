@@ -161,6 +161,10 @@
 	pixel_y = -60;
 	pixel_x = 3
 	},
+/obj/deco/trashcan{
+	pixel_x = 15;
+	pixel_y = 3
+	},
 /turf/open/floor,
 /area/station/water)
 "eC" = (
@@ -373,6 +377,12 @@
 	},
 /turf/open/floor/light,
 /area/station/medical)
+"jv" = (
+/obj/abstract/landmark/start{
+	name = "Waterworker"
+	},
+/turf/open/floor,
+/area/station/water)
 "jw" = (
 /obj/deco/plant{
 	pixel_x = 18;
@@ -412,6 +422,10 @@
 /obj/door_control,
 /turf/solid/wall,
 /area/station/corporate)
+"kD" = (
+/obj/deco/furniture/table/auto,
+/turf/open/floor,
+/area/station/water)
 "kE" = (
 /obj/deco/furniture/chair{
 	dir = 4;
@@ -441,6 +455,10 @@
 	dir = 4;
 	pixel_x = 19;
 	pixel_y = 6
+	},
+/obj/machine/microphone{
+	pixel_x = 36;
+	pixel_y = 4
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
@@ -508,6 +526,13 @@
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
+"nQ" = (
+/obj/decal/floor/turf{
+	icon_state = "warningline_white";
+	dir = 8
+	},
+/turf/open/floor,
+/area/station)
 "nZ" = (
 /obj/deco/furniture/chair{
 	dir = 4;
@@ -546,6 +571,14 @@
 	},
 /turf/open/floor,
 /area/station/corporate)
+"pz" = (
+/obj/deco/furniture/chair{
+	dir = 4;
+	pixel_x = 21;
+	pixel_y = 6
+	},
+/turf/open/floor,
+/area/station/water)
 "pB" = (
 /obj/deco/poster{
 	pixel_y = 64
@@ -742,6 +775,12 @@
 	},
 /turf/open/floor,
 /area/station/corporate)
+"tI" = (
+/obj/decal/floor/turf{
+	icon_state = "warningline_white"
+	},
+/turf/open/floor/dark,
+/area/station/maintenance)
 "tR" = (
 /obj/decal{
 	icon_state = "chezsign4";
@@ -750,6 +789,16 @@
 	},
 /turf/open/floor,
 /area/station)
+"uy" = (
+/obj/deco/poster{
+	pixel_y = 64
+	},
+/obj/decal/floor/turf{
+	icon_state = "warningline_white";
+	dir = 1
+	},
+/turf/open/floor/dark,
+/area/station/maintenance)
 "uG" = (
 /obj/deco/furniture/chair{
 	dir = 8;
@@ -899,6 +948,10 @@
 	pixel_x = 0;
 	pixel_y = -64
 	},
+/obj/deco/plant{
+	pixel_x = -18;
+	pixel_y = 3
+	},
 /turf/open/floor,
 /area/station/water)
 "yl" = (
@@ -1033,6 +1086,13 @@
 	},
 /turf/open/floor,
 /area/station/water)
+"CR" = (
+/obj/decal/floor/turf{
+	icon_state = "warningline_white";
+	dir = 1
+	},
+/turf/open/floor/dark,
+/area/station/maintenance)
 "Dl" = (
 /obj/deco/supports,
 /obj/decal{
@@ -1618,6 +1678,12 @@
 	},
 /turf/open/floor/wood,
 /area/station)
+"TD" = (
+/obj/abstract/landmark/start{
+	name = "Miner"
+	},
+/turf/open/floor,
+/area/station/tech/mining)
 "TI" = (
 /obj/decal{
 	icon_state = "chezsign3";
@@ -1803,6 +1869,12 @@
 	},
 /turf/open/floor,
 /area/station/corporate)
+"Zn" = (
+/obj/abstract/landmark/start{
+	name = "Technician"
+	},
+/turf/open/floor,
+/area/station/tech)
 "Zs" = (
 /turf/open/floor,
 /area/station)
@@ -8583,7 +8655,7 @@ RT
 RT
 RT
 IK
-ne
+CR
 ne
 ne
 IK
@@ -8710,7 +8782,7 @@ RT
 RT
 RT
 wv
-pB
+uy
 ne
 ne
 IS
@@ -8756,8 +8828,8 @@ RT
 RT
 RT
 eM
-Zs
-Zs
+nQ
+nQ
 eM
 RT
 RT
@@ -8883,7 +8955,7 @@ RT
 RT
 RT
 eM
-Zs
+ZM
 Zs
 eM
 RT
@@ -11804,7 +11876,7 @@ gF
 ne
 IK
 ne
-ne
+tI
 IK
 RT
 RT
@@ -11924,14 +11996,14 @@ RT
 gF
 JJ
 JJ
-JJ
+jv
 JJ
 JJ
 gF
 Co
 HV
 ne
-ne
+tI
 IS
 RT
 RT
@@ -12157,7 +12229,7 @@ KV
 RT
 IW
 BI
-BI
+TD
 BI
 BI
 IW
@@ -12411,7 +12483,7 @@ KV
 KV
 IW
 BI
-BI
+TD
 BI
 BI
 IW
@@ -12432,7 +12504,7 @@ RT
 gF
 JJ
 JJ
-JJ
+jv
 JJ
 JJ
 gF
@@ -12656,7 +12728,7 @@ Co
 KV
 JH
 TZ
-TZ
+Zn
 TZ
 TZ
 TZ
@@ -12665,7 +12737,7 @@ TZ
 QU
 iz
 BI
-BI
+TD
 BI
 BI
 IW
@@ -12813,8 +12885,8 @@ RT
 gF
 JJ
 JJ
-JJ
-JJ
+kD
+pz
 yg
 gF
 ne
@@ -12940,8 +13012,8 @@ jx
 jx
 JJ
 JJ
-JJ
-JJ
+kD
+kD
 eG
 gF
 ne
@@ -13194,7 +13266,7 @@ jx
 jx
 JJ
 JJ
-JJ
+jv
 JJ
 fl
 gF

@@ -881,6 +881,16 @@
 	overlays += wristpad_glow
 	overlays += eyes
 
+	var/image/hair = image('icons/human/human_hair.dmi', src, layer = MOB_LAYER + 0.01)
+	if(gender == MALE && prob(10))
+		hair.icon_state = "bald"
+	if(prob(60))
+		hair.color = get_random_light_color()
+		if(prob(10))
+			hair.color = get_random_bright_color()
+	hair.icon_state = pick(icon_states('icons/human/human_hair.dmi',1))
+	overlays += hair
+
 	overlays += damage_overlay
 
 	var/rando = rand(220,255)

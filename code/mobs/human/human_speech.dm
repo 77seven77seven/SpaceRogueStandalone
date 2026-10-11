@@ -83,6 +83,11 @@
 			var/icon/I = getFlatIcon(src, SOUTH)
 			M << "\icon[I] <b>[first_name] [last_name]</b> : \"<span style='color:[voice_color];font-family:Verdana'>[message]</span>\""
 
+	spawn(3)
+		var/obj/machine/microphone/mic = locate() in get_turf(src)
+		if(mic && mic?.on)
+			mic.speak_into(message)
+
 	if(voice_bubble)
 		vis_contents -= voice_bubble
 
