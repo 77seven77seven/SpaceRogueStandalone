@@ -22,6 +22,7 @@
 	var/obj/hud/health/health
 
 	var/obj/hud/combat/combat
+	var/obj/hud/maptext_holder/maptext_holder
 
 	var/list/plane_masters = list()
 
@@ -141,6 +142,20 @@
 /obj/hud/combat/Process()
 	combatico.alpha = rand(220,255)
 
+/obj/hud/maptext_holder
+	screen_loc = "6,1"
+	maptext = "yes"
+	maptext_height = 128
+	maptext_width = 256
+	
+	processing = TRUE
+
+/obj/hud/maptext_holder/proc/txt(msg)
+	maptext = {"<div style='font-size: 200%;font-family:serif;color:[owner.hud_color];text-shadow: 3px 3px 2px #000; display: flex; align-items: center; justify-content: center; width: auto; height: 128px; text-align: center;'>[msg]</div>"}
+
+/obj/hud/maptext_holder/Process()
+	alpha = rand(220,255)
+	
 /obj/hud/fullscreen
 	icon = 'icons/full_resized.dmi'
 	icon_state = "black"

@@ -132,6 +132,14 @@
 	},
 /turf/open/floor,
 /area/station/tech)
+"dJ" = (
+/obj/deco/furniture/chair{
+	dir = 4;
+	pixel_x = 21;
+	pixel_y = 10
+	},
+/turf/open/floor,
+/area/station)
 "dM" = (
 /obj/deco/furniture/chair,
 /turf/open/floor,
@@ -196,6 +204,16 @@
 	},
 /turf/open/floor,
 /area/station/water)
+"fC" = (
+/obj/decal/floor/turf{
+	icon_state = "warningline_white"
+	},
+/obj/deco/trashcan{
+	pixel_x = -16;
+	pixel_y = 3
+	},
+/turf/open/floor,
+/area/station)
 "fZ" = (
 /obj/decal{
 	icon_state = "chez1";
@@ -208,6 +226,14 @@
 /obj/deco/furniture/bed,
 /turf/open/floor/light,
 /area/station/medical)
+"gr" = (
+/obj/deco/furniture/chair{
+	dir = 8;
+	pixel_x = -18;
+	pixel_y = 8
+	},
+/turf/open/floor,
+/area/station)
 "gw" = (
 /obj/deco/poster{
 	pixel_y = 58;
@@ -384,6 +410,16 @@
 	dir = 4;
 	pixel_x = 21;
 	pixel_y = 6
+	},
+/turf/open/floor,
+/area/station)
+"nu" = (
+/obj/decal/floor/turf{
+	icon_state = "warningline_white"
+	},
+/obj/deco/trashcan{
+	pixel_x = 15;
+	pixel_y = 3
 	},
 /turf/open/floor,
 /area/station)
@@ -817,6 +853,14 @@
 /area/station/hydro)
 "zZ" = (
 /obj/abstract/landmark/shuttle_dock,
+/obj/decal/floor/turf{
+	icon_state = "warningline_white"
+	},
+/obj/decal/floor/turf{
+	icon_state = "caution_white";
+	pixel_x = 0;
+	pixel_y = -26
+	},
 /turf/open/floor,
 /area/station)
 "AG" = (
@@ -1042,6 +1086,23 @@
 	},
 /obj/decal/floor/turf{
 	icon_state = "line_small"
+	},
+/turf/open/floor,
+/area/station)
+"Ho" = (
+/obj/decal/floor/turf{
+	icon_state = "warningline_white"
+	},
+/obj/decal/floor/turf{
+	icon_state = "caution_white";
+	pixel_x = 0;
+	pixel_y = -26
+	},
+/turf/open/floor,
+/area/station)
+"Hq" = (
+/obj/decal/floor/turf{
+	icon_state = "warningline_white"
 	},
 /turf/open/floor,
 /area/station)
@@ -10058,9 +10119,9 @@ ZM
 Zs
 Zs
 eM
+MU
 Zs
-Zs
-Zs
+fC
 eM
 RT
 RT
@@ -10185,9 +10246,9 @@ Zs
 Zs
 Zs
 eM
-Zs
+dJ
 Xr
-Zs
+Ho
 Fi
 RT
 RT
@@ -10312,9 +10373,9 @@ Zs
 Zs
 Zs
 eM
+pa
 Zs
-Zs
-Zs
+Hq
 eM
 RT
 RT
@@ -10439,9 +10500,9 @@ Zs
 Zs
 Zs
 eM
+pa
 Zs
-Zs
-Zs
+Hq
 eM
 RT
 RT
@@ -10566,9 +10627,9 @@ ZM
 Zs
 Zs
 eM
+gr
 Zs
-Zs
-Zs
+Hq
 eM
 RT
 RT
@@ -10695,7 +10756,7 @@ Zs
 eM
 Zs
 Zs
-Zs
+Hq
 eM
 RT
 RT
@@ -10949,7 +11010,7 @@ Zs
 Fi
 Zs
 Zs
-Zs
+nu
 eM
 RT
 RT

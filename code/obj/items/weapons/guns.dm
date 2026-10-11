@@ -1,7 +1,13 @@
-#define SMALL_AMMO "SMALL" // Common for small pistols.
-#define MEDIU_AMMO "MEDIUM" // Rare ammo, used mostly for exotic firearms. Not commonly found in vending machines.
-#define BIG_AMMO "BIG" // Big 
-#define SHOTG_AMMO "SHELLS"
+#define AMMO_SMALL "SMALL" // Common for small pistols.
+#define AMMO_MEDIU "MEDIUM" // Rare ammo, used mostly for exotic firearms. Not commonly found in vending machines.
+#define AMMO_BIG "BIG" // Big 
+#define AMMO_SHELLS "SHELLS"
+
+#define SMALL_AMMO AMMO_SMALL
+#define MEDIU_AMMO AMMO_MEDIU
+#define BIG_AMMO AMMO_BIG
+#define SHOTG_AMMO AMMO_SHELLS
+#define AMMO_MEDIUM AMMO_MEDIU
 
 /obj/item/gun
 	name = "Wonder"
@@ -18,7 +24,7 @@
 	var/damage = 20
 	var/headshot_damage = 99 // Basically all headshots are deadly.
 	
-	var/ammo_type = SMALL_AMMO
+	var/ammo_type = AMMO_SMALL
 	var/ammo_loaded = 9
 	var/ammo_max = 9
 	var/ejects_casings = TRUE
@@ -48,7 +54,7 @@
 
 	ejects_casings = FALSE
 
-	ammo_type = BIG_AMMO
+	ammo_type = AMMO_BIG
 	ammo_loaded = 6
 	ammo_max = 6
 
@@ -72,7 +78,7 @@
 
 	gunshot_sounds = list('sound/effects/obj/guns/rifle.ogg')
 	
-	ammo_type = BIG_AMMO
+	ammo_type = AMMO_BIG
 	ammo_loaded = 30
 	ammo_max = 30
 
@@ -86,7 +92,7 @@
 	inhand_icon_state = "shotgun"
 	gunshot_sounds = list('sound/effects/obj/guns/rifle.ogg')
 
-	ammo_type = SHOTG_AMMO
+	ammo_type = AMMO_SHELLS
 	ammo_loaded = 6
 	ammo_max = 6
 
@@ -102,11 +108,45 @@
 
 	tracers = TRUE
 
+/obj/item/gun/proc/CanFire(mob/shooter)
+	if(ammo_max > 0 && ammo_loaded <= 0)
+		return FALSE
+	return TRUE
+
+/obj/item/gun/proc/Reload(mob/human/shooter)
+	if(!shooter || !ammo_type || ammo_loaded >= ammo_max)
+		return FALSE
+	if(!shooter.ammo)
+		shooter.ammo = list()
+
+	var/available = shooter.ammo[ammo_type] || 0
+	if(!available)
+		return FALSE
+
+	var/needed = ammo_max - ammo_loaded
+	var/added = min(needed, available)
+	if(added <= 0)
+		return FALSE
+
+	shooter.ammo[ammo_type] = max(0, available - added)
+	ammo_loaded += added
+	return TRUE
+
+/obj/item/gun/use(mob/human/H)
+	. = ..()
+	Reload(H)
+
 /obj/item/gun/proc/Fire(mob/shooter, atom/target, aim_x, aim_y)
-	// aim_x / aim_y are the cursor's WORLD pixel coordinates.
+	if(!CanFire(shooter))
+		if(ishuman(shooter))
+			if(ammo_loaded <= 0)
+				return
+		else
+			return
 	if(world.time < next_fire)
 		return
 	next_fire = world.time + fire_delay
+	ammo_loaded = max(0, ammo_loaded - 1)
 
 	// Muzzle = centre of the shooter, in world pixels
 	var/ox = (shooter.x - 1) * WORLD_ICON_SIZE + shooter.step_x + WORLD_ICON_SIZE / 2
@@ -346,3 +386,38 @@
 	spawn(4) icon_state = yeah
 
 	QDEL_IN(src, 5000)
+
+/obj/item/ammo_box
+	name = "ammo box"
+
+	var/ammo_type = AMMO_SMALL
+	var/ammo_amt = 16
+
+/obj/item/ammo_box/use(mob/human/H)
+	. = ..()
+	if(!H.ammo)
+		H.ammo = list()
+	if(ammo_type && ammo_amt)
+		H.ammo[ammo_type] += ammo_amt
+	else
+		H.ammo[AMMO_SMALL] += rand(8,32)
+		H.ammo[AMMO_BIG] += rand(15,60)
+		H.ammo[AMMO_SHELLS] += rand(8,32)
+		if(prob(20))
+			H.ammo[AMMO_MEDIU] += rand(1,40)
+
+/obj/item/ammo_box/big
+	ammo_type = AMMO_BIG
+	ammo_amt = 30
+
+/obj/item/ammo_box/med
+	ammo_type = AMMO_MEDIU
+	ammo_amt = 24 // NON-STANDARD! Intended. :)
+
+/obj/item/ammo_box/shells
+	ammo_type = AMMO_SHELLS
+	ammo_amt = 16
+
+/obj/item/ammo_box/random
+	ammo_type = null
+	ammo_amt = null

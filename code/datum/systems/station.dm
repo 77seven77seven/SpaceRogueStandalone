@@ -8,7 +8,7 @@
 	var/datum/investment/investments = list()
 
 	var/treasury = STATION_BUDGET_DEFAULT
-	var/treasury_defaulted = 0 // when at 3, the Director gets wanted and FIRED!
+	var/treasury_defaulted = 0 // When at 3, the Director gets wanted and FIRED! Treasury defaults to the default value when the treasury can't pay the workers UBI.
 	var/treasury_tax = 0 // In percent, to get multiplier, use get_tax()
 
 	var/waters = 10 // Let them have some to start out with.

@@ -73,6 +73,7 @@
 	var/sorrow = 0 // if youre at 100 for too long, you suffer a heartattack, collapse and then die
 
 	var/list/obj/item/inventory = list()
+	var/list/ammo = list() // BIG_AMMO = 10, SMALL_AMMO = 2... etc
 	var/inventory_space = 10
 	var/obj/item/holding
 	var/image/holding_inhand
@@ -719,6 +720,7 @@
 	hud_holder.bg_health = new /obj/hud/bg_health(src)
 	hud_holder.health = new /obj/hud/health(src)
 	hud_holder.combat = new /obj/hud/combat(src)
+	hud_holder.maptext_holder = new /obj/hud/maptext_holder(src)
 
 	hud_holder.plane_masters += new /obj/hud/plane_master(src)
 
@@ -1006,6 +1008,24 @@
 		stat("PRESS \[V\] TO STAND UP!")
 
 	stat("INVENTORIUM:[holding ? " (HOLDING: [uppertext(holding.name)])" : null]")
+	if(istype(holding, /obj/item/gun))
+		var/obj/item/gun/G = holding
+		var/gun_skill = clamp(mind?.GetSkill(GUNS) || 0, 0, 100)
+		if(gun_skill > 10)
+			var/reserve_ammo = ammo[G.ammo_type] || 0
+			if(gun_skill >= 90)
+				stat("AMMO (GUARANTEED): [G.ammo_loaded]/[G.ammo_max] ([reserve_ammo] RSRV)")
+			else
+				var/estimate_step = max(2, round((100 - gun_skill) / 10))
+				var/estimated_loaded = min(G.ammo_max, max(0, round(G.ammo_loaded / estimate_step) * estimate_step))
+				var/estimated_reserve = max(0, round(reserve_ammo / estimate_step) * estimate_step)
+				stat("AMMO ([skill_level_to_word(mind?.GetSkill(GUNS))]): ~[estimated_loaded]/[G.ammo_max] (~[estimated_reserve] RSRV)")
+	if(holding)
+		if(!(hud_holder.maptext_holder in client.screen))
+			client.screen += hud_holder.maptext_holder
+			hud_holder.maptext_holder.txt("HOLDING: [uppertext(holding.name)]")
+	else
+		client.screen -= hud_holder.maptext_holder
 	if(inventory.len)
 		for(var/obj/item/I in inventory)
 			stat(I)
