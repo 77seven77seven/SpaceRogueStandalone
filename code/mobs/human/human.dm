@@ -274,10 +274,19 @@
 		return FALSE
 
 	cooldown("whistle", 3 SECONDS)
-	spawn(3 SECONDS)
-		world << "five seconds"
 
 	playsound(get_turf(src), 'sound/effects/human/attention.ogg', 75)
+
+	var/atom/movable/effect = new(get_turf(src))
+	effect.layer = MOB_LAYER + 0.1
+	effect.icon = 'icons/obj/abstract/effects.dmi'
+	effect.icon_state = "exclamation"
+
+	var/matrix/turna = matrix()
+	turna.Turn(10)
+	turna.Scale(3,3)
+	animate(effect, 3 SECONDS, transform = turna, alpha = 0, easing = QUAD_EASING|EASE_OUT)
+	QDEL_IN(effect, 3 SECONDS)
 
 	for(var/mob/M in hearers(world.view, src))
 		if(istype(M, /mob/lobbyman))
