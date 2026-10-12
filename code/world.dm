@@ -18,7 +18,7 @@ var/global/list/landmarks_start_list = list()
 	name = "Fringe Sector: In Rogue Space"
 	fps = 30
 	icon_size = WORLD_ICON_SIZE
-	view = "13x13"
+	view = "13x13" // view = 6
 	movement_mode = PIXEL_MOVEMENT_MODE
 
 	mob = /mob/lobbyman

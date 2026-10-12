@@ -97,7 +97,7 @@
 
 	if(user.on_cooldown("knock"))
 		return
-	user.cooldown("knock", 2 SECONDS)
+	user.cooldown("knock", 1 SECONDS)
 
 	playsound(get_turf(src), 'sound/effects/obj/door_knocking.ogg', vol = 100, ignore_walls = TRUE, vary = TRUE)
 	whiteout.icon_state = "knock"

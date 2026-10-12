@@ -11,7 +11,7 @@
 	var/damage = 5
 	var/bloodloss_coefficient = 0.6 // A sharp weapon would cause only as much blood loss overtime (BLOT) as the damage if this were 1, this is the modifier.
 	
-	var/attack_delay = 25 // Self explanatory. So you don't smeck someone thirty times in a milisecond.
+	var/attack_delay = 12 // Self explanatory. So you don't smeck someone thirty times in a milisecond.
 
 /obj/item/melee/attack(mob/human/user, mob/human/target) // TODO: make a lot of these be affected by melee skill, both on defense and offense
 	. = ..()
@@ -68,4 +68,4 @@
 	name = "knife"
 	inhand_icon_state = "knife"
 	sharp = TRUE
-	attack_delay = 15
+	attack_delay = 6

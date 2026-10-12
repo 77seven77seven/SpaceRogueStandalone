@@ -211,9 +211,9 @@
 		cooldowns = list()
 
 	if(cooldowns[cooldown_name])
-		cooldowns[cooldown_name] = max(cooldowns[cooldown_name], world.time + cooldown_duration * world.tick_lag)
+		cooldowns[cooldown_name] = max(cooldowns[cooldown_name], world.time + cooldown_duration)
 	else
-		cooldowns[cooldown_name] = world.time + cooldown_duration * world.tick_lag
+		cooldowns[cooldown_name] = world.time + cooldown_duration
 
 // each parameter is the name of a cooldown to check, this
 // proc returns 1 if any of the names are still on cooldown
@@ -234,7 +234,7 @@
 	var/changed = (ragdolled != value)
 	ragdolled = value
 
-	cooldown("ragdoll", 5 SECONDS)
+	cooldown("ragdoll", 2 SECONDS)
 
 	if(ragdolled)
 		if(changed) // one-shot effects only on a real state change
@@ -266,6 +266,27 @@
 		SetRagdolled(FALSE)
 	else
 		SetRagdolled(TRUE)
+
+/mob/human/verb/whistle()
+	set name = ".whistle"
+
+	if(dead || !client || on_cooldown("whistle") || heart_attack)
+		return FALSE
+
+	cooldown("whistle", 3 SECONDS)
+	spawn(3 SECONDS)
+		world << "five seconds"
+
+	playsound(get_turf(src), 'sound/effects/human/attention.ogg', 75)
+
+	for(var/mob/M in hearers(world.view, src))
+		if(istype(M, /mob/lobbyman))
+			continue
+		if(M.deaf)
+			continue
+		if(M.client)
+			var/icon/I = getFlatIcon(src, SOUTH)
+			M << "\icon[I] <b>[src]</b> whistles to catch someone's attention."
 
 /mob/human/proc/SetHealth(value)
 	if(dead)
@@ -948,7 +969,7 @@
 
 	if(on_cooldown("cmode"))
 		return FALSE
-	cooldown("cmode", 20)
+	cooldown("cmode", 10)
 
 	if(cmode == FALSE)
 		cmode = TRUE

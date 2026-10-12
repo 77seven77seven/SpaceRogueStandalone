@@ -322,6 +322,13 @@
 	},
 /turf/open/floor,
 /area/station)
+"iy" = (
+/obj/deco/poster{
+	pixel_y = 4;
+	pixel_x = -64
+	},
+/turf/open/floor,
+/area/station)
 "iz" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small";
@@ -528,10 +535,9 @@
 /area/station/corporate/director)
 "nQ" = (
 /obj/decal/floor/turf{
-	icon_state = "warningline_white";
-	dir = 8
+	icon_state = "line_small"
 	},
-/turf/open/floor,
+/turf/open/floor/wood,
 /area/station)
 "nZ" = (
 /obj/deco/furniture/chair{
@@ -830,6 +836,7 @@
 	pixel_x = 0;
 	pixel_y = 64
 	},
+/obj/deco/supports,
 /turf/open/space,
 /area/space)
 "vo" = (
@@ -872,10 +879,6 @@
 /area/station/corporate)
 "wu" = (
 /mob/human,
-/obj/deco/poster{
-	pixel_y = 67;
-	pixel_x = 4
-	},
 /turf/open/floor,
 /area/station)
 "wv" = (
@@ -1101,11 +1104,19 @@
 	},
 /turf/open/space,
 /area/space)
+"Dn" = (
+/obj/item/ticket{
+	pixel_x = 12;
+	pixel_y = 20
+	},
+/turf/open/floor/dark,
+/area/station/maintenance)
 "DG" = (
 /obj/decal{
 	icon_state = "endera1";
 	pixel_y = 64
 	},
+/obj/deco/supports,
 /turf/open/space,
 /area/space)
 "Ee" = (
@@ -1207,6 +1218,7 @@
 	pixel_x = 0;
 	pixel_y = 64
 	},
+/obj/deco/supports,
 /turf/open/space,
 /area/space)
 "GL" = (
@@ -1389,6 +1401,14 @@
 /obj/deco/furniture/table/auto,
 /turf/open/floor/light,
 /area/station/medical)
+"Lj" = (
+/obj/deco/furniture/table/auto,
+/obj/item/deco/flower{
+	pixel_x = 2;
+	pixel_y = 20
+	},
+/turf/open/floor/wood,
+/area/station)
 "Lp" = (
 /turf/solid/wall,
 /area/station/medical)
@@ -1463,8 +1483,9 @@
 /turf/open/floor,
 /area/station/tech)
 "MS" = (
-/obj/machine/door{
-	dir = 4
+/obj/deco/poster{
+	pixel_y = 67;
+	pixel_x = 4
 	},
 /turf/open/floor,
 /area/station)
@@ -1643,6 +1664,7 @@
 	pixel_x = 0;
 	pixel_y = 64
 	},
+/obj/deco/supports,
 /turf/open/space,
 /area/space)
 "SJ" = (
@@ -8699,11 +8721,11 @@ Cg
 Cg
 Cg
 eC
-eC
-Cg
-Cg
-MS
-Cg
+RT
+RT
+RT
+RT
+RT
 RT
 RT
 RT
@@ -8817,22 +8839,22 @@ Zs
 Zs
 Zs
 Cg
-RT
-RT
-RT
-RT
-RT
-RT
-RT
-RT
-RT
-RT
-eM
-nQ
-nQ
-eM
-RT
-RT
+eC
+eC
+eC
+eC
+eC
+eC
+eC
+eC
+eC
+eC
+eC
+eC
+eC
+eC
+eC
+eC
 RT
 RT
 RT
@@ -8951,19 +8973,19 @@ Cg
 Cg
 Cg
 Cg
+eC
+eC
 RT
-RT
-RT
+Cg
+Cg
+Cg
+Cg
+Cg
+Cg
 eM
-ZM
-Zs
 eM
-RT
-RT
-RT
-RT
-RT
-RT
+eM
+Cg
 RT
 RT
 RT
@@ -9071,26 +9093,26 @@ Zs
 Zs
 Zs
 Cg
-Zs
-Zs
-Zs
-Zs
-Zs
-Zs
+yF
+tA
+yF
+nQ
+tA
+tA
 Cg
+eC
 RT
 RT
-RT
-eM
+Cg
+vh
+Zs
+iy
+Zs
+ON
 Zs
 Zs
-eM
-RT
-RT
-RT
-RT
-RT
-RT
+Hq
+Cg
 RT
 RT
 RT
@@ -9197,27 +9219,27 @@ Lp
 id
 Zs
 Zs
-Cg
-Zs
-Zs
-Zs
-Zs
-Zs
-Zs
+Hi
+yF
+tA
+yF
+nQ
+Lj
+tA
 Cg
 eC
 eC
 eC
 Cg
-ON
-MS
-Cg
-Cg
-Cg
-RT
-RT
-RT
-RT
+Zs
+Zs
+Zs
+Zs
+zA
+ZM
+Zs
+Hq
+zA
 RT
 RT
 RT
@@ -9324,27 +9346,27 @@ Lp
 cV
 Zs
 Zs
-Zs
-Zs
-Zs
-Zs
-Zs
-Zs
-Zs
+Hi
+tA
+tA
+tA
+nQ
+sw
+tA
 Cg
 eC
 eC
 eC
 Cg
-vh
+MS
 Zs
 Zs
 Zs
 Cg
-RT
-RT
-RT
-RT
+eM
+eM
+eM
+Cg
 RT
 RT
 RT
@@ -9451,13 +9473,13 @@ Lp
 Zs
 Zs
 Zs
-Cg
-Zs
-Zs
-Zs
-Zs
-Zs
-Zs
+Hi
+yF
+tA
+yF
+nQ
+sw
+tA
 Cg
 eC
 eC
@@ -9468,7 +9490,7 @@ Zs
 Zs
 Zs
 Cg
-RT
+eC
 RT
 RT
 RT
@@ -9579,12 +9601,12 @@ Zs
 Zs
 Zs
 Cg
-Zs
-Zs
-Zs
-Zs
-Zs
-Zs
+yF
+tA
+yF
+nQ
+tA
+tA
 Cg
 RT
 RT
@@ -9833,8 +9855,8 @@ Zs
 Zs
 Zs
 Cg
-RT
-RT
+eC
+eC
 RT
 RT
 RT
@@ -9960,13 +9982,13 @@ Zs
 Zs
 Zs
 Cg
-RT
+eC
 RT
 RT
 RT
 RT
 eC
-RT
+eC
 RT
 RT
 RT
@@ -10087,7 +10109,7 @@ Zs
 Zs
 Zs
 Cg
-RT
+eC
 RT
 RT
 RT
@@ -10103,7 +10125,7 @@ Zs
 Zs
 Zs
 Cg
-RT
+eC
 RT
 RT
 RT
@@ -10214,7 +10236,7 @@ Zs
 Zs
 Zs
 Cg
-RT
+eC
 RT
 RT
 eC
@@ -12002,7 +12024,7 @@ JJ
 gF
 Co
 HV
-ne
+Dn
 tI
 IS
 RT

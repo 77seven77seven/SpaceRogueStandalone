@@ -67,35 +67,55 @@
 				return FALSE
 			ParseEmote(copytext_char(msg, 2))
 		else
+			var/whispering = FALSE
+			if(first_char == "+" || first_char == "#")
+				whispering = TRUE
+				msg = copytext_char(msg, 2)
 			msg = SanitizeSpeech(msg)
 			msg = punctualize(capitalize(msg))
-			AnimatedSpeech(msg)
+			AnimatedSpeech(msg, do_bubble = !whispering, whispering = whispering)
 	else
 		if(world.time > timer)
-			for(var/mob/M in hearers(6, src))
+			for(var/mob/M in hearers(world.view, src))
+				if(istype(M, /mob/lobbyman))
+					continue
+				if(M.deaf)
+					continue
 				if(M.client)
 					var/icon/I = getFlatIcon(src, SOUTH)
 					M << "\icon[I] <b>[src]</b> wanted to say something, but \he changed \his mind."
 
-/mob/human/proc/AnimatedSpeech(message, sound_path = voice_file, pitch_override)
+/mob/human/proc/AnimatedSpeech(message, sound_path = voice_file, pitch_override, do_bubble = TRUE, whispering = FALSE)
 	set waitfor = FALSE
 	if(!message || !length(message))
 		return
 	if(!voice_freq)
 		GenerateVoice()
 
+	var/hear_range = VOICE_HEAR_RANGE
+
 	var/pitch = pitch_override || voice_freq
 	var/my_seq = ++voice_seq
 
-	for(var/mob/M in hearers(VOICE_HEAR_RANGE, src))
+	if(whispering)
+		hear_range = floor(hear_range / 2)
+
+	for(var/mob/M in hearers(hear_range, src))
+		if(istype(M, /mob/lobbyman))
+			continue
+		if(M.deaf)
+			continue
 		if(M.client)
 			var/icon/I = getFlatIcon(src, SOUTH)
-			M << "\icon[I] <b>[first_name] [last_name]</b> : \"<span style='color:[voice_color];font-family:Verdana'>[message]</span>\""
+			M << "\icon[I] <b>[first_name] [last_name]</b> : \"<span style='color:[voice_color];font-family:Verdana;font-size: [whispering ? "75%" : "100%"]'>[message]</span>\""
 
 	spawn(3)
 		var/obj/machine/microphone/mic = locate() in get_turf(src)
 		if(mic && mic?.on)
 			mic.speak_into(message)
+
+	if(!do_bubble)
+		return
 
 	if(voice_bubble)
 		vis_contents -= voice_bubble
@@ -188,7 +208,7 @@
 	if(emote_bubble)
 		vis_contents -= emote_bubble
 
-	cooldown("emote", 10 SECONDS)
+	cooldown("emote", 5 SECONDS)
 
 	var/mtet
 	WXH_TO_HEIGHT(client.MeasureText(message, null, VOICE_BUBBLE_WIDTH), mtet)
