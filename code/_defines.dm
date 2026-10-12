@@ -179,6 +179,14 @@
 		. = L[L.len]
 		L.len--
 
+//Removes any null entries from the list
+//Returns TRUE if the list had nulls, FALSE otherwise
+/proc/listclearnulls(list/L)
+	var/start_len = L.len
+	var/list/N = new(start_len)
+	L -= N
+	return L.len < start_len
+
 /proc/format_text(text)
 	return replacetext(replacetext(text,"\proper ",""),"\improper ","")
 
