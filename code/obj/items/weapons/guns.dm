@@ -128,6 +128,9 @@
 
 	shooter.ammo[ammo_type] = max(0, available - added)
 	ammo_loaded += added
+
+	playsound(get_turf(shooter), 'sound/effects/obj/guns/reload.ogg', 90, TRUE)
+
 	return TRUE
 
 /obj/item/gun/use(mob/human/H)
