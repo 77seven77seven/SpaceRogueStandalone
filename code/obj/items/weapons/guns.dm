@@ -38,7 +38,7 @@
 	var/fire_delay = 3                // deciseconds
 	var/next_fire = 0
 
-	var/tracers = FALSE
+	var/tracers = TRUE
 	var/pellets = 1
 	var/pellet_damage_multiplier = 1
 
@@ -105,8 +105,6 @@
 	spread_range = 3 * WORLD_ICON_SIZE
 	pellets = 8
 	accuracy = 0.8
-
-	tracers = TRUE
 
 /obj/item/gun/proc/CanFire(mob/shooter)
 	if(ammo_max > 0 && ammo_loaded <= 0)
@@ -200,7 +198,22 @@
 
 	var/pellet_hits = 0
 	var/headshot_hits = 0
+	var/list/blocked_hits = list() // bystander -> list("hits", "head")
 	for(var/list/impact in pellet_impacts)
+		// Indirect friendly fire: anyone standing in the line of fire catches the pellet.
+		var/list/block = FindBlocker(shooter, aimed_target, ox, oy, impact["x"], impact["y"])
+		if(block)
+			var/mob/human/blocker = block["mob"]
+			impact["x"] = block["x"] // tracer now ends at the body that stopped it
+			impact["y"] = block["y"]
+			var/list/record = blocked_hits[blocker]
+			if(!record)
+				record = list("hits" = 0, "head" = 0)
+				blocked_hits[blocker] = record
+			record["hits"]++
+			if(block["zone"] == "head")
+				record["head"]++
+			continue
 		if(aim_distance <= range && target != shooter && aimed_target && aimed_turf)
 			var/pellet_zone = aimed_target.GetHitZoneAt(impact["x"] - target_x, impact["y"] - target_y)
 			if(pellet_zone)
@@ -224,120 +237,216 @@
 
 	if(tracers)
 		for(var/list/impact in pellet_impacts)
-			new /obj/tracer(get_turf(shooter), ox, oy, impact["x"], impact["y"])
+			new /obj/bullet_tracer(get_turf(shooter), ox, oy, impact["x"], impact["y"])
 	if(ejects_casings)
 		new /atom/movable/casing(get_turf(shooter))
 		playsound(get_turf(shooter), 'sound/effects/obj/guns/casing.ogg', 65, TRUE)
 
 	if(istype(target, /mob/human) && pellet_hits)
-		var/mob/human/victim = target
-		var/hit_zone = headshot_hits ? "head" : "body"
-		var/pellet_damage = max(1, round(damage * pellet_damage_multiplier))
-		var/dmg = pellet_damage * pellet_hits
-		if(headshot_hits && !victim.brainsploded)
-			var/list/brainlines = list(
-			"EEEWWWWW!",
-			"I THINK I'M GOING TO BE SICK!!!",
-			"THAT'S DISGUSTING!!!",
-			"OH MY GOD THAT'S THEIR EVERYTHING!!!",
-			"Ourgh.. OURG! I'M GONNA PUKE!",
-			"Oh my God, oh my GOD! WHAT IS THAT?!"
-			)
-			
-			var/list/brainlines_psycho = list(
-			"Oh! Cool!",
-			"FIREWORKS!!",
-			"Now we can see what they really think!",
-			"The yeast of the mind!",
-			"Let me pick at their thoughts!",
-			"Penny for your thoughts? I'd gladly pay! Hehe.",
-			"Oooooh! I always wondered if it was pink or grey. Turns out its both!",
-			"Brilliant!"
-			)
-			
-			var/list/brainlines_minor = list(
-			"Not again...",
-			"I've cleaned up messes like this before... this won't be fun...",
-			"You could've aimed ANYWHERE else.",
-			"Unnecessary man... completely unnecessary.",
-			"Come on..."
-			)
+		ApplyHit(shooter, target, pellet_hits, headshot_hits)
+	for(var/mob/human/blocker in blocked_hits)
+		var/list/record = blocked_hits[blocker]
+		ApplyHit(shooter, blocker, record["hits"], record["head"])
 
-			for(var/mob/human/H in oviewers(victim))
-				if(!H.client)
-					continue
+/obj/item/gun/proc/ApplyHit(mob/shooter, mob/human/victim, pellet_hits, headshot_hits)
+	var/hit_zone = headshot_hits ? "head" : "body"
+	var/pellet_damage = max(1, round(damage * pellet_damage_multiplier))
+	var/dmg = pellet_damage * pellet_hits
+	if(headshot_hits && !victim.brainsploded)
+		var/list/brainlines = list(
+		"EEEWWWWW!",
+		"I THINK I'M GOING TO BE SICK!!!",
+		"THAT'S DISGUSTING!!!",
+		"OH MY GOD THAT'S THEIR EVERYTHING!!!",
+		"Ourgh.. OURG! I'M GONNA PUKE!",
+		"Oh my God, oh my GOD! WHAT IS THAT?!"
+		)
+		
+		var/list/brainlines_psycho = list(
+		"Oh! Cool!",
+		"FIREWORKS!!",
+		"Now we can see what they really think!",
+		"The yeast of the mind!",
+		"Let me pick at their thoughts!",
+		"Penny for your thoughts? I'd gladly pay! Hehe.",
+		"Oooooh! I always wondered if it was pink or grey. Turns out its both!",
+		"Brilliant!"
+		)
+		
+		var/list/brainlines_minor = list(
+		"Not again...",
+		"I've cleaned up messes like this before... this won't be fun...",
+		"You could've aimed ANYWHERE else.",
+		"Unnecessary man... completely unnecessary.",
+		"Come on..."
+		)
 
-				var/style = "bad"
-				var/mood = rand(20,40)
+		for(var/mob/human/H in oviewers(victim))
+			if(!H.client)
+				continue
 
-				var/line
+			var/style = "bad"
+			var/mood = rand(20,40)
 
-				switch(H?.mind?.mental_state)
-					if(MENTAL_STATE_DESENSITIZED)
-						mood = 0
-						line = pick(list("I just can't find a reason to care.","Okay.","Mhm. Do what you want.","Yeah..."))
-					if(MENTAL_STATE_BASELINE)
-						mood = rand(20,40)
-						line = pick(brainlines)
-					if(MENTAL_STATE_MILD)
-						mood = rand(5,20)
-						line = pick(brainlines_minor)
-					if(MENTAL_STATE_PSYCHO)
-						mood = rand(-20,-40)
-						line = pick(brainlines_psycho)
-						style = "good"
+			var/line
 
-				H.chat_info(line, style)
-				H.AdjustSorrow(mood)
+			switch(H?.mind?.mental_state)
+				if(MENTAL_STATE_DESENSITIZED)
+					mood = 0
+					line = pick(list("I just can't find a reason to care.","Okay.","Mhm. Do what you want.","Yeah..."))
+				if(MENTAL_STATE_BASELINE)
+					mood = rand(20,40)
+					line = pick(brainlines)
+				if(MENTAL_STATE_MILD)
+					mood = rand(5,20)
+					line = pick(brainlines_minor)
+				if(MENTAL_STATE_PSYCHO)
+					mood = rand(-20,-40)
+					line = pick(brainlines_psycho)
+					style = "good"
 
-			dmg += headshot_damage - pellet_damage
+			H.chat_info(line, style)
+			H.AdjustSorrow(mood)
 
-			var/sound = list('sound/effects/human/medical/headshot/headcrush (1).ogg', 'sound/effects/human/medical/headshot/headcrush (2).ogg', 'sound/effects/human/medical/headshot/headcrush (3).ogg', 'sound/effects/human/medical/headshot/headcrush (4).ogg','sound/effects/human/medical/headshot/headcrush (5).ogg','sound/effects/human/medical/headshot/headcrush (6).ogg','sound/effects/human/medical/headshot/headcrush (7).ogg')
-			playsound(get_turf(victim), pick(sound), 65, TRUE)
+		dmg += headshot_damage - pellet_damage
 
-			victim.AdjustBlood(-80) // Lots of blood in the head.
-			victim.AdjustBleeding(rand(10,30))
+		var/sound = list('sound/effects/human/medical/headshot/headcrush (1).ogg', 'sound/effects/human/medical/headshot/headcrush (2).ogg', 'sound/effects/human/medical/headshot/headcrush (3).ogg', 'sound/effects/human/medical/headshot/headcrush (4).ogg','sound/effects/human/medical/headshot/headcrush (5).ogg','sound/effects/human/medical/headshot/headcrush (6).ogg','sound/effects/human/medical/headshot/headcrush (7).ogg')
+		playsound(get_turf(victim), pick(sound), 65, TRUE)
 
-			var/dire = get_dir(get_turf(victim),get_turf(shooter))
-			dire = turn(dire, 180)
+		victim.AdjustBlood(-80) // Lots of blood in the head.
+		victim.AdjustBleeding(rand(10,30))
 
-			headshot_splatter(get_turf(victim), dire)
-			flick_overlay_view(image('icons/human/blood.dmi', victim, "bleed", MOB_LAYER + 0.1), victim, 6)
-			for(var/i in 1 to 31)
-				new /atom/movable/blood/splatter(get_turf(victim), victim)
+		var/dire = get_dir(get_turf(victim),get_turf(shooter))
+		dire = turn(dire, 180)
 
-			victim.go_blind(1,40)
+		headshot_splatter(get_turf(victim), dire)
+		flick_overlay_view(image('icons/human/blood.dmi', victim, "bleed", MOB_LAYER + 0.1), victim, 6)
+		for(var/i in 1 to 31)
+			new /atom/movable/blood/splatter(get_turf(victim), victim)
 
-			victim.filters = filter(type="displace", icon=icon('icons/human/blood.dmi',"headshot_displacement_map"), size=13)
-			victim.brainsploded = TRUE // His brain 'sploded!
-		var/amplitude = min(4, (dmg/100) + 1)
-		var/pixel_x_diff = ceil(rand(-amplitude, amplitude))
-		var/pixel_y_diff = ceil(rand(-amplitude/3, amplitude/2))
-		animate(victim, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
-		animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE)
+		victim.go_blind(1,40)
 
-		victim.TakeDamage(dmg, "[shooter] - [hit_zone]")
-		if(headshot_hits && !victim.dead)
-			victim.AdjustBrainDamage(headshot_hits * 3)
-		victim.bleed_effect()
+		victim.filters = filter(type="displace", icon=icon('icons/human/blood.dmi',"headshot_displacement_map"), size=13)
+		victim.brainsploded = TRUE // His brain 'sploded!
+	var/amplitude = min(4, (dmg/100) + 1)
+	var/pixel_x_diff = ceil(rand(-amplitude, amplitude))
+	var/pixel_y_diff = ceil(rand(-amplitude/3, amplitude/2))
+	animate(victim, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
+	animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE)
 
-		victim.AdjustBleeding(rand(1,10))
+	victim.TakeDamage(dmg, "[shooter] - [hit_zone]")
+	if(headshot_hits && !victim.dead)
+		victim.AdjustBrainDamage(headshot_hits * 3)
+	victim.bleed_effect()
 
-		if(prob(dmg))
-			victim.SetRagdolled(TRUE)
+	victim.AdjustBleeding(rand(1,10))
 
-		if(prob(40))
-			if(victim.shrapnel < victim.max_shrapnel)
-				victim.shrapnel++
+	if(prob(dmg))
+		victim.SetRagdolled(TRUE)
 
-		if(prob(rand(1,35)))
-			if(victim.blood)
-				new /atom/movable/blood/splatter(get_turf(victim), victim)
+	if(prob(40))
+		if(victim.shrapnel < victim.max_shrapnel)
+			victim.shrapnel++
 
-		if(prob(50))
-			if(victim.broke_bones < victim.bones)
-				victim.broke_bones++
-				victim.AdjustBleeding(rand(7,13))
+	if(prob(rand(1,35)))
+		if(victim.blood)
+			new /atom/movable/blood/splatter(get_turf(victim), victim)
+
+	if(prob(50))
+		if(victim.broke_bones < victim.bones)
+			victim.broke_bones++
+			victim.AdjustBleeding(rand(7,13))
+
+
+// Walks the pellet's path (muzzle -> impact) and returns the first living human standing in it.
+// Returns list("mob", "x", "y", "zone") or null.
+/obj/item/gun/proc/FindBlocker(mob/shooter, atom/movable/ignore, x1, y1, x2, y2)
+	var/sx = x2 - x1
+	var/sy = y2 - y1
+	var/seg_len_sq = sx * sx + sy * sy
+	if(seg_len_sq < 1)
+		return null
+	var/seg_len = sqrt(seg_len_sq)
+
+	var/mob/human/best
+	var/best_t = 2
+	var/best_x
+	var/best_y
+	var/best_zone
+
+	for(var/mob/human/M in range(ceil(seg_len / WORLD_ICON_SIZE) + 1, shooter))
+		if(M == shooter || M == ignore || M.dead || !isturf(M.loc))
+			continue
+		var/mx = (M.x - 1) * WORLD_ICON_SIZE + M.step_x
+		var/my = (M.y - 1) * WORLD_ICON_SIZE + M.step_y
+		var/cx = mx + WORLD_ICON_SIZE / 2
+		var/cy = my + WORLD_ICON_SIZE / 2
+
+		// Part of the segment that passes near this mob.
+		var/t_center = ((cx - x1) * sx + (cy - y1) * sy) / seg_len_sq
+		var/half_t = (WORLD_ICON_SIZE * 0.75) / seg_len
+		var/t_start = max(0, t_center - half_t)
+		var/t_end = min(1, t_center + half_t)
+		if(t_end <= t_start || t_start >= best_t)
+			continue
+
+		// Sample along the path and ask the mob's hitbox whether it was touched.
+		var/step_t = 4 / seg_len
+		for(var/st = t_start, st <= t_end, st += step_t)
+			if(st >= best_t)
+				break
+			var/px = x1 + sx * st
+			var/py = y1 + sy * st
+			var/zone = M.GetHitZoneAt(px - mx, py - my)
+			if(zone)
+				best = M
+				best_t = st
+				best_x = px
+				best_y = py
+				best_zone = zone
+				break
+
+	if(!best)
+		return null
+	return list("mob" = best, "x" = best_x, "y" = best_y, "zone" = best_zone)
+
+// A thin line from muzzle to impact that fades out almost instantly.
+/obj/bullet_tracer
+	mouse_opacity = 0
+	layer = FLY_LAYER
+	appearance_flags = PIXEL_SCALE
+	var/global/icon/bullet_tracer_icon
+
+/obj/bullet_tracer/New(newloc, x1, y1, x2, y2)
+	..(newloc)
+	if(!bullet_tracer_icon)
+		// Blank the tile, then draw a 2px line across its full width.
+		var/icon/I = icon('icons/obj/abstract/effects.dmi', "tracer", SOUTH, 1)
+		I.DrawBox(null, 1, 1, WORLD_ICON_SIZE, WORLD_ICON_SIZE)
+		I.DrawBox("#fff6c8", 1, WORLD_ICON_SIZE / 2, WORLD_ICON_SIZE, WORLD_ICON_SIZE / 2 + 1)
+		bullet_tracer_icon = I
+	icon = bullet_tracer_icon
+
+	var/dx = x2 - x1
+	var/dy = y2 - y1
+	var/len = max(1, sqrt(dx * dx + dy * dy))
+	var/turf/T = get_turf(src)
+	if(!T)
+		qdel(src)
+		return
+
+	// Centre the stretched icon on the midpoint of the shot.
+	pixel_x = (x1 + x2) / 2 - ((T.x - 1) * WORLD_ICON_SIZE + WORLD_ICON_SIZE / 2)
+	pixel_y = (y1 + y2) / 2 - ((T.y - 1) * WORLD_ICON_SIZE + WORLD_ICON_SIZE / 2)
+
+	var/matrix/M = matrix()
+	M.Scale(len / WORLD_ICON_SIZE, 1)
+	M.Turn(-arctan(dx, dy))
+	transform = M
+
+	alpha = 230
+	animate(src, alpha = 0, time = 3, easing = SINE_EASING)
+	QDEL_IN(src, 3)
 
 /client/Click(atom/object, location, control, params)
 	var/mob/human/H = mob
