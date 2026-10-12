@@ -338,6 +338,9 @@ var/list/used_loop_channels = list()
 	desc_expansive = "Maybe in the future you'll be able to tune this to specific stations. But today? Something tells you that the knobs are too stuck to rotate. Oof."
 	droprot = FALSE
 
+	vendor_name = "RDIO"
+	vendor_price = 81
+
 	var/datum/looping_sound/music
 
 /obj/item/deco/radio/Initialize()

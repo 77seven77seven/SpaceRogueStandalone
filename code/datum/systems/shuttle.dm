@@ -138,7 +138,7 @@
 		var/xp_reward = 0
 		var/mus_file
 
-		if(user.mind.goal.IsCompleted())
+		if(user.mind.goal?.IsCompleted())
 			title.icon_state = "success"
 			line = "You've completed your goal. Congratulations! Most people don't get this far. But what matters now, is that you can finally move on."
 			mus_file = 'sound/music/success.ogg'

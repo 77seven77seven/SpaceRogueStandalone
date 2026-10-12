@@ -148,7 +148,7 @@
 
 /datum/role/technician
 	title = "Technician"
-	desc = "You're an on-site technician working for CHEZ. You're insured, and your job mostly consists of restocking the vending machines, and ordering items through the pipeline for anyone that might be willing to import something. Sometimes, you're gonna find yourself in space finding things to salvage for recycling."
+	desc = "You're an on-site technician working for CHEZ. You're insured, and your job mostly consists of restocking the vending machines, and ordering items through the telepad for anyone that might be willing to buy things from you.. Or you know, just for yourself."
 	cost = 2
 
 	total_positions = 2
@@ -183,6 +183,11 @@
 
 /datum/role/medicaloid/equip(mob/human/H)
 	. = ..()
+
+	if(H.mind.mental_state == MENTAL_STATE_BASELINE)
+		H.mind.mental_state = MENTAL_STATE_MILD
+		if(prob(0.5))
+			H.mind.mental_state = MENTAL_STATE_PSYCHO
 	
 	var/med_badge = image('icons/clothing/accessories.dmi', H, "medi_badge", MOB_LAYER + 0.01)
 	H.overlays += med_badge

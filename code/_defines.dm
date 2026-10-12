@@ -123,6 +123,7 @@
 #define MEDI "MEDICINE"
 #define ENCY "ENCYCLOPEDIA"
 #define FORI "FORENSICS"
+#define SHIV "SHIVERS"
 #define MUSI "MUSIC"
 #define MYST "???" // Psionics
 

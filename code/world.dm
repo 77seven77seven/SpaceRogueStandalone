@@ -190,7 +190,18 @@ proc/find_common_entry(list/list1, list/list2)
 		. = list_to_pick[picked]
 		list_to_pick.Cut(picked,picked+1) //Cut is far more efficient that Remove()
 
-/proc/get_me_a_goal(is_dissident = FALSE)
+/proc/goal_excludes_role(goal_type, datum/role/role_to_exclude)
+	if(!role_to_exclude)
+		return FALSE
+
+	var/datum/goal/G = goal_type
+	for(var/excluded_role in initial(G.excluded_roles))
+		if(istype(role_to_exclude, excluded_role))
+			return TRUE
+
+	return FALSE
+
+/proc/get_me_a_goal(is_dissident = FALSE, datum/role/role_to_exclude = null)
 	var/list/possible = list()
 	for(var/goal_type in subtypesof(/datum/goal) - /datum/goal/antag)
 		var/datum/goal/G = goal_type
@@ -198,6 +209,8 @@ proc/find_common_entry(list/list1, list/list2)
 		if(weight <= 0)
 			continue
 		if(initial(G.special))
+			continue
+		if(goal_excludes_role(goal_type, role_to_exclude))
 			continue
 		if(is_dissident)
 			if(!initial(G.antag))

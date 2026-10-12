@@ -814,16 +814,22 @@
 	chat_info("You are <b>[uppertext("[first_name] [last_name]")]</b>, the <b>[uppertext(mind.current_job.title)]</b>.")
 	chat_info("[mind.current_job.desc]\n")
 
-	chat_info("Your goal is: <b>[mind.goal]</b>")
-	chat_info("[mind.goal.desc] ([mind.goal.award] XP)")
+	if(mind.goal)
+		chat_info("Your goal is: <b>[mind.goal]</b>")
+		chat_info("[mind.goal.desc] ([mind.goal.award] XP)")
+	else
+		chat_info("No personal goal is available for your role.")
 
 	if(mind.dissident) // dissidence welcomings flavor text
 		spawn(5) SEND_SOUND(client, sound('sound/music/violent_terms.ogg', volume = 75))
 
 		chat_info("\n<b>----@#$%&!-------#$%---!!!HAAHAHAHHA---</b>\n","bad")
 		chat_info("TRANSMISSION DECRYPTED, COURTESY OF THE <b>[pick("BLIND EYES OF A COWARD","MISTAKES IN THE MAKING","GUN TO MOUTH, FINGER TO TRIGGER","CRYING ANGELS","RENNE DANG TOMBOLA","ONES FREED FROM DESIRE","PURE ROTTEN LIGHT","TAK-TAK-TAKYON","GOLDEN BROWNS","REMNANTS OF THE AMERICANO DREAM","HUDSON AND ASSOCIATES","GUROFRIENDS","SERVANTS OF PICASSO","OKTOBERKLUB","VIOLENT TERMS","CZECHOSLOVAK LEGION OF FREEDOM FORCES","PSYCHIC WARS VETERAN'S CLUB","FREE GREEN YOUTH","KABAT","SHKWOR","DARK SABBATH-ON","SPACE CADETS","MAINLINE EXILES","EAST SIDE MILITIA")]!\n</b>","bad")
-		chat_info("<b>[pick("INTERNAL ARMISTICE!","HAVE YOU EVER SEEN THE BIRTH OF A STAR?!","FAR FAR FAR, FAR AWAY FROM THE FAME!","WE STILL REMEMBER YOUR NAME!","YOU ARE OUR GUIDE!","OUR PRIDE!","WE SHALL MOURN THE DAY YOU DIE!","TRYING TO DEFY THE EMPOWERED!","LITTLE FIRE THAT THEY CAN'T PUT OUT!","FETCH ME A BUCKET, THIS IS ABOUT TO BLOW!", "ONE DAY YOU'LL LEAVE THIS WORLD BEHIND!","LIFE IN IVORY BLACK!","MAYBE YOU SHOULD CONSIDER... MORE VIOLENT TERMS?!","RING RING GOES THE TELEPHONE... I'M HANGING UP ON YOU!!")]</b>, YOUR MISSION IS: <b>[uppertext(mind.special_goal)]</b>","bad")
-		chat_info("[mind.special_goal.desc] ([mind.special_goal.award] XP)","bad")
+		if(mind.special_goal)
+			chat_info("<b>[pick("INTERNAL ARMISTICE!","HAVE YOU EVER SEEN THE BIRTH OF A STAR?!","FAR FAR FAR, FAR AWAY FROM THE FAME!","WE STILL REMEMBER YOUR NAME!","YOU ARE OUR GUIDE!","OUR PRIDE!","WE SHALL MOURN THE DAY YOU DIE!","TRYING TO DEFY THE EMPOWERED!","LITTLE FIRE THAT THEY CAN'T PUT OUT!","FETCH ME A BUCKET, THIS IS ABOUT TO BLOW!", "ONE DAY YOU'LL LEAVE THIS WORLD BEHIND!","LIFE IN IVORY BLACK!","MAYBE YOU SHOULD CONSIDER... MORE VIOLENT TERMS?!","RING RING GOES THE TELEPHONE... I'M HANGING UP ON YOU!!")]</b>, YOUR MISSION IS: <b>[uppertext(mind.special_goal)]</b>","bad")
+			chat_info("[mind.special_goal.desc] ([mind.special_goal.award] XP)","bad")
+		else
+			chat_info("No dissident mission is available for your role.","bad")
 	else
 		if(client.dissidence_preference)
 			chat_info("\nYou FAILED the roll for becoming a dissident. <b>[pick("Better luck next time.","I'm sure you'll get to be a bad guy next time.","Aww... is someone sad? Don't worry.","Time to KILL people- Oh, we didn't get it? Oh. Okay.")]</b>","bad")
@@ -937,20 +943,27 @@
 	if(!voice_freq)
 		GenerateVoice()
 
+	var/new_goal
 	if(istype(R.special_role_goal) && prob(R.special_role_goal_prob))
-		var/new_goal
 		if(islist(R.special_role_goal))
-			new_goal = pick(R.special_role_goal)
+			var/list/eligible_special_goals = list()
+			for(var/special_goal_type in R.special_role_goal)
+				if(!goal_excludes_role(special_goal_type, R))
+					eligible_special_goals += special_goal_type
+			if(eligible_special_goals.len)
+				new_goal = pick(eligible_special_goals)
 		else
-			new_goal = R.special_role_goal
-		mind.goal = new new_goal()
-	else
-		var/new_goal = get_me_a_goal()
+			if(!goal_excludes_role(R.special_role_goal, R))
+				new_goal = R.special_role_goal
+	if(!new_goal)
+		new_goal = get_me_a_goal(FALSE, R)
+	if(new_goal)
 		mind.goal = new new_goal()
 	
 	if(is_dissident)
-		var/new_special_goal = get_me_a_goal(is_dissident)
-		mind.special_goal = new new_special_goal()
+		var/new_special_goal = get_me_a_goal(is_dissident, R)
+		if(new_special_goal)
+			mind.special_goal = new new_special_goal()
 		mind.dissident = TRUE
 
 	for(var/datum/quirk/Q in mind.quirks)

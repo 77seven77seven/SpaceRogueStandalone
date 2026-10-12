@@ -12,6 +12,7 @@
 
 	var/vendor_name // Optional short vendor label; generated from the item name when unset.
 	var/vendor_price = -1 // Generic price to buy from a vendor. It's at a strange value for easy bugfinding.
+	var/buy_rollable = TRUE // Can this item be rolled in the Technician's machine? Will invent a random vendor_price if it does.
 
 	var/storable = TRUE // Can it be put into the inventory?
 	var/stored = FALSE

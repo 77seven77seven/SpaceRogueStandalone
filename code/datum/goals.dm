@@ -8,11 +8,14 @@
 	var/award = 1 // XP
 	var/rarity = GOAL_RARITY_BASIC // Lower the number, the higher the rarity.
 
+	var/completed = FALSE // Stupid, stupid, STUPID!
+
 	var/antag = FALSE // Able to be rolled for antagonists.
 	var/special = FALSE // Can only be assigned manually.
+	var/list/excluded_roles = list() // Role types that cannot receive this goal.
 
 /datum/goal/proc/IsCompleted()
-	return FALSE
+	return src.completed
 
 /datum/goal/leisure
 	name = "Leisure"
@@ -21,6 +24,11 @@
 
 /datum/goal/leisure/IsCompleted()
 	return TRUE
+
+/datum/goal/paidactor // Different flavor text for accidentally killing them. "DAMN IT I WAS AIMING FOR THE EAR!"
+	name = "Paid Actor"
+	desc = "Shoot the Director once, without killing them, and get away with it." // The director will be rewarded 5000$ upon being shot and will be notified of your arrival.
+	award = 6
 
 /datum/goal/antag
 	antag = TRUE

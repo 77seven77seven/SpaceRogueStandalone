@@ -43,3 +43,11 @@
 	"}
 	)
 	popup.open()
+
+/obj/machine/infoboard
+	name = "infoboard"
+	desc = "A bigger version of an infoterminal. This one seems to be linked to a newsfeed of sorts."
+	desc_expansive = "A keepsake of any self-respecting space station. I'd just be repeating myself for the infoterminal knowledge. Look at that, if you want. I'm tired."
+
+	icon = 'icons/obj/terminals/terminals_128x64.dmi'
+	icon_state = "boardscreen"
