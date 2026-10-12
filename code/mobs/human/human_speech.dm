@@ -58,15 +58,16 @@
 	var/timer = world.time + 60
 	var/msg = input(src, null, null) as null|text
 
-	var/first_char = copytext(msg, 1, 2)
+	var/first_char = copytext_char(msg, 1, 2)
 
 	if(msg || msg != "")
-		msg = trim(copytext(sanitize(msg), 1, MAX_MESSAGE_LEN))
+		msg = trim(copytext_char(sanitize(msg), 1, MAX_MESSAGE_LEN))
 		if(first_char == "*")
 			if(on_cooldown("emote"))
 				return FALSE
-			ParseEmote(copytext(msg, 2))
+			ParseEmote(copytext_char(msg, 2))
 		else
+			msg = SanitizeSpeech(msg)
 			msg = punctualize(capitalize(msg))
 			AnimatedSpeech(msg)
 	else
@@ -115,14 +116,14 @@
 
 	var/shown = ""
 	var/blip_count = 0
-	for(var/i = 1, i <= length(message), i++)
+	for(var/i = 1, i <= length_char(message), i++)
 		if(voice_seq != my_seq)
 			vis_contents -= bubble
 			if(voice_bubble == bubble)
 				voice_bubble = null
 			return
 
-		var/ch = copytext(message, i, i + 1)
+		var/ch = copytext_char(message, i, i + 1)
 		shown += ch
 
 		bubble.maptext = "<span style='color:[voice_color];background-color: #23232391;text-align:center;font-family:Verdana;font-size:14px'>[shown]</span>"

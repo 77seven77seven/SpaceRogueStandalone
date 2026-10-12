@@ -57,6 +57,23 @@
 /proc/sanitize(t,list/repl_chars = null)
 	return html_encode(sanitize_simple(t,repl_chars))
 
+/proc/SanitizeSpeech(message, max_len = MAX_MESSAGE_LEN)
+	if(!istext(message))
+		return ""
+
+	// Compiled once, reused on every call
+	var/static/regex/tags = regex(@{"<[^>]*>?"}, "g")
+	var/static/regex/urls = regex(@{"(?:https?://|www\.|byond://)\S+|\b[\w-]+\.(?:com|net|org|io|gg|co|me|tv|xyz)\b\S*"}, "gi")
+	var/static/regex/bad_chars = regex(@{"[^A-Za-z0-9 .,!?'":;()\-]"}, "g")
+	var/static/regex/extra_space = regex(@{"\s{2,}"}, "g")
+
+	message = replacetext(message, tags, "")       // <b>, </span>, half-typed "<scr..."
+	message = replacetext(message, urls, "")       // links
+	message = replacetext(message, bad_chars, "")  // anything not normal speech
+	message = replacetext(message, extra_space, " ")
+	message = trim(copytext_char(message, 1, max_len + 1))
+	return message
+
 //Runs sanitize and strip_html_simple
 //I believe strip_html_simple() is required to run first to prevent '<' from displaying as '&lt;' after sanitize() calls byond's html_encode()
 /proc/strip_html(t,limit=MAX_MESSAGE_LEN)
