@@ -186,15 +186,15 @@ html, body {
 }
 
 .quirks ul {
-	display: inline;
-	margin: 0 0 0 8px;
-	padding: 0;
-	list-style: none;
+	display: block;
+	margin: 2px 0 0;
+	padding-left: 20px;
+	list-style: disc;
 }
 
 .quirks li {
-	display: inline;
-	margin-right: 6px;
+	display: list-item;
+	margin: 0;
 }
 
 .xp {
