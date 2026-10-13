@@ -31,6 +31,7 @@
 	
 	var/datum/role/chosing_job
 	var/list/datum/quirk/quirks = list()
+	var/menu_message = ""
 
 /mob/lobbyman/Move(NewLoc, Dir, step_x, step_y)
 	return FALSE
@@ -45,7 +46,6 @@
 /mob/lobbyman/Login()
 	. = ..()
 	UpdateMainMenu()
-	winshow(src, "main_menu", TRUE)
 
 /mob/lobbyman/proc/roll_dissidence()
 	if(client.dissidence_preference)
@@ -63,99 +63,73 @@
 	if(!quirks.len)
 		quirkozas = "<li>None.</li>"
 
-	var/information_browser = {"
-	<html>
-		<body>
-		<b>CHOSEN ROLE:</b> [chosing_job ? chosing_job.title : "Nobody"]!
-
-		<br><br>
-
-		<b>DESCRIPTION:</b> [chosing_job ? chosing_job.desc : "Not a job in sight! Click an open job slot on the left!"]
-
-		<br><br>
-
-		<b>Your quirks are:</b>
-		[quirkozas]
-		<br>
-
-		<b>YOUR XP:</b> [client.xp]
-		</body>
-	</html>
-	"}
-
 	var/roles = ""
-
 	for(var/datum/role/R in master.all_occupations)
 		if(R.total_positions > 0 && R.probability)
-			roles += "<br>"
-			roles += "<a href='byond://?src=[REF(src)];role=[R.type]'>[uppertext(R.title)] ([R.current_positions]/[R.total_positions]) [R.cost ? "([R.cost] XP)" : null]</a>"
-			roles += "<br>"
+			roles += "<a class='role' href='byond://?src=[REF(src)];role=[R.type]'>[uppertext(R.title)] ([R.current_positions]/[R.total_positions])[R.cost ? " ([R.cost] XP)" : null]</a>"
 
-	var/roles_browser = {"
-	<html>
-		<head>
-			<style>
-				div.menu {
-					font-size: 9px;
-				}
+	var/quirk_button_text = "GET QUIRK"
+	if(quirks.len == 1)
+		quirk_button_text = client.xp >= 1 ? "DOUBLE QUIRK (1 XP)" : "NEED 1 XP"
+	else if(quirks.len == 2)
+		quirk_button_text = client.xp >= 2 ? "TRIPLE QUIRK (2 XP)" : "NEED 2 XP"
+	else if(quirks.len >= 3)
+		quirk_button_text = "QUIRK LIMIT REACHED"
 
-				body {
-					overflow: hide;
-					overflow-y: hidden;
-					overflow-x: hidden;
-				}
-			</style>
-		</head>
-
-		<body>
-		<div style="height:256px;overflow:auto;" class="menu">
-
-		[roles]
-
+	var/role_title = chosing_job ? chosing_job.title : "Nobody"
+	var/role_description = chosing_job ? chosing_job.desc : "Not a job in sight! Click an open job slot on the left!"
+	var/join_text = chosing_job ? "JOIN!" : (menu_message ? menu_message : "PICK A ROLE!")
+	var/join_class = chosing_job ? "button join" : "button join unavailable"
+	var/presentation_text = "EITHER"
+	if(client.presentation_preference == MALE)
+		presentation_text = "MALE"
+	else if(client.presentation_preference == FEMALE)
+		presentation_text = "FEMALE"
+	var/menu = {"
+		<div class="menu">
+			<div class="title">Fringe Sector</div>
+			<div class="join-row"><a class="[join_class]" href="byond://?src=[REF(src)];action=join">[join_text]</a></div>
+			<div class="section-label roles-label">WHO ARE YOU?</div>
+			<div class="section-label info-label">INFORMATION</div>
+			<div class="dissident-cell">
+				<a class="button" href="byond://?src=[REF(src)];action=dissident">DISSIDENT: [client.dissidence_preference ? "YES" : "NO"]</a>
+			</div>
+			<div class="role-list">[roles]</div>
+			<div class="information">
+				<div class="role-name"><b>CHOSEN ROLE:</b> [role_title]!</div>
+				<div class="description"><b>DESCRIPTION:</b> [role_description]</div>
+				<div class="quirks"><b>Your quirks are:</b><ul>[quirkozas]</ul></div>
+				<div class="xp"><b>YOUR XP:</b> [client.xp]</div>
+			</div>
+			<div class="footer">
+				<span class="button codex">CODEX</span>
+				<a class="button get-quirk" href="byond://?src=[REF(src)];action=quirk">[quirk_button_text]</a>
+				<a class="button gender" href="byond://?src=[REF(src)];action=gender">PRESENTATION: [presentation_text]</a>
+			</div>
 		</div>
-		</body>
-	</html>
 	"}
 
-	src << output(information_browser, "main_menu.information_browser")
-	src << output(roles_browser, "main_menu.roles_browser")
+	var/datum/popup/menu_popup = new /datum/popup/noclose(src, "main_menu", "Main Menu", 800, 540)
+	menu_popup.seen_enough = FALSE
+	menu_popup.set_window_options("can_close=0;can_minimize=0;can_maximize=0;can_resize=1;titlebar=1;")
+	menu_popup.add_stylesheet("lobby", 'interface/lobby.css')
+	menu_popup.set_content(menu)
+	menu_popup.open(FALSE)
 
 /mob/lobbyman/verb/toggle_dissident()
 	set name = ".toggledissident"
 
+	client.dissidence_preference = !client.dissidence_preference
 	UpdateMainMenu()
-
-	if(winget(src, "main_menu", "is-visible"))
-		var/plist[0]
-
-		if(client.dissidence_preference)
-			plist["text"] = "DISSIDENT: NO"
-			plist["text-color"] = "#000f"
-		else
-			plist["text"] = "DISSIDENT: YES"
-			plist["text-color"] = "#f00f"
-		client.dissidence_preference = !client.dissidence_preference
-		//world << "[client.dissidence_preference]"
-
-		winset(src, "main_menu.dissident", list2params(plist))
 	
 /mob/lobbyman/verb/toggle_gender()
 	set name = ".togglegender"
 
+	if(client.presentation_preference == NEUTER || client.presentation_preference == FEMALE)
+		client.presentation_preference = MALE
+	else
+		client.presentation_preference = FEMALE
 	UpdateMainMenu()
-
-	if(winget(src, "main_menu", "is-visible"))
-		var/plist[0]
-
-		if(client.presentation_preference == NEUTER || client.presentation_preference == FEMALE)
-			plist["text"] = "PRESENTATION: MALE"
-			client.presentation_preference = MALE
-		else
-			plist["text"] = "PRESENTATION: FEMALE"
-			client.presentation_preference = FEMALE
-		//world << "[client.presentation_preference]"
-
-		winset(src, "main_menu.gender", list2params(plist))
 
 /mob/lobbyman/proc/GetQuirk()
 	var/list/available_quirks = subtypesof(/datum/quirk)
@@ -184,77 +158,66 @@
 /mob/lobbyman/verb/get_quirk()
 	set name = ".getquirk"
 
-	if(winget(src, "main_menu", "is-visible"))
-		var/plist[0]
-
-		// GET QUIRK
-
-		switch(quirks.len)
-			if(0)
-				// we have no quirks! add one!
-				plist["text"] = "DOUBLE QUIRK (1 XP)"
+	switch(quirks.len)
+		if(0)
+			GetQuirk()
+		if(1)
+			if(client.xp >= 1)
+				client.xp -= 1
 				GetQuirk()
-			if(1)
-				// we have 1 quirk! double quirk time! 1 XP
-				
-				if(client.xp >= 1)
-					client.xp -= 1
-					
-					plist["text"] = "TRIPLE QUIRK (2 XP)"
-					GetQuirk()
-			if(2)
-				// daring today are we? triple quirk? 2 XP
-				if(client.xp >= 2)
-					client.xp -= 2
-
-					plist["text"] = "QUIRK LIMIT REACHED"
-					plist["text-color"] = "#f00f"
-					GetQuirk()
-
-		winset(src, "main_menu.get_quirk", list2params(plist))
+		if(2)
+			if(client.xp >= 2)
+				client.xp -= 2
+				GetQuirk()
 	UpdateMainMenu()
 
 /mob/lobbyman/verb/join_game()
 	set name = ".join"
 
-	if(winget(src, "main_menu", "is-visible"))
-		if(!chosing_job)
-			return
+	if(!chosing_job)
+		return
 
-		if(chosing_job.cost > client.xp || chosing_job.current_positions >= chosing_job.total_positions)
-			return
+	if(chosing_job.cost > client.xp || chosing_job.current_positions >= chosing_job.total_positions)
+		return
 
-		winshow(src, "main_menu", FALSE)
+	src << browse(null, "window=main_menu")
 
-		client.xp -= chosing_job.cost
+	client.xp -= chosing_job.cost
 
-		var/dissidence = roll_dissidence()
+	var/dissidence = roll_dissidence()
 
-		var/mob/human/H = new
-		H.ckey = ckey
-		H.Initialize_Humanity(quirks, chosing_job.get_skills(), chosing_job, dissidence)
-		H.DoSpawnEffects()
+	var/mob/human/H = new
+	H.ckey = ckey
+	H.Initialize_Humanity(quirks, chosing_job.get_skills(), chosing_job, dissidence)
+	H.DoSpawnEffects()
 
-		qdel(src)
+	qdel(src)
 	
 /mob/lobbyman/Topic(href, href_list)
 	if(href_list["role"])
 		var/datum/role/J = master.GetJobType(text2path(href_list["role"]))
-		var/plist[0]
 
 		chosing_job = null
 
-		if(J.cost > client.xp)
-			plist["text"] = "INSUFFICIENT XP!"
-			plist["text-color"] = "#f00f"
+		if(!J)
+			menu_message = "ROLE NOT AVAILABLE!"
+		else if(J.cost > client.xp)
+			menu_message = "INSUFFICIENT XP!"
 		else if(J.current_positions >= J.total_positions)
-			plist["text"] = "ROLE IS FULL!"
-			plist["text-color"] = "#f00f"
+			menu_message = "ROLE IS FULL!"
 		else
-			plist["text"] = "JOIN!"
-			plist["text-color"] = "#000f"
-			
 			chosing_job = J
+			menu_message = ""
+	else if(href_list["action"])
+		switch(href_list["action"])
+			if("join")
+				join_game()
+			if("dissident")
+				toggle_dissident()
+			if("gender")
+				toggle_gender()
+			if("quirk")
+				get_quirk()
 
-		winset(src, "main_menu.join_button", list2params(plist))
-	UpdateMainMenu()
+	if(href_list["role"])
+		UpdateMainMenu()
