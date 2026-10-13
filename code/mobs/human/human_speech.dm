@@ -76,7 +76,7 @@
 			AnimatedSpeech(msg, do_bubble = !whispering, whispering = whispering)
 	else
 		if(world.time > timer)
-			for(var/mob/M in hearers(world.view, src))
+			for(var/mob/M in viewers(world.view, src))
 				if(istype(M, /mob/lobbyman))
 					continue
 				if(M.deaf)

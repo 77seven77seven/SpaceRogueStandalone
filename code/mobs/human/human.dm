@@ -394,7 +394,7 @@
 		"Doesn't matter. Does it?"
 	)
 
-	for(var/mob/human/H in oviewers(src))
+	for(var/mob/human/H in oviewers(world.view, src))
 		if(!H.client)
 			continue
 
@@ -1000,6 +1000,27 @@
 
 		var/matrix/M = matrix()
 		M.Scale(1.2,1.2)
+
+		if(istype(holding, /obj/item/gun))
+			var/atom/movable/effect = new(get_turf(src))
+			effect.layer = MOB_LAYER + 0.1
+			effect.icon = 'icons/obj/abstract/effects.dmi'
+			effect.icon_state = "exclamation"
+
+			var/matrix/turna = matrix()
+			turna.Turn(10)
+			turna.Scale(3,3)
+			animate(effect, 3 SECONDS, transform = turna, alpha = 0, easing = QUAD_EASING|EASE_OUT)
+			QDEL_IN(effect, 3 SECONDS)
+
+			playsound(get_turf(src), 'sound/effects/obj/guns/aim.ogg', 75)
+
+			for(var/mob/hearer in viewers(world.view, src))
+				if(istype(hearer, /mob/lobbyman))
+					continue
+				if(hearer.client)
+					var/icon/I = getFlatIcon(src, SOUTH)
+					hearer << "\icon[I] <b>[src]</b> readies their firearm."
 
 		playsound_local(get_turf(src), 'sound/effects/senses/combat_on.ogg', 100)
 

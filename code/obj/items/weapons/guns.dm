@@ -284,7 +284,7 @@
 		"Come on..."
 		)
 
-		for(var/mob/human/H in oviewers(victim))
+		for(var/mob/human/H in oviewers(world.view, victim))
 			if(!H.client)
 				continue
 
