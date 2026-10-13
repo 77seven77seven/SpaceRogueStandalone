@@ -170,8 +170,8 @@
 	pixel_y = -60;
 	pixel_x = 3
 	},
-/obj/deco/trashcan{
-	pixel_x = 15;
+/obj/deco/plant{
+	pixel_x = 17;
 	pixel_y = 3
 	},
 /turf/open/floor,
@@ -600,10 +600,8 @@
 /turf/open/floor,
 /area/station/corporate)
 "pz" = (
-/obj/deco/furniture/chair{
-	dir = 4;
-	pixel_x = 21;
-	pixel_y = 6
+/obj/decal/floor/turf{
+	icon_state = "line_small"
 	},
 /turf/open/floor,
 /area/station/water)
@@ -635,6 +633,14 @@
 "pU" = (
 /turf/open/floor,
 /area/station/hydro)
+"qg" = (
+/obj/deco/furniture/table/auto,
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 4
+	},
+/turf/open/floor,
+/area/station/water)
 "qj" = (
 /obj/deco/supports,
 /obj/deco/supports,
@@ -993,10 +999,6 @@
 	pixel_x = 0;
 	pixel_y = -64
 	},
-/obj/deco/plant{
-	pixel_x = -18;
-	pixel_y = 3
-	},
 /turf/open/floor,
 /area/station/water)
 "yl" = (
@@ -1129,6 +1131,18 @@
 	},
 /turf/open/floor/dark,
 /area/station/maintenance)
+"Cq" = (
+/obj/deco/poster{
+	pixel_y = 4;
+	pixel_x = -64
+	},
+/obj/deco/furniture/chair{
+	dir = 4;
+	pixel_x = 21;
+	pixel_y = 6
+	},
+/turf/open/floor,
+/area/station/water)
 "CM" = (
 /obj/deco/plant{
 	pixel_x = 17;
@@ -1185,6 +1199,16 @@
 	},
 /turf/open/floor/wood,
 /area/station)
+"Ek" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small"
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 4
+	},
+/turf/open/floor,
+/area/station/water)
 "EP" = (
 /obj/deco/trashcan{
 	pixel_x = 16;
@@ -12760,8 +12784,8 @@ RT
 gF
 JJ
 JJ
-JJ
 CP
+JJ
 JJ
 gF
 ne
@@ -12885,11 +12909,11 @@ Zs
 Cg
 RT
 gF
+gF
+gF
+gF
 rT
 zE
-gF
-gF
-gF
 gF
 kN
 IS
@@ -13012,9 +13036,9 @@ Zs
 Cg
 RT
 gF
-JJ
-JJ
 kD
+Cq
+JJ
 pz
 yg
 gF
@@ -13139,10 +13163,10 @@ Zs
 eM
 jx
 jx
-JJ
-JJ
-kD
-kD
+qg
+qg
+qg
+Ek
 eG
 gF
 ne
