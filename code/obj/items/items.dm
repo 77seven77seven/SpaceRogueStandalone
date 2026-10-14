@@ -206,9 +206,15 @@ var/list/icon_dim_cache = list()
 
 /obj/item/consumable
 	name = "consumable"
+
 	var/nutrition = 0
 	var/hydration = 0
 	var/mood = 0
+
+	var/destroy_on_eat = FALSE
+
+	var/flavor_profile
+	var/flavor_profile_style = "good"
 
 /obj/item/consumable/use(mob/human/H)
 	if(nutrition)
@@ -218,8 +224,12 @@ var/list/icon_dim_cache = list()
 	if(mood)
 		var/moodrand = mood - rand(-4,4)
 		H.AdjustSorrow(-moodrand)
+	
+	if(flavor_profile)
+		H.chat_info(flavor_profile, flavor_profile_style)
 
-	destroyself(H)
+	if(destroy_on_eat)
+		destroyself(H)
 
 /obj/item/consumable/nutrition
 	name = "nutrition bar"
