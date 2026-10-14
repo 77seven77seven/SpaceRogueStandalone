@@ -1,22 +1,9 @@
-/*
-	One /datum/looping_sound drives a playlist from a LIST of source objects.
-	Every few ticks it works out which players are in range, and for each of them
-	sets volume and stereo pan from the distance to the NEAREST source, so the
-	music fades as you walk away and picks up again, mid-song, when you walk back.
+// Channels reserved for loops.
+#define LOOP_CHANNEL_MIN 1012
+#define LOOP_CHANNEL_MAX 1024
 
-	Lists you can read:
-		active_sound_loops   (global)  every running loop
-		loop.sources                   the objects the sound comes from
-		loop.listeners                 the clients currently hearing it
-
-	Track and line lengths are in DECISECONDS (10 = 1 second). BYOND can't read a
-	file's duration at runtime and can't tell you when a sound ends, so the length
-	is how the loop knows when to start the next song.
-*/
-
-// Channels reserved for loops. Keep these clear of anything else you use.
-#define LOOP_CHANNEL_MIN 800
-#define LOOP_CHANNEL_MAX 1000
+// Index 2 is directHF (high-frequency cut). More negative = more muffled. Tweak by ear.
+#define RADIO_ECHO list(0, -3000)
 
 #ifndef QDELETED
 #define QDELETED(X) (isnull(X))
@@ -50,16 +37,16 @@ var/list/used_loop_channels = list()
 	var/list/tracks                   // assoc: sound file = length in deciseconds
 	var/shuffle = FALSE               // random order (never the same song twice in a row)
 	var/volume = 70                   // 0-100, volume right next to a source
-	var/range = 6                    // tiles; silent beyond this
+	var/range = 14                    // tiles; silent beyond this
 	var/falloff_start = 3             // full volume inside this many tiles, fades out to range
 	var/refresh_rate = 4              // deciseconds between listener updates
 
 	var/list/lines                    // OPTIONAL: assoc: sound file = length in deciseconds
 	var/line_chance = 60              // % chance of a line between two songs
-	var/line_volume = 70              // passed to playsound()
+	var/line_volume = 70
+	var/lines_via_playsound = FALSE   // TRUE = use playsound(); its own range rules apply, not ours
 
-	var/station_name = "Roguestation" // lol, get it? used for radios
-	var/station_band = "74.4 MHz"
+	var/radio_filter = FALSE          // config: muffle the music (not the lines)
 
 	// ---- state ----
 	var/running = FALSE
@@ -71,6 +58,8 @@ var/list/used_loop_channels = list()
 	var/segment_length
 	var/segment_start
 	var/segment_repeat = FALSE
+	var/segment_volume = 70           // volume of the current song or line
+	var/segment_is_line = FALSE       // state: lines are exempt from the filter
 	var/track_index = 0
 	var/last_track
 
@@ -157,12 +146,7 @@ var/list/used_loop_channels = list()
 			return
 
 		BeginTrack()
-
-		while(running && run_id == my_run && !skip_requested)
-			if(!segment_repeat && world.time >= segment_start + segment_length)
-				break
-			Refresh()
-			sleep(refresh_rate)
+		PlaySegment(my_run)
 
 		if(!running || run_id != my_run)
 			return
@@ -172,7 +156,15 @@ var/list/used_loop_channels = list()
 		StopAll()
 
 		if(!skipped && length(lines) && prob(line_chance))
-			PlayLine(my_run)
+			if(lines_via_playsound)
+				PlayLine(my_run)
+			else
+				BeginLine()
+				PlaySegment(my_run)
+				if(!running || run_id != my_run)
+					return
+				skip_requested = FALSE // skipping during a line just ends the line
+				StopAll()
 
 /datum/looping_sound/proc/PruneSources()
 	listclearnulls(sources)
@@ -198,8 +190,31 @@ var/list/used_loop_channels = list()
 	segment_start = world.time
 	// A single song with no lines just uses BYOND's own repeat
 	segment_repeat = (length(tracks) == 1 && !length(lines))
+	segment_volume = volume
+	segment_is_line = FALSE
 
-/// Between-song line. Goes through playsound(), from the first live source only.
+/// Keeps refreshing listeners until the current song or line runs out (or is skipped).
+/datum/looping_sound/proc/PlaySegment(my_run)
+	while(running && run_id == my_run && !skip_requested)
+		if(!segment_repeat && world.time >= segment_start + segment_length)
+			break
+		Refresh()
+		sleep(refresh_rate)
+
+/// Picks a between-song line and sets it up as the current segment, same as a song.
+/datum/looping_sound/proc/BeginLine()
+	var/f = pick(lines)
+	var/len = lines[f]
+	if(!isnum(len) || len <= 0)
+		len = 30
+	segment_file = f
+	segment_length = len
+	segment_start = world.time
+	segment_repeat = FALSE
+	segment_volume = line_volume
+	segment_is_line = TRUE
+
+/// Only used when lines_via_playsound = TRUE. Plays from the first live source only.
 /// If your playsound() signature differs from /tg/'s, change the one call below.
 /datum/looping_sound/proc/PlayLine(my_run)
 	var/atom/movable/primary
@@ -277,13 +292,15 @@ var/list/used_loop_channels = list()
 
 /datum/looping_sound/proc/CalcVolume(dist)
 	if(dist <= falloff_start)
-		return volume
+		return segment_volume
 	var/t = clamp((dist - falloff_start) / max(range - falloff_start, 1), 0, 1)
-	return round(volume * ((1 - t) ** 2))
+	return round(segment_volume * ((1 - t) ** 2))
 
 /datum/looping_sound/proc/PlayTo(client/C, vol, pan, update, elapsed)
 	var/sound/S = sound(segment_file, repeat = segment_repeat, wait = FALSE, channel = channel, volume = vol)
 	S.pan = pan
+	if(radio_filter && !segment_is_line)
+		S.echo = RADIO_ECHO
 	if(update)
 		S.status = SOUND_UPDATE
 	else
@@ -300,35 +317,6 @@ var/list/used_loop_channels = list()
 	for(var/client/C in listeners)
 		StopFor(C)
 	listeners = list()
-
-
-/* ------------------------------------------------------------------
-	EXAMPLE
-
-	/obj/machine/jukebox
-		var/datum/looping_sound/music
-
-	/obj/machine/jukebox/proc/TogglePower()
-		if(music)
-			QDEL_NULL(music)
-			return
-		music = new(src)                       // or new(list(src, speaker1, speaker2))
-		music.tracks = list(
-			'sound/music/song1.ogg' = 1832,    // length in deciseconds
-			'sound/music/song2.ogg' = 2410,
-		)
-		music.lines = list(                    // optional
-			'sound/lines/dj1.ogg' = 52,
-			'sound/lines/dj2.ogg' = 70,
-		)
-		music.shuffle = TRUE
-		music.range = 16
-		music.Start()
-
-	/obj/machine/jukebox/Destroy()
-		QDEL_NULL(music)
-		return ..()
------------------------------------------------------------------- */
 
 /obj/item/deco/radio
 	name = "radio"
@@ -363,9 +351,14 @@ var/list/used_loop_channels = list()
 	)
 	music.shuffle = TRUE
 	music.range = 5
+	music.radio_filter = TRUE
 	music.line_chance = 90
 
 	music.Start()
+
+/obj/item/deco/radio/use(mob/human/H)
+	. = ..()
+	music.BeginLine()
 
 /obj/item/deco/radio/Destroy(force)
 	QDEL_NULL(music)

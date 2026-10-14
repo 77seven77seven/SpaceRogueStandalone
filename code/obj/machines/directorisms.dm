@@ -13,6 +13,8 @@
 
 /obj/machine/microphone/interact(mob/user, obj/item/held_item, params)
 	. = ..()
+	if(get_turf(user) != get_turf(src))
+		return
 	on = !on
 	icon_state = "[initial(icon_state)][on]"
 

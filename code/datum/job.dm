@@ -123,6 +123,9 @@
 	var/merc_badge = image('icons/clothing/accessories.dmi', H, "mercenary_badge[rand(1,2)]", MOB_LAYER + 0.01)
 	H.overlays += merc_badge
 
+	var/obj/item/melee/baton/baton = new(H)
+	H.inventory += baton
+
 /datum/role/merc/get_skills()
 	return list(CORP = 60, GUNS = 40 + rand(-10,40), MELEE = 60 + rand(-10,20), PARANOIA = 40)
 

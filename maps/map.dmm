@@ -676,6 +676,10 @@
 /obj/decal/floor/turf{
 	icon_state = "line_small"
 	},
+/obj/machine/info{
+	icon_state = "grower";
+	pixel_x = 0
+	},
 /turf/open/floor/light,
 /area/station/hydro)
 "re" = (
@@ -1083,6 +1087,9 @@
 	pixel_y = -64;
 	pixel_x = -32
 	},
+/obj/abstract/landmark/start{
+	name = "Stowaway"
+	},
 /turf/open/floor/wood,
 /area/station)
 "BO" = (
@@ -1322,6 +1329,10 @@
 	icon_state = "line_small";
 	dir = 8
 	},
+/obj/machine/info{
+	icon_state = "grower";
+	pixel_x = 0
+	},
 /turf/open/floor/light,
 /area/station/hydro)
 "GW" = (
@@ -1458,14 +1469,16 @@
 /turf/solid/wall,
 /area/space)
 "Kr" = (
-/obj/deco/furniture/table/auto,
 /obj/machine/technician_terminal{
-	pixel_x = -1;
-	pixel_y = 10
+	pixel_x = 4;
+	pixel_y = 6
 	},
 /obj/deco/poster{
 	pixel_y = 66;
 	pixel_x = -1
+	},
+/obj/deco/furniture/table{
+	icon_state = "4"
 	},
 /turf/open/floor/dark,
 /area/station/tech)

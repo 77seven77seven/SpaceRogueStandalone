@@ -66,6 +66,9 @@
 
 /obj/deco/trashcan/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()
+	if(!held_item)
+		user.chat_info("What exactly was I planning to do? Rummage in the trash? Gross.","bad")
+		return
 	if(held_item.junk)
 		user.holding = null
 		user.UpdateInhand()

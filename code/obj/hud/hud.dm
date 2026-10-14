@@ -53,7 +53,7 @@
 		WEALTH: [owner.get_money_balance()]§
 		HUNGER: [floor(owner.hud_hunger)]%
 		THIRST: [floor(owner.hud_thirst)]%
-		SORROW: [floor(owner.hud_sorrow)]%<br>
+		DESPAIR: [floor(owner.hud_sorrow)]%<br>
 		XP: [owner.client.xp]
 		</div>
 		"}
@@ -190,5 +190,5 @@
 	. = ..()
 	owner.client.screen |= src
 
-	animate(src, transform = matrix().Turn(0.5), time = 500, easing = QUAD_EASING | EASE_IN | EASE_OUT, loop = -1, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
-	animate(transform = matrix().Turn(-1), time = 500, easing = QUAD_EASING | EASE_IN | EASE_OUT, flags = ANIMATION_RELATIVE)
+	animate(src, transform = matrix().Turn(2), time = 500, easing = QUAD_EASING | EASE_IN | EASE_OUT, loop = -1, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
+	animate(transform = matrix().Turn(-4), time = 500, easing = QUAD_EASING | EASE_IN | EASE_OUT, flags = ANIMATION_RELATIVE)
