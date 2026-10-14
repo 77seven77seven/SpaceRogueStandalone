@@ -1,3 +1,5 @@
+// TODO: Finish this!
+
 /obj/machine/technician_terminal
 	name = "komp"
 	desc = "It's a computer. In more technical terms, a laptop. A thick one. It also has a weird screen."

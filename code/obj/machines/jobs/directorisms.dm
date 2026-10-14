@@ -1,3 +1,5 @@
+// TODO: Finish this!
+
 /obj/machine/microphone
 	name = "mikrak"
 	desc = "Connected directly to the station's PA system. Colloquially called a 'mikrak', we all know it is just a microphone though."

@@ -63,12 +63,6 @@
 	},
 /turf/open/floor,
 /area/station)
-"cg" = (
-/obj/abstract/landmark/start{
-	name = "Hydroponocist"
-	},
-/turf/open/floor,
-/area/station)
 "cq" = (
 /obj/deco/poster{
 	pixel_y = -62;
@@ -97,6 +91,10 @@
 	},
 /turf/open/floor,
 /area/station)
+"cT" = (
+/obj/machine/vendor,
+/turf/open/floor,
+/area/station/hydro)
 "cU" = (
 /obj/decal{
 	icon_state = "chezsign1";
@@ -676,10 +674,7 @@
 /obj/decal/floor/turf{
 	icon_state = "line_small"
 	},
-/obj/machine/info{
-	icon_state = "grower";
-	pixel_x = 0
-	},
+/obj/machine/hydro,
 /turf/open/floor/light,
 /area/station/hydro)
 "re" = (
@@ -1329,10 +1324,7 @@
 	icon_state = "line_small";
 	dir = 8
 	},
-/obj/machine/info{
-	icon_state = "grower";
-	pixel_x = 0
-	},
+/obj/machine/hydro,
 /turf/open/floor/light,
 /area/station/hydro)
 "GW" = (
@@ -11896,7 +11888,7 @@ ne
 jN
 eT
 pU
-pU
+cT
 YR
 RT
 eM
@@ -12281,7 +12273,7 @@ pU
 pU
 bd
 Zs
-cg
+Zs
 Zs
 Zs
 Cg
