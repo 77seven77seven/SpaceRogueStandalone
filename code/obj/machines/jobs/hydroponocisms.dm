@@ -17,6 +17,10 @@
 
 	var/growth = 0
 
+	// The overlay currently showing the plant, and a cache key so we only rebuild it when something visible changed.
+	var/tmp/image/plant_overlay
+	var/tmp/plant_overlay_key
+
 /obj/machine/hydro/get_examine_text()
 	var/growing = "NIL (NONE)"
 	if(plant)
@@ -34,6 +38,7 @@
 /obj/machine/hydro/Destroy()
 	processor.processing -= src
 	QDEL_NULL(plant)
+	plant_overlay = null
 	return ..()
 
 /obj/machine/hydro/Process()
@@ -55,12 +60,49 @@
 		if(wilt_cycles < max_wilt_cycles)
 			wilt_cycles++
 		if(prob(4 * wilt_cycles))
-			wilt_plant()
+			wilt_plant() // refreshes the overlay itself
+			return
+
+	update_plant_overlay()
 
 /obj/machine/hydro/proc/wilt_plant()
 	QDEL_NULL(plant)
 	wilt_cycles = 0
 	growth = 0
+	update_plant_overlay()
+
+/// Which sprite stage the plant is at, 1 to plant.growth_stages. The final stage is reserved for "ready to harvest".
+/obj/machine/hydro/proc/get_plant_stage()
+	if(!plant)
+		return 0
+	if(growth >= plant.growth_required)
+		return plant.growth_stages
+	var/fraction = max(0, growth) / plant.growth_required
+	return clamp(floor(fraction * (plant.growth_stages - 1)) + 1, 1, plant.growth_stages)
+
+/// Rebuilds the plant overlay if the stage or wilting state has changed. Safe to call as often as you like.
+/obj/machine/hydro/proc/update_plant_overlay()
+	var/key = null
+	if(plant && plant.plant_icon && plant.plant_icon_state)
+		key = "[plant.type]-[get_plant_stage()]-[wilt_cycles ? "wilt" : "ok"]"
+
+	if(key == plant_overlay_key)
+		return
+	plant_overlay_key = key
+
+	if(plant_overlay)
+		overlays -= plant_overlay
+		plant_overlay = null
+
+	if(!key)
+		return
+	
+	var/image/I = image(icon = plant.plant_icon, icon_state = "[plant.plant_icon_state]-[get_plant_stage()]")
+	I.layer = layer + 0.1
+	if(wilt_cycles)
+		I.color = plant.wilt_color
+	plant_overlay = I
+	overlays += I
 
 /obj/machine/hydro/proc/harvest_plant(mob/human/user)
 	if(!plant || growth < plant.growth_required)
@@ -92,6 +134,7 @@
 		wilt_plant()
 	else
 		plant.wilt_chance = min(100, plant.wilt_chance + max(0, rand(15, 30) - (hydro_skill / 10)))
+		update_plant_overlay() // back to the first growth stage
 
 /obj/machine/hydro/proc/add_water(mob/human/user)
 	if(!station.waters)
@@ -125,6 +168,7 @@
 		plant = new seeds.plant_type
 		growth = 0
 		wilt_cycles = 0
+		update_plant_overlay()
 		user.chat_info("You plant the seeds in the [name].")
 		seeds.destroyself(user)
 
@@ -148,6 +192,14 @@
 	var/obj/item/seeds/seed_type // seed packet that can drop on harvest
 	var/seed_chance = 10 // base % chance, boosted by skill
 
+	// Overlay sprites shown on the hydroplate. Leave plant_icon or plant_icon_state null for no overlay.
+	// Expects icon states named "[plant_icon_state]-1" through "[plant_icon_state]-[growth_stages]".
+	// The last stage is shown once the plant is ready to harvest.
+	var/plant_icon = 'icons/obj/hydro_plants.dmi'
+	var/plant_icon_state = null
+	var/growth_stages = 3
+	var/wilt_color = "#8a7f4a" // tint applied to the overlay while the plant is wilting
+
 /datum/plant/mealwood
 	name = "lignum alimentarium facticium"
 	desc = "A common, usually farmed plant mostly found on space station environments. Natively, it is called mealwood."
@@ -160,6 +212,9 @@
 	harvest_hi = 6
 
 	seed_type = /obj/item/seeds/mealwood
+
+	plant_icon_state = "mealwood"
+	growth_stages = 3
 
 /obj/item/consumable/meallice
 	name = "meal lice"
@@ -179,6 +234,8 @@
 	desc = "A packet of seeds. You're not sure what's inside, maybe if you knew something about plants..."
 	desc_expansive_extra_skill = HYDRO
 
+	icon_state = "seeds"
+
 	var/plant_type = /datum/plant
 
 /obj/item/seeds/Initialize()
@@ -190,8 +247,10 @@
 	desc_expansive = "I know! It's a seed packet of [flavor]"
 
 /obj/item/seeds/mealwood
-	name = "mealwood seeds"
 	plant_type = /datum/plant/mealwood
+
+	vendor_name = "MW.S"
+	vendor_price = 10
 
 /mob/verb/water(num as num)
 	station.waters += num

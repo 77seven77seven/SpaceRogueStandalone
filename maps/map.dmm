@@ -92,7 +92,7 @@
 /turf/open/floor,
 /area/station)
 "cT" = (
-/obj/machine/vendor,
+/obj/machine/vendor/planta,
 /turf/open/floor,
 /area/station/hydro)
 "cU" = (
@@ -1561,6 +1561,12 @@
 /obj/deco/furniture/table/auto,
 /turf/open/floor/dark,
 /area/station/maintenance)
+"MA" = (
+/obj/deco/chute{
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station/hydro)
 "MB" = (
 /obj/decal{
 	icon_state = "chezsign3";
@@ -12013,7 +12019,7 @@ Mh
 ne
 ne
 jN
-pU
+MA
 xr
 pU
 jN

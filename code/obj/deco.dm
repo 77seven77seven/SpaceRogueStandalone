@@ -67,7 +67,8 @@
 /obj/deco/trashcan/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()
 	if(!held_item)
-		user.chat_info("What exactly was I planning to do? Rummage in the trash? Gross.","bad")
+		if(prob(50))
+			user.chat_info("What exactly was I planning to do? Rummage in the trash? Gross.","bad")
 		return
 	if(held_item.junk)
 		user.holding = null
@@ -224,3 +225,18 @@
 	name = "station support"
 	icon = 'icons/turf/rs_floors.dmi'
 	icon_state = "station_support"
+
+/obj/deco/chute
+	name = "chute"
+	desc = "A simple rudimentary cargo transport network chute, or CTNC for short. Leads directly to the overcomplicated storage storage network."
+	icon_state = "chute"
+
+/obj/deco/chute/interact(mob/human/user, obj/item/held_item, params)
+	. = ..()
+	if(istype(held_item, /obj/item/consumable/meallice))
+		held_item.destroyself(user)
+		station.mlices += rand(1,2)
+		if(istype(user.mind.current_job, /datum/role/gardener))
+			user.mind.performance_paycheck += rand(1,4)
+
+		playsound(get_turf(src), 'sound/effects/obj/chute.ogg', 75, TRUE, -2)

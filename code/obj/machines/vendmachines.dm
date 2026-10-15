@@ -152,7 +152,7 @@
 	icon_state = "vend_wall"
 
 /obj/machine/vendor/medic
-	name = "WENDR-MEDMED X36"
+	name = "WENDR-MEDMED X120/80"
 	desc = "Most commonly used for use in medical areas. Features an expansive refridgerated sterile storage to minimize change of infection when using stored products."
 	overlay_icon = "medmed"
 	color_tint = "#bde9ff"
@@ -172,7 +172,7 @@
 	items = list(/obj/item/medical/bandage = 15, /obj/item/medical/splint = 15, /obj/item/medical/pills/vitamins = 12, /obj/item/medical/pills/magnesium = 12, /obj/item/medical/pills/antibiotics = 5, /obj/item/medical/pills/neuroregenerative = 5, /obj/item/medical/injector/blood = 5, /obj/item/medical/injector/bones = 5, /obj/item/medical/injector/infection = 5)
 
 /obj/machine/vendor/food
-	name = "WENDR-YUMNUM K9"
+	name = "WENDR-YUMNUM E300"
 	desc = "Eh."
 	color_tint = "#cdffbd"
 
@@ -183,6 +183,12 @@
 	overlay_icon = "laylaw"
 
 	items = list(/obj/item/ammo_box = 12, /obj/item/ammo_box/big = 6, /obj/item/ammo_box/shells = 6)
+
+/obj/machine/vendor/planta
+	name = "WENDR-HYDRO C6"
+	overlay_icon = "planta"
+
+	items = list(/obj/item/seeds/mealwood = 8)
 
 #undef NO_TAXES
 #undef YES_TAXES
