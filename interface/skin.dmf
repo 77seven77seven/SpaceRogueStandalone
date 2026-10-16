@@ -13,6 +13,9 @@ macro "macro"
 		command = ".inhand"
 	elem 
 		name = "G"
+		command = ".store"
+	elem 
+		name = "H"
 		command = ".whistle"
 	elem 
 		name = "Q"
