@@ -51,3 +51,12 @@
 
 	icon = 'icons/obj/terminals/terminals_128x64.dmi'
 	icon_state = "boardscreen"
+
+	var/atom/movable/maptext_holder
+
+/obj/machine/infoboard/Initialize()
+	. = ..()
+	maptext_holder = new(src)
+	maptext_holder.vis_flags = VIS_INHERIT_LAYER | VIS_INHERIT_PLANE | VIS_INHERIT_ID
+
+	vis_contents += maptext_holder
