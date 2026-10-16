@@ -177,7 +177,7 @@
 	if(!chosing_job)
 		return
 
-	if(chosing_job.cost > client.xp || chosing_job.current_positions >= chosing_job.total_positions)
+	if((chosing_job.cost && chosing_job.cost > client.xp) || chosing_job.current_positions >= chosing_job.total_positions)
 		return
 
 	src << browse(null, "window=main_menu")
@@ -201,7 +201,7 @@
 
 		if(!J)
 			menu_message = "ROLE NOT AVAILABLE!"
-		else if(J.cost > client.xp)
+		else if(J.cost && J.cost > client.xp)
 			menu_message = "INSUFFICIENT XP!"
 		else if(J.current_positions >= J.total_positions)
 			menu_message = "ROLE IS FULL!"
