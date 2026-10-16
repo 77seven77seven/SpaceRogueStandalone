@@ -20,6 +20,11 @@ var/global/list/landmarks_start_list = list()
 	icon_size = WORLD_ICON_SIZE
 	view = "13x13" // view = 6
 	movement_mode = PIXEL_MOVEMENT_MODE
+	
+	hub = "Exadv1.spacestation13"
+	hub_password = "kMZy3U5jJHSiBQjr"
+
+	status = "Fringe Sector: In Rogue Space"
 
 	mob = /mob/lobbyman
 	turf = /turf/open/space

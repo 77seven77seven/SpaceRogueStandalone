@@ -24,9 +24,10 @@
 
 	ticket_price = rand(115,285)
 	world.log << "TICKET PRICE: [ticket_price]"
-	spawn()
+
+	if(ticket_machine)
 		ticket_machine.update()
-		next_arrival = world.time + (rand(16, 23) MINUTES)
+	next_arrival = world.time + (rand(16, 23) MINUTES)
 
 /datum/system/shuttle/Process()
 	if(arrived_shuttle)
@@ -39,8 +40,12 @@
 
 	// Schedule the next cycle before doing anything that can yield.
 	next_arrival = world.time + (rand(16, 23) MINUTES)
+	arrive()
 
 /datum/system/shuttle/proc/arrive()
+	if(arrived_shuttle || shuttle_here)
+		return
+
 	chat_announce("PASSENGER SHUTTLE BUS 'PKD' IS ARRIVING VIA HYPERPORT TO 'ENDERA' CIVILIAN DOCKING PORT ONE. ALL WILLING PAID PASSENGERS PLEASE PREPARE TO BOARD.")
 	sleep(SHUTTLE_ARRIVAL_DELAY)
 
@@ -60,7 +65,7 @@
 	ticket_price = rand(115,285)
 	ticket_machine.update()
 
-	chat_announce("PASSENGER SHUTTLE BUS 'PKD' HAS LEFT THE STATION VIA HYPERPORT. NEXT DESTINATION: '[pick("ROUTING HUB: GYRO", "MASTERLINE CINDER", "SPRAGA TRANSPORT HUB", "LITOMER", "NILSPACE")]'.")
+	chat_announce("PASSENGER SHUTTLE BUS 'PKD' HAS LEFT THE STATION VIA HYPERPORT. NEXT DESTINATION: '[pick("ROUTING HUB: DOREM", "MASTERLINE CINDER", "SPRAGA TRANSPORT HUB", "PR-ASTRA", "NILSPACE")]'.")
 	hyperport_effect(leaving, arriving = FALSE)
 	QDEL_IN(leaving, 5 SECONDS)
 

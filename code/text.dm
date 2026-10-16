@@ -61,6 +61,8 @@
 	if(!istext(message))
 		return ""
 
+	message = html_decode(message)
+
 	// Compiled once, reused on every call
 	var/static/regex/tags = regex(@{"<[^>]*>?"}, "g")
 	var/static/regex/urls = regex(@{"(?:https?://|www\.|byond://)\S+|\b[\w-]+\.(?:com|net|org|io|gg|co|me|tv|xyz)\b\S*"}, "gi")

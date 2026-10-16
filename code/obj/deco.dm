@@ -217,6 +217,8 @@
 	blip.layer = FLY_LAYER
 	vis_contents += blip
 
+	filters += filter(type="drop_shadow", x=2, size=2, offset=1)
+
 /obj/deco/speakertower/proc/do_blip(colori)
 	blip.color = colori
 	flick("speakertower-blip", blip)

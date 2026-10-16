@@ -61,7 +61,7 @@
 	var/first_char = copytext_char(msg, 1, 2)
 
 	if(msg || msg != "")
-		msg = trim(copytext_char(sanitize(msg), 1, MAX_MESSAGE_LEN))
+		msg = trim(copytext_char(html_decode(sanitize(msg)), 1, MAX_MESSAGE_LEN))
 		if(first_char == "*")
 			if(on_cooldown("emote"))
 				return FALSE
