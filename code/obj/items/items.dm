@@ -114,6 +114,8 @@ var/list/icon_dim_cache = list()
 		return FALSE
 
 	var/turf/drop_turf = client.movered
+	if(drop_turf.density)
+		return FALSE
 	if(!drop_turf || drop_turf.z != z)
 		return FALSE
 	if(abs(drop_turf.x - x) > 1 || abs(drop_turf.y - y) > 1)
