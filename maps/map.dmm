@@ -1078,12 +1078,12 @@
 /turf/open/floor,
 /area/station/tech/mining)
 "BM" = (
-/obj/machine/infoboard{
-	pixel_y = -64;
-	pixel_x = -32
-	},
 /obj/abstract/landmark/start{
 	name = "Stowaway"
+	},
+/obj/machine/infoboard/church{
+	pixel_y = -64;
+	pixel_x = -32
 	},
 /turf/open/floor/wood,
 /area/station)

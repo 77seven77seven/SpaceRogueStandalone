@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BYOND map maker</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f4;--panel:#fff;--ink:#1b2229;--mute:#5d6a76;--line:#d3dae0;--acc:#3b5bdb;--on:#fff;--chk1:#fff;--chk2:#cfd6dc;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14181d;--panel:#1d232a;--ink:#e7ecf0;--mute:#9aa7b3;--line:#323b44;--acc:#7c93f5;--on:#10141a;--chk1:#2a323b;--chk2:#222930}}
+:root[data-theme="dark"]{--bg:#14181d;--panel:#1d232a;--ink:#e7ecf0;--mute:#9aa7b3;--line:#323b44;--acc:#7c93f5;--on:#10141a;--chk1:#2a323b;--chk2:#222930}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 'Instrument Sans',system-ui,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;padding:16px 20px}
+h1{font-size:20px;margin:0;font-weight:600}
+h2{font-size:14px;margin:0 0 8px;font-weight:600}
+main{display:flex;flex-wrap:wrap;gap:16px;padding:0 20px 20px;align-items:flex-start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;width:260px;display:flex;flex-direction:column;gap:16px}
+.stage{flex:1;min-width:280px;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+figure{margin:0;overflow-x:auto;max-width:100%}
+figcaption{font-weight:600;font-size:14px;margin-bottom:6px}
+canvas{display:block;image-rendering:pixelated;border:1px solid var(--line);touch-action:none;max-width:none}
+#pv{background:repeating-conic-gradient(var(--chk1) 0 25%,var(--chk2) 0 50%) 0 0/16px 16px}
+#ed{cursor:crosshair}
+button,select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer}
+button:hover{border-color:var(--acc)}
+button[aria-pressed=true]{background:var(--acc);color:var(--on);border-color:var(--acc)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:6px}
+.seg{display:flex}.seg button{border-radius:0}.seg button:first-child{border-radius:6px 0 0 6px}.seg button:last-child{border-radius:0 6px 6px 0}
+label.f{display:grid;grid-template-columns:1fr auto;gap:2px 8px;font-size:13px;color:var(--mute);margin-bottom:6px}
+label.f input[type=range]{grid-column:1/3;width:100%;accent-color:var(--acc)}
+output{color:var(--ink);font-variant-numeric:tabular-nums}
+[data-mode=disp] .only-alpha,[data-mode=alpha] .only-disp{display:none!important}
+.hint{font-size:12px;color:var(--mute);margin:0}
+footer{padding:0 20px 24px}
+pre{margin:0 0 8px;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow-x:auto;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace}
+#msg{min-height:1.4em;font-size:13px;color:var(--mute)}
+input[type=file]{display:none}
+</style></head>
+<body data-mode="disp">
+<header>
+  <h1>BYOND map maker</h1>
+  <div class="seg" id="seg">
+    <button data-m="disp" aria-pressed="true">Displacement</button>
+    <button data-m="alpha" aria-pressed="false">Alpha</button>
+  </div>
+</header>
+<main>
+<aside class="panel">
+  <div><h2>Canvas</h2>
+    <div class="row"><select id="size" aria-label="Map size"><option value="" hidden>Custom</option><option>16</option><option selected>32</option><option>64</option><option>128</option></select>
+    <button id="undo">Undo</button></div>
+    <p class="hint">Changing size clears both maps.</p></div>
+  <div><h2>Tool</h2>
+    <div class="row" id="tools"><button data-t="paint" aria-pressed="true">Paint</button><button data-t="smooth" aria-pressed="false">Smooth</button><button data-t="erase" aria-pressed="false">Erase</button></div>
+    <label class="f" style="margin-top:10px">Brush size<output>3</output><input type="range" id="bsize" min="1" max="16" value="3"></label>
+    <div class="only-disp"><label class="f">Push horizontally (red)<output>0</output><input type="range" id="vx" min="-100" max="100" value="0"></label>
+    <label class="f">Push vertically (green)<output>0</output><input type="range" id="vy" min="-100" max="100" value="0"></label>
+    <p class="hint">Erase resets to neutral (128, 128).</p></div>
+    <div class="only-alpha"><label class="f">Opacity<output>255</output><input type="range" id="op" min="0" max="255" value="255"></label>
+    <p class="hint">Erase makes pixels transparent.</p></div></div>
+  <div><h2>Fill with</h2><div class="row" id="gens"></div></div>
+  <div><h2>Preview</h2>
+    <div class="only-disp"><label class="f">Displace size<output>8</output><input type="range" id="psize" min="0" max="32" value="8"></label></div>
+    <div class="only-alpha"><label class="row" style="gap:8px"><input type="checkbox" id="inv"> Invert mask</label></div>
+    <div class="row" style="margin-top:8px"><button id="loadsrc">Load sprite</button><button id="pattern">Test pattern</button></div></div>
+  <div><h2>File</h2><div class="row"><button id="imp">Import map</button><button id="save">Save PNG</button></div></div>
+  <input type="file" id="fsrc" accept="image/*"><input type="file" id="fmap" accept="image/png">
+</aside>
+<section class="stage">
+  <figure><figcaption>Map</figcaption><canvas id="ed" aria-label="Map editor"></canvas></figure>
+  <figure><figcaption>Preview</figcaption><canvas id="pv" aria-label="Preview"></canvas></figure>
+</section>
+</main>
+<footer>
+  <h2>DM code</h2>
+  <pre id="snip"></pre>
+  <div class="row"><button id="copy">Copy code</button></div>
+  <div id="msg" role="status"></div>
+</footer>
+<script>
+const $=s=>document.querySelector(s);
+let W=32,H=32,mode='disp',tool='paint',M={},undo=[],srcImg=null;
+const ed=$('#ed'),pv=$('#pv'),ex=ed.getContext('2d'),px=pv.getContext('2d');
+const sc=document.createElement('canvas'),sx=sc.getContext('2d',{willReadFrequently:true});
+const say=t=>$('#msg').textContent=t;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+function blank(k){const d=new Uint8ClampedArray(W*H*4);
+  for(let i=0;i<d.length;i+=4){d[i]=d[i+1]=d[i+2]=k==='disp'?128:255;d[i+3]=255}return d}
+function setSize(w,h){W=w;H=h;M.disp=blank('disp');M.alpha=blank('alpha');undo=[];
+  sc.width=ed.width=pv.width=W;sc.height=ed.height=pv.height=H;
+  const z=Math.max(1,Math.floor(Math.min(440/W,440/H)));
+  ed.style.width=pv.style.width=W*z+'px';ed.style.height=pv.style.height=H*z+'px';
+  drawSrc();render()}
+function drawSrc(){sx.clearRect(0,0,W,H);
+  if(srcImg){sx.imageSmoothingEnabled=false;sx.drawImage(srcImg,0,0,W,H);return}
+  sx.fillStyle='#2b3440';sx.fillRect(0,0,W,H);
+  const g=Math.max(2,W>>3);
+  for(let i=0;i<Math.max(W,H);i+=g){sx.fillStyle=(i/g)%2?'#e8b04a':'#4fb0a5';sx.fillRect(i,0,Math.max(1,g>>1),H);sx.fillRect(0,i,W,Math.max(1,g>>2))}
+  sx.fillStyle='#e5484d';sx.beginPath();sx.arc(W/2,H/2,Math.min(W,H)/4,0,7);sx.fill()}
+
+function render(){
+  const d=M[mode],v=ex.createImageData(W,H),o=v.data;
+  for(let i=0;i<d.length;i+=4){
+    if(mode==='disp'){o[i]=d[i];o[i+1]=d[i+1];o[i+2]=d[i+2]}else o[i]=o[i+1]=o[i+2]=d[i+3];
+    o[i+3]=255}
+  ex.putImageData(v,0,0);
+  const s=sx.getImageData(0,0,W,H).data,p=px.createImageData(W,H),q=p.data,sz=+$('#psize').value,inv=$('#inv').checked;
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=(y*W+x)*4;
+    if(mode==='disp'){
+      const tx=Math.round(x+(d[i]-128)/127*sz),ty=Math.round(y+(d[i+1]-128)/127*sz);
+      if(tx>=0&&ty>=0&&tx<W&&ty<H){const j=(ty*W+tx)*4;q[i]=s[j];q[i+1]=s[j+1];q[i+2]=s[j+2];q[i+3]=s[j+3]}
+    }else{q[i]=s[i];q[i+1]=s[i+1];q[i+2]=s[i+2];q[i+3]=s[i+3]*(inv?255-d[i+3]:d[i+3])/255}}
+  px.putImageData(p,0,0);
+  const f=mode==='disp'?"displace_map.png":"alpha_mask.png";
+  $('#snip').textContent=mode==='disp'
+    ?`filter = filter(type="displace", icon=icon('${f}'), size=${sz})`
+    :`filter = filter(type="alpha", icon=icon('${f}')${inv?', flags=MASK_INVERSE':''})`}
+
+function push(){undo.push({k:mode,d:M[mode].slice()});if(undo.length>50)undo.shift()}
+function stamp(cx,cy){
+  const d=M[mode],r=+$('#bsize').value/2,ref=tool==='smooth'?d.slice():null,ch=mode==='disp'?[0,1]:[3];
+  const vx=Math.round(128+$('#vx').value/100*127),vy=Math.round(128+$('#vy').value/100*127),op=+$('#op').value;
+  for(let y=Math.floor(cy-r);y<=Math.ceil(cy+r);y++)for(let x=Math.floor(cx-r);x<=Math.ceil(cx+r);x++){
+    if(x<0||y<0||x>=W||y>=H||(x+.5-cx-.5)**2+(y+.5-cy-.5)**2>r*r)continue;
+    const i=(y*W+x)*4;
+    if(tool==='smooth'){for(const c of ch){let t=0,n=0;
+      for(let b=-1;b<=1;b++)for(let a=-1;a<=1;a++){const u=x+a,w=y+b;if(u>=0&&w>=0&&u<W&&w<H){t+=ref[(w*W+u)*4+c];n++}}
+      d[i+c]=t/n}}
+    else if(tool==='erase'){if(mode==='disp'){d[i]=d[i+1]=128}else d[i+3]=0}
+    else if(mode==='disp'){d[i]=vx;d[i+1]=vy}else d[i+3]=op}}
+function pos(e){const r=ed.getBoundingClientRect();return[clamp(Math.floor((e.clientX-r.left)/r.width*W),0,W-1),clamp(Math.floor((e.clientY-r.top)/r.height*H),0,H-1)]}
+let last=null;
+ed.addEventListener('pointerdown',e=>{ed.setPointerCapture(e.pointerId);push();last=pos(e);stamp(...last);render()});
+ed.addEventListener('pointermove',e=>{if(!last)return;const [x,y]=pos(e),n=Math.max(Math.abs(x-last[0]),Math.abs(y-last[1]),1);
+  for(let t=1;t<=n;t++)stamp(Math.round(last[0]+(x-last[0])*t/n),Math.round(last[1]+(y-last[1])*t/n));last=[x,y];render()});
+['pointerup','pointercancel'].forEach(n=>ed.addEventListener(n,()=>last=null));
+function doUndo(){const u=undo.pop();if(!u)return;M[u.k]=u.d;render()}
+$('#undo').onclick=doUndo;
+addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='z'){e.preventDefault();doUndo()}});
+
+const R=()=>Math.min(W,H)/2,C=()=>[(W-1)/2,(H-1)/2];
+const swirl=s=>()=>(x,y)=>{const [cx,cy]=C(),dx=x-cx,dy=y-cy,l=Math.hypot(dx,dy),dd=l/R();if(dd>=1||!l)return[0,0];const m=dd*(1-dd)*4;return[s*-dy/l*m,s*dx/l*m]};
+const lens=s=>()=>(x,y)=>{const [cx,cy]=C(),dx=x-cx,dy=y-cy,l=Math.hypot(dx,dy),dd=l/R();if(dd>=1||!l)return[0,0];const m=dd*(1-dd)*4;return[s*dx/l*m,s*dy/l*m]};
+const GEN={disp:{
+  Bulge:lens(-1),Pinch:lens(1),Swirl:swirl(1),
+  Wave:()=>(x,y)=>[Math.sin(y/H*Math.PI*4),0],
+  Noise:()=>{const n=Math.ceil(Math.max(W,H)/6)+2,a=Array.from({length:n*n*2},()=>Math.random()*2-1);
+    return(x,y)=>{const u=x/6,v=y/6,i=u|0,j=v|0,fu=u-i,fv=v-j;
+      const f=c=>{const p=(A,B)=>a[((j+B)*n+i+A)*2+c];return(p(0,0)*(1-fu)+p(1,0)*fu)*(1-fv)+(p(0,1)*(1-fu)+p(1,1)*fu)*fv};return[f(0),f(1)]}},
+  Neutral:()=>()=>[0,0]},
+ alpha:{
+  'Soft circle':()=>(x,y)=>{const [cx,cy]=C();return 255*clamp(1-Math.hypot(x-cx,y-cy)/R(),0,1)},
+  'Left to right':()=>x=>255*x/Math.max(1,W-1),
+  'Top to bottom':()=>(x,y)=>255*y/Math.max(1,H-1),
+  Opaque:()=>()=>255,Clear:()=>()=>0}};
+function buildGens(){const g=$('#gens');g.textContent='';
+  for(const k in GEN[mode]){const b=document.createElement('button');b.textContent=k;b.onclick=()=>{
+    push();const f=GEN[mode][k](),d=M[mode];
+    for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=(y*W+x)*4,r=f(x,y);
+      if(mode==='disp'){d[i]=clamp(Math.round(128+r[0]*127),0,255);d[i+1]=clamp(Math.round(128+r[1]*127),0,255)}else d[i+3]=Math.round(r)}
+    render()};g.append(b)}}
+
+function setMode(m){mode=m;document.body.dataset.mode=m;
+  document.querySelectorAll('#seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));
+  buildGens();render()}
+$('#seg').onclick=e=>{const m=e.target.dataset.m;if(m)setMode(m)};
+$('#tools').onclick=e=>{const t=e.target.dataset.t;if(!t)return;tool=t;
+  document.querySelectorAll('#tools button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===t))};
+$('#size').onchange=e=>{const n=+e.target.value;if(n)setSize(n,n)};
+document.addEventListener('input',e=>{if(e.target.type==='range'&&e.target.nextElementSibling)e.target.nextElementSibling.textContent=e.target.value;
+  if(e.target.id==='psize'||e.target.id==='inv')render()});
+
+function pick(inp,cb){const f=inp.files[0];inp.value='';if(!f)return;const img=new Image();
+  img.onload=()=>cb(img);img.onerror=()=>say('That file could not be read as an image.');img.src=URL.createObjectURL(f)}
+$('#loadsrc').onclick=()=>$('#fsrc').click();
+$('#fsrc').onchange=e=>pick(e.target,img=>{srcImg=img;drawSrc();render()});
+$('#pattern').onclick=()=>{srcImg=null;drawSrc();render()};
+$('#imp').onclick=()=>$('#fmap').click();
+$('#fmap').onchange=e=>pick(e.target,img=>{
+  const w=Math.min(img.width,256),h=Math.min(img.height,256);setSize(w,h);$('#size').value='';
+  const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(img,0,0,w,h);
+  const s=x.getImageData(0,0,w,h).data,d=M[mode];let hasA=false;for(let i=3;i<s.length;i+=4)if(s[i]<255){hasA=true;break}
+  for(let i=0;i<s.length;i+=4){if(mode==='disp'){d[i]=s[i];d[i+1]=s[i+1]}else d[i+3]=hasA?s[i+3]:s[i]}
+  render();say(`Imported ${w}×${h} into the ${mode==='disp'?'displacement':'alpha'} map.`)});
+
+$('#save').onclick=async()=>{
+  const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d'),id=x.createImageData(W,H);
+  id.data.set(M[mode]);x.putImageData(id,0,0);
+  const blob=await new Promise(r=>c.toBlob(r,'image/png')),name=mode==='disp'?'displace_map.png':'alpha_mask.png';
+  try{const dl=window.claude?await claude.use('downloads'):null;
+    if(dl){await dl.save({filename:name,data:blob});say('Saved '+name)}
+    else{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();say('Saved '+name)}
+  }catch(err){say(err&&err.code==='declined'?'Save cancelled.':'Could not save the file.')}};
+$('#copy').onclick=async()=>{const t=$('#snip').textContent;
+  try{await navigator.clipboard.writeText(t);say('Copied.')}
+  catch(e){const r=document.createRange();r.selectNodeContents($('#snip'));getSelection().removeAllRanges();getSelection().addRange(r);say('Select the code and copy it manually.')}};
+
+setSize(32,32);setMode('disp');
+</script>
+</body></html>
