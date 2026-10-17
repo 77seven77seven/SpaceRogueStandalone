@@ -28,6 +28,9 @@
 	if(destination)
 		. = doMove(destination)
 
+/atom/movable/proc/Moved(atom/oldLoc, Dir, Forced = FALSE)	
+	return TRUE
+
 /atom/movable/proc/doMove(atom/destination)
 	. = FALSE
 	if(destination)
@@ -56,7 +59,7 @@
 					continue
 				AM.Crossed(src, oldloc)
 
-		//Moved(oldloc, NONE, TRUE)
+		Moved(oldloc, NONE, TRUE)
 		. = TRUE
 
 	//If no destination, move the atom into nullspace (don't do this unless you know what you're doing)
