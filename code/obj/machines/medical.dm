@@ -126,6 +126,7 @@
 			return
 
 		var/datum/popup/terminal/popup = new(user, "medscan", "Medscan", 640, 500)
+		playsound(get_turf(src), 'sound/effects/obj/machine.ogg', vol = 75)
 		if(scan_results.len)
 			popup.set_content(
 			{"

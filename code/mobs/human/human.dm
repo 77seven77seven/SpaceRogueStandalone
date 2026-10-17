@@ -556,6 +556,8 @@
 
 /mob/human/proc/AdjustSorrow(amount)
 	var/old_sorrow = sorrow
+	if(HasStatusEffect(/datum/status_effect/magnesium_boost))
+		sorrow = floor(sorrow)
 	sorrow = max(0, min(max_need, sorrow + amount))
 	if(sorrow < max_need)
 		sorrow_cycles = 0
@@ -981,6 +983,8 @@
 
 	if(!hidden)
 		chat_info("<b>SKILL CHECK ([skill_name])</b> — [result ? "SUCCESS" : "FAILURE"] ([probability]%)", "[result ? "good" : "bad"]")
+	if(!result)
+		AdjustSorrow(0.2) // To prevent people from just spamming skill checks.
 	return result
 
 /mob/human/verb/toggle_cmode()

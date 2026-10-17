@@ -192,13 +192,9 @@
 /client/verb/license()
 	set name = ".license"
 
-	var/datum/popup/popup = new(mob, "license", "License")
-	popup.set_content("Some sprites taken from unlicensed obsolete codebases. A small amount of sprites taken from /tg/station 13, licensed under CC BY-SA 3.0.")
-	popup.open()
+	alert(src, "Some sprites and code snippets are taken from unlicensed obsolete codebases and or BYOND user-generated libraries. A small amount of sprites taken from /tg/station 13, licensed under CC BY-SA 3.0. This codebase/software is licensed under GNU General Public License v3, and is not under legal obligation to release the source code.", "Fringe Sector: Roguestation Endera License Popup")
 
 /client/verb/about()
 	set name = ".about"
 
-	var/datum/popup/popup = new(src, "about", "About")
-	popup.set_content()
-	popup.open()
+	alert(src, "<b>Fringe Sector: Roguestation Endera</b> is a roleplaying game based on the BYOND game engine with a focus on improvisation, immersion and reinforcing player performance with mechanics. Try your best to survive with temporary characters and upkeep the veil of immersion. Try to tell an interesting story, no matter what happens. And try to find a sense of belonging among your crewmembers in the supposed 'New Golden Age of Humanity' of 2147.", "Welcome Aboard to Roguestation Endera!")

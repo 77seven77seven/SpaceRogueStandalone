@@ -146,14 +146,22 @@
 
 	var/winge = winget(src, "rpanewindow", "left")
 	//world << winge
+	var/sound/S
 	if(winge == "infowindow")
 		winset(src, "rpanewindow", "left=.")
 		winset(src, "infob", "is-checked=false")
 		winset(src, "textb", "is-checked=true")
+
+		S = sound('sound/switch off.wav')
 	else
 		winset(src, "rpanewindow", "left=infowindow")
 		winset(src, "infob", "is-checked=true")
 		winset(src, "textb", "is-checked=false")
+
+		S = sound('sound/switch on.wav')
+	S.volume = 50
+	S.environment = 22
+	src << S
 
 /mob/lobbyman/verb/get_quirk()
 	set name = ".getquirk"

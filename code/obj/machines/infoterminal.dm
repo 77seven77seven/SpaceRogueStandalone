@@ -12,6 +12,7 @@
 /obj/machine/info/interact(mob/user, obj/item/held_item, params)
 	. = ..()
 	var/datum/popup/terminal/popup = new(user, "infoterminal", "Infoterminal", 640, 500)
+	playsound(get_turf(src), 'sound/effects/obj/machine.ogg', vol = 75)
 	popup.set_content(
 	{"
 
