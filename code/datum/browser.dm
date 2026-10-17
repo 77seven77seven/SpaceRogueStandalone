@@ -129,6 +129,11 @@ var/global/list/css_file_cache = list('interface/terminal.css')
 /datum/popup/proc/close()
 	if(!isnull(window_id))//null check because this can potentially nuke goonchat, if I ever decide to add it
 		user << browse(null, "window=[window_id]")
+		var/client/C = user
+		if(ismob(user) && user.client)
+			C = user.client
+		if(C && C.open_popups)
+			C.open_popups -= window_id
 	else
 		CRASH("Browser [title] tried to close with a null ID")
 

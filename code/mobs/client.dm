@@ -53,7 +53,8 @@
 		if(. && istype(H))
 			movement_cooldown_until = time + H.movement_delay
 
-	for(var/window_id in open_popups)
+	var/list/closing_popups = open_popups.Copy()
+	for(var/window_id in closing_popups)
 		mob << browse(null, "window=[window_id]")
 		open_popups -= window_id
 
@@ -79,10 +80,15 @@
 	mpy = screen_loc_pixel(parts[2])
 
 /proc/screen_loc_pixel(part)
+	if(!part)
+		return 0
 	var/list/bits = splittext(part, ":")
 	if(bits.len < 2)
 		return 0
-	return text2num(bits[bits.len]) // last element is the pixel offset
+	var/pixel_offset = text2num(bits[bits.len])
+	if(isnull(pixel_offset))
+		return 0
+	return pixel_offset // last element is the pixel offset
 
 /client/proc/play_droning(music = null, vol = 50)
 	if(!music)
