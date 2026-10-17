@@ -21,6 +21,8 @@
 
 	var/image/mouseover_text
 	var/sound/droning_sound
+	var/sound/lobby_music
+	var/tmp/lobby_camera_sway = FALSE
 	var/current_ambience
 	var/current_ambience_channel
 	var/current_ambience_volume = 0
@@ -97,9 +99,36 @@
 	SEND_SOUND(src, sound_killer)
 	droning_sound = null
 
+/client/proc/play_lobby_music()
+	if(lobby_music)
+		return
+	lobby_music = sound('sound/music/title.ogg', repeat = TRUE, wait = FALSE, channel = CHANNEL_LOBBY_MUSIC, volume = 50)
+	SEND_SOUND(src, lobby_music)
+
+/client/proc/stop_lobby_music()
+	if(!lobby_music)
+		return
+	SEND_SOUND(src, sound(null, repeat = FALSE, wait = FALSE, channel = CHANNEL_LOBBY_MUSIC))
+	lobby_music = null
+
+/client/proc/start_lobby_camera_sway()
+	if(lobby_camera_sway)
+		return
+	lobby_camera_sway = TRUE
+	animate(src, transform = matrix().Turn(0.3), pixel_w = 0, pixel_z = 1, time = 30, easing = SINE_EASING, loop = -1)
+	animate(transform = matrix(), pixel_w = -1, pixel_z = 0, time = 30, easing = SINE_EASING)
+	animate(transform = matrix().Turn(-0.3), pixel_w = 0, pixel_z = -1, time = 30, easing = SINE_EASING)
+	animate(transform = matrix(), pixel_w = 1, pixel_z = 0, time = 30, easing = SINE_EASING)
+
+/client/proc/stop_lobby_camera_sway()
+	if(!lobby_camera_sway)
+		return
+	lobby_camera_sway = FALSE
+	animate(src, transform = matrix(), pixel_w = 0, pixel_z = 0, time = 5, easing = SINE_EASING)
+
 /client/proc/update_area_ambience(area/A)
 	var/track
-	if(A && islist(A.ambience) && A.ambience.len)
+	if(!istype(mob, /mob/lobbyman) && A && islist(A.ambience) && A.ambience.len)
 		track = pick(A.ambience)
 
 	var/target_volume = track ? A.ambience_volume : 0
