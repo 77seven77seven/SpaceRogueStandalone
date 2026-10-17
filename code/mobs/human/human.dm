@@ -9,13 +9,12 @@
 	var/skintone
 
 	var/base_delay = 3
-	var/move_delay = 3
+	var/movement_delay = 3
 
 	var/first_name = "Urist"
 	var/last_name = "H."
 
 	var/is_moving = FALSE
-	var/tmp/next_move = 0
 	var/tmp/next_attack = 0
 
 	var/datum/disease/disease
@@ -124,20 +123,6 @@
 		station.humans -= src
 		station.dead_humans -= src
 	ClearStatusEffects()
-	return ..()
-
-/mob/human/Move(NewLoc, Dir, step_x, step_y)
-	if(dead || ragdolled)
-		return FALSE
-
-	var/time = world.time
-
-	if(next_move > time)
-		return FALSE
-
-	//glide_size = ICON_SIZE / max(move_delay,TICK_LAG) * TICK_LAG
-
-	next_move = time + move_delay
 	return ..()
 
 /mob/human/Click(location, control, params)
@@ -630,8 +615,8 @@
 
 	penalty += broke_bones * 1.5
 
-	move_delay = max(1, base_delay + penalty)
-	return move_delay
+	movement_delay = max(1, base_delay + penalty)
+	return movement_delay
 
 /mob/human/proc/UpdateInhand()
 	if(!holding)

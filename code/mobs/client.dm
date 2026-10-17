@@ -1,3 +1,6 @@
+#define MOVEMENT_DELAY_BUFFER 0.75
+#define MOVEMENT_DELAY_BUFFER_DELTA 1.25
+
 /client
 	preload_rsc = 1
 	fps = 100
@@ -13,6 +16,8 @@
 	var/turf/movered
 	var/mpx = 0
 	var/mpy = 0
+	var/tmp/movement_cooldown_until = 0
+	var/tmp/mob/movement_mob
 
 	var/image/mouseover_text
 	var/sound/droning_sound
@@ -30,6 +35,25 @@
 /client/Del()
 	. = ..()
 	master.clients -= src
+
+/client/Move(loc, dir)
+	var/mob/human/H = mob
+	var/time = world.time
+
+	if(movement_mob != mob)
+		movement_mob = mob
+		movement_cooldown_until = 0
+
+	if(istype(H) && (H.dead || H.ragdolled || movement_cooldown_until > time))
+		. = FALSE
+	else
+		. = ..()
+		if(. && istype(H))
+			movement_cooldown_until = time + H.movement_delay
+
+	for(var/window_id in open_popups)
+		mob << browse(null, "window=[window_id]")
+		open_popups -= window_id
 
 /client/MouseMove(object, location, control, params)
 	. = ..()

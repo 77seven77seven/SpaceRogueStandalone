@@ -3,16 +3,6 @@ var/global/list/css_file_cache = list('interface/terminal.css')
 /client
 	var/list/open_popups = list()
 
-/client/Move(loc, dir)
-	. = ..()
-	for(var/X in open_popups)
-//		var/datum/browser/popup = new(mob, X, "", 5, 5)
-//		popup.set_content()
-//		popup.open()
-//		popup.close()
-		mob << browse(null, "window=[X]")
-		open_popups -= X
-
 /datum/popup
 	var/mob/user
 	var/title
