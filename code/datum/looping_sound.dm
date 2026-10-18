@@ -34,7 +34,7 @@ var/list/used_loop_channels = list()
 
 
 /datum/looping_sound
-	// ---- config: set these before Start() ----
+	// ---- config: set these before Start() ---
 	var/list/sources                  // objects the sound comes from (list)
 	var/list/tracks                   // assoc: sound file = length in deciseconds
 	var/shuffle = FALSE               // random order (never the same song twice in a row)
@@ -48,6 +48,7 @@ var/list/used_loop_channels = list()
 	var/line_volume = 70
 	var/lines_via_playsound = FALSE   // TRUE = use playsound(); its own range rules apply, not ours
 
+	// ---- RADIO STUFF ----
 	var/radio_filter = FALSE          // config: muffle the music (not the lines)
 
 	// ---- state ----
@@ -319,49 +320,3 @@ var/list/used_loop_channels = list()
 	for(var/client/C in listeners)
 		StopFor(C)
 	listeners = list()
-
-/obj/item/deco/radio
-	name = "radio"
-	icon_state = "radio"
-	desc = "Thanks to the ever expanding net of communications artiholes, this thing can receive frequencies faster-than-light! (That is if you consider wormholes to be FTL, that is.)"
-	desc_expansive_extra_skill = TECH
-	desc_expansive = "Maybe in the future you'll be able to tune this to specific stations. But today? Something tells you that the knobs are too stuck to rotate. Oof."
-	droprot = FALSE
-
-	vendor_name = "RDIO"
-	vendor_price = 81
-
-	var/datum/looping_sound/music
-
-/obj/item/deco/radio/Initialize()
-	. = ..()
-	music = new(src)
-	music.tracks = list(
-		'sound/music/radio/142046mhz/crystalmatango.ogg' = 2023,
-		'sound/music/radio/142046mhz/matangoneverbloom.ogg' = 1930,
-		'sound/music/radio/142046mhz/la_vipera.ogg' = 2140,
-		'sound/music/radio/142046mhz/tulpa.ogg' = 2430,
-		'sound/music/radio/142046mhz/psychic_veteran.ogg' = 2900,
-	)
-	music.lines = list(
-		'sound/music/radio/142046mhz/dj/dj_best_songs.ogg' = 200,
-		'sound/music/radio/142046mhz/dj/dj_gamble_responsibly.ogg' = 200,
-		'sound/music/radio/142046mhz/dj/dj_shoutout_frouge.ogg' = 200,
-		'sound/music/radio/142046mhz/dj/dj_shoutout_totchke.ogg' = 200,
-		'sound/music/radio/142046mhz/dj/dj_shove_it.ogg' = 200,
-		'sound/music/radio/142046mhz/dj/dj_thank_you.ogg' = 200
-	)
-	music.shuffle = TRUE
-	music.range = 5
-	music.radio_filter = TRUE
-	music.line_chance = 90
-
-	music.Start()
-
-/obj/item/deco/radio/use(mob/human/H)
-	. = ..()
-	music.BeginLine()
-
-/obj/item/deco/radio/Destroy(force)
-	QDEL_NULL(music)
-	return ..()

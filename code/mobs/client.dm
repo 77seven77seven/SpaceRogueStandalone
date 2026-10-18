@@ -249,6 +249,10 @@
 		world << "shuttle = OK"
 	else
 		world << "shuttle = FAIL"
+	if(system_radio)
+		world << "radio = OK"
+	else
+		world << "radio = FAIL"
 	world << "----"
 
 /client/verb/license()
