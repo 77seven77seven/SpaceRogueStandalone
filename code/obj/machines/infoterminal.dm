@@ -110,6 +110,19 @@
 	scroll_pause = 2
 	scroll_speed = 50
 
+/obj/machine/infoboard/medicaloid
+	headlines = list(
+		"PRAY FOR RECOVERY.",
+		"TIME TICKS DOWN, BUT YOU WILL STAND UP AND THRIVE!",
+		"INJURED? PRESS BUTTON FOR ASSISTANCE!",
+		"CATS ARE SCIENTIFICALLY PROVEN TO INCREASE SURVIVORSHIP. THIS INFOBOARD PERIODICALLY SHOWS EMOTICONS OF CATS.",
+		"≽^•⩊•^≼",
+		"ദ്ദി(• ⩊ •マ",
+		"⚞^◕⩊◕^⚟",
+		"≽^-⩊-^≼",
+		"/ᐠ˵> ˕ <˵マ"
+	)
+
 /obj/machine/infoboard/Initialize()
 	. = ..()
 	maptext_holder = new(src)

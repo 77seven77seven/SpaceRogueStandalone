@@ -5,7 +5,7 @@
 	pixel_y = 3
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "aA" = (
 /obj/deco/plant{
 	pixel_x = 17;
@@ -44,6 +44,9 @@
 	},
 /turf/open/space,
 /area/space)
+"by" = (
+/turf/solid/wall,
+/area/station/cafeteria)
 "bU" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small";
@@ -155,6 +158,9 @@
 	},
 /turf/open/space,
 /area/space)
+"eg" = (
+/turf/open/floor/wood,
+/area/station/cafeteria)
 "ek" = (
 /obj/deco/furniture/table/auto,
 /obj/item/deco/flower{
@@ -438,6 +444,9 @@
 "jN" = (
 /turf/solid/wall,
 /area/station/hydro)
+"ke" = (
+/turf/solid/window,
+/area/station/cafeteria)
 "km" = (
 /obj/door_control,
 /turf/solid/wall,
@@ -460,7 +469,7 @@
 	pixel_y = 7
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "kN" = (
 /obj/deco/graffiti/psychic{
 	pixel_y = 64
@@ -476,7 +485,7 @@
 	pixel_y = 64
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "lC" = (
 /obj/deco/furniture/chair{
 	dir = 4;
@@ -540,7 +549,7 @@
 	pixel_y = 7
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "ny" = (
 /obj/door_control,
 /turf/solid/wall,
@@ -566,7 +575,7 @@
 	pixel_y = 17
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "ox" = (
 /obj/door_control{
 	pixel_x = -64
@@ -745,7 +754,7 @@
 	pixel_y = 6
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "rZ" = (
 /obj/deco/furniture/table{
 	icon_state = "4"
@@ -794,7 +803,7 @@
 	pixel_y = 9
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "ti" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small";
@@ -859,10 +868,22 @@
 	pixel_y = 9
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "uN" = (
 /turf/solid/window,
 /area/station/tech)
+"uR" = (
+/obj/deco/furniture/bed,
+/obj/decal/floor/turf{
+	icon_state = "box_white";
+	color = "#bde9ff"
+	},
+/obj/machine/infoboard/medicaloid{
+	pixel_y = 64;
+	pixel_x = -32
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "uY" = (
 /turf/open/floor,
 /area/station/corporate)
@@ -905,7 +926,7 @@
 	pixel_y = 3
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "vP" = (
 /obj/decal/maintsign{
 	pixel_x = 6;
@@ -964,7 +985,7 @@
 	pixel_y = 8
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "xr" = (
 /obj/abstract/landmark/start{
 	name = "Hydroponocist"
@@ -1090,6 +1111,10 @@
 "BO" = (
 /turf/solid/wall,
 /area/space)
+"BP" = (
+/obj/deco/furniture/table/auto,
+/turf/open/floor/wood,
+/area/station/cafeteria)
 "BR" = (
 /obj/machine/info{
 	pixel_y = 64
@@ -1200,7 +1225,7 @@
 	pixel_y = -64
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "Ek" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small"
@@ -1360,6 +1385,14 @@
 	},
 /turf/open/floor,
 /area/station)
+"Hj" = (
+/obj/deco/furniture/table/auto,
+/obj/item/deco/radio{
+	pixel_x = -1;
+	pixel_y = 15
+	},
+/turf/open/floor/wood,
+/area/station/cafeteria)
 "Ho" = (
 /obj/decal/floor/turf{
 	icon_state = "warningline_white"
@@ -1437,7 +1470,7 @@
 	pixel_y = 10
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "Jr" = (
 /obj/deco/poster{
 	pixel_x = -64
@@ -1530,7 +1563,7 @@
 	pixel_x = 64
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "LS" = (
 /obj/deco/plant{
 	pixel_x = -20;
@@ -1620,7 +1653,7 @@
 	pixel_y = 4
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "Nu" = (
 /turf/solid/window,
 /area/space)
@@ -1650,7 +1683,7 @@
 	pixel_y = 8
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "Om" = (
 /obj/decal{
 	icon_state = "cantina1";
@@ -1674,6 +1707,16 @@
 /obj/deco/furniture/table/auto,
 /turf/open/floor/wood,
 /area/station/corporate/director)
+"PH" = (
+/obj/decal/floor{
+	icon_state = "wood_floor_transition";
+	dir = 1
+	},
+/obj/decal/floor/turf{
+	icon_state = "line_small"
+	},
+/turf/open/floor,
+/area/station/cafeteria)
 "PO" = (
 /obj/abstract/landmark/start{
 	name = "Enforcer"
@@ -1735,7 +1778,7 @@
 	pixel_y = 42
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "RL" = (
 /obj/decal{
 	icon_state = "chez0";
@@ -1806,7 +1849,7 @@
 	pixel_y = 9
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "TD" = (
 /obj/abstract/landmark/start{
 	name = "Miner"
@@ -1858,7 +1901,7 @@
 	pixel_y = 18
 	},
 /turf/open/floor/wood,
-/area/station)
+/area/station/cafeteria)
 "UM" = (
 /obj/deco/trashcan{
 	pixel_x = -16;
@@ -1924,6 +1967,10 @@
 	},
 /turf/open/floor,
 /area/station)
+"VH" = (
+/obj/deco/furniture/chair,
+/turf/open/floor/wood,
+/area/station/cafeteria)
 "VL" = (
 /obj/deco/plant{
 	pixel_x = -18;
@@ -8844,7 +8891,7 @@ ne
 ne
 ne
 Lp
-gm
+uR
 gm
 fB
 wH
@@ -11012,13 +11059,13 @@ Cg
 Zs
 Zs
 Zs
-Cg
-Cg
-eM
-eM
-eM
-Cg
-Cg
+by
+by
+ke
+ke
+ke
+by
+by
 jw
 Zs
 Zs
@@ -11139,14 +11186,14 @@ eM
 Zs
 Zs
 Zs
-Cg
+by
 kX
 kE
 tg
 Jf
 vC
-Cg
-Cg
+by
+by
 cy
 Zs
 tm
@@ -11266,14 +11313,14 @@ jN
 hO
 Zs
 Zs
-Hi
-yF
-sw
-sw
-sw
-tA
-tA
-Cg
+PH
+VH
+BP
+BP
+BP
+eg
+eg
+by
 eM
 eM
 eM
@@ -11393,14 +11440,14 @@ jN
 Om
 Zs
 Zs
-Hi
-tA
+PH
+eg
 rV
 Oe
 uG
-tA
-tA
-Cg
+eg
+eg
+by
 RT
 RT
 RT
@@ -11520,14 +11567,14 @@ GL
 AG
 Zs
 Zs
-Hi
-tA
+PH
+eg
 TB
 nv
 nZ
-tA
+eg
 Ee
-Cg
+by
 RT
 RT
 RT
@@ -11647,14 +11694,14 @@ GL
 AG
 Zs
 Zs
-Hi
-yF
-sw
-Xs
-sw
+PH
+VH
+BP
+Hj
+BP
 UL
-tA
-Cg
+eg
+by
 RT
 RT
 RT
@@ -11774,14 +11821,14 @@ jN
 BR
 Zs
 Zs
-Cg
+by
 RD
 Nr
 LI
 xl
-tA
+eg
 ap
-Cg
+by
 gF
 gF
 gF

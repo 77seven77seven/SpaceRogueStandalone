@@ -39,6 +39,11 @@
 	icon_state = "generic"
 	ambience = list('sound/music/ambiance/selene.ogg')
 
+/area/station/cafeteria
+	name = "cafeteria"
+	ambience = list('sound/music/ambiance/bar.ogg')
+	ambience_volume = 15
+
 /area/station/maintenance
 	name = "Maintenance Tunnels"
 	icon_state = "maints"
@@ -78,19 +83,24 @@
 /area/station/medical
 	name = "medicaloids"
 	icon_state = "medicaloid"
+	ambience = list('sound/music/ambiance/medical.ogg')
+	ambience_volume = 20
 
 /area/station/corporate
 	name = "corpors"
 	icon_state = "corpo"
-	ambience = list('sound/music/ambiance/corpo.ogg')
+	ambience = list('sound/music/ambiance/security.ogg')
 	ambience_volume = 20
 
 /area/station/corporate/director
 	name = "director"
+	ambience = list('sound/music/ambiance/corpo.ogg')
 
 /area/station/hydro
 	name = "hydroponics"
 	icon_state = "garden"
+	ambience = list('sound/music/ambiance/botany.ogg')
+	ambience_volume = 15
 
 /area/station/water
 	name = "waterworks"
@@ -99,8 +109,9 @@
 /area/station/tech
 	name = "techs"
 	icon_state = "engi"
+	ambience = list('sound/music/ambiance/cargo.ogg')
+	ambience_volume = 15
 
 /area/station/tech/mining
 	name = "mining"
 	icon_state = "miner"
-	ambience = list('sound/music/ambiance/maint.ogg')

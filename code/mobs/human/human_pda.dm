@@ -1,5 +1,5 @@
 /mob/human/proc/chat_pda(msg, style="good", silent = FALSE)
-	src << "<span class='[style]'>Your wristpad displays a message:</span>"
+	src << "<span class='[style] small'>Your wristpad displays a message:</span>"
 	src << "<span class='[style]' style='font-family:Verdana'>\"[uppertext(msg)]\"</span>\n"
 
 	if(!silent)
