@@ -186,11 +186,11 @@
 	mouse_opacity = 1
 	appearance_flags = PLANE_MASTER
 
-/*
 /obj/hud/plane_master/New(mob/human/owner)
 	. = ..()
 	owner.client.screen |= src
 
+	/*
 	animate(src, transform = matrix().Turn(2), time = 500, easing = QUAD_EASING | EASE_IN | EASE_OUT, loop = -1, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
 	animate(transform = matrix().Turn(-4), time = 500, easing = QUAD_EASING | EASE_IN | EASE_OUT, flags = ANIMATION_RELATIVE)
-*/
+	*/

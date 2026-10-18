@@ -14,6 +14,8 @@ var/list/used_loop_channels = list()
 
 /proc/AllocLoopChannel()
 	for(var/ch = LOOP_CHANNEL_MIN, ch <= LOOP_CHANNEL_MAX, ch++)
+		if(ch == CHANNEL_COMBAT_MUSIC || (ch >= CHANNEL_AREA_AMBIENCE_MIN && ch <= CHANNEL_AREA_AMBIENCE_MAX))
+			continue
 		if(!(ch in used_loop_channels))
 			used_loop_channels += ch
 			return ch
