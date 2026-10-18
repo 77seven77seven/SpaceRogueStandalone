@@ -116,6 +116,18 @@
 
 	filters += filter(type="drop_shadow", x=2, size=2, offset=1)
 
+/mob/human/Moved(atom/OldLoc, Dir, Forced = FALSE)
+	. = ..()
+	if(!. || Forced)
+		return
+
+	var/turf/step_turf = get_turf(src)
+	if(!step_turf || !step_turf.footstep_sounds || !step_turf.footstep_sounds.len)
+		return
+
+	var/vol = rand(3,20)
+	playsound(step_turf, pick(step_turf.footstep_sounds), vol, TRUE, -3)
+
 /mob/human/Destroy(force = FALSE)
 	if(processor)
 		processor.processing -= src

@@ -2,6 +2,7 @@
 
 /turf
 	var/base_icon_state = "rwall"
+	var/list/footstep_sounds
 
 /turf/Initialize()
 	..()
@@ -100,6 +101,7 @@
 	name = "floor"
 	icon_state = "floor"
 	var/artisinal = TRUE
+	footstep_sounds = list('sound/effects/obj/footstep_metal.ogg')
 
 /turf/open/floor/Initialize()
 	. = ..()
@@ -130,6 +132,7 @@
 /turf/open/floor/wood
 	icon_state = "wood"
 	artisinal = FALSE
+	footstep_sounds = list('sound/effects/obj/footstep_wood.ogg')
 
 /turf/open/floor/wood/alt
 	icon_state = "wood_alt"
