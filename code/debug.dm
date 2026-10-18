@@ -21,22 +21,7 @@
 	chat_announce("REGARDLESS OF RACE, SOCIAL STATUS, OR GENDER, WE'RE ALL AFFECTED!", "bad", sound('sound/effects/announce/three.ogg'))
 
 /mob/human/verb/planar()
-	var/duration = 10
-	var/intensity = 10
-	var/obj/hud/plane_master/PM = locate(/obj/hud/plane_master) in hud_holder.plane_masters
-
-	var/matrix/original_transform = PM.transform 
-	for(var/i in 1 to duration)
-		var/offset_x = rand(-intensity, intensity)
-		var/offset_y = rand(-intensity, intensity)
-
-		var/matrix/M = matrix(original_transform)
-		M.Translate(offset_x, offset_y)
-		
-		animate(PM, transform = M, time = 1, flags = ANIMATION_PARALLEL)
-		sleep(1)
-		
-	animate(PM, transform = original_transform, time = 1)
+	shake_cam(src)
 
 /client/verb/tune_radio()
     var/stream_url = "https://stream.sepia.sk:8000/impuls128.mp3"

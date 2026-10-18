@@ -10,6 +10,7 @@
 
 	var/base_delay = 3
 	var/movement_delay = 3
+	var/tmp/firing_slow_until = 0
 
 	var/first_name = "Urist"
 	var/last_name = "H."
@@ -629,6 +630,13 @@
 
 	movement_delay = max(1, base_delay + penalty)
 	return movement_delay
+
+/mob/human/proc/ApplyFiringSlowdown()
+	if(!client || client.movement_cooldown_until <= world.time)
+		return
+
+	firing_slow_until = world.time + 1 SECONDS
+	client.movement_cooldown_until = max(client.movement_cooldown_until, world.time + movement_delay + 2)
 
 /mob/human/proc/UpdateInhand()
 	if(!holding)

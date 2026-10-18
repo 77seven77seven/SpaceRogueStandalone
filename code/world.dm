@@ -47,6 +47,23 @@ var/global/list/landmarks_start_list = list()
 /datum/process_tester/Process()
 	//world << "hi [world.time]"
 
+/proc/shake_cam(mob/human/H, duration = 10, intensity = 10)
+	set waitfor = 0
+	var/obj/hud/plane_master/PM = locate(/obj/hud/plane_master) in H.hud_holder.plane_masters
+
+	var/matrix/original_transform = PM.transform 
+	for(var/i in 1 to duration)
+		var/offset_x = rand(-intensity, intensity)
+		var/offset_y = rand(-intensity, intensity)
+
+		var/matrix/M = matrix(original_transform)
+		M.Translate(offset_x, offset_y)
+		
+		animate(PM, transform = M, time = 1, flags = ANIMATION_PARALLEL)
+		sleep(1)
+		
+	animate(PM, transform = original_transform, time = 1)
+
 /proc/REF(input)
 	if(istype(input, /datum))
 		var/datum/thing = input

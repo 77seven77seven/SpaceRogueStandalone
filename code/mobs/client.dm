@@ -51,7 +51,10 @@
 	else
 		. = ..()
 		if(. && istype(H))
-			movement_cooldown_until = time + H.movement_delay
+			var/movement_delay = H.movement_delay
+			if(H.firing_slow_until > time)
+				movement_delay += 2
+			movement_cooldown_until = time + movement_delay
 
 	var/list/closing_popups = open_popups.Copy()
 	for(var/window_id in closing_popups)

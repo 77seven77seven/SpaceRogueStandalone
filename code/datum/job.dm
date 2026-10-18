@@ -65,6 +65,9 @@
 		shoes.appearance_flags = RESET_COLOR
 		H.overlays += shoes
 
+	if(corporate)
+		H.cmode_music = 'sound/music/chez_group.ogg'
+
 	return TRUE
 
 /datum/role/proc/get_skills()

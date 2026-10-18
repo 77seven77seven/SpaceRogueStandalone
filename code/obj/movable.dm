@@ -33,7 +33,8 @@
 			interact_ranged(user, params = params)
 	
 /atom/movable/proc/interact(mob/user, obj/item/held_item, params)
-	user.face_atom(src)
+	if(isturf(loc))
+		user.face_atom(src)
 	return
 
 /atom/movable/proc/interact_ranged(mob/user, obj/item/held_item, params)

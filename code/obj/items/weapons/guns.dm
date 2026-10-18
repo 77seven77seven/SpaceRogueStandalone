@@ -227,16 +227,24 @@
 	animate(shooter?.client, color = "#f3d4d4ff", easing = EASE_OUT, time = 0.5)
 	animate(color = "#ffefef", easing = EASE_IN, time = 0.5)
 
+	if(ishuman(shooter))
+		var/mob/human/human_shooter = shooter
+		human_shooter.ApplyFiringSlowdown()
+
 	firearm_recoil_mob(shooter)
 
+	var/recoil = 16 - round(gun_skill / 100 * 14)
+	shake_cam(shooter, 2, recoil)
+
 	playsound(get_turf(shooter), pick(gunshot_sounds), 75, TRUE, ignore_walls = TRUE)
+	var/rand_vol = rand(30,60)
 	for(var/mob/M in station.humans)
 		var/turf/M_turf = get_turf(M)
 		if(!M_turf)
 			continue
 		if(get_dist(M_turf, shooter.loc) < 7)
 			continue
-		M.playsound_local(M_turf, 'sound/effects/obj/guns/distantshot.ogg', 60, 1, get_rand_frequency(), falloff_exponent = 5)
+		M.playsound_local(M_turf, 'sound/effects/obj/guns/distantshot.ogg', rand_vol, 1, get_rand_frequency(), falloff_exponent = 5)
 
 	if(tracers)
 		for(var/list/impact in pellet_impacts)
