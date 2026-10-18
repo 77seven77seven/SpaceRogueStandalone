@@ -42,7 +42,7 @@
 /area/station/maintenance
 	name = "Maintenance Tunnels"
 	icon_state = "maints"
-	ambience = list('sound/music/ambiance/maint.ogg')
+	ambience = list('sound/music/ambiance/maint.ogg','sound/music/ambiance/maint2.ogg')
 
 /area/station/maintenance/New(loc)
 	. = ..()

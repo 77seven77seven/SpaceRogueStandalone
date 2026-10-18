@@ -108,7 +108,7 @@
 /client/proc/play_lobby_music()
 	if(lobby_music)
 		return
-	lobby_music = sound('sound/music/title.ogg', repeat = TRUE, wait = FALSE, channel = CHANNEL_LOBBY_MUSIC, volume = 50)
+	lobby_music = sound(pick('sound/music/title.ogg', 'sound/music/title2.ogg'), repeat = TRUE, wait = FALSE, channel = CHANNEL_LOBBY_MUSIC, volume = 50)
 	SEND_SOUND(src, lobby_music)
 
 /client/proc/stop_lobby_music()
