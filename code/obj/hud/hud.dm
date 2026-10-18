@@ -186,6 +186,10 @@
 	mouse_opacity = 1
 	appearance_flags = PLANE_MASTER
 
+	var/tmp/camera_shake_id = 0
+	var/tmp/camera_shake_active = FALSE
+	var/tmp/camera_shake_base_transform
+
 /obj/hud/plane_master/New(mob/human/owner)
 	. = ..()
 	owner.client.screen |= src

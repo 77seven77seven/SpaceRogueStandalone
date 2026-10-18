@@ -434,7 +434,7 @@
 		// Blank the tile, then draw a 2px line across its full width.
 		var/icon/I = icon('icons/obj/abstract/effects.dmi', "tracer", SOUTH, 1)
 		I.DrawBox(null, 1, 1, WORLD_ICON_SIZE, WORLD_ICON_SIZE)
-		I.DrawBox("#fff6c8", 1, WORLD_ICON_SIZE / 2, WORLD_ICON_SIZE, WORLD_ICON_SIZE / 2 + 1)
+		I.DrawBox("#ffffff", 1, WORLD_ICON_SIZE / 2, WORLD_ICON_SIZE, WORLD_ICON_SIZE / 2 + 1)
 		bullet_tracer_icon = I
 	icon = bullet_tracer_icon
 
@@ -456,8 +456,8 @@
 	transform = M
 
 	alpha = 230
-	animate(src, alpha = 0, time = 3, easing = SINE_EASING)
-	QDEL_IN(src, 3)
+	animate(src, alpha = 0, time = 2, easing = SINE_EASING)
+	QDEL_IN(src, 2)
 
 /client/Click(atom/object, location, control, params)
 	var/mob/human/H = mob

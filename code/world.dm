@@ -49,20 +49,30 @@ var/global/list/landmarks_start_list = list()
 
 /proc/shake_cam(mob/human/H, duration = 10, intensity = 10)
 	set waitfor = 0
+	if(!H || !H.client || !H.hud_holder || duration <= 0 || intensity <= 0)
+		return
 	var/obj/hud/plane_master/PM = locate(/obj/hud/plane_master) in H.hud_holder.plane_masters
+	if(!PM)
+		return
 
-	var/matrix/original_transform = PM.transform 
+	if(!PM.camera_shake_active)
+		PM.camera_shake_base_transform = matrix(PM.transform)
+		PM.camera_shake_active = TRUE
+	PM.camera_shake_id++
+	var/shake_id = PM.camera_shake_id
+
 	for(var/i in 1 to duration)
-		var/offset_x = rand(-intensity, intensity)
-		var/offset_y = rand(-intensity, intensity)
-
-		var/matrix/M = matrix(original_transform)
-		M.Translate(offset_x, offset_y)
-		
-		animate(PM, transform = M, time = 1, flags = ANIMATION_PARALLEL)
+		if(!PM || PM.camera_shake_id != shake_id)
+			return
+		var/matrix/shake_transform = matrix(PM.camera_shake_base_transform)
+		shake_transform.Translate(rand(-intensity, intensity), rand(-intensity, intensity))
+		PM.transform = shake_transform
 		sleep(1)
-		
-	animate(PM, transform = original_transform, time = 1)
+
+	if(!PM || PM.camera_shake_id != shake_id)
+		return
+	PM.transform = matrix(PM.camera_shake_base_transform)
+	PM.camera_shake_active = FALSE
 
 /proc/REF(input)
 	if(istype(input, /datum))
