@@ -74,16 +74,27 @@
 
 /obj/item/deco/radio/use(mob/human/H)
 	. = ..()
-	var/input = input(H, "Frequency Tuning", name, tuned_to?.radio_frequency) as num|null
-	if(input)
-		var/datum/looping_sound/radio/inputted = system_radio.frequency_to_channel(input)
-		if(inputted)
-			tuned_to?.RemoveSource(src)
-			tuned_to = inputted
-			tuned_to.AddSource(src)
+	if(H.SkillRoll(TECH))
+		var/input = input(H, "Frequency Tuning", name, tuned_to?.radio_frequency) as num|null
+		if(input)
+			var/datum/looping_sound/radio/inputted = system_radio.frequency_to_channel(input)
+			if(inputted)
+				change_station(inputted)
+			else
+				H.chat_info("Huh, just noise.","bad")
 		else
-			H.chat_info("Huh, just noise.","bad")
+			change_station(pick(system_radio.default_channels))
+			H.chat_info("Eh, I just flipped it to a random station.","good")
+	else
+		change_station(pick(system_radio.default_channels))
+		H.chat_info("Ugh, can't figure this out... I just flipped it to a random station.","bad")
+	playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
+
+/obj/item/deco/radio/proc/change_station(datum/looping_sound/radio/new_station)
+	tuned_to?.RemoveSource(src)
+	tuned_to = new_station
+	tuned_to.AddSource(src)
 
 /obj/item/deco/radio/Destroy(force)
-	
+	tuned_to?.RemoveSource(src)
 	return ..()
