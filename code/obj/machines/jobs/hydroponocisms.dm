@@ -229,6 +229,44 @@
 	flavor_profile = "Eugh, bleugh BLEUGH! For it being flavorless, it sure has a tendency to NOT have a good texture!"
 	flavor_profile_style = "bad"
 
+/obj/item/consumable/cooked_meal
+	name = "cooked meal lice"
+	desc = "Meal lice, finally given a purpose."
+	icon_state = "meallice"
+	destroy_on_eat = TRUE
+
+/obj/item/consumable/cooked_meal/hearty
+	name = "hearty meallice mash"
+	desc = "A dense mash that is unusually filling."
+	nutrition = 35
+	hydration = -5
+	mood = 8
+	flavor_profile = "A surprisingly filling bowl of meal lice."
+
+/obj/item/consumable/cooked_meal/fritters
+	name = "crispy meallice fritters"
+	desc = "A crunchy snack with enough texture to lift the spirit."
+	nutrition = 20
+	mood = 25
+	flavor_profile = "Crispy, warm, and almost pleasant."
+
+/obj/item/consumable/cooked_meal/broth
+	name = "meallice broth"
+	desc = "A thin broth that is much easier to swallow than plain meal lice."
+	nutrition = 10
+	hydration = 35
+	mood = 5
+	flavor_profile = "The warm broth takes the edge off your thirst."
+
+/obj/item/consumable/cooked_meal/ration
+	name = "compact meallice ration"
+	desc = "A compressed, calorie-heavy ration; dry and deeply unappetizing."
+	nutrition = 50
+	hydration = -12
+	mood = -5
+	flavor_profile = "Dense calories, at the cost of every other pleasure."
+	flavor_profile_style = "bad"
+
 /obj/item/seeds
 	name = "seeds"
 	desc = "A packet of seeds. You're not sure what's inside, maybe if you knew something about plants..."

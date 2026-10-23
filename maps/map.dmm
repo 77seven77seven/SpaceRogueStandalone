@@ -686,6 +686,10 @@
 /obj/machine/hydro,
 /turf/open/floor/light,
 /area/station/hydro)
+"qW" = (
+/obj/machine/cooking,
+/turf/open/floor/wood,
+/area/station/hydro)
 "re" = (
 /obj/door_control,
 /turf/solid/wall,
@@ -11435,7 +11439,7 @@ zV
 pU
 sR
 Ye
-Ye
+qW
 jN
 Om
 Zs
