@@ -1,4 +1,3 @@
-#define VOICE_BLIP_SOUND        'sound/blip.wav' // generic sound, override if needed :)
 #define VOICE_BASE_FREQUENCY    44100
 #define VOICE_PITCH_MIN         0.3
 #define VOICE_PITCH_MAX         0.65
@@ -11,7 +10,7 @@
 #define VOICE_BUBBLE_WIDTH      128
 
 /mob/human
-	var/voice_file = VOICE_BLIP_SOUND
+	var/voice_file = 'sound/blip.wav'
 	var/voice_freq    = 0
 	var/voice_channel = 0
 	var/voice_seq     = 0
@@ -162,6 +161,109 @@
 	if(voice_seq == my_seq)
 		if(voice_bubble == bubble)
 			voice_bubble = null
+
+/obj
+	var/voice_file = 'sound/blip_robot.wav'
+	var/voice_freq = 0
+	var/voice_channel = 0
+	var/voice_seq = 0
+	var/voice_color = "white"
+	var/atom/movable/voice_bubble
+
+/obj/proc/GenerateVoice()
+	var/seed_text = name
+	if(!seed_text || !length(seed_text))
+		seed_text = "[type]"
+	var/seed = TextHash(seed_text)
+	voice_freq = VOICE_PITCH_MIN + ((seed % 1000) / 1000) * (VOICE_PITCH_MAX - VOICE_PITCH_MIN)
+	voice_channel = 1 + (seed % 1024)
+
+/obj/proc/AnimatedSpeech(message, sound_path = voice_file, pitch_override, do_bubble = TRUE, whispering = FALSE)
+	set waitfor = FALSE
+	if(!message || !length(message))
+		return
+	if(!voice_freq)
+		GenerateVoice()
+
+	var/hear_range = VOICE_HEAR_RANGE
+	var/pitch = pitch_override || voice_freq
+	var/my_seq = ++voice_seq
+	var/client/measure_client
+
+	if(whispering)
+		hear_range = floor(hear_range / 2)
+
+	for(var/mob/M in hearers(hear_range, src))
+		if(istype(M, /mob/lobbyman))
+			continue
+		if(M.deaf)
+			continue
+		if(M.client)
+			if(!measure_client)
+				measure_client = M.client
+			var/icon/I = getFlatIcon(src, SOUTH)
+			M << "\icon[I] <b>[name]</b> : \"<span style='color:[voice_color];font-family:Verdana;font-size: [whispering ? "75%" : "100%"]'>[message]</span>\""
+
+	var/obj/machine/microphone/mic = locate() in get_turf(src)
+	if(mic && mic.on)
+		mic.speak_into(message)
+
+	if(!do_bubble)
+		return
+
+	if(voice_bubble)
+		vis_contents -= voice_bubble
+
+	var/mtet
+	if(measure_client)
+		WXH_TO_HEIGHT(measure_client.MeasureText(message, null, VOICE_BUBBLE_WIDTH), mtet)
+	else
+		mtet = max(16, ceil(length_char(message) / 18) * 16)
+
+	var/atom/movable/bubble/bubble = new()
+	bubble.maptext_height = mtet
+	bubble.maptext_x = (VOICE_BUBBLE_WIDTH - bound_width) * -0.5
+	bubble.pixel_y = bound_height * 0.95
+	bubble.appearance_flags = KEEP_APART|RESET_TRANSFORM
+
+	voice_bubble = bubble
+	vis_contents += bubble
+
+	message = html_decode(message)
+
+	var/shown = ""
+	var/blip_count = 0
+	for(var/i = 1, i <= length_char(message), i++)
+		if(voice_seq != my_seq)
+			vis_contents -= bubble
+			if(voice_bubble == bubble)
+				voice_bubble = null
+			return
+
+		var/ch = copytext_char(message, i, i + 1)
+		shown += ch
+		bubble.maptext = "<span style='color:[voice_color];background-color: #23232391;text-align:center;font-family:Verdana;font-size:14px'>[shown]</span>"
+
+		if(ch != " " && ch != "\n")
+			blip_count++
+			if(blip_count % VOICE_BLIP_EVERY == 0)
+				PlayBlip(pitch, sound_path)
+
+		sleep(VOICE_TYPE_SPEED)
+
+	voice_bubble.loc = get_turf(src)
+	vis_contents -= bubble
+	animate(voice_bubble, VOICE_BUBBLE_LINGER, alpha = 10, maptext_y = 20)
+	sleep(VOICE_BUBBLE_LINGER)
+	QDEL_NULL(bubble)
+	if(voice_seq == my_seq)
+		if(voice_bubble == bubble)
+			voice_bubble = null
+
+/obj/proc/PlayBlip(pitch, sound_path)
+	var/wobble = 1 + (rand(-100, 100) * 0.01 * VOICE_JITTER)
+	var/freq = VOICE_BASE_FREQUENCY * pitch * wobble
+	playsound(get_turf(src), sound_path, VOICE_BLIP_VOLUME, frequency = freq, channel = voice_channel)
 
 // EMOTES
 
