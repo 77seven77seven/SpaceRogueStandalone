@@ -28,6 +28,8 @@
 	var/ammo_loaded = 9
 	var/ammo_max = 9
 	var/ejects_casings = TRUE
+	var/ejects_casings_on_reload = FALSE
+	var/casings_to_eject = 0
 
 	var/range = 20 * WORLD_ICON_SIZE       // pixels, 20 tiles, enough basically
 	
@@ -50,9 +52,9 @@
 	icon_state = "revolver"
 	gunshot_sounds = list('sound/effects/obj/guns/revolver1.ogg','sound/effects/obj/guns/revolver2.ogg')
 	accuracy = 0.95 // It's a snubnose revolver.
-	fire_delay = 6
+	fire_delay = 8
 
-	ejects_casings = FALSE
+	ejects_casings_on_reload = TRUE
 
 	ammo_type = AMMO_BIG
 	ammo_loaded = 6
@@ -130,8 +132,17 @@
 	ammo_loaded += added
 
 	playsound(get_turf(shooter), 'sound/effects/obj/guns/reload.ogg', 90, TRUE)
+	if(ejects_casings_on_reload && casings_to_eject)
+		EjectCasings(shooter, casings_to_eject)
+		casings_to_eject = 0
 
 	return TRUE
+
+/obj/item/gun/proc/EjectCasings(mob/shooter, count)
+	for(var/i in 1 to count)
+		spawn(rand(0.1,0.4))
+			new /atom/movable/casing(get_turf(shooter))
+			playsound(get_turf(shooter), 'sound/effects/obj/guns/casing.ogg', 65, TRUE)
 
 /obj/item/gun/use(mob/human/H)
 	. = ..()
@@ -250,8 +261,10 @@
 		for(var/list/impact in pellet_impacts)
 			new /obj/bullet_tracer(get_turf(shooter), ox, oy, impact["x"], impact["y"])
 	if(ejects_casings)
-		new /atom/movable/casing(get_turf(shooter))
-		playsound(get_turf(shooter), 'sound/effects/obj/guns/casing.ogg', 65, TRUE)
+		if(ejects_casings_on_reload)
+			casings_to_eject++
+		else
+			EjectCasings(shooter, 1)
 
 	if(istype(target, /mob/human) && pellet_hits)
 		ApplyHit(shooter, target, pellet_hits, headshot_hits)

@@ -75,6 +75,7 @@
 	processing = TRUE
 
 	var/prev_rastra = 1
+	var/prev_color_level = 1
 
 	var/list/health_color_levels = list("#aeea77", "#ccd455", "#d48743", "#da6c31", "#7e3830", "#ffffff")
 	var/iconismus = "health"
@@ -87,6 +88,8 @@
 		return
 	var/health = owner.health
 	var/rastra
+	var/color_health = min((health / max(1, owner.max_health)) * 100, owner.blood)
+	var/color_level
 
 	switch(health)
 		if(70 to INFINITY)
@@ -102,13 +105,33 @@
 		else
 			rastra = 6
 
+	switch(color_health)
+		if(70 to INFINITY)
+			color_level = 1
+		if(60 to 70)
+			color_level = 2
+		if(40 to 60)
+			color_level = 3
+		if(20 to 40)
+			color_level = 4
+		if(1 to 20)
+			color_level = 5
+		else
+			color_level = 6
+
+	if(prev_rastra != rastra || prev_color_level != color_level)
+		animate(src, pixel_x = 2, time = 1)
+		animate(pixel_x = -2, time = 1)
+		animate(pixel_x = 0, time = 1)
+
 	if(prev_rastra < rastra)
 		owner.playsound_local(get_turf(owner), 'sound/effects/senses/health_face.ogg')
 	prev_rastra = rastra
+	prev_color_level = color_level
 
 	icon_state = "[iconismus][rastra]"
 
-	var/colorissimo = health_color_levels[rastra]
+	var/colorissimo = health_color_levels[color_level]
 	animate(src, 2, color = colorissimo)
 
 /obj/hud/combat

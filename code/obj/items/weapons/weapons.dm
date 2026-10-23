@@ -30,9 +30,9 @@
 
 	user.swing_anim(target, 8, 12, 1)
 
-	if(!target.client || target.client.movement_cooldown_until <= world.time)
+	if(target.client && target.client.movement_cooldown_until <= world.time)
 		var/dodge_chance = min(20, 5 + target_melee_skill * 0.15)
-		if(prob(dodge_chance))
+		if(prob(dodge_chance) && !target.dead)
 			target.chat_info("You dodge [user]'s [name].", "good")
 			user.chat_info("[target] dodges your [name].", "bad")
 			return FALSE
