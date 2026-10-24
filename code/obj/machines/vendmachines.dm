@@ -55,7 +55,7 @@
 
 /obj/machine/vendor/Initialize()
 	. = ..()
-	broken = prob(8)
+	broken = prob(1)
 
 	maptext_holder = new(src)
 	maptext_holder.maptext = "<div style='color:#A4A4A2; line-height: 0.6; text-align:center; font-size: 80%; font-family: Tiny5;'>OHNOE<br>900§</div>"
@@ -114,11 +114,10 @@
 	if(istype(held_item, /obj/item/tool/wrench))
 		return
 	if(istype(held_item, /obj/item/restock_package))
-		if(!user.mind || !istype(user.mind.current_job, /datum/role/technician))
-			user.chat_info("Only an assigned technician can restock vending machines.", "bad")
-			return
 		if(!istype(held_item, package_type))
-			user.chat_info("That cartridge is not compatible with this vending machine.", "bad")
+			user.chat_info("Looks incompatible. Look, the pins are all wrong.", "bad")
+			return
+		if(!user.mind || !user.SkillRoll(TECH))
 			return
 
 		var/restocked = 0
@@ -133,14 +132,17 @@
 			return
 
 		held_item.destroyself(user)
-		user.mind.performance_paycheck += 5
-		user.chat_info("You restock [name]. CHEZ has added [5]§ to your performance pay.")
+		user.mind.performance_paycheck += 40
+		playsound(get_turf(src), 'sound/effects/obj/restock.ogg', 75)
 		return
 
 	var/_x = text2num(params2list(params)["icon-x"])
 	var/_y = text2num(params2list(params)["icon-y"])
 
 	if(broken)
+		playsound(get_turf(src), 'sound/effects/pda/scanner0.ogg', vol = 75)
+		animate(maptext_holder, 0.5, color = "#ff0000")
+		animate(color = "#ffffff", time = 5)
 		user.chat_info("The vending machine is out of order.", "bad")
 		return
 
@@ -162,7 +164,7 @@
 			new_item.update_transform()
 			if(prob(1))
 				broken = TRUE
-				user.chat_info("[name] sputters and breaks down. It needs a wrench repair.", "bad")
+				user.chat_info("[name] sputters and breaks down.", "bad")
 	else if(check_pixel_bounds(_x, _y, 22, 26, 24, 30))
 		flick_overlay_view(image(src.icon, src, "left"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)

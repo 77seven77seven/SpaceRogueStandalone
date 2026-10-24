@@ -7,11 +7,9 @@
 		return TRUE
 
 	broken = FALSE
-	if(istype(src, /obj/machine/vendor) && user.mind && istype(user.mind.current_job, /datum/role/technician))
+	if(user.mind && istype(user.mind.current_job, /datum/role/technician))
 		user.mind.performance_paycheck += 20
-		user.chat_info("You repair [name]. CHEZ has added [5]§ to your performance pay.")
-	else
-		user.chat_info("You repair [name].")
+	playsound(get_turf(src), 'sound/effects/obj/wrench.ogg', 75)
 	return TRUE
 
 /obj/item/tool/wrench
@@ -73,13 +71,12 @@
 
 /obj/machine/technician_terminal/Topic(href, href_list)
 	. = ..()
-	if(href_list["close"])
-		var/mob/human/closing_user = usr
-		if(closing_user?.client)
-			closing_user.client.open_popups -= href_list["close"]
-		return
-
 	var/mob/human/user = usr
+	if(href_list["close_terminal"])
+		user << browse(null, "window=STOCKMASTER-vLUKE")
+		user.client.open_popups -= "STOCKMASTER-vLUKE"
+		return
+	
 	if(!user || !user.client || !user.mind || !user.SkillRoll(TECH, FALSE, -1) || !Adjacent(user))
 		return
 
@@ -111,10 +108,6 @@
 		order.stock--
 		addtimer(CALLBACK(linked_telepad, TYPE_PROC_REF(/obj/machine/telepad, deliver_order), order.item_path, user), order.delivery_time)
 		AnimatedSpeech("ORDER ACCEPTED. DELIVER IN: [max(1, round(order.delivery_time / 10))] SECONDS.")
-	else if(href_list["close_terminal"])
-		user << browse(null, "window=STOCKMASTER-vLUKE")
-		user.client.open_popups -= "STOCKMASTER-vLUKE"
-		return
 
 	open_terminal(user, supplier_index)
 
@@ -199,7 +192,7 @@
 			var/item_path = pick(candidates)
 			candidates -= item_path
 			var/obj/item/item_type = item_path
-			var/base_price = item_type.vendor_price > 0 ? item_type.vendor_price : rand(5, 60)
+			var/base_price = item_type.vendor_price > 0 ? item_type.vendor_price : rand(5, 40)
 			add_catalog_order(catalog, item_path, uppertext(replacetext(item_type.name, " ", "")), max(1, base_price + rand(-10, 10)), rand(1, 4), rand(3 SECONDS, 60 SECONDS))
 	else
 		for(var/item_path in restock_paths)
@@ -239,7 +232,9 @@
 	whiteout.icon = src.icon
 	whiteout.icon_state = "telepad-glow"
 	whiteout.mouse_opacity = 0
-	whiteout.color = "#000000ff"
+	whiteout.filters += filter(type="bloom", size=3, offset = 0.5, alpha = 220)
+	whiteout.alpha = 0
+
 	vis_contents += whiteout
 
 	for(var/obj/machine/technician_terminal/terminal in range(6, get_turf(src)))
@@ -249,8 +244,19 @@
 /obj/machine/telepad/proc/deliver_order(item_path, mob/human/ordered_by)
 	if(!get_turf(src))
 		return
-	var/obj/item/delivery = new item_path(get_turf(src))
-	delivery.update_transform()
-	playsound(get_turf(src), 'sound/effects/obj/machine_vend.ogg', vol = 75)
-	if(ordered_by && ordered_by.client)
-		ordered_by.chat_info("Your order of [delivery.name] has arrived at the telepad.")
+	playsound(get_turf(src), 'sound/effects/obj/tele.ogg', vol = 75)
+	animate(whiteout, time = 16.72, alpha = 255)
+
+	if(!length(whiteout.filters))
+		world.log << "teleport filters: FILTER MISSING!!"
+		return // filter missing, bail instead of runtime
+
+	spawn(16.72)
+		animate(whiteout, time = 2, alpha = 0)
+
+		var/bloom = whiteout.filters[1]
+		animate(bloom, time = 0.1, size = 4)
+		animate(time = 16.72, size = 0)
+
+		var/obj/item/delivery = new item_path(get_turf(src))
+		delivery.update_transform()
