@@ -307,12 +307,15 @@
 		UpdateHUD()
 	return health - old_health
 
-/mob/human/proc/TakeDamage(amount, source)
+/mob/human/proc/TakeDamage(amount, source, camera_shake_duration = 3, camera_shake_intensity = 2)
 	if(dead || amount <= 0)
 		return 0
 
 	var/old_health = health
 	health = max(0, health - amount)
+
+	if(old_health > health)
+		shake_cam(src, camera_shake_duration, camera_shake_intensity)
 
 	if(health <= 0)
 		Die(source)

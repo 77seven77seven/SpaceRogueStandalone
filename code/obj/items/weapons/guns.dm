@@ -365,7 +365,7 @@
 	animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE)
 
 	playsound(get_turf(victim), pick(list('sound/effects/human/medical/combat/pierce1.ogg', 'sound/effects/human/medical/combat/pierce2.ogg', 'sound/effects/human/medical/combat/pierce3.ogg', 'sound/effects/human/medical/combat/pierce4.ogg', 'sound/effects/human/medical/combat/pierce5.ogg')), 65, TRUE)
-	victim.TakeDamage(dmg, "[shooter] - [hit_zone]")
+	victim.TakeDamage(dmg, "[shooter] - [hit_zone]", 6, 14)
 	if(headshot_hits && !victim.dead)
 		victim.AdjustBrainDamage(headshot_hits * 3)
 	victim.bleed_effect()
