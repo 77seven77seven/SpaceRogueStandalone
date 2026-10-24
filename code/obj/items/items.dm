@@ -208,6 +208,7 @@ var/list/icon_dim_cache = list()
 
 /obj/item/consumable
 	name = "consumable"
+	buy_rollable = FALSE
 
 	var/nutrition = 0
 	var/hydration = 0

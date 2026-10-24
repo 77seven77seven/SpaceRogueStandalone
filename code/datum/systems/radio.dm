@@ -99,6 +99,8 @@
 	. = ..()
 	if(start_playing)
 		change_station(pick(system_radio.default_channels))
+	if(prob(50))
+		change_station(system_radio.noise)
 
 /obj/item/deco/radio/use(mob/human/H)
 	. = ..()

@@ -50,12 +50,12 @@
 	var/list/datum/vending_product/product_records = list() // This is what is used for keeping track of items.
 	var/items_index = 1
 	
-	var/obj/item/restock_package/package_type
-	var/jammed = FALSE
+	var/obj/item/restock_package/package_type = /obj/item/restock_package
 	var/taxless = YES_TAXES
 
 /obj/machine/vendor/Initialize()
 	. = ..()
+	broken = prob(8)
 
 	maptext_holder = new(src)
 	maptext_holder.maptext = "<div style='color:#A4A4A2; line-height: 0.6; text-align:center; font-size: 80%; font-family: Tiny5;'>OHNOE<br>900§</div>"
@@ -107,12 +107,42 @@
 
 /obj/machine/vendor/get_examine_text()
 	var/datum/vending_product/chosen = product_records[items_index]
-	return "<b>[chosen.name]:</b> [chosen.full_name] | <b>REMAINING STOCK:</b> [chosen.amount]"
+	return "<b>[chosen.name]:</b> [chosen.full_name] | <b>REMAINING STOCK:</b> [chosen.amount][broken ? " | <b>STATUS:</b> OUT OF ORDER" : ""]"
 
 /obj/machine/vendor/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()
+	if(istype(held_item, /obj/item/tool/wrench))
+		return
+	if(istype(held_item, /obj/item/restock_package))
+		if(!user.mind || !istype(user.mind.current_job, /datum/role/technician))
+			user.chat_info("Only an assigned technician can restock vending machines.", "bad")
+			return
+		if(!istype(held_item, package_type))
+			user.chat_info("That cartridge is not compatible with this vending machine.", "bad")
+			return
+
+		var/restocked = 0
+		for(var/datum/vending_product/record in product_records)
+			var/to_add = record.max_amount - record.amount
+			if(to_add > 0)
+				record.amount = record.max_amount
+				restocked += to_add
+
+		if(!restocked)
+			user.chat_info("The vending machine is already fully stocked.", "bad")
+			return
+
+		held_item.destroyself(user)
+		user.mind.performance_paycheck += 5
+		user.chat_info("You restock [name]. CHEZ has added [5]§ to your performance pay.")
+		return
+
 	var/_x = text2num(params2list(params)["icon-x"])
 	var/_y = text2num(params2list(params)["icon-y"])
+
+	if(broken)
+		user.chat_info("The vending machine is out of order.", "bad")
+		return
 
 	if(check_pixel_bounds(_x, _y, 30, 36, 24, 30))
 		flick_overlay_view(image(src.icon, src, "confirm"), src, 2)
@@ -124,15 +154,15 @@
 			animate(maptext_holder, 0.5, color = "#ff0000")
 			animate(color = "#ffffff", time = 5)
 		else
-			if(jammed)
-				user << "Tough luck, buddy." // TODO: temporary logic
-			else
-				VP.amount--
-				var/obj/item/new_item = new VP.product_path(src)
-				playsound(get_turf(src), 'sound/effects/obj/machine_vend.ogg', vol = 75)
-				sleep(0.331 SECONDS)
-				new_item.loc = get_turf(src)
-				new_item.update_transform()
+			VP.amount--
+			var/obj/item/new_item = new VP.product_path(src)
+			playsound(get_turf(src), 'sound/effects/obj/machine_vend.ogg', vol = 75)
+			sleep(0.331 SECONDS)
+			new_item.loc = get_turf(src)
+			new_item.update_transform()
+			if(prob(1))
+				broken = TRUE
+				user.chat_info("[name] sputters and breaks down. It needs a wrench repair.", "bad")
 	else if(check_pixel_bounds(_x, _y, 22, 26, 24, 30))
 		flick_overlay_view(image(src.icon, src, "left"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
@@ -156,6 +186,7 @@
 	desc = "Most commonly used for use in medical areas. Features an expansive refridgerated sterile storage to minimize change of infection when using stored products."
 	overlay_icon = "medmed"
 	color_tint = "#bde9ff"
+	package_type = /obj/item/restock_package/medic
 
 	items = list(/obj/item/medical/bandage = 20, /obj/item/medical/splint = 15, /obj/item/medical/pills/vitamins = 10, /obj/item/medical/pills/magnesium = 10, /obj/item/medical/pills/antibiotics = 5)
 
@@ -175,18 +206,21 @@
 	name = "WENDR-YUMNUM E300"
 	desc = "Eh."
 	color_tint = "#cdffbd"
+	package_type = /obj/item/restock_package/food
 
 	items = list(/obj/item/consumable/annegree = 15, /obj/item/consumable/limelite = 15, /obj/item/consumable/nutrition = 10)
 
 /obj/machine/vendor/merc
 	name = "WENDR-LAYLAW A47"
 	overlay_icon = "laylaw"
+	package_type = /obj/item/restock_package/merc
 
 	items = list(/obj/item/ammo_box = 12, /obj/item/ammo_box/big = 6, /obj/item/ammo_box/shells = 6)
 
 /obj/machine/vendor/planta
 	name = "WENDR-HYDRO C6"
 	overlay_icon = "planta"
+	package_type = /obj/item/restock_package/planta
 
 	items = list(/obj/item/seeds/mealwood = 8)
 

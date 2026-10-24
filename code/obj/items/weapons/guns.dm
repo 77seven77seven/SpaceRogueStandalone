@@ -593,6 +593,7 @@
 /obj/item/ammo_box/random
 	ammo_type = null
 	ammo_amt = null
+	buy_rollable = FALSE
 
 	vendor_name = "ASS."
 	vendor_price = 75 // Dissident only, lets keep it cheap-ish.

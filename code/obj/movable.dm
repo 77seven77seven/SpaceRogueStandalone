@@ -22,6 +22,10 @@
 	if(Adjacent(user))
 		if(ishuman(user))
 			var/mob/human/H = user
+			if(istype(src, /obj/machine) && istype(H.holding, /obj/item/tool/wrench))
+				var/obj/machine/M = src
+				M.wrench_interact(H)
+				return
 			interact(H, H.holding, params)
 		else
 			interact(user, params = params)

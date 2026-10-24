@@ -168,6 +168,12 @@
 /datum/role/technician/get_skills()
 	return list(TECH = 85 + rand(-10,10))
 
+/datum/role/technician/equip(mob/human/H)
+	. = ..()
+	if(prob(80))
+		var/obj/item/tool/wrench/wrench = new(H)
+		H.inventory += wrench
+
 /datum/role/miner
 	title = "Miner"
 	desc = "The brother or sister, more of a cousin to the Technician. You're both in the same union, and your jobs are remarkably similar. You venture down into the mines to find ore, scrap them to... well, scrap. And then refine them yourself in an incredibly convoluted process. At least the pay's nice, and the Director is sure to give you a nice bonus for quotas. You run the primary economy of the station! Act like it! Wear your union badge with pride."
