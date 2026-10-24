@@ -1389,7 +1389,8 @@
 /obj/deco/furniture/table/auto,
 /obj/item/deco/radio{
 	pixel_x = -1;
-	pixel_y = 15
+	pixel_y = 15;
+	start_playing = 1
 	},
 /turf/open/floor/wood,
 /area/station/cafeteria)
@@ -2036,9 +2037,10 @@
 /obj/deco/furniture/table/auto,
 /obj/item/deco/radio{
 	pixel_x = -1;
-	pixel_y = 15
+	pixel_y = 15;
+	start_playing = 1
 	},
-/turf/open/floor/wood,
+/turf/open/floor,
 /area/station)
 "Ye" = (
 /turf/open/floor/wood,
@@ -9664,7 +9666,7 @@ yF
 tA
 yF
 nQ
-Xs
+sw
 tA
 Cg
 eC
@@ -10819,7 +10821,7 @@ Zs
 Zs
 Zs
 eM
-pa
+Xs
 Zs
 Hq
 eM

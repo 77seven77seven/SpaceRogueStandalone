@@ -3,7 +3,7 @@
 #define LOOP_CHANNEL_MAX 1024
 
 // Index 2 is directHF (high-frequency cut). More negative = more muffled. Tweak by ear.
-#define RADIO_ECHO list(0, -3000)
+#define RADIO_ECHO list(-500, -4000)
 
 #ifndef QDELETED
 #define QDELETED(X) (isnull(X))
