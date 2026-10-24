@@ -19,6 +19,7 @@
 #include "_libs\fonts\DmiFontsPlus.dm"
 #include "_libs\fonts\Tiny56pt.dm"
 #include "_libs\fonts\Tiny5Bold6pt.dm"
+#define SHADOWCAST_MANUAL_TICK
 #include "_libs\shadowcast\lib\shadowcast\shadowcast.dm"
 #include "_libs\timer\timers.dm"
 #include "code\_defines.dm"

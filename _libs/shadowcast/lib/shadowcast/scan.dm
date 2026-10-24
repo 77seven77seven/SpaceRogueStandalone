@@ -51,27 +51,32 @@
 	if(w < 1 || h < 1)
 		return out
 	var/list/opq = new /list(w * h)
+	var/list/blocked = list()
 	for(var/i in 0 to w - 1)
 		for(var/j in 0 to h - 1)
 			var/turf/T = locate(x0 + i, y0 + j, cz)
-			opq[i * h + j + 1] = (T && SHADOWCAST_BLOCKS(T)) ? 1 : 0
-	for(var/i in 0 to w - 1)
-		for(var/j in 0 to h - 1)
-			if(!opq[i * h + j + 1])
-				continue
-			var/tx = x0 + i
-			var/ty = y0 + j
-			var/l = (tx - 1) * tw
-			var/b = (ty - 1) * th
-			var/r = l + tw
-			var/t = b + th
-			// Faces on the window border count as exposed; they are off-screen anyway.
-			if(j == h - 1 || !opq[i * h + j + 2])
-				out += list(list("[tx],[ty]N", l, t, r, t, 0, 1))
-			if(j == 0 || !opq[i * h + j])
-				out += list(list("[tx],[ty]S", l, b, r, b, 0, -1))
-			if(i == w - 1 || !opq[(i + 1) * h + j + 1])
-				out += list(list("[tx],[ty]E", r, b, r, t, 1, 0))
-			if(i == 0 || !opq[(i - 1) * h + j + 1])
-				out += list(list("[tx],[ty]W", l, b, l, t, -1, 0))
+			var/index = i * h + j + 1
+			var/is_blocked = T && SHADOWCAST_BLOCKS(T)
+			opq[index] = is_blocked ? 1 : 0
+			if(is_blocked)
+				blocked += index
+	for(var/blocked_index in blocked)
+		var/index = blocked_index - 1
+		var/i = floor(index / h)
+		var/j = index % h
+		var/tx = x0 + i
+		var/ty = y0 + j
+		var/l = (tx - 1) * tw
+		var/b = (ty - 1) * th
+		var/r = l + tw
+		var/t = b + th
+		// Faces on the window border count as exposed; they are off-screen anyway.
+		if(j == h - 1 || !opq[i * h + j + 2])
+			out += list(list("[tx],[ty]N", l, t, r, t, 0, 1))
+		if(j == 0 || !opq[i * h + j])
+			out += list(list("[tx],[ty]S", l, b, r, b, 0, -1))
+		if(i == w - 1 || !opq[(i + 1) * h + j + 1])
+			out += list(list("[tx],[ty]E", r, b, r, t, 1, 0))
+		if(i == 0 || !opq[(i - 1) * h + j + 1])
+			out += list(list("[tx],[ty]W", l, b, l, t, -1, 0))
 	return out

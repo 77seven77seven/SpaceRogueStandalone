@@ -37,6 +37,10 @@ mid-glide collapses to zero area at the crossing instant (and grows from it), so
 Each quad is two matrix-transformed right-triangle sprites (`triangle.png`), composited on a plane
 master. `SEAM_GAIN` closes the hairline where triangles meet.
 
+BYOND DM runs on the server: opacity scanning and shadow geometry are calculated there, while each
+client renders and animates its own screen objects. The scan builds an opacity map, then visits only
+blocking tiles when collecting exposed faces, avoiding a second pass over transparent tiles.
+
 ## Displacement filter
 
 The mask plane carries `filter(type = "displace")` fed by a hidden noise map (`noise.png`, a

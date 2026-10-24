@@ -46,6 +46,9 @@ var/global/list/landmarks_start_list = list()
 	var/datum/D = new /datum/process_tester
 	processor.processing += D
 
+/world/Tick()
+	shadowcast_tick()
+
 /datum/process_tester/Process()
 	//world << "hi [world.time]"
 

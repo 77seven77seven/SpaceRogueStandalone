@@ -59,12 +59,14 @@
 /area/station/maintenance/Entered(mob/human/H, OldLoc)
 	. = ..()
 	if(ishuman(H) && H.client)
+		H.shadowcast_fov = 120
 		var/obj/hud/plane_master/PM = locate(/obj/hud/plane_master) in H?.hud_holder?.plane_masters
 		if(PM) animate(PM, time = 10, color = "#A4A4A2", easing = QUAD_EASING | EASE_IN | EASE_OUT, flags = ANIMATION_PARALLEL)
 
 /area/station/maintenance/Exited(mob/human/H, newloc)
 	. = ..()
 	if(ishuman(H) && H.client)
+		H.shadowcast_fov = 360
 		var/obj/hud/plane_master/PM = locate(/obj/hud/plane_master) in H?.hud_holder?.plane_masters
 		if(PM) animate(PM, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 10, flags = ANIMATION_PARALLEL)
 

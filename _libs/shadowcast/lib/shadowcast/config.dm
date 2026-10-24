@@ -36,14 +36,14 @@
 /// Each shadow quad is grown by this many pixels (sideways + into the wall)
 /// so neighbouring quads overlap even if the client ignores SEAM_GAIN.
 #ifndef SHADOWCAST_EDGE_GROW
-#define SHADOWCAST_EDGE_GROW 0.5
+#define SHADOWCAST_EDGE_GROW 2
 #endif
 
 // ---- Displacement filter (shadow edge shimmer) -------------------------------
 
 /// Max displacement in pixels. 0 disables the displacement filter entirely.
 #ifndef SHADOWCAST_DISPLACE_SIZE
-#define SHADOWCAST_DISPLACE_SIZE 100
+#define SHADOWCAST_DISPLACE_SIZE 2
 #endif
 
 /// How far (px) the displacement map slowly drifts back and forth, and how long
@@ -69,7 +69,7 @@
 
 /// Shadow geometry is built for this many pixels beyond the edge of the view.
 #ifndef SHADOWCAST_SLACK_PX
-#define SHADOWCAST_SLACK_PX 64
+#define SHADOWCAST_SLACK_PX 32
 #endif
 
 /// Hard cap on live shadow triangles per client (nearest edges win).
@@ -79,7 +79,7 @@
 
 /// Largest extrusion factor. Limits how far an edge hugging the light is stretched.
 #ifndef SHADOWCAST_MAX_EXTRUDE
-#define SHADOWCAST_MAX_EXTRUDE 64
+#define SHADOWCAST_MAX_EXTRUDE 32
 #endif
 
 /// Moves longer than this many tiles are teleports: snap, do not glide.
