@@ -3,7 +3,7 @@
 
 /obj/machine/proc/wrench_interact(mob/human/user)
 	if(!broken)
-		user.chat_info("You inspect [name] with the wrench. It appears to be working.")
+		user.chat_info("It appears to be working.")
 		return TRUE
 
 	broken = FALSE
@@ -47,6 +47,8 @@
 /obj/machine/technician_terminal
 	name = "STOCKMASTER-vLUKE"
 	desc = "A supplier terminal for ordering vending cartridges and other goods."
+	desc_expansive_extra_skill = TECH
+	desc_expansive = "One of the few computing-machines on-board this station that CHEZ made themselves. Probably owed to the fact that CHEZ prides themselves on their logistics."
 
 	icon = 'icons/obj/terminals/terminals.dmi'
 	icon_state = "laptop"
@@ -55,6 +57,8 @@
 	var/list/supplier_names = list("MASTERLINE CINDER", "KRUSTERLENT", "AUFSITHESTINE", "CHEZ GROUP MAINLINE CARGO", "UNAUTHORIZED")
 	var/list/supplier_catalogs = list()
 	var/next_catalog_refresh = 0
+
+	var/atom/movable/whiteout
 
 /obj/machine/technician_terminal/Initialize()
 	. = ..()
@@ -69,6 +73,15 @@
 	if(user.SkillRoll(TECH))
 		open_terminal(user)
 
+	whiteout = new(src)
+	whiteout.icon = src.icon
+	whiteout.icon_state = "computer-whiteout"
+	whiteout.mouse_opacity = 0
+	whiteout.layer = layer + 0.01
+	whiteout.alpha = 0
+
+	vis_contents += whiteout
+
 /obj/machine/technician_terminal/Topic(href, href_list)
 	. = ..()
 	var/mob/human/user = usr
@@ -79,6 +92,9 @@
 	
 	if(!user || !user.client || !user.mind || !user.SkillRoll(TECH, FALSE, -1) || !Adjacent(user))
 		return
+
+	animate(whiteout, 0.5, alpha = 255)
+	animate(alpha = 0, time = 5)
 
 	if(world.time >= next_catalog_refresh)
 		refresh_catalogs()
@@ -130,7 +146,7 @@
 	var/list/catalog = supplier_catalogs[supplier]
 	var/content = {"<div id="terminal-window">
 	<div><a href='byond://?src=[REF(src)];close_terminal=1'>>EXIT</a></div><br>
-	><b>STOCKMASTER-vLUKE — SUPPLIER NETWORK</b><br>
+	><b>STOCKMASTER-vLUKE — CHEZ LOGISTICS, SUPPLIER NETWORK [pick(":)",">:)",":D","≽^•⩊•^≼","(˵◝ ⩊  ◜˵マ")]</b><br>
 	>TIME: <b>[time2text(world.realtime, "mm:ss")]</b><br>
 	>TELELINK?: <b>[linked_telepad ? "SUCCESS" : "ERR 695"]</b><br><br>
 	"}
@@ -220,6 +236,8 @@
 /obj/machine/telepad
 	name = "telepad"
 	desc = "Unoriginal name aside, it is pretty handy for the would-be Technician."
+	desc_expansive_extra_skill = CORP
+	desc_expansive = "The inner workings of this is a mystery. Not a mystery, actually, just known by very few. The three people aren't allowed to travel in the same vehicle, be in the same room, or talk to each other in person. Extremely classified. If you knew, you'd be dead."
 
 	icon = 'icons/obj/terminals/terminals.dmi'
 	icon_state = "telepad"
