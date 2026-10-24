@@ -1621,6 +1621,7 @@
 	icon_state = "line_small";
 	dir = 4
 	},
+/obj/machine/shutter,
 /turf/open/floor,
 /area/station/tech)
 "MS" = (
@@ -1892,6 +1893,14 @@
 	},
 /turf/open/floor/dark,
 /area/station)
+"UK" = (
+/obj/door_control{
+	pixel_x = -64;
+	shuttered = 1;
+	pixel_y = 64
+	},
+/turf/open/floor,
+/area/station/tech)
 "UL" = (
 /obj/deco/furniture/chair{
 	dir = 1;
@@ -12813,7 +12822,7 @@ kw
 zb
 Zn
 TZ
-TZ
+UK
 TZ
 TZ
 TZ

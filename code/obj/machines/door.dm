@@ -23,7 +23,7 @@
 	var/auto_closes = TRUE
 	var/auto_opens = FALSE // MUTUALLY EXLCUSIVE, FUCKED UP THINGS HAPPEN IF YOU PAIR THESE TOGETHER!
 
-	var/obj/door_control/linked_dc
+	var/list/linked_controls = list()
 
 	var/list/access = list() // If the person interacting has ANY OF THESE ACCESS TAGS, they can access the door and open/close it.
 							 // This means that you can't make doors that need more than one type of access tag to open. Not yet anyway.
@@ -77,12 +77,10 @@
 	filters += filter(type="drop_shadow", x=2, size=2, offset=1)
 
 	spawn()
-		for(var/obj/DC in range(1, loc))
-			if(istype(DC, /obj/door_control))
-				var/obj/door_control/DCC = DC
-				DCC.linked_door = src
-				linked_dc = DCC
-				break
+		for(var/obj/door_control/DCC in range(1, loc))
+			if(!(src in DCC.linked_doors))
+				DCC.linked_doors += src
+			linked_controls += DCC
 
 /obj/machine/door/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()
@@ -168,9 +166,9 @@
 		return
 	if(locate(/mob/human) in get_turf(src))
 		addtimer(CALLBACK(src, PROC_REF(auto_close)), 2 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
-
 		playsound(get_turf(src), 'sound/effects/pda/airlock_deny.ogg', 150, ignore_walls = TRUE)
-		flick("[initial(linked_dc.icon_state)]-deny",linked_dc)
+		for(var/obj/door_control/DC in linked_controls)
+			flick("[initial(DC.icon_state)]-deny", DC)
 		return
 	do_door()
 
@@ -184,38 +182,148 @@
 	icon = 'icons/obj/Door1.dmi'
 	icon_state = "door_control"
 	layer = OBJ_LAYER + 0.2
-	var/obj/machine/door/linked_door
+
+	var/shuttered = FALSE
+
+	var/list/linked_doors = list()
+	var/list/linked_shutters = list()
 
 /obj/door_control/interact(user)
 	. = ..()
 	if(ishuman(user))
 		var/mob/human/H = user
-		if(linked_door)
-			if(linked_door.doing)
+		if(!linked_doors.len && !linked_shutters.len)
+			return FALSE
+		for(var/obj/machine/door/D in linked_doors)
+			if(D.doing)
 				H.chat_pda("DOOR BUSY!", "bad")
 				flick("[initial(icon_state)]-deny",src)
 				return FALSE
-			if(locate(/mob/human) in get_turf(linked_door))
+			if(locate(/mob/human) in get_turf(D))
 				H.chat_pda("DOOR BLOCKED!", "bad")
-
 				flick("[initial(icon_state)]-deny",src)
 				playsound(get_turf(src), 'sound/effects/pda/airlock_deny.ogg', 150, ignore_walls = TRUE)
 				return FALSE
-			if(!linked_door.access.len || (find_common_entry(H.mind?.current_job?.access, linked_door.access) || H.mind?.current_job?.access.Find("EVERYTHING")))
-				flick("[initial(icon_state)]-allow",src)
-				playsound(get_turf(src), 'sound/effects/pda/airlock_grant.ogg', 150, ignore_walls = TRUE)
 
-				H.chat_pda("ACCESS GRANTED", "good")
-				linked_door.do_door()
-			else
+		for(var/obj/machine/shutter/S in linked_shutters)
+			if(S.doing)
+				H.chat_pda("SHUTTER BUSY!", "bad")
+				flick("[initial(icon_state)]-deny",src)
+				return FALSE
+			if(locate(/mob/human) in get_turf(S))
+				H.chat_pda("SHUTTER BLOCKED!", "bad")
+				flick("[initial(icon_state)]-deny",src)
+				playsound(get_turf(src), 'sound/effects/pda/airlock_deny.ogg', 150, ignore_walls = TRUE)
+				return FALSE
+
+		for(var/obj/machine/door/D in linked_doors)
+			if(D.access.len && !find_common_entry(H.mind?.current_job?.access, D.access) && !H.mind?.current_job?.access.Find("EVERYTHING"))
 				flick("[initial(icon_state)]-deny",src)
 				H.chat_pda("ACCESS DENIED", "bad")
 				playsound(get_turf(src), 'sound/effects/pda/airlock_deny.ogg', 150, ignore_walls = TRUE)
-				if(linked_door.shock_on_deny)
-					H.TakeDamage(linked_door.shock_damage, "access denial shock")
+				if(D.shock_on_deny)
+					H.TakeDamage(D.shock_damage, "access denial shock")
 
-					var/amplitude = min(4, (linked_door.shock_damage/100) + 1)
+					var/amplitude = min(4, (D.shock_damage/100) + 1)
 					var/pixel_x_diff = rand(-amplitude, amplitude)
 					var/pixel_y_diff = rand(-amplitude/3, amplitude/3)
 					animate(H, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = amplitude / 3, loop = 6, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
 					animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE)
+				return FALSE
+
+		flick("[initial(icon_state)]-allow",src)
+		playsound(get_turf(src), 'sound/effects/pda/airlock_grant.ogg', 150, ignore_walls = TRUE)
+		H.chat_pda("ACCESS GRANTED", "good")
+		var/should_open = FALSE
+		for(var/obj/machine/door/D in linked_doors)
+			if(!D.open)
+				should_open = TRUE
+		for(var/obj/machine/shutter/S in linked_shutters)
+			if(!S.open)
+				should_open = TRUE
+		for(var/obj/machine/door/D in linked_doors)
+			if(D.open != should_open)
+				D.do_door()
+		for(var/obj/machine/shutter/S in linked_shutters)
+			if(S.open != should_open)
+				S.do_door()
+
+/obj/machine/shutter
+	name = "shutter"
+	desc = "A heavy shutter."
+	icon = 'icons/obj/Door1.dmi'
+	icon_state = "shutter"
+	vis_flags = VIS_INHERIT_ID
+
+	mouse_opacity = 2
+
+	density = TRUE
+	opacity = TRUE
+
+	var/open = FALSE
+	var/opacita = TRUE
+	var/time = 2
+
+	var/atom/movable/door
+	var/atom/movable/indicator
+	var/doing = FALSE
+
+/obj/machine/shutter/Initialize()
+	. = ..()
+	icon_state = null
+
+	overlays += icon(icon, "shutter-frame")
+
+	var/atom/movable/door = new()
+	door.icon = src.icon
+	door.icon_state = "shutter-door"
+	door.filters += filter(type="alpha", icon = icon('icons/obj/abstract/effects.dmi', "tilemask"))
+
+	src.door = door
+	vis_contents += door
+
+	indicator = new(src)
+	indicator.icon = src.icon
+	indicator.icon_state = "shutter-indicator"
+	indicator.mouse_opacity = 0
+	indicator.layer = layer + 0.01
+
+	indicator.color = "#FF0033"
+
+	vis_contents += indicator
+
+	filters += filter(type="drop_shadow", x=2, size=2, offset=1)
+
+	spawn()
+		for(var/obj/door_control/DCC in range(1, loc))
+			if(DCC.shuttered && !(src in DCC.linked_shutters))
+				DCC.linked_shutters += src
+
+/obj/machine/shutter/proc/do_door()
+	if(doing)
+		return FALSE
+
+	var/py = 0
+	py = 62 - rand(-2,2)
+
+	if(open)
+		// closing
+		animate(door, time, pixel_x = 0, pixel_y = 0, easing = BOUNCE_EASING)
+		animate(indicator, time, color = "#FF0033")
+		mouse_opacity = 2
+	else
+		// opening
+		animate(door, time, pixel_y = py, easing = QUAD_EASING)
+		animate(indicator, time, color = "#00FF00")
+		mouse_opacity = 0
+
+	doing = TRUE
+	spawn(time / 2)
+		playsound(get_turf(src), 'sound/effects/obj/door.ogg', 100, TRUE, 1, 4, ignore_walls = TRUE)
+	spawn(time)
+		open = !open
+		density = !density
+		if(opacita)
+			opacity = !opacity
+		doing = FALSE
+	return TRUE
