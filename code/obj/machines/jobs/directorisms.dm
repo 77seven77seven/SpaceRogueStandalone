@@ -30,3 +30,8 @@
 /obj/machine/microphone/proc/speak_into(msg)
 	if(msg)
 		chat_announce(uppertext(msg))
+
+/obj/machine/director_terminal
+	name = "dirkomp"
+	icon = 'icons/obj/terminals/terminals.dmi'
+	icon_state = "computer"

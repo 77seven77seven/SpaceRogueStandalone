@@ -1,6 +1,7 @@
 /obj/item/melee
 	name = "weapon"
 	desc = "It's a weapon."
+	icon = 'icons/obj/weapons.dmi'
 	inhand_icon = 'icons/human/inhands/melee.dmi'
 	inhand_icon_state = "crowbar"
 	harmful = TRUE
@@ -46,6 +47,14 @@
 	animate(target, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
 	animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
 
+	if(sharp)
+		if(prob(10))
+			playsound(get_turf(target), pick(list('sound/effects/human/medical/combat/pierce1.ogg', 'sound/effects/human/medical/combat/pierce2.ogg', 'sound/effects/human/medical/combat/pierce3.ogg', 'sound/effects/human/medical/combat/pierce4.ogg', 'sound/effects/human/medical/combat/pierce5.ogg')), 65, TRUE)
+		else
+			playsound(get_turf(target), 'sound/effects/human/medical/combat/bladeslice.ogg', 65, TRUE)
+	else
+		playsound(get_turf(target), pick(list('sound/effects/human/medical/combat/genhit1.ogg', 'sound/effects/human/medical/combat/genhit2.ogg', 'sound/effects/human/medical/combat/genhit3.ogg')), 65, TRUE)
+
 	target.TakeDamage(damage_adjusted, "[name]")
 	world << "DEBUG: damage log, [damage_adjusted]"
 	var/health_loss = 1 - (target.health / max(target.max_health, 1))
@@ -88,12 +97,14 @@
 
 /obj/item/melee/knife
 	name = "knife"
+	icon_state = "knife"
 	inhand_icon_state = "knife"
 	sharp = TRUE
 	attack_delay = 6
 
 /obj/item/melee/baton
 	name = "baton"
+	icon_state = "baton"
 	desc = "A baton. Commonly called a 'nightstick' in corporate environments. The word is said to come from them being mainly used at night, to secretly oppress innocent civilians."
 	desc_expansive = "I know! It's a Standard Enforcement Melee Item template 12. A favorite of Sidereal Plexus official workers."
 	desc_expansive_extra_skill = CORP
@@ -101,5 +112,5 @@
 	inhand_icon_state = "baton"
 	sharp = FALSE
 
-	damage = 7
+	damage = 5
 	attack_delay = 9

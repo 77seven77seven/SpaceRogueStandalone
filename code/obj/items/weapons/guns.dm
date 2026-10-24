@@ -63,6 +63,12 @@
 	damage = 40
 	headshot_damage = 100
 
+/obj/item/gun/revolver/gunvolver
+	name = "Architect"
+	icon_state = "gunvolver"
+	desc = "Something isn't right here..."
+	desc_expansive = "You're not sure, but something about this gun reminds you of prisons."
+
 /obj/item/gun/assault
 	name = "Template"
 	desc = "Template 58. These firearms combined have more lives claimed than disease and famine, while bringing death and war."
@@ -358,6 +364,7 @@
 	animate(victim, pixel_x = pixel_x_diff, pixel_y = pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE|ANIMATION_PARALLEL)
 	animate(pixel_x = -pixel_x_diff , pixel_y = -pixel_y_diff , time = amplitude / 3, flags = ANIMATION_RELATIVE)
 
+	playsound(get_turf(victim), pick(list('sound/effects/human/medical/combat/pierce1.ogg', 'sound/effects/human/medical/combat/pierce2.ogg', 'sound/effects/human/medical/combat/pierce3.ogg', 'sound/effects/human/medical/combat/pierce4.ogg', 'sound/effects/human/medical/combat/pierce5.ogg')), 65, TRUE)
 	victim.TakeDamage(dmg, "[shooter] - [hit_zone]")
 	if(headshot_hits && !victim.dead)
 		victim.AdjustBrainDamage(headshot_hits * 3)

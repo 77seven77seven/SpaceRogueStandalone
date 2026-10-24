@@ -493,8 +493,8 @@
 	pixel_y = 6
 	},
 /obj/machine/microphone{
-	pixel_x = 36;
-	pixel_y = 4
+	pixel_x = 35;
+	pixel_y = 56
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
@@ -1818,11 +1818,8 @@
 /turf/open/space,
 /area/space)
 "SJ" = (
+/obj/machine/director_terminal,
 /obj/deco/furniture/table/auto,
-/obj/item/deco/flower{
-	pixel_x = 2;
-	pixel_y = 20
-	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
 "SO" = (
@@ -9762,8 +9759,8 @@ IS
 ne
 cG
 UW
-SJ
 Pu
+SJ
 Pu
 cG
 tH
