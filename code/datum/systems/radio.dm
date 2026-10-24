@@ -52,12 +52,12 @@
 		'sound/music/radio/142046mhz/dj/dj_thank_you.ogg' = 200
 	)
 
-/datum/looping_sound/radio/flowerbedfm
-	radio_station = "Flowerbed FM"
-	radio_frequency = 74.4
+/datum/looping_sound/radio/fmsgalacticradio
+	radio_station = "FMS-134 Galactic Radio Broadcast"
+	radio_frequency = 134.2
 	radio_public = TRUE
 
-	tracks = list('sound/music/radio/142046mhz/crystalmatango.ogg' = 2023)
+	tracks = list('sound/music/radio/fms134/safeandsound.ogg' = 1490)
 
 /obj/item/deco/radio
 	name = "radio"
