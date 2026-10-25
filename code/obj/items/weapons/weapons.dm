@@ -149,3 +149,5 @@
 	desc = "A crowbar, holding this almost makes you feel like your favorite pop-action videogame hero."
 	icon_state = "wrench"
 	inhand_icon_state = "crowbar"
+
+	vendor_price = 164 // 16. 11. 2004 DD MM YYYY, release of hl2

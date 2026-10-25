@@ -42,3 +42,11 @@
 /datum/quirk/nolast/equip(mob/human/H)
 	. = ..()
 	H.name = "[H.first_name]"
+
+/datum/quirk/veteran
+	name = "Veteran"
+	display_name = "You're a veteran of the Ganymede Civil War."
+
+/datum/quirk/veteran/equip(mob/human/H)
+	. = ..()
+	H.mind.mental_state = MENTAL_STATE_DESENSITIZED

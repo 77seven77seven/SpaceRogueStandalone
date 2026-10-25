@@ -81,6 +81,12 @@
 
 	tracks = list('sound/music/radio/basayastopol_region.ogg' = 650)
 
+/datum/looping_sound/radio/blood
+	radio_station = "DEATH"
+	radio_frequency = 380.0
+
+	tracks = list('sound/music/radio/bloodywaytodie.ogg' = 1850)
+
 /obj/item/deco/radio
 	name = "radio"
 	icon_state = "radio"
