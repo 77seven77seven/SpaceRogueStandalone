@@ -76,6 +76,9 @@
 
 		held_item.forceMove(src)
 
+		if(prob(20))
+			user.AddRewardPip()
+
 		user.mind.performance_paycheck += 2
 
 /obj/deco/furniture
@@ -240,6 +243,8 @@
 		station.mlices += rand(1,2)
 		if(istype(user.mind.current_job, /datum/role/gardener))
 			user.mind.performance_paycheck += rand(1,4)
+			if(prob(3))
+				user.AddRewardPip()
 
 		playsound(get_turf(src), 'sound/effects/obj/chute.ogg', 75, TRUE, -2)
 

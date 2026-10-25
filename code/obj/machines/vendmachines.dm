@@ -131,6 +131,9 @@
 			user.chat_info("The vending machine is already fully stocked.", "bad")
 			return
 
+		if(prob(40))
+			user.AddRewardPip()
+
 		held_item.destroyself(user)
 		user.mind.performance_paycheck += 40
 		playsound(get_turf(src), 'sound/effects/obj/restock.ogg', 75)

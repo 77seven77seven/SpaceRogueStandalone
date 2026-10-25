@@ -9,6 +9,8 @@
 	broken = FALSE
 	if(user.mind && istype(user.mind.current_job, /datum/role/technician))
 		user.mind.performance_paycheck += 20
+		if(prob(60))
+			user.AddRewardPip()
 	playsound(get_turf(src), 'sound/effects/obj/wrench.ogg', 75)
 	return TRUE
 
