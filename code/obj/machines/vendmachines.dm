@@ -111,7 +111,7 @@
 
 /obj/machine/vendor/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()
-	if(istype(held_item, /obj/item/tool/wrench))
+	if(istype(held_item, /obj/item/melee/wrench))
 		return
 	if(istype(held_item, /obj/item/restock_package))
 		if(!istype(held_item, package_type))

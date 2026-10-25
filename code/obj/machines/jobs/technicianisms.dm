@@ -12,12 +12,6 @@
 	playsound(get_turf(src), 'sound/effects/obj/wrench.ogg', 75)
 	return TRUE
 
-/obj/item/tool/wrench
-	name = "wrench"
-	desc = "A sturdy wrench for basic machine repairs."
-	icon_state = "wrench"
-	inhand_icon_state = "crowbar"
-
 /obj/item/restock_package
 	name = "restock cartridge"
 	desc = "A sealed cartridge containing a vending machine's replacement stock."
@@ -68,7 +62,7 @@
 
 /obj/machine/technician_terminal/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()
-	if(istype(held_item, /obj/item/tool/wrench))
+	if(istype(held_item, /obj/item/melee/wrench))
 		return
 	if(user.SkillRoll(TECH))
 		open_terminal(user)

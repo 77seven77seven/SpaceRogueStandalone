@@ -11,7 +11,10 @@
 
 	var/damage = 5
 	var/bloodloss_coefficient = 0.6 // A sharp weapon would cause only as much blood loss overtime (BLOT) as the damage if this were 1, this is the modifier.
-	
+	var/additional_ragdoll_chance = 0
+
+	var/list/additional_optional_hit_sounds
+
 	var/attack_delay = 12 // Self explanatory. So you don't smeck someone thirty times in a milisecond.
 
 /obj/item/melee/proc/GetMeleeSkill(mob/human/H)
@@ -54,12 +57,15 @@
 			playsound(get_turf(target), 'sound/effects/human/medical/combat/bladeslice.ogg', 65, TRUE)
 	else
 		playsound(get_turf(target), pick(list('sound/effects/human/medical/combat/genhit1.ogg', 'sound/effects/human/medical/combat/genhit2.ogg', 'sound/effects/human/medical/combat/genhit3.ogg')), 65, TRUE)
+	if(additional_optional_hit_sounds)
+		playsound(get_turf(target), pick(additional_optional_hit_sounds), 80, TRUE)
 
 	target.TakeDamage(damage_adjusted, "[name]")
 	world << "DEBUG: damage log, [damage_adjusted]"
 	var/health_loss = 1 - (target.health / max(target.max_health, 1))
 	var/ragdoll_chance = 5 + (user_melee_skill * 0.1) - (target_melee_skill * 0.1) + (health_loss * 20)
 	ragdoll_chance = sharp ? clamp(ragdoll_chance * 0.2, 1, 5) : clamp(ragdoll_chance, 1, 25)
+	ragdoll_chance += additional_ragdoll_chance
 	if(!target.dead && !target.ragdolled && prob(ragdoll_chance))
 		target.SetRagdolled(TRUE)
 
@@ -114,3 +120,32 @@
 
 	damage = 5
 	attack_delay = 9
+
+/obj/item/melee/baton/stun
+	name = "SHOK-N-AWE stunrod"
+	desc = "A baton, fitted with more useless electrical implements than it already had before."
+	desc_expansive = "I know! It's a Premium Enforcement Melee Item template 38. A favorite of Sidereal Plexus official deathsquad members. Famously used once for killing a famous terrorist."
+	desc_expansive_extra_skill = CORP
+
+	additional_optional_hit_sounds = list('sound/effects/human/medical/combat/stun1.ogg','sound/effects/human/medical/combat/stun2.ogg','sound/effects/human/medical/combat/stun3.ogg','sound/effects/human/medical/combat/stun4.ogg')
+
+	icon_state = "stunbaton"
+	inhand_icon_state = "prod"
+
+	additional_ragdoll_chance = 10
+	buy_rollable = FALSE
+
+	damage = 4
+	attack_delay = 12
+
+/obj/item/melee/wrench
+	name = "wrench"
+	desc = "A sturdy wrench. Can equally be used for solving problems and causing them."
+	icon_state = "wrench"
+	inhand_icon_state = "crowbar"
+
+/obj/item/melee/crowbar
+	name = "crowbar"
+	desc = "A crowbar, holding this almost makes you feel like your favorite pop-action videogame hero."
+	icon_state = "wrench"
+	inhand_icon_state = "crowbar"

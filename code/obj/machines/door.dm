@@ -250,10 +250,11 @@
 
 /obj/machine/shutter
 	name = "shutter"
-	desc = "A heavy shutter."
+	desc = "A heavy shutter. Singular."
 	icon = 'icons/obj/Door1.dmi'
 	icon_state = "shutter"
 	vis_flags = VIS_INHERIT_ID
+	appearance_flags = KEEP_TOGETHER
 
 	mouse_opacity = 2
 
@@ -277,7 +278,9 @@
 	var/atom/movable/door = new()
 	door.icon = src.icon
 	door.icon_state = "shutter-door"
+	door.appearance_flags = KEEP_TOGETHER
 	door.filters += filter(type="alpha", icon = icon('icons/obj/abstract/effects.dmi', "tilemask"))
+	filters += filter(type="alpha", icon = icon('icons/obj/abstract/effects.dmi', "tilemask"))
 
 	src.door = door
 	vis_contents += door
@@ -308,12 +311,12 @@
 
 	if(open)
 		// closing
-		animate(door, time, pixel_x = 0, pixel_y = 0, easing = BOUNCE_EASING)
+		animate(door, time, pixel_x = 0, pixel_y = 0, easing = BOUNCE_EASING, flags = ANIMATION_PARALLEL)
 		animate(indicator, time, color = "#FF0033")
 		mouse_opacity = 2
 	else
 		// opening
-		animate(door, time, pixel_y = py, easing = QUAD_EASING)
+		animate(door, time, pixel_y = py, easing = QUAD_EASING, flags = ANIMATION_PARALLEL)
 		animate(indicator, time, color = "#00FF00")
 		mouse_opacity = 0
 

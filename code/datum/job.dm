@@ -171,7 +171,7 @@
 /datum/role/technician/equip(mob/human/H)
 	. = ..()
 	if(prob(80))
-		var/obj/item/tool/wrench/wrench = new(H)
+		var/obj/item/melee/wrench/wrench = new(H)
 		H.inventory += wrench
 
 /datum/role/miner
