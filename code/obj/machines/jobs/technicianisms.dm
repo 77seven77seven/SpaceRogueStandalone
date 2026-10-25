@@ -48,7 +48,7 @@
 	icon_state = "laptop"
 
 	var/obj/machine/telepad/linked_telepad
-	var/list/supplier_names = list("MASTERLINE CINDER", "KRUSTERLENT", "AUFSITHESTINE", "CHEZ GROUP MAINLINE CARGO", "UNAUTHORIZED")
+	var/list/supplier_names = list("MASTERLINE CINDER", "SERAMORRIS", "AUFSITHESTINE", "CHEZ GROUP MAINLINE CARGO", "UNAUTHORIZED")
 	var/list/supplier_catalogs = list()
 	var/next_catalog_refresh = 0
 

@@ -242,3 +242,13 @@
 			user.mind.performance_paycheck += rand(1,4)
 
 		playsound(get_turf(src), 'sound/effects/obj/chute.ogg', 75, TRUE, -2)
+
+/obj/deco/camera
+	name = "CCTV"
+	desc = "A security camera."
+	desc_expansive = "It actually stands for Closed-Circuit Television, by-the-by. You're welcome."
+	icon_state = "camera"
+
+/obj/deco/camera/Initialize()
+	. = ..()
+	station.cameras += src

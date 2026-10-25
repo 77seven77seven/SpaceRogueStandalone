@@ -59,6 +59,7 @@
 #include "code\obj\hud\hud.dm"
 #include "code\obj\items\clothing.dm"
 #include "code\obj\items\deco.dm"
+#include "code\obj\items\food.dm"
 #include "code\obj\items\gwarek.dm"
 #include "code\obj\items\items.dm"
 #include "code\obj\items\medical.dm"

@@ -210,7 +210,7 @@
 	color_tint = "#cdffbd"
 	package_type = /obj/item/restock_package/food
 
-	items = list(/obj/item/consumable/annegree = 15, /obj/item/consumable/limelite = 15, /obj/item/consumable/nutrition = 10)
+	items = list(/obj/item/consumable/drink/annegree = 15, /obj/item/consumable/drink/limelite = 15, /obj/item/consumable/food/nutrition = 10)
 
 /obj/machine/vendor/merc
 	name = "WENDR-LAYLAW A47"
