@@ -4,6 +4,7 @@
 
 	var/list/skills = list()
 	var/list/datum/quirk/quirks = list()
+	var/list/picked_bonus_extra_skills = list() // The funny long variable.
 	
 	var/mental_state = MENTAL_STATE_BASELINE
 

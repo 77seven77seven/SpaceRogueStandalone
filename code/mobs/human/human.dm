@@ -818,6 +818,9 @@
 	chat_info("You are <b>[uppertext("[first_name] [last_name]")]</b>, the <b>[uppertext(mind.current_job.title)]</b>.")
 	chat_info("[mind.current_job.desc]\n")
 
+	if(mind.picked_bonus_extra_skills.len)
+		chat_info("[pick("You've been known to dabble in the fields of:","You're also quite good at:","You managed to get some hobbies too:")] <b>[english_list(mind.picked_bonus_extra_skills)]</b>\n")
+
 	if(mind.goal)
 		chat_info("Your goal is: <b>[mind.goal]</b>")
 		chat_info("[mind.goal.desc] ([mind.goal.award] XP)")

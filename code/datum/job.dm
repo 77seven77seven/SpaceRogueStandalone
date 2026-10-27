@@ -68,6 +68,34 @@
 	if(corporate)
 		H.cmode_music = 'sound/music/chez_group.ogg'
 
+	var/xp = H.client ? H.client.xp : 0
+
+	var/skill_count = 0
+	if(unemployed)
+		skill_count = 1 // guaranteed employable skill
+	else if(prob(55 + 0.2 * xp))
+		skill_count = 1
+	if(prob(25 + 0.3 * xp))
+		skill_count++
+
+	var/list/common_pool = list(MEDI,HYDRO,PLUMB,MINE,MELEE)
+	var/list/rare_pool = list(SHIV,ENCY,FORI,PARANOIA,GUNS,CORP,MUSI)
+
+	for(var/i in 1 to skill_count)
+		var/picked_skill
+		var/level
+		
+		var/must_be_common = unemployed && i == 1
+		if(!must_be_common && prob(10 + 0.2 * xp))
+			picked_skill = pick_n_take(rare_pool)
+			level = rand(10,45)
+		else
+			picked_skill = pick_n_take(common_pool)
+			level = unemployed ? rand(50,80) : rand(10,80)
+		if(picked_skill)
+			H.mind.AddSkill(picked_skill, level)
+			H.mind.picked_bonus_extra_skills += picked_skill
+
 	return TRUE
 
 /datum/role/proc/get_skills()
