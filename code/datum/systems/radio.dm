@@ -62,7 +62,13 @@
 	radio_frequency = 134.2
 	radio_public = TRUE
 
-	tracks = list('sound/music/radio/fms134/ganymede.ogg' = 3190)
+	tracks = list(
+		'sound/music/radio/fms134/ganymede.ogg' = 3190,
+		'sound/music/radio/fms134/terraform.ogg' = 3260,
+		'sound/music/radio/fms134/human_condition.ogg' = 2090,
+		'sound/music/radio/fms134/immigrant.ogg' = 3540,
+		'sound/music/radio/fms134/children.ogg' = 4140
+		)
 
 /datum/looping_sound/radio/radiokiss
 	radio_station = "Radio KISS"
