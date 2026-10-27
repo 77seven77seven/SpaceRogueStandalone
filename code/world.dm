@@ -424,3 +424,33 @@ proc/get_random_light_color()
 			setDir(EAST)
 		else
 			setDir(WEST)
+
+/proc/visible_message(msg, range = world.view, center)
+	if(!msg || !center)
+		return
+	if(!range)
+		range = world.view
+
+	for(var/mob/M in viewers(range, center))
+		if(istype(M, /mob/lobbyman))
+			continue
+		/*
+		if(M.deaf)
+			continue
+		*/
+		if(M.client)
+			M << msg
+
+/proc/audible_message(msg, range = world.view, center)
+	if(!msg || !center)
+		return
+	if(!range)
+		range = world.view
+
+	for(var/mob/M in hearers(range, center))
+		if(istype(M, /mob/lobbyman))
+			continue
+		if(M.deaf)
+			continue
+		if(M.client)
+			M << msg

@@ -31,7 +31,7 @@
 	if(msg)
 		chat_announce(uppertext(msg))
 
-/obj/machine/director_terminal
+/obj/machine/terminal/director
 	name = "dirkomp"
 	icon = 'icons/obj/terminals/terminals.dmi'
 	icon_state = "computer"

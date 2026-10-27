@@ -286,14 +286,8 @@
 	animate(effect, 3 SECONDS, transform = turna, alpha = 0, easing = QUAD_EASING|EASE_OUT)
 	QDEL_IN(effect, 3 SECONDS)
 
-	for(var/mob/M in hearers(world.view, src))
-		if(istype(M, /mob/lobbyman))
-			continue
-		if(M.deaf)
-			continue
-		if(M.client)
-			var/icon/I = getFlatIcon(src, SOUTH)
-			M << "\icon[I] <b>[src]</b> whistles to catch someone's attention."
+	var/icon/I = getFlatIcon(src, SOUTH)
+	audible_message("\icon[I] <b>[src]</b> whistles to catch someone's attention.", world.view, src)
 
 /mob/human/proc/SetHealth(value)
 	if(dead)
@@ -1027,12 +1021,8 @@
 
 			playsound(get_turf(src), 'sound/effects/obj/guns/aim.ogg', 75)
 
-			for(var/mob/hearer in viewers(world.view, src))
-				if(istype(hearer, /mob/lobbyman))
-					continue
-				if(hearer.client)
-					var/icon/I = getFlatIcon(src, SOUTH)
-					hearer << "\icon[I] <b>[src]</b> readies their firearm."
+			var/icon/I = getFlatIcon(src, SOUTH)
+			visible_message("\icon[I] <b>[src]</b> readies their firearm.", world.view, src)
 
 		playsound_local(get_turf(src), 'sound/effects/senses/combat_on.ogg', 100)
 

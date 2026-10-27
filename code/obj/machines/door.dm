@@ -103,8 +103,6 @@
 	animate(whiteout, time = 2 SECONDS, alpha = 0)
 
 	for(var/mob/M in cant_see)
-		M << "Knock knock!"
-
 		var/turf/anchor = get_turf(M)
 		var/image/I = image('icons/obj/abstract/hud_32.dmi', M, "knocking")
 		I.pixel_x = (src.x - anchor.x) * world.icon_size

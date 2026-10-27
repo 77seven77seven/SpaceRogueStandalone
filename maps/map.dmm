@@ -1197,6 +1197,14 @@
 	},
 /turf/open/floor/dark,
 /area/station/maintenance)
+"CX" = (
+/obj/deco/furniture/table/auto,
+/obj/machine/terminal/enforcer{
+	pixel_x = 9;
+	pixel_y = 5
+	},
+/turf/open/floor,
+/area/station/corporate)
 "Dl" = (
 /obj/deco/supports,
 /obj/decal{
@@ -1495,7 +1503,7 @@
 /turf/solid/wall,
 /area/space)
 "Kr" = (
-/obj/machine/technician_terminal{
+/obj/machine/terminal/technician{
 	pixel_x = 4;
 	pixel_y = 6
 	},
@@ -1820,7 +1828,7 @@
 /turf/open/space,
 /area/space)
 "SJ" = (
-/obj/machine/director_terminal,
+/obj/machine/terminal/director,
 /obj/deco/furniture/table/auto,
 /turf/open/floor/wood,
 /area/station/corporate/director)
@@ -7501,7 +7509,7 @@ IS
 Cg
 MU
 Zs
-Zs
+ZU
 Zs
 Zs
 Zs
@@ -10150,7 +10158,7 @@ RT
 IS
 ne
 wi
-Fw
+CX
 uY
 uY
 uY

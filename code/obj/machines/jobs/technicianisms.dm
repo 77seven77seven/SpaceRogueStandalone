@@ -1,6 +1,9 @@
 /obj/machine
 	var/broken = FALSE
 
+/obj/machine/terminal
+	icon = 'icons/obj/terminals/terminals.dmi'
+
 /obj/machine/proc/wrench_interact(mob/human/user)
 	if(!broken)
 		user.chat_info("It appears to be working.")
@@ -40,7 +43,7 @@
 	var/stock
 	var/delivery_time
 
-/obj/machine/technician_terminal
+/obj/machine/terminal/technician
 	name = "STOCKMASTER-vLUKE"
 	desc = "A supplier terminal for ordering vending cartridges and other goods."
 	desc_expansive_extra_skill = TECH
@@ -56,18 +59,11 @@
 
 	var/atom/movable/whiteout
 
-/obj/machine/technician_terminal/Initialize()
+/obj/machine/terminal/technician/Initialize()
 	. = ..()
 	for(var/obj/machine/telepad/pad in range(6, get_turf(src)))
 		linked_telepad = pad
 		break
-
-/obj/machine/technician_terminal/interact(mob/human/user, obj/item/held_item, params)
-	. = ..()
-	if(istype(held_item, /obj/item/melee/wrench))
-		return
-	if(user.SkillRoll(TECH))
-		open_terminal(user)
 
 	whiteout = new(src)
 	whiteout.icon = src.icon
@@ -78,7 +74,14 @@
 
 	vis_contents += whiteout
 
-/obj/machine/technician_terminal/Topic(href, href_list)
+/obj/machine/terminal/technician/interact(mob/human/user, obj/item/held_item, params)
+	. = ..()
+	if(istype(held_item, /obj/item/melee/wrench))
+		return
+	if(user.SkillRoll(TECH))
+		open_terminal(user)
+
+/obj/machine/terminal/technician/Topic(href, href_list)
 	. = ..()
 	var/mob/human/user = usr
 	if(href_list["close_terminal"])
@@ -123,7 +126,7 @@
 
 	open_terminal(user, supplier_index)
 
-/obj/machine/technician_terminal/proc/open_terminal(mob/human/user, supplier_index = 1)
+/obj/machine/terminal/technician/proc/open_terminal(mob/human/user, supplier_index = 1)
 	if(!user.mind)
 		return
 	if(!linked_telepad)
@@ -137,7 +140,7 @@
 	playsound(get_turf(src), 'sound/effects/obj/machine.ogg', vol = 75)
 	popup.open()
 
-/obj/machine/technician_terminal/proc/get_terminal_content(supplier_index)
+/obj/machine/terminal/technician/proc/get_terminal_content(supplier_index)
 	var/supplier = supplier_names[supplier_index]
 	var/list/catalog = supplier_catalogs[supplier]
 	var/content = {"<div id="terminal-window">
@@ -172,7 +175,7 @@
 	</div><div class="scanlines"></div>"}
 	return content
 
-/obj/machine/technician_terminal/proc/refresh_catalogs()
+/obj/machine/terminal/technician/proc/refresh_catalogs()
 	for(var/supplier in supplier_names)
 		var/list/old_catalog = supplier_catalogs[supplier]
 		if(old_catalog)
@@ -184,7 +187,7 @@
 		refresh_supplier(supplier)
 	next_catalog_refresh = world.time + 5 MINUTES
 
-/obj/machine/technician_terminal/proc/refresh_supplier(supplier)
+/obj/machine/terminal/technician/proc/refresh_supplier(supplier)
 	var/list/catalog = list()
 	var/list/restock_paths = list(
 		/obj/item/restock_package/medic,
@@ -213,7 +216,7 @@
 
 	supplier_catalogs[supplier] = catalog
 
-/obj/machine/technician_terminal/proc/add_catalog_order(list/catalog, item_path, item_name, price, stock, delivery_time)
+/obj/machine/terminal/technician/proc/add_catalog_order(list/catalog, item_path, item_name, price, stock, delivery_time)
 	var/code
 	while(TRUE)
 		code = "[rand(100, 999)]"
@@ -251,7 +254,7 @@
 
 	vis_contents += whiteout
 
-	for(var/obj/machine/technician_terminal/terminal in range(6, get_turf(src)))
+	for(var/obj/machine/terminal/technician/terminal in range(6, get_turf(src)))
 		terminal.linked_telepad = src
 		break
 

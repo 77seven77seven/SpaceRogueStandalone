@@ -75,14 +75,8 @@
 			AnimatedSpeech(msg, do_bubble = !whispering, whispering = whispering)
 	else
 		if(world.time > timer)
-			for(var/mob/M in viewers(world.view, src))
-				if(istype(M, /mob/lobbyman))
-					continue
-				if(M.deaf)
-					continue
-				if(M.client)
-					var/icon/I = getFlatIcon(src, SOUTH)
-					M << "\icon[I] <b>[src]</b> wanted to say something, but \he changed \his mind."
+			var/icon/I = getFlatIcon(src, SOUTH)
+			visible_message("\icon[I] <b>[src]</b> wanted to say something, but \he changed \his mind.", world.view, src)
 
 /mob/human/proc/AnimatedSpeech(message, sound_path = voice_file, pitch_override, do_bubble = TRUE, whispering = FALSE)
 	set waitfor = FALSE
@@ -99,14 +93,8 @@
 	if(whispering)
 		hear_range = floor(hear_range / 2)
 
-	for(var/mob/M in hearers(hear_range, src))
-		if(istype(M, /mob/lobbyman))
-			continue
-		if(M.deaf)
-			continue
-		if(M.client)
-			var/icon/I = getFlatIcon(src, SOUTH)
-			M << "\icon[I] <b>[first_name] [last_name]</b> : \"<span style='color:[voice_color];font-family:Verdana;font-size: [whispering ? "75%" : "100%"]'>[message]</span>\""
+	var/icon/I = getFlatIcon(src, SOUTH)
+	audible_message("\icon[I] <b>[first_name] [last_name]</b> : \"<span style='color:[voice_color];font-family:Verdana;font-size: [whispering ? "75%" : "100%"]'>[message]</span>\"", hear_range, src)
 
 	var/obj/machine/microphone/mic = locate() in get_turf(src)
 	if(mic && mic?.on)

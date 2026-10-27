@@ -98,7 +98,7 @@
 	icon = 'icons/obj/guns/guns_wide.dmi'
 	icon_state = "shotgun"
 	inhand_icon_state = "shotgun"
-	gunshot_sounds = list('sound/effects/obj/guns/rifle.ogg')
+	gunshot_sounds = list('sound/effects/obj/guns/shotgun.ogg')
 
 	ammo_type = AMMO_SHELLS
 	ammo_loaded = 6

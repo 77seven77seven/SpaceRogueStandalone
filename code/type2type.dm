@@ -119,6 +119,22 @@
 		else
 	return
 
+proc/text2hex(text)
+    var/hex_string = ""
+    for(var/i = 1 to length(text))
+        var/ascii_val = text2ascii(text, i)
+        
+        // Convert the ASCII number to base-16 (Hex)
+        var/hex_char = num2text(ascii_val, 0, 16)
+        
+        // Ensure it is padded to 2 digits (e.g., spaces/controls become "09" or "20")
+        if(length(hex_char) < 2)
+            hex_char = "0[hex_char]"
+            
+        hex_string += hex_char
+        
+    return hex_string
+
 //Converts an angle (degrees) into an ss13 direction
 /proc/angle2dir(degree)
 	degree = SIMPLIFY_DEGREES(degree)
