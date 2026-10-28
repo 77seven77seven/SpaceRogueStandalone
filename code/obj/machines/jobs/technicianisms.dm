@@ -1,3 +1,7 @@
+#define STOCKMASTER_WINDOW "STOCKMASTER-vLUKE"
+#define CATALOG_REFRESH_INTERVAL (5 MINUTES)
+#define TELEPORT_CHARGE_TIME 16.72
+
 /obj/machine
 	var/broken = FALSE
 
@@ -43,6 +47,93 @@
 	var/stock
 	var/delivery_time
 
+/// One vendor on the STOCKMASTER network. To add a supplier, subtype this and list the new type
+/// in the terminal's supplier_types.
+/datum/technician_supplier
+	var/name = "SUPPLIER"
+
+	/// Restock cartridges listed on every refresh. Listed as-is, so they don't need to be buy_rollable.
+	var/list/restock_paths = list(
+		/obj/item/restock_package/medic,
+		/obj/item/restock_package/food,
+		/obj/item/restock_package/merc,
+		/obj/item/restock_package/planta
+	)
+	var/restock_price_min = 15
+	var/restock_price_max = 35
+
+	/// Extra goods sold on top of the cartridges. Each refresh lists up to extra_count of them, picked at random.
+	/// Exact item paths, used as-is: no subtypes and no buy_rollable filter.
+	var/list/extra_items = list()
+	/// Roots whose buyable subtypes may be offered as extras. A subtype must be buy_rollable, not junk,
+	/// and not named plain "item". The roots themselves are not offered; put those in extra_items.
+	var/list/extra_roots = list()
+	var/extra_count = 3
+
+	/// Extras cost their vendor_price (or a random 5-40 if they have none) times price_mult, give or take price_jitter.
+	var/price_mult = 1
+	var/price_jitter = 2
+
+	var/min_stock = 1
+	var/max_stock = 4
+	var/min_delivery = 3 SECONDS
+	var/max_delivery = 60 SECONDS
+
+	/// Whether customers can pay refresh_cost to re-roll this supplier's catalog on demand.
+	var/refreshable = FALSE
+	var/refresh_cost = 5
+
+	/// Extra pools by supplier type, built on first use so subtypesof() only runs once per supplier type.
+	var/static/list/extra_pool_cache = list()
+
+/// Every extra this supplier may offer.
+/datum/technician_supplier/proc/get_extra_pool()
+	var/list/pool = extra_pool_cache[type]
+	if(!isnull(pool))
+		return pool
+
+	pool = list()
+	pool |= extra_items
+	for(var/root in extra_roots)
+		for(var/item_path in subtypesof(root))
+			var/obj/item/item_type = item_path
+			if(!initial(item_type.buy_rollable) || initial(item_type.junk) || initial(item_type.name) == "item")
+				continue
+			pool |= item_path
+
+	extra_pool_cache[type] = pool
+	return pool
+
+/datum/technician_supplier/proc/roll_extra_price(item_path)
+	var/obj/item/item_type = item_path
+	var/base_price = initial(item_type.vendor_price) > 0 ? initial(item_type.vendor_price) : rand(5, 40)
+	return max(1, round(base_price * price_mult) + rand(-price_jitter, price_jitter))
+
+/datum/technician_supplier/masterline_cinder
+	name = "MASTERLINE CINDER"
+	extra_roots = list(/obj/item/medical/pills, /obj/item/medical/injector)
+
+/datum/technician_supplier/seramorris
+	name = "SERAMORRIS"
+	// No extras yet. Add some with extra_roots = list(/obj/item/...) and/or extra_items = list(/obj/item/...)
+
+/datum/technician_supplier/aufsithestine
+	name = "AUFSITHESTINE"
+	// No extras yet. Add some with extra_roots = list(/obj/item/...) and/or extra_items = list(/obj/item/...)
+
+/datum/technician_supplier/chez_mainline
+	name = "CHEZ GROUP MAINLINE CARGO"
+	extra_items = list(/obj/item/melee/wrench)
+
+/datum/technician_supplier/unauthorized
+	name = "UNAUTHORIZED"
+	restock_paths = list()
+	extra_roots = list(/obj/item)
+	extra_count = 6
+	price_jitter = 10
+	refreshable = TRUE
+	refresh_cost = 5
+
 /obj/machine/terminal/technician
 	name = "STOCKMASTER-vLUKE"
 	desc = "A supplier terminal for ordering vending cartridges and other goods."
@@ -53,17 +144,32 @@
 	icon_state = "laptop"
 
 	var/obj/machine/telepad/linked_telepad
-	var/list/supplier_names = list("MASTERLINE CINDER", "SERAMORRIS", "AUFSITHESTINE", "CHEZ GROUP MAINLINE CARGO", "UNAUTHORIZED")
+
+	/// The suppliers this terminal talks to, in tab order. Instanced into suppliers on Initialize.
+	var/list/supplier_types = list(
+		/datum/technician_supplier/masterline_cinder,
+		/datum/technician_supplier/seramorris,
+		/datum/technician_supplier/aufsithestine,
+		/datum/technician_supplier/chez_mainline,
+		/datum/technician_supplier/unauthorized
+	)
+	var/list/suppliers = list()
+	/// Current catalog per supplier: supplier datum -> (item code -> /datum/technician_order).
 	var/list/supplier_catalogs = list()
 	var/next_catalog_refresh = 0
+
+	// Bumped every time any catalog is regenerated. Order links carry the version they were
+	// rendered with, so a click on a stale page can't buy whatever now has that item code.
+	var/catalog_version = 1
 
 	var/atom/movable/whiteout
 
 /obj/machine/terminal/technician/Initialize()
 	. = ..()
-	for(var/obj/machine/telepad/pad in range(6, get_turf(src)))
-		linked_telepad = pad
-		break
+	get_linked_telepad()
+
+	for(var/supplier_type in supplier_types)
+		suppliers += new supplier_type
 
 	whiteout = new(src)
 	whiteout.icon = src.icon
@@ -74,6 +180,30 @@
 
 	vis_contents += whiteout
 
+/obj/machine/terminal/technician/Destroy()
+	for(var/supplier in supplier_catalogs.Copy())
+		clear_catalog(supplier)
+	supplier_catalogs = null
+	for(var/supplier in suppliers)
+		qdel(supplier)
+	suppliers = null
+	linked_telepad = null
+	if(whiteout)
+		vis_contents -= whiteout
+		qdel(whiteout)
+		whiteout = null
+	return ..()
+
+/// Returns the telepad this terminal delivers to, re-linking to the nearest one if the old one is gone.
+/obj/machine/terminal/technician/proc/get_linked_telepad()
+	if(!QDELETED(linked_telepad))
+		return linked_telepad
+	linked_telepad = null
+	for(var/obj/machine/telepad/pad in range(6, get_turf(src)))
+		if(!linked_telepad || get_dist(src, pad) < get_dist(src, linked_telepad))
+			linked_telepad = pad
+	return linked_telepad
+
 /obj/machine/terminal/technician/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()
 	if(istype(held_item, /obj/item/melee/wrench))
@@ -83,89 +213,108 @@
 
 /obj/machine/terminal/technician/Topic(href, href_list)
 	. = ..()
-	var/mob/human/user = usr
-	if(href_list["close_terminal"])
-		user << browse(null, "window=STOCKMASTER-vLUKE")
-		user.client.open_popups -= "STOCKMASTER-vLUKE"
+	if(!istype(usr, /mob/human))
 		return
-	
-	if(!user || !user.client || !user.mind || !user.SkillRoll(TECH, FALSE, -1) || !Adjacent(user))
+	var/mob/human/user = usr
+	if(!user.client)
 		return
 
-	animate(whiteout, 0.5, alpha = 255)
+	if(href_list["close_terminal"])
+		user << browse(null, "window=[STOCKMASTER_WINDOW]")
+		user.client.open_popups -= STOCKMASTER_WINDOW
+		return
+
+	// Adjacent is checked first so clicking from across the room doesn't burn a skill roll.
+	if(!user.mind || !Adjacent(user) || !user.SkillRoll(TECH, FALSE, -1))
+		return
+
+	animate(whiteout, time = 0.5, alpha = 255)
 	animate(alpha = 0, time = 5)
 
 	if(world.time >= next_catalog_refresh)
 		refresh_catalogs()
 
-	var/supplier_index = text2num(href_list["supplier"])
-	if(supplier_index < 1 || supplier_index > supplier_names.len)
-		supplier_index = 1
-	var/supplier = supplier_names[supplier_index]
+	var/supplier_index = get_supplier_index(href_list["supplier"])
+	var/datum/technician_supplier/supplier = suppliers[supplier_index]
 
-	if(href_list["action"] == "refresh" && supplier == "UNAUTHORIZED")
-		if(user.AttemptTransaction(5))
+	if(href_list["action"] == "refresh")
+		if(supplier.refreshable && user.AttemptTransaction(supplier.refresh_cost))
 			refresh_supplier(supplier)
 	else if(href_list["order"])
-		if(!linked_telepad)
-			user.chat_info("The STOCKMASTER-vLUKE cannot reach a delivery telepad.", "bad")
-			return
-		var/list/catalog = supplier_catalogs[supplier]
-		var/datum/technician_order/order = catalog[href_list["order"]]
-		if(!order || order.stock <= 0)
-			user.chat_info("Huh... That's strange.", "bad")
-			open_terminal(user, supplier_index)
-			return
-		if(!user.AttemptTransaction(order.price))
-			open_terminal(user, supplier_index)
-			return
-
-		order.stock--
-		addtimer(CALLBACK(linked_telepad, TYPE_PROC_REF(/obj/machine/telepad, deliver_order), order.item_path, user), order.delivery_time)
-		AnimatedSpeech("ORDER ACCEPTED. DELIVER IN: [max(1, round(order.delivery_time / 10))] SECONDS.")
+		place_order(user, supplier, href_list["order"], href_list["version"])
 
 	open_terminal(user, supplier_index)
+
+/// Turns the raw "supplier" href value into a valid index into suppliers (defaults to 1).
+/obj/machine/terminal/technician/proc/get_supplier_index(raw_index)
+	return clamp(round(text2num(raw_index)), 1, suppliers.len)
+
+/obj/machine/terminal/technician/proc/place_order(mob/human/user, datum/technician_supplier/supplier, order_code, order_version)
+	var/obj/machine/telepad/pad = get_linked_telepad()
+	if(!pad)
+		return // open_terminal() tells the user about the missing telepad
+
+	if(text2num(order_version) != catalog_version)
+		user.chat_info("The catalog changed while you were reading it. Check the new listing.", "bad")
+		return
+
+	var/list/catalog = supplier_catalogs[supplier]
+	var/datum/technician_order/order
+	if(catalog)
+		order = catalog[order_code]
+	if(!order || order.stock <= 0)
+		user.chat_info("Huh... That's strange.", "bad")
+		return
+
+	// Reserve the stock before taking payment, in case AttemptTransaction can sleep.
+	order.stock--
+	if(!user.AttemptTransaction(order.price))
+		order.stock++
+		return
+
+	addtimer(CALLBACK(pad, TYPE_PROC_REF(/obj/machine/telepad, deliver_order), order.item_path, user), order.delivery_time)
+	AnimatedSpeech("ORDER ACCEPTED. DELIVER IN: [max(1, round(order.delivery_time / 10))] SECONDS.")
 
 /obj/machine/terminal/technician/proc/open_terminal(mob/human/user, supplier_index = 1)
 	if(!user.mind)
 		return
-	if(!linked_telepad)
+	if(!get_linked_telepad())
 		user.chat_info("The STOCKMASTER-vLUKE cannot reach a delivery telepad.", "bad")
 		return
 	if(world.time >= next_catalog_refresh)
 		refresh_catalogs()
-	supplier_index = clamp(supplier_index, 1, supplier_names.len)
-	var/datum/popup/terminal/popup = new(user, "STOCKMASTER-vLUKE", "STOCKMASTER-vLUKE", 1080, 720, src)
+	supplier_index = clamp(supplier_index, 1, suppliers.len)
+	var/datum/popup/terminal/popup = new(user, STOCKMASTER_WINDOW, STOCKMASTER_WINDOW, 1080, 720, src)
 	popup.set_content(get_terminal_content(supplier_index))
 	playsound(get_turf(src), 'sound/effects/obj/machine.ogg', vol = 75)
 	popup.open()
 
 /obj/machine/terminal/technician/proc/get_terminal_content(supplier_index)
-	var/supplier = supplier_names[supplier_index]
-	var/list/catalog = supplier_catalogs[supplier]
+	var/datum/technician_supplier/supplier = suppliers[supplier_index]
+	var/list/catalog = supplier_catalogs[supplier] || list()
 	var/content = {"<div id="terminal-window">
 	<div><a href='byond://?src=[REF(src)];close_terminal=1'>>EXIT</a></div><br>
 	><b>STOCKMASTER-vLUKE — CHEZ LOGISTICS, SUPPLIER NETWORK [pick(":)",">:)",":D","≽^•⩊•^≼","(˵◝ ⩊  ◜˵マ")]</b><br>
 	>TIME: <b>[time2text(world.realtime, "mm:ss")]</b><br>
-	>TELELINK?: <b>[linked_telepad ? "SUCCESS" : "ERR 695"]</b><br><br>
+	>TELELINK?: <b>[get_linked_telepad() ? "SUCCESS" : "ERR 695"]</b><br><br>
 	"}
 
-	for(var/i in 1 to supplier_names.len)
-		var/supplier_name = supplier_names[i]
+	for(var/i in 1 to suppliers.len)
+		var/datum/technician_supplier/tab_supplier = suppliers[i]
 		if(i == supplier_index)
-			content += ">[uppertext(supplier_name)] &nbsp; "
+			content += ">[uppertext(tab_supplier.name)] &nbsp; "
 		else
-			content += "<a href='byond://?src=[REF(src)];supplier=[i]'>>[uppertext(supplier_name)]</a> &nbsp; "
-	content += "<br><br>>== AVAILABLE STOCK: <b>[uppertext(supplier)]</b> ==<br>"
+			content += "<a href='byond://?src=[REF(src)];supplier=[i]'>>[uppertext(tab_supplier.name)]</a> &nbsp; "
+	content += "<br><br>>== AVAILABLE STOCK: <b>[uppertext(supplier.name)]</b> ==<br>"
 
-	if(supplier == "UNAUTHORIZED")
-		content += ">XXX | NEW STUFF | 5§ <a href='byond://?src=[REF(src)];action=refresh;supplier=[supplier_index]'>>ORDER</a><br>"
+	if(supplier.refreshable)
+		content += ">XXX | NEW STUFF | [supplier.refresh_cost]§ <a href='byond://?src=[REF(src)];action=refresh;supplier=[supplier_index]'>>ORDER</a><br>"
 	content += "<br>"
 	for(var/code in catalog)
 		var/datum/technician_order/order = catalog[code]
 		content += ">[order.code] | [html_encode(order.item_name)] | [order.price]§ | STOCK: [order.stock] | ETA: [max(1, round(order.delivery_time / 10))] SEC "
 		if(order.stock > 0)
-			content += "<a href='byond://?src=[REF(src)];order=[order.code];supplier=[supplier_index]'>>ORDER</a>"
+			content += "<a href='byond://?src=[REF(src)];order=[order.code];supplier=[supplier_index];version=[catalog_version]'>>ORDER</a>"
 		else
 			content += "| SOLD OUT"
 		content += "<br>"
@@ -176,57 +325,61 @@
 	return content
 
 /obj/machine/terminal/technician/proc/refresh_catalogs()
-	for(var/supplier in supplier_names)
-		var/list/old_catalog = supplier_catalogs[supplier]
-		if(old_catalog)
-			for(var/code in old_catalog)
-				qdel(old_catalog[code])
-	supplier_catalogs = list()
-
-	for(var/supplier in supplier_names)
+	for(var/supplier in suppliers)
 		refresh_supplier(supplier)
-	next_catalog_refresh = world.time + 5 MINUTES
+	next_catalog_refresh = world.time + CATALOG_REFRESH_INTERVAL
 
-/obj/machine/terminal/technician/proc/refresh_supplier(supplier)
+/obj/machine/terminal/technician/proc/clear_catalog(datum/technician_supplier/supplier)
+	var/list/old_catalog = supplier_catalogs[supplier]
+	for(var/code in old_catalog)
+		qdel(old_catalog[code])
+	supplier_catalogs -= supplier
+
+/// Rebuilds one supplier's catalog: all of its restock cartridges, then up to extra_count random extras.
+/obj/machine/terminal/technician/proc/refresh_supplier(datum/technician_supplier/supplier)
+	clear_catalog(supplier)
+	catalog_version++
 	var/list/catalog = list()
-	var/list/restock_paths = list(
-		/obj/item/restock_package/medic,
-		/obj/item/restock_package/food,
-		/obj/item/restock_package/merc,
-		/obj/item/restock_package/planta
-	)
 
-	if(supplier == "UNAUTHORIZED")
-		var/list/candidates = subtypesof(/obj/item)
-		for(var/item_path in candidates.Copy())
-			var/obj/item/item_type = item_path
-			if(!item_type.buy_rollable || item_type.junk || item_type.name == "item")
-				candidates -= item_path
+	for(var/item_path in supplier.restock_paths)
+		add_catalog_order(catalog, item_path, rand(supplier.restock_price_min, supplier.restock_price_max), rand(supplier.min_stock, supplier.max_stock), rand(supplier.min_delivery, supplier.max_delivery))
 
-		while(candidates.len && catalog.len < 6)
-			var/item_path = pick(candidates)
-			candidates -= item_path
-			var/obj/item/item_type = item_path
-			var/base_price = item_type.vendor_price > 0 ? item_type.vendor_price : rand(5, 40)
-			add_catalog_order(catalog, item_path, uppertext(replacetext(item_type.name, " ", "")), max(1, base_price + rand(-10, 10)), rand(1, 4), rand(3 SECONDS, 60 SECONDS))
-	else
-		for(var/item_path in restock_paths)
-			var/obj/item/item_type = item_path
-			add_catalog_order(catalog, item_path, uppertext(replacetext(item_type.name, " ", "")), rand(15, 35), rand(1, 4), rand(3 SECONDS, 60 SECONDS))
+	// A cartridge is never also listed as an extra.
+	var/list/candidates = supplier.get_extra_pool().Copy()
+	candidates -= supplier.restock_paths
+	var/extras_listed = 0
+	while(candidates.len && extras_listed < supplier.extra_count)
+		var/item_path = pick(candidates)
+		candidates -= item_path
+		extras_listed++
+		add_catalog_order(catalog, item_path, supplier.roll_extra_price(item_path), rand(supplier.min_stock, supplier.max_stock), rand(supplier.min_delivery, supplier.max_delivery))
 
 	supplier_catalogs[supplier] = catalog
 
-/obj/machine/terminal/technician/proc/add_catalog_order(list/catalog, item_path, item_name, price, stock, delivery_time)
-	var/code
-	while(TRUE)
+/// The name shown in the catalog for an item type. Medicine uses its med_name, everything else its (space-stripped) name.
+/obj/machine/terminal/technician/proc/get_catalog_name(item_path)
+	var/med_name
+	if(ispath(item_path, /obj/item/medical/pills))
+		var/obj/item/medical/pills/pill_type = item_path
+		med_name = initial(pill_type.med_name)
+	else if(ispath(item_path, /obj/item/medical/injector))
+		var/obj/item/medical/injector/injector_type = item_path
+		med_name = initial(injector_type.med_name)
+	if(med_name)
+		return uppertext(med_name)
+
+	var/obj/item/item_type = item_path
+	return uppertext(replacetext(initial(item_type.name), " ", ""))
+
+/obj/machine/terminal/technician/proc/add_catalog_order(list/catalog, item_path, price, stock, delivery_time)
+	var/code = "[rand(100, 999)]"
+	while(catalog[code])
 		code = "[rand(100, 999)]"
-		if(!catalog[code])
-			break
 
 	var/datum/technician_order/order = new
 	order.code = code
 	order.item_path = item_path
-	order.item_name = item_name
+	order.item_name = get_catalog_name(item_path)
 	order.price = price
 	order.stock = stock
 	order.delivery_time = delivery_time
@@ -254,26 +407,42 @@
 
 	vis_contents += whiteout
 
+	// Only claim terminals that don't already have a pad, so we don't steal links from a nearer one.
 	for(var/obj/machine/terminal/technician/terminal in range(6, get_turf(src)))
-		terminal.linked_telepad = src
-		break
+		if(!terminal.linked_telepad)
+			terminal.linked_telepad = src
+
+/obj/machine/telepad/Destroy()
+	if(whiteout)
+		vis_contents -= whiteout
+		qdel(whiteout)
+		whiteout = null
+	return ..()
 
 /obj/machine/telepad/proc/deliver_order(item_path, mob/human/ordered_by)
-	if(!get_turf(src))
+	var/turf/pad_turf = get_turf(src)
+	if(!pad_turf)
 		return
-	playsound(get_turf(src), 'sound/effects/obj/tele.ogg', vol = 75)
-	animate(whiteout, time = 16.72, alpha = 255)
+	playsound(pad_turf, 'sound/effects/obj/tele.ogg', vol = 75)
+	animate(whiteout, time = TELEPORT_CHARGE_TIME, alpha = 255)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/machine/telepad, finish_delivery), item_path), TELEPORT_CHARGE_TIME)
 
-	if(!length(whiteout.filters))
-		world.log << "teleport filters: FILTER MISSING!!"
-		return // filter missing, bail instead of runtime
+/obj/machine/telepad/proc/finish_delivery(item_path)
+	if(QDELETED(src))
+		return
+	var/turf/pad_turf = get_turf(src)
+	if(!pad_turf)
+		return
 
-	spawn(16.72)
-		animate(whiteout, time = 2, alpha = 0)
+	animate(whiteout, time = 2, alpha = 0)
 
+	// The bloom is only cosmetic, so a missing filter must never eat a paid-for order.
+	if(length(whiteout.filters))
 		var/bloom = whiteout.filters[1]
 		animate(bloom, time = 0.1, size = 4)
-		animate(time = 16.72, size = 0)
+		animate(time = TELEPORT_CHARGE_TIME, size = 0)
+	else
+		world.log << "teleport filters: FILTER MISSING!!"
 
-		var/obj/item/delivery = new item_path(get_turf(src))
-		delivery.update_transform()
+	var/obj/item/delivery = new item_path(pad_turf)
+	delivery.update_transform()

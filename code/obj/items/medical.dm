@@ -1,5 +1,6 @@
 /obj/item/medical
 	icon = 'icons/obj/medical/items.dmi'
+	buy_rollable = FALSE
 
 /obj/item/medical/bandage
 	name = "bandage"
@@ -9,6 +10,7 @@
 
 	vendor_name = "BNDG"
 	vendor_price = 20
+	buy_rollable = TRUE
 
 /obj/item/medical/bandage/use(mob/human/H)
 	. = ..()
@@ -44,6 +46,7 @@
 
 	vendor_name = "SPLT"
 	vendor_price = 25
+	buy_rollable = TRUE
 
 /obj/item/medical/splint/use(mob/human/H)
 	. = ..()
@@ -119,6 +122,7 @@
 
 	vendor_name = "NSFD"
 	vendor_price = 25
+	buy_rollable = TRUE
 
 /obj/item/medical/pills/magnesium
 	med_name = "Magnesolam"
@@ -128,6 +132,7 @@
 
 	vendor_name = "MAGN"
 	vendor_price = 25
+	buy_rollable = TRUE
 
 /datum/status_effect
 	var/mob/human/owner
@@ -195,6 +200,7 @@
 
 	vendor_name = "ANTI"
 	vendor_price = 35
+	buy_rollable = TRUE
 
 /datum/status_effect/antibiotic_treatment
 	duration = 15 SECONDS
@@ -272,6 +278,7 @@
 
 	vendor_name = "BLUD"
 	vendor_price = 80
+	buy_rollable = TRUE
 
 	inject_desc = "This feels weird..."
 
@@ -287,6 +294,7 @@
 
 	vendor_name = "FRAC"
 	vendor_price = 90
+	buy_rollable = TRUE
 
 	inject_desc = "OH NO! OH NO! OW! OWWWW! OWWWWWWWW!!!"
 

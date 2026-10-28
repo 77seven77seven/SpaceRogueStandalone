@@ -204,4 +204,6 @@ var/list/icon_dim_cache = list()
 	name = "bus ticket"
 	desc = "A public transport permit, your key to the rest of civilized space."
 
+	vendor_price = 230 // The average between random prices.
+
 	icon_state = "ticket"
