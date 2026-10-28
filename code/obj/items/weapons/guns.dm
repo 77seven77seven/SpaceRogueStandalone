@@ -13,11 +13,14 @@
 	name = "Wonder"
 	desc = "The Wonder is one of the Wonder Nines family of firearms. An iconic, all-metal small bulleted semi-automatic pistol."
 	desc_expansive = "The Wonder Nines family of firearms has nine sons, all which have only nine bullet capacity due to legal standards. This gun is most widely used in CHEZ Group operated regions, even though most employees of the corporation use alternatives."
+	desc_expansive_extra_skill = GUNS
 
 	icon = 'icons/obj/guns/guns_small.dmi'
 	icon_state = "gun"
 	inhand_icon = 'icons/human/inhands/guns.dmi'
 	inhand_icon_state = "gun"
+
+	vendor_price = 145
 
 	var/list/gunshot_sounds = list('sound/effects/obj/guns/pistol1.ogg','sound/effects/obj/guns/pistol2.ogg','sound/effects/obj/guns/pistol3.ogg')
 
@@ -60,6 +63,8 @@
 	ammo_loaded = 6
 	ammo_max = 6
 
+	vendor_price = 210
+
 	damage = 40
 	headshot_damage = 100
 
@@ -68,6 +73,27 @@
 	icon_state = "gunvolver"
 	desc = "Something isn't right here..."
 	desc_expansive = "You're not sure, but something about this gun reminds you of prisons."
+
+	vendor_price = 238
+
+/obj/item/gun/silenced
+	name = "Resolutionist"
+	icon_state = "silenced"
+	
+	desc = "This weapon has resolved more political conflicts than mere words ever will."
+	desc_expansive = "A weapon favored by those that are usually unwilling to give up a weapon. Due to the internal structure of the weapon, it both has a built-in suppressor and flash hider. For portability and a low profile, it only holds four rounds of a small caliber."
+	
+	tracers = FALSE
+	ejects_casings_on_reload = TRUE
+
+	vendor_price = 138
+
+	damage = 10
+	headshot_damage = 89
+
+	ammo_loaded = 4
+	ammo_max = 4
+	fire_delay = 2
 
 /obj/item/gun/assault
 	name = "Template"
@@ -83,6 +109,8 @@
 	fire_delay = 1
 	damage = 40
 	headshot_damage = 100
+	
+	vendor_price = 12500
 
 	gunshot_sounds = list('sound/effects/obj/guns/rifle.ogg')
 	
@@ -103,6 +131,8 @@
 	ammo_type = AMMO_SHELLS
 	ammo_loaded = 6
 	ammo_max = 6
+
+	vendor_price = 300
 
 	dropshrink = 0.7
 

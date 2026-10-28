@@ -156,6 +156,18 @@
 
 	var/obj/item/melee/baton/baton = new(H)
 	H.inventory += baton
+	
+	if(prob(25)) // Flat chance of being able to become a medic.
+		H.mind.AddSkill(MEDI, rand(10,30))
+	if(prob(40))
+		var/picked_gun = pick_weight(list(
+			/obj/item/gun = 80,
+			/obj/item/gun/revolver = 40,
+			/obj/item/gun/shotgun = 20,
+			/obj/item/gun/silenced = 1
+		))
+		var/obj/item/gun/G = new picked_gun(H)
+		H.inventory += G
 
 /datum/role/merc/get_skills()
 	return list(CORP = 60, GUNS = 40 + rand(-10,40), MELEE = 60 + rand(-10,20), PARANOIA = 40)
