@@ -78,6 +78,7 @@
 
 		if(prob(20))
 			user.AddRewardPip()
+		playsound(get_turf(src), 'sound/effects/obj/trash.ogg', 75, TRUE, -2)
 
 		user.mind.performance_paycheck += 2
 
