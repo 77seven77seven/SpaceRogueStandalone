@@ -231,30 +231,6 @@
 		current_ambience_volume = volume
 		sleep(1)
 
-/client/verb/fuckyou()
-	world << "----"
-	if(master)
-		world << "master = OK"
-	else
-		world << "master = FAIL"
-	if(processor)
-		world << "processor = OK"
-	else
-		world << "processor = FAIL"
-	if(station)
-		world << "station = OK"
-	else
-		world << "station = FAIL"
-	if(shuttle)
-		world << "shuttle = OK"
-	else
-		world << "shuttle = FAIL"
-	if(system_radio)
-		world << "radio = OK"
-	else
-		world << "radio = FAIL"
-	world << "----"
-
 /client/verb/license()
 	set name = ".license"
 

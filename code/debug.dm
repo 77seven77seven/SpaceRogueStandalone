@@ -6,6 +6,36 @@
 		var/atom/movable/fucky = new fuck(get_turf(mob))
 		usr << "Your wish is my command. [fucky.type]"
 
+/client/verb/fuckyou()
+	world << "----"
+	if(master)
+		world << "master = OK"
+	else
+		world << "master = FAIL"
+	if(processor)
+		world << "processor = OK"
+	else
+		world << "processor = FAIL"
+	if(station)
+		world << "station = OK"
+	else
+		world << "station = FAIL"
+	if(shuttle)
+		world << "shuttle = OK"
+	else
+		world << "shuttle = FAIL"
+	if(system_radio)
+		world << "radio = OK"
+	else
+		world << "radio = FAIL"
+	world << "----"
+
+/mob/verb/water(num as num)
+	station.waters += num
+
+/mob/human/verb/wanted()
+	wanted_timer += 40
+
 /mob/human/verb/trigger_skill_roll(fuck as text)
     SkillRoll(fuck)
 

@@ -141,6 +141,10 @@
 	. = ..()
 	H.mind.mental_state = MENTAL_STATE_PSYCHO
 
+/datum/quirk/sensitive
+	name = "Sensitive"
+	display_name = "You're especially sensitive to cogni-scans."
+
 /datum/quirk/someonehasdied
 	name = "Someone Has Died"
 	display_name = "You've purchased CHEZ Group's premium life insurance policy."

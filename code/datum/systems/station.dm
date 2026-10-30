@@ -2,6 +2,8 @@
 	var/list/humans = list()
 	var/list/dead_humans = list()
 
+	var/list/criminals = list()
+
 	var/obj/deco/speakertower/speakertower
 
 	var/mob/human/director

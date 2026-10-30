@@ -289,6 +289,3 @@
 
 	vendor_name = "MW.S"
 	vendor_price = 10
-
-/mob/verb/water(num as num)
-	station.waters += num

@@ -20,3 +20,4 @@
 				spawn(1) H.playsound_local(get_turf(src), optional_sound, 100)
 			else
 				H.playsound_local(get_turf(src), 'sound/effects/announce/announce.ogg', 100)
+

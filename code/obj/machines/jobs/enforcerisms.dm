@@ -19,8 +19,10 @@
 
 /obj/item/mindsampler/attack(mob/human/user, mob/human/target)
 	. = ..()
+	user.swing_anim(target, 16, 0, 1)
+
 	if(target.cmode)
-		if(!user.SkillRoll(CORP, TRUE, 2))
+		if(!user.SkillRoll(CORP, TRUE, 2) || (prob(10) && target.mind?.HasQuirk(/datum/quirk/sensitive)))
 			visible_message("[target] pulls away from the Cogni-Wand.")
 			return
 	if(!cached)
@@ -33,10 +35,18 @@
 			icon_state = "[initial(icon_state)]-loaded"
 			name = "[initial(name)] ([random_capital_letter()]-[cached])"
 
+			animate(target.client, color = "#b1abddff", easing = SINE_EASING | EASE_IN | EASE_OUT, time = 2)
+			spawn(2) animate(target.client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
+
+			visible_message("[user] scans [target] with the Cogni-Wand.")
+			playsound(get_turf(user), 'sound/effects/obj/scancogni.ogg', 85, TRUE, -2)
+
 			if(prob(90))
 				// TODO: give target migraine, this is just a placeholder
-				target.AdjustSorrow(rand(10,40))
-				target.chat_info("AGH!! PAIN! PAIN! PAIN! WHY IS IT SO PAINFUL?!","bad")
+				target.AdjustSorrow(rand(5,20))
+				if(prob(20) || target.mind?.HasQuirk(/datum/quirk/sensitive))
+					target.chat_info("AGH!! PAIN! PAIN! PAIN! WHY IS IT SO PAINFUL?!","bad")
+					target.AdjustSorrow(rand(5,10))
 	else
 		user.chat_info("Unfortunately, these things aren't exactly reusable.","bad")
 

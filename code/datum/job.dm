@@ -156,6 +156,9 @@
 
 	var/obj/item/melee/baton/baton = new(H)
 	H.inventory += baton
+
+	var/datum/implant/enforcer/trespass_implant = new(H)
+	H.implants += trespass_implant
 	
 	if(prob(25)) // Flat chance of being able to become a medic.
 		H.mind.AddSkill(MEDI, rand(10,30))
@@ -213,6 +216,8 @@
 	if(prob(80))
 		var/obj/item/melee/wrench/wrench = new(H)
 		H.inventory += wrench
+	var/datum/implant/trespass/trespass_implant = new(H)
+	H.implants += trespass_implant
 
 /datum/role/miner
 	title = "Miner"
