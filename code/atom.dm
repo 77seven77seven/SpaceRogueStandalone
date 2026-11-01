@@ -1,5 +1,13 @@
 /atom
 	plane = GENERIC_PLANE
+	
+	// lighting
+	var/light_power = 1 // intensity of the light
+	var/light_range = 0 // range in tiles of the light
+	var/light_color     // RGB string representing the colour of the light
+
+	var/datum/light_source/light
+	var/list/light_sources
 
 /atom/New(loc)
 	. = ..()
@@ -8,6 +16,24 @@
 
 /atom/proc/Initialize()
 	return
+
+/atom/movable/New()
+	..()
+	if(light_power && light_range)
+		update_light()
+
+/atom/movable/Destroy(force)
+	if(light)
+		light.destroy()
+		light = null
+	var/turf/T = loc
+	if(opacity && istype(T))
+		T.reconsider_lights()
+
+	loc = null
+	vis_contents.Cut()
+
+	return ..()
 
 /*
 /atom/movable/Click(location, control, params)
@@ -29,6 +55,11 @@
 		. = doMove(destination)
 
 /atom/movable/proc/Moved(atom/oldLoc, Dir, Forced = FALSE)	
+	update_light()
+	if(light_sources)
+		for(var/datum/light_source/L in light_sources)
+			if(L.source_atom != src)
+				L.update(src)
 	return TRUE
 
 /atom/movable/proc/doMove(atom/destination)

@@ -4,6 +4,7 @@ var/global/datum/system/station/station = new()
 var/global/datum/system/shuttle/shuttle = new()
 var/global/datum/system/sound/system_sound = new()
 var/global/datum/system/radio/system_radio = new()
+var/global/datum/system/lighting/lighting_controller = new()
 
 var/global/list/landmarks_list = list()
 var/global/list/landmarks_start_list = list()
@@ -37,11 +38,14 @@ var/global/list/landmarks_start_list = list()
 	system_sound.setup()
 	system_radio.setup()
 	shuttle.setup()
+	lighting_controller.setup()
+	create_lighting_overlays()
 
 	station.next_paycheck = world.time + rand(4 MINUTES, 7 MINUTES)
 	station.next_day = world.time + 24 MINUTES
 	processor.processing += station
 	processor.processing += shuttle
+	processor.processing += lighting_controller
 
 	var/datum/D = new /datum/process_tester
 	processor.processing += D

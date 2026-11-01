@@ -23,6 +23,7 @@
 	var/sound/droning_sound
 	var/sound/lobby_music
 	var/tmp/lobby_camera_sway = FALSE
+	var/tmp/atom/movable/lighting_master/lighting_master
 	var/current_ambience
 	var/current_ambience_channel
 	var/current_ambience_volume = 0
@@ -106,10 +107,15 @@
 /client/New()
 	. = ..()
 	master.clients += src
+	lighting_master = new /atom/movable/lighting_master
+	screen += lighting_master
 
 /client/Del()
 	. = ..()
 	master.clients -= src
+	screen -= lighting_master
+	qdel(lighting_master)
+	lighting_master = null
 
 /client/Move(loc, dir)
 	var/mob/human/H = mob

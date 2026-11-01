@@ -14,11 +14,18 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
+#include "_libs\datum_pool.dm"
 #include "_libs\jruNumbers.dm"
 #include "_libs\flaticon\flat_icon.dm"
 #include "_libs\fonts\DmiFontsPlus.dm"
 #include "_libs\fonts\Tiny56pt.dm"
 #include "_libs\fonts\Tiny5Bold6pt.dm"
+#include "_libs\lighting\__lighting_docs.dm"
+#include "_libs\lighting\_lighting_defs.dm"
+#include "_libs\lighting\light_source.dm"
+#include "_libs\lighting\lighting_atom.dm"
+#include "_libs\lighting\lighting_overlay.dm"
+#include "_libs\lighting\lighting_turf.dm"
 #include "_libs\timer\timers.dm"
 #include "code\_defines.dm"
 #include "code\adjacent.dm"
@@ -37,6 +44,7 @@
 #include "code\datum\mind.dm"
 #include "code\datum\quirks.dm"
 #include "code\datum\systems\_system.dm"
+#include "code\datum\systems\lighting.dm"
 #include "code\datum\systems\master.dm"
 #include "code\datum\systems\processor.dm"
 #include "code\datum\systems\radio.dm"

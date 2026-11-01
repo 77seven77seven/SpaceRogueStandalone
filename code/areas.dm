@@ -5,10 +5,13 @@
 	plane = AREA_PLANE
 
 	mouse_opacity = 0
+	luminosity = 0
 
 	var/sound_environment = SOUND_ENVIRONMENT_NONE
 	var/list/ambience = null
 	var/ambience_volume = 35
+
+	var/lighting_use_dynamic = 1
 
 /area/Initialize()
 	icon_state = ""

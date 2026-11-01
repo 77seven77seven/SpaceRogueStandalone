@@ -7,6 +7,9 @@
 /turf/Initialize()
 	..()
 
+	if(dynamic_lighting && loc && loc.lighting_use_dynamic)
+		lighting_build_overlays()
+
 	// give all non-dense turfs a 47-state autojoining shadow.
 	if(!density)
 		var/n = autojoin47("density")

@@ -1580,6 +1580,10 @@
 	},
 /turf/open/floor,
 /area/station)
+"LW" = (
+/obj/light_test,
+/turf/open/floor/wood,
+/area/station/corporate/director)
 "Mh" = (
 /obj/deco/fishtank{
 	pixel_x = 0;
@@ -9524,7 +9528,7 @@ IS
 ne
 cG
 nB
-Gn
+LW
 Gn
 Pu
 cG
