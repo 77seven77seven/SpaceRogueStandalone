@@ -281,8 +281,8 @@
 				if(pellet_zone == "head")
 					headshot_hits++
 
-	animate(shooter?.client, color = "#f3d4d4ff", easing = EASE_OUT, time = 0.5)
-	animate(color = "#ffefef", easing = EASE_IN, time = 0.5)
+	if(shooter?.client)
+		shooter.client.PulseColorEffect("#f3d4d4ff", 0.5, 0, 0.5, EASE_OUT, EASE_IN, "#ffefef")
 
 	if(ishuman(shooter))
 		var/mob/human/human_shooter = shooter

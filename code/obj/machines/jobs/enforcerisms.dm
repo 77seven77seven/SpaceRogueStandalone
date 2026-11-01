@@ -44,8 +44,7 @@
 			name = "[initial(name)] ([random_capital_letter()]-[cached])"
 
 			if(target.client)
-				animate(target?.client, color = "#b1abddff", easing = SINE_EASING | EASE_IN | EASE_OUT, time = 2)
-				spawn(2) animate(target?.client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
+				target.client.PulseColorEffect("#b1abddff", 2, 0, 2, SINE_EASING | EASE_IN | EASE_OUT, QUAD_EASING | EASE_IN | EASE_OUT)
 
 			var/icon/icon_target = getFlatIcon(target, SOUTH)
 			var/icon/icon_user = getFlatIcon(user, SOUTH)

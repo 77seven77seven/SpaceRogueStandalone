@@ -29,6 +29,79 @@
 	var/area_ambience_transition = 0
 	var/list/area_ambience_channels = list()
 	var/list/area_ambience_track_order = list()
+	var/tmp/list/client_color_effects = list()
+	var/tmp/client_color_effect_counter = 0
+
+/client/proc/SetColorEffect(effect_id, effect_color, transition_time = 0, easing = 0)
+	if(!client_color_effects)
+		client_color_effects = list()
+
+	var/list/effect_data = client_color_effects[effect_id]
+	if(!effect_data)
+		effect_data = list("red" = 1, "green" = 1, "blue" = 1, "transition_id" = 0)
+		client_color_effects[effect_id] = effect_data
+
+	effect_data["red"] = hex2num(copytext(effect_color, 2, 4)) / 255
+	effect_data["green"] = hex2num(copytext(effect_color, 4, 6)) / 255
+	effect_data["blue"] = hex2num(copytext(effect_color, 6, 8)) / 255
+	effect_data["transition_id"]++
+	effect_data["remove_when_done"] = FALSE
+	UpdateColorEffects(transition_time, easing)
+
+/client/proc/AddColorEffect(effect_color, transition_time = 0, easing = 0)
+	client_color_effect_counter++
+	var/effect_id = "transient_[client_color_effect_counter]"
+	SetColorEffect(effect_id, effect_color, transition_time, easing)
+	return effect_id
+
+/client/proc/RemoveColorEffect(effect_id, transition_time = 0, easing = 0)
+	if(!client_color_effects || !client_color_effects[effect_id])
+		return
+	if(!transition_time)
+		client_color_effects -= effect_id
+		UpdateColorEffects()
+		return
+
+	var/list/effect_data = client_color_effects[effect_id]
+	SetColorEffect(effect_id, "#ffffff", transition_time, easing)
+	effect_data["remove_when_done"] = TRUE
+	var/transition_id = effect_data["transition_id"]
+	spawn(transition_time)
+		if(src && client_color_effects[effect_id] == effect_data && effect_data["transition_id"] == transition_id && effect_data["remove_when_done"])
+			client_color_effects -= effect_id
+			UpdateColorEffects()
+
+/client/proc/PulseColorEffect(effect_color, fade_in, hold, fade_out, easing_in, easing_out, release_color = "#ffffff")
+	var/effect_id = AddColorEffect(effect_color, fade_in, easing_in)
+	spawn(fade_in + hold)
+		if(!src)
+			return
+		if(release_color == "#ffffff")
+			RemoveColorEffect(effect_id, fade_out, easing_out)
+			return
+		SetColorEffect(effect_id, release_color, fade_out, easing_out)
+		spawn(fade_out)
+			if(src)
+				RemoveColorEffect(effect_id)
+
+/client/proc/UpdateColorEffects(transition_time = 0, easing = 0)
+	var/red = 1
+	var/green = 1
+	var/blue = 1
+	for(var/effect_id in client_color_effects)
+		var/list/effect_data = client_color_effects[effect_id]
+		red *= effect_data["red"]
+		green *= effect_data["green"]
+		blue *= effect_data["blue"]
+
+	if(client_color_effects.len)
+		var/composed_color = rgb(round(red * 255), round(green * 255), round(blue * 255))
+		if(transition_time)
+			animate(src, color = composed_color, time = transition_time, easing = easing, flags = ANIMATION_PARALLEL)
+		else
+			color = composed_color
+	else
+		color = null
 
 /client/New()
 	. = ..()

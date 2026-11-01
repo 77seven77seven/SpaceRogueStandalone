@@ -430,20 +430,21 @@
 	death.alpha = 0
 	
 	client?.screen += death
-	client?.color = "#000000"
+	client?.SetColorEffect("death", "#000000")
 
 	SEND_SOUND(src, null)
 	SEND_SOUND(src, sound('sound/death.ogg'))
 	animate(death, time = 50, easing = QUAD_EASING | EASE_IN | EASE_OUT, alpha = 255)
+	client?.SetColorEffect("death", "#ffffff", 50, QUAD_EASING | EASE_IN | EASE_OUT)
 
 	chat_info("[pick("I wouldn't worry too much about it.","It happens. Be patient, you're gonna be good as new in no time.","Cry cry cry... far away from the fame.","Like the Pharaeon.","Chameleon? Chameleon?! SPEAK TO ME!","Axolotl, axolotl, hear my prayer...")] <b>(-1 XP)</b>", "bad")
 
 	spawn(16 SECONDS)
 		qdel(death)
-		client?.color = null
+		client?.RemoveColorEffect("death")
 
 		chat_info("[pick("Please, don't hate me. I'm only doing what I was meant to do.","I still love you... if that matters.","Life begins anew!","What were you expecting? It's a dangerous place.","Oh god, help me! HELP ME!")]")
-		client.color = null
+		client.RemoveColorEffect("death")
 
 		var/mob/lobbyman/newman = new()
 		newman.ckey = ckey
@@ -824,8 +825,11 @@
 /mob/human/proc/DoSpawnEffects()
 	client << output(null, "outputwindow.output")
 	SEND_SOUND(client, sound('sound/music/spawn.ogg', volume = 75))
-	client.color = "#000000"
-	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 50)
+	client.SetColorEffect("spawn", "#000000")
+	client.SetColorEffect("spawn", "#ffffff", 50, QUAD_EASING | EASE_IN | EASE_OUT)
+	spawn(50)
+		if(client)
+			client.RemoveColorEffect("spawn")
 
 	chat_info("You are <b>[uppertext("[first_name] [last_name]")]</b>, the <b>[uppertext(mind.current_job.title)]</b>.")
 	chat_info("[mind.current_job.desc]\n")
@@ -1041,10 +1045,11 @@
 
 		playsound_local(get_turf(src), 'sound/effects/senses/combat_on.ogg', 100)
 
-		animate(client, color = "#ddababff", easing = SINE_EASING | EASE_IN | EASE_OUT, time = 2)
+		client.SetColorEffect("combat", "#ddababff", 2, SINE_EASING | EASE_IN | EASE_OUT)
 		animate(client, pixel_z = 20, pixel_w = 20, easing = SINE_EASING | EASE_IN | EASE_OUT, time = 5)
 		spawn(2)
-			animate(client, color = "#ffefef", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
+			if(cmode && client)
+				client.SetColorEffect("combat", "#ffefef", 2, QUAD_EASING | EASE_IN | EASE_OUT)
 			animate(client, pixel_z = 0, pixel_w = 0, easing = SINE_EASING | EASE_IN | EASE_OUT, time = 5)
 
 		animate(hud_holder.combat.backgroundo, pixel_y = 0, easing = BOUNCE_EASING, time = 2)
@@ -1055,7 +1060,7 @@
 
 		playsound_local(get_turf(src), 'sound/effects/senses/combat_off.ogg', 100)
 
-		animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
+		client.RemoveColorEffect("combat", 2, QUAD_EASING | EASE_IN | EASE_OUT)
 		animate(hud_holder.combat.backgroundo, pixel_y = -64, easing = BOUNCE_EASING, time = 2)
 
 /mob/human/Stat()

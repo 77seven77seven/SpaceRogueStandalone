@@ -61,9 +61,7 @@ var/global/list/bleedout_lastwords = list(
 	if(!client)
 		return
 
-	animate(client, color = "#000000", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = tim)
-	sleep(5)
-	animate(client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = fade)
+	client.PulseColorEffect("#000000", tim, 5, fade, QUAD_EASING | EASE_IN | EASE_OUT, QUAD_EASING | EASE_IN | EASE_OUT)
 
 /mob/human/proc/bleed_effect()
 	if(prob(BLEED_FX_CHANCE))
