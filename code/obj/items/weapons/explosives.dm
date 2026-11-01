@@ -47,9 +47,7 @@
 				H.AdjustBrainDamage(rand(1,2) + max(0, damage_factor - 1))
 
 			if(prob(80 + min(15, damage_factor * 5)))
-				if(H.broke_bones < H.bones)
-					H.broke_bones++
-					H.AdjustBleeding(rand(7,13) + damage_factor)
+				H.BreakBones(1, damage_factor)
 
 			if(shrapnel)
 				if(!behind_wall)

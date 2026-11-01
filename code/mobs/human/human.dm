@@ -481,6 +481,13 @@
 		UpdateHUD()
 	return bleeding - old_bleeding
 
+/mob/human/proc/BreakBones(amount = 1, extra_damage = 0)
+	if(broke_bones < bones)
+		broke_bones++
+		AdjustBleeding(rand(7,13) + extra_damage)
+		var/sound = list('sound/effects/human/medical/fracture/fracturewet (1).ogg', 'sound/effects/human/medical/fracture/fracturewet (2).ogg','sound/effects/human/medical/fracture/fracturewet (3).ogg')
+		playsound(get_turf(src), pick(sound), 65, FALSE, -1)
+
 /mob/human/proc/AdjustBrainDamage(amount)
 	if(dead || !amount)
 		return 0
@@ -930,13 +937,13 @@
 	overlays += eyes
 
 	var/image/hair = image('icons/human/human_hair.dmi', src, layer = MOB_LAYER + 0.01)
-	if(gender == MALE && prob(10))
-		hair.icon_state = "bald"
 	if(prob(60))
 		hair.color = get_random_light_color()
 		if(prob(10))
 			hair.color = get_random_bright_color()
 	hair.icon_state = pick(icon_states('icons/human/human_hair.dmi',1))
+	if(gender == MALE && prob(10))
+		hair.icon_state = "bald"
 	overlays += hair
 
 	overlays += damage_overlay

@@ -414,10 +414,7 @@
 			new /atom/movable/blood/splatter(get_turf(victim), victim)
 
 	if(prob(50))
-		if(victim.broke_bones < victim.bones)
-			victim.broke_bones++
-			victim.AdjustBleeding(rand(7,13))
-
+		victim.BreakBones()
 
 // Walks the pellet's path (muzzle -> impact) and returns the first living human standing in it.
 // Returns list("mob", "x", "y", "zone") or null.

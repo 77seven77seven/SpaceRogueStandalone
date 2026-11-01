@@ -1,6 +1,9 @@
 /obj/item/mindsampler
 	name = "cogniwand"
 	icon_state = "cogniwand"
+
+	inhand_icon = 'icons/human/inhands/melee.dmi'
+	inhand_icon_state = "cogniwand"
 	desc = "THINKPOL Cogni-Wands! \"Dissidence is a crime.\""
 	desc_expansive = "The only reason you're even seeing these here is because of UN-ERC-#227. Cogni-Wands are used to extract the most important of psychological memories and ingrained behaviours and then cross-referenced with the ideal think patterns to determine if someone is a dissident."
 	desc_expansive_extra_skill = CORP
@@ -16,6 +19,7 @@
 /obj/item/mindsampler/junkize(mob/human/H)
 	. = ..()
 	icon_state = "[initial(icon_state)]-spent"
+	inhand_icon_state = "baton"
 
 /obj/item/mindsampler/attack(mob/human/user, mob/human/target)
 	. = ..()
@@ -33,10 +37,14 @@
 			cached_dissidence = target.mind?.dissident
 
 			icon_state = "[initial(icon_state)]-loaded"
+			inhand_icon_state = "[initial(icon_state)]-loaded"
+			user.UpdateInhand()
+
 			name = "[initial(name)] ([random_capital_letter()]-[cached])"
 
-			animate(target.client, color = "#b1abddff", easing = SINE_EASING | EASE_IN | EASE_OUT, time = 2)
-			spawn(2) animate(target.client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
+			if(target.client)
+				animate(target?.client, color = "#b1abddff", easing = SINE_EASING | EASE_IN | EASE_OUT, time = 2)
+				spawn(2) animate(target?.client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
 
 			visible_message("[user] scans [target] with the Cogni-Wand.")
 			playsound(get_turf(user), 'sound/effects/obj/scancogni.ogg', 85, TRUE, -2)

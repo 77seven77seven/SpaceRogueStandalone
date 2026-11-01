@@ -32,6 +32,8 @@
 		target.AdjustBleeding(-bleeding_fix)
 		target.chat_info("That helps.")
 		if(target != user)
+			if(istype(user.mind.current_job, /datum/role/medicaloid))
+				user.mind.performance_paycheck += 35
 			user.chat_info("That should help them.")
 	else
 		user.chat_info("What?","bad")
@@ -70,6 +72,8 @@
 		target.broke_bones = max(0, target.broke_bones - 1)
 		target.chat_info("That helps.")
 		if(target != user)
+			if(istype(user.mind.current_job, /datum/role/medicaloid))
+				user.mind.performance_paycheck += 40
 			user.chat_info("That should help them.")
 	else
 		user.chat_info("What?","bad")
@@ -306,7 +310,8 @@
 		target.AdjustSorrow(10)
 		target.TakeDamage(20, "osteogenitorix malpractice")
 
-		target.ParseEmote("scream")
+		if(!target.dead)
+			target.ParseEmote("scream")
 	target.AdjustHunger(30)
 	target.AdjustSorrow(10)
 

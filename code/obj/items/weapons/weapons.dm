@@ -88,10 +88,8 @@
 				if(target.blood)
 					new /atom/movable/blood/splatter(get_turf(target), target)
 
-				if(target.broke_bones < target.bones)
-					target.broke_bones++
-					target.AdjustBleeding(rand(7,13))
-					world << "DEBUG: bones broken: [target.broke_bones]/[target.bones]"
+				target.BreakBones()
+				world << "DEBUG: bones broken: [target.broke_bones]/[target.bones]"
 			else if(prob(damage_adjusted * 5 + user_melee_skill * 0.1))
 				if(!target.dead && prob(clamp(damage_adjusted * 2, 1, 20)))
 					target.AdjustBrainDamage(rand(1,3))

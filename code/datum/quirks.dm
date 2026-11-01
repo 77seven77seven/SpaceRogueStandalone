@@ -45,7 +45,7 @@
 
 /datum/quirk/veteran
 	name = "Veteran"
-	display_name = "You're a veteran of the Ganymede Civil War."
+	display_name = "The Ganymede Civil War? I was there dude... and it SUCKED!"
 
 /datum/quirk/veteran/equip(mob/human/H)
 	. = ..()
