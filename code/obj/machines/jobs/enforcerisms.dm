@@ -27,7 +27,8 @@
 
 	if(target.cmode)
 		if(!user.SkillRoll(CORP, TRUE, 2) || (prob(10) && target.mind?.HasQuirk(/datum/quirk/sensitive)))
-			visible_message("[target] pulls away from the Cogni-Wand.")
+			var/icon/I = getFlatIcon(target, SOUTH)
+			visible_message("\icon[I] <b>[target]</b> pulls away from the Cogni-Wand.", center = get_turf(target))
 			return
 	if(!cached)
 		if(user.SkillRoll(CORP))
@@ -46,7 +47,9 @@
 				animate(target?.client, color = "#b1abddff", easing = SINE_EASING | EASE_IN | EASE_OUT, time = 2)
 				spawn(2) animate(target?.client, color = "#ffffff", easing = QUAD_EASING | EASE_IN | EASE_OUT, time = 2)
 
-			visible_message("[user] scans [target] with the Cogni-Wand.")
+			var/icon/icon_target = getFlatIcon(target, SOUTH)
+			var/icon/icon_user = getFlatIcon(user, SOUTH)
+			visible_message("\icon[icon_user] <b>[user]</b> scans \icon[icon_target] <b>[target]</b> with the Cogni-Wand.", center = get_turf(target))
 			playsound(get_turf(user), 'sound/effects/obj/scancogni.ogg', 85, TRUE, -2)
 
 			if(prob(90))

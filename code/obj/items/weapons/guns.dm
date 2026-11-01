@@ -184,7 +184,7 @@
 	. = ..()
 	Reload(H)
 
-/obj/item/gun/proc/Fire(mob/shooter, atom/target, aim_x, aim_y)
+/obj/item/gun/proc/Fire(mob/human/shooter, atom/target, aim_x, aim_y)
 	if(!CanFire(shooter))
 		if(ishuman(shooter))
 			if(ammo_loaded <= 0)
@@ -264,7 +264,17 @@
 			if(block["zone"] == "head")
 				record["head"]++
 			continue
-		if(aim_distance <= range && target != shooter && aimed_target && aimed_turf)
+		if(aim_distance <= range && aimed_target && aimed_turf)
+			if(target == shooter)
+				if(shooter.sorrow >= 60)
+					var/icon/I = getFlatIcon(shooter, SOUTH)
+					playsound(get_turf(shooter), 'sound/effects/obj/guns/aim.ogg', 75)
+					visible_message("\icon[I] <b>[shooter]</b> aims the gun at themselves!", center = get_turf(shooter))
+					var/ask = alert(shooter, "Is this how it really ends?", "Give up already. I know I did.","Yes","No")
+					if(ask == "No")
+						return
+				else
+					return
 			var/pellet_zone = aimed_target.GetHitZoneAt(impact["x"] - target_x, impact["y"] - target_y)
 			if(pellet_zone)
 				pellet_hits++
