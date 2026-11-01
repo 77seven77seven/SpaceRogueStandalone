@@ -278,7 +278,22 @@
 #undef LUM_DISTANCE
 #undef LUM_ATTENUATION
 
-/obj/light_test
-	light_color = "#f7a313"
-	light_range = 5
+/obj/light
+	light_color = "#fff9f0"
+	light_range = 12
 	light_power = 5
+
+	icon = 'icons/obj/abstract/effects.dmi'
+	icon_state = "light"
+
+	invisibility = 101
+
+/obj/light/low
+	light_range = 6
+
+/obj/light/red
+	light_color = "#ffa7a7"
+	light_range = 12
+
+/obj/light/red/low
+	light_range = 6

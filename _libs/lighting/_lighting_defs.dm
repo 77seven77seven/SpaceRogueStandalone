@@ -1,5 +1,5 @@
 #define LIGHTING_HEIGHT 1 // height off the ground of light sources on the pseudo-z-axis, you should probably leave this alone
-#define LIGHTING_ROUND_VALUE (1 / 128) //Value used to round lumcounts, values smaller than 1/255 don't matter (if they do, thanks sinking points), greater values will make lighting less precise, but in turn increase performance, VERY SLIGHTLY.
+#define LIGHTING_ROUND_VALUE (1 / 255) // Match 8-bit overlay color precision while avoiding visible falloff steps.
 
 #define LIGHT_PLANE      (2)
 #define LIGHTING_LAYER 11

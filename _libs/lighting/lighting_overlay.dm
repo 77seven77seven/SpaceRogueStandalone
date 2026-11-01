@@ -30,6 +30,14 @@
 	var/lum_g
 	var/lum_b
 
+	var/display_r
+	var/display_g
+	var/display_b
+	var/target_r
+	var/target_g
+	var/target_b
+	var/color_transition_active
+
 	var/needs_update = 0
 
 /atom/movable/lighting_overlay/New()
@@ -77,20 +85,47 @@
 		var/mx = max(lum_r, lum_g, lum_b)
 		if (mx < 0.01)
 			//No light, set the turf's luminosity to 0 to remove it from view()
-			color = rgb(0,0,0)
+			target_r = 0
+			target_g = 0
+			target_b = 0
 			T.luminosity = 0
 		else if (mx > 1)
 			// range down to let the dominant color dominate
 			var/factor = 1/mx
-			color = rgb(lum_r * 255 * factor, lum_g * 255 * factor, lum_b * 255 * factor)
+			target_r = lum_r * 255 * factor
+			target_g = lum_g * 255 * factor
+			target_b = lum_b * 255 * factor
 			T.luminosity = 1
 		else
-			color = rgb(lum_r * 255, lum_g * 255, lum_b * 255)
+			target_r = lum_r * 255
+			target_g = lum_g * 255
+			target_b = lum_b * 255
 			T.luminosity = 1
+
+		if(!color_transition_active && (abs(display_r - target_r) > 1 || abs(display_g - target_g) > 1 || abs(display_b - target_b) > 1))
+			color_transition_active = TRUE
+			smooth_color()
 
 	else
 		world.log << "A lighting overlay realised its loc was NOT a turf (actual loc: [loc][loc ? ", " + loc.type : ""]) in update_overlay() and got pooled!"
 		qdel(src)
+
+/atom/movable/lighting_overlay/proc/smooth_color()
+	set waitfor = FALSE
+
+	while(src && (abs(display_r - target_r) > 1 || abs(display_g - target_g) > 1 || abs(display_b - target_b) > 1))
+		display_r += (target_r - display_r) * 0.5
+		display_g += (target_g - display_g) * 0.5
+		display_b += (target_b - display_b) * 0.5
+		color = rgb(round(display_r), round(display_g), round(display_b))
+		sleep(1)
+
+	if(src)
+		display_r = target_r
+		display_g = target_g
+		display_b = target_b
+		color = rgb(round(display_r), round(display_g), round(display_b))
+		color_transition_active = FALSE
 
 /atom/movable/lighting_overlay/ResetVars()
 	loc = null
@@ -98,6 +133,13 @@
 	lum_r = 0
 	lum_g = 0
 	lum_b = 0
+	display_r = 0
+	display_g = 0
+	display_b = 0
+	target_r = 0
+	target_g = 0
+	target_b = 0
+	color_transition_active = FALSE
 
 	color = "#000000"
 

@@ -37,6 +37,9 @@
 	sound_environment = SOUND_ENVIRONMENT_MOUNTAINS
 	ambience = list('sound/music/ambiance/space.ogg')
 
+	lighting_use_dynamic = 0
+	luminosity = 1
+
 /area/station
 	name = "station"
 	icon_state = "generic"
