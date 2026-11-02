@@ -245,7 +245,6 @@
 	dir = 8;
 	color = "#bde9ff"
 	},
-/obj/light,
 /turf/open/floor/light,
 /area/station/medical)
 "fl" = (
@@ -347,6 +346,21 @@
 	},
 /turf/open/floor,
 /area/station)
+"ii" = (
+/obj/deco/poster{
+	pixel_y = 64
+	},
+/obj/light/low,
+/turf/open/floor/dark,
+/area/station/maintenance)
+"in" = (
+/obj/decal/floor/turf{
+	icon_state = "warningline_white";
+	dir = 1
+	},
+/obj/light/red/low,
+/turf/open/floor/dark,
+/area/station)
 "iy" = (
 /obj/deco/poster{
 	pixel_y = 4;
@@ -369,6 +383,10 @@
 	},
 /turf/open/floor,
 /area/station/corporate)
+"iL" = (
+/obj/light/red/low,
+/turf/open/floor/dark,
+/area/station/maintenance)
 "iP" = (
 /obj/decal{
 	icon_state = "chezsign2";
@@ -520,6 +538,14 @@
 	},
 /turf/open/floor,
 /area/station)
+"mn" = (
+/obj/decal/maintsign{
+	pixel_x = 1;
+	pixel_y = 63
+	},
+/obj/light/red/low,
+/turf/open/floor/dark,
+/area/station/maintenance)
 "mz" = (
 /obj/decal{
 	icon_state = "departures1"
@@ -622,6 +648,14 @@
 	},
 /turf/open/floor,
 /area/station/corporate)
+"pj" = (
+/obj/decal/maintsign{
+	pixel_x = 1;
+	pixel_y = 63
+	},
+/obj/light/low,
+/turf/open/floor/dark,
+/area/station)
 "pz" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small"
@@ -645,7 +679,6 @@
 	color = "#bde9ff";
 	dir = 4
 	},
-/obj/light,
 /turf/open/floor/light,
 /area/station/medical)
 "pJ" = (
@@ -893,6 +926,7 @@
 	icon_state = "warningline_white";
 	dir = 1
 	},
+/obj/light/red/low,
 /turf/open/floor/dark,
 /area/station/maintenance)
 "uG" = (
@@ -975,7 +1009,6 @@
 	dir = 4;
 	color = "#8B0000"
 	},
-/obj/light,
 /turf/open/floor/dark,
 /area/station)
 "wi" = (
@@ -1028,6 +1061,11 @@
 	},
 /turf/open/floor,
 /area/station/hydro)
+"xv" = (
+/obj/deco/furniture/table/auto,
+/obj/light/red/low,
+/turf/open/floor/dark,
+/area/station/maintenance)
 "xN" = (
 /obj/deco/plant{
 	pixel_x = 17;
@@ -1383,6 +1421,10 @@
 	},
 /turf/open/floor/wood/tile,
 /area/station)
+"FY" = (
+/obj/light/dystopic,
+/turf/open/floor/light,
+/area/station/medical)
 "Gi" = (
 /obj/deco/poster{
 	pixel_y = 64
@@ -1598,7 +1640,7 @@
 	dir = 1;
 	color = "#bde9ff"
 	},
-/obj/light,
+/obj/light/dystopic,
 /turf/open/floor/light,
 /area/station/medical)
 "KV" = (
@@ -1675,6 +1717,10 @@
 	},
 /turf/open/floor/light,
 /area/station/medical)
+"Mq" = (
+/obj/light/red/low,
+/turf/open/floor/dark,
+/area/station)
 "Mt" = (
 /obj/deco/furniture/table/auto,
 /turf/open/floor/dark,
@@ -1749,7 +1795,6 @@
 	pixel_y = 37;
 	density = 0
 	},
-/obj/light,
 /turf/open/floor/light,
 /area/station/medical)
 "NX" = (
@@ -1784,6 +1829,7 @@
 	pixel_x = 62;
 	pixel_y = 11
 	},
+/obj/light/red/low,
 /turf/open/floor/dark,
 /area/station/maintenance)
 "ON" = (
@@ -1913,6 +1959,13 @@
 /obj/deco/supports,
 /turf/open/space,
 /area/space)
+"SB" = (
+/obj/decal/floor/turf{
+	icon_state = "warningline_white"
+	},
+/obj/light/red/low,
+/turf/open/floor/dark,
+/area/station/maintenance)
 "SJ" = (
 /obj/machine/terminal/director,
 /obj/deco/furniture/table/auto,
@@ -2080,6 +2133,10 @@
 	},
 /turf/open/floor,
 /area/station)
+"VG" = (
+/obj/light/low,
+/turf/open/floor,
+/area/station)
 "VH" = (
 /obj/deco/furniture/chair,
 /turf/open/floor/wood,
@@ -2142,6 +2199,10 @@
 /obj/item/melee/knife,
 /turf/open/floor,
 /area/station)
+"Xh" = (
+/obj/light,
+/turf/open/space,
+/area/space)
 "Xr" = (
 /obj/abstract/landmark/start{
 	name = "backup"
@@ -5722,7 +5783,7 @@ ne
 ne
 ne
 Cg
-Ci
+in
 YY
 Cg
 eC
@@ -5843,7 +5904,7 @@ eC
 IS
 IS
 pB
-ne
+iL
 ne
 ne
 ne
@@ -5857,7 +5918,7 @@ Cg
 Cg
 Cg
 Cg
-La
+pj
 YY
 YY
 Cg
@@ -5978,7 +6039,7 @@ ne
 Cg
 RU
 YY
-YY
+Mq
 YY
 YY
 YY
@@ -6219,7 +6280,7 @@ IS
 Co
 ne
 ne
-ne
+iL
 ne
 ne
 ne
@@ -6337,7 +6398,7 @@ RT
 eC
 eC
 IS
-Co
+mn
 IS
 IS
 IS
@@ -6723,7 +6784,7 @@ ne
 IS
 IS
 IS
-ne
+iL
 ne
 IS
 eC
@@ -6874,7 +6935,7 @@ eC
 eC
 eC
 Cg
-Zs
+VG
 Zs
 Cg
 eC
@@ -6975,7 +7036,7 @@ IS
 ne
 ne
 IS
-pB
+ii
 ne
 Hc
 ne
@@ -7353,7 +7414,7 @@ RT
 RT
 eC
 IS
-ne
+iL
 IS
 IS
 IS
@@ -7998,7 +8059,7 @@ RT
 RT
 eC
 IS
-ne
+iL
 ne
 BV
 dM
@@ -8370,7 +8431,7 @@ RT
 eC
 eC
 IS
-ne
+iL
 ne
 ne
 ne
@@ -8509,7 +8570,7 @@ IS
 Co
 ne
 IS
-Co
+mn
 ne
 ne
 ne
@@ -9003,6 +9064,7 @@ ne
 ne
 ne
 ne
+iL
 ne
 ne
 ne
@@ -9015,8 +9077,7 @@ ne
 ne
 ne
 ne
-ne
-ne
+iL
 ne
 ne
 Lp
@@ -9906,7 +9967,7 @@ Zs
 Zs
 Zs
 Cg
-Co
+mn
 ne
 Lp
 fB
@@ -10015,7 +10076,7 @@ RT
 RT
 eC
 IS
-ne
+iL
 cG
 cG
 cG
@@ -10038,7 +10099,7 @@ ne
 Lp
 fB
 wH
-wH
+FY
 wH
 IY
 Lp
@@ -10546,7 +10607,7 @@ ne
 ne
 ne
 ne
-ne
+iL
 ne
 ne
 Cg
@@ -11289,7 +11350,7 @@ ne
 Nu
 RT
 eC
-RT
+Xh
 RT
 RT
 RT
@@ -11303,7 +11364,7 @@ LW
 Zs
 Zs
 Cg
-Mt
+xv
 Mt
 jN
 jN
@@ -11412,7 +11473,7 @@ RT
 RT
 RT
 IS
-ne
+iL
 Cg
 Cg
 Cg
@@ -12065,7 +12126,7 @@ eC
 RT
 IS
 Co
-ne
+iL
 ne
 jN
 eT
@@ -12213,7 +12274,7 @@ JJ
 JJ
 JJ
 gF
-ne
+iL
 IK
 ne
 tI
@@ -12343,7 +12404,7 @@ gF
 Co
 HV
 Dn
-tI
+SB
 IS
 RT
 RT
@@ -12556,7 +12617,7 @@ RT
 RT
 RT
 IS
-ne
+iL
 KV
 TV
 TZ
@@ -12961,7 +13022,7 @@ ne
 ne
 ne
 ne
-ne
+iL
 Cg
 Zs
 Zs
@@ -13083,7 +13144,7 @@ BI
 IW
 ne
 ne
-ne
+iL
 ne
 ne
 ne
@@ -13323,7 +13384,7 @@ ne
 ne
 ne
 ne
-ne
+iL
 ne
 ne
 Yt
@@ -13580,7 +13641,7 @@ RT
 eC
 IS
 ne
-ne
+iL
 ne
 ne
 IW
@@ -13589,7 +13650,7 @@ BI
 BI
 BI
 IW
-ne
+iL
 IS
 RT
 RT
@@ -13864,7 +13925,7 @@ gF
 gF
 gF
 gF
-ne
+iL
 IS
 RT
 RT
@@ -13977,14 +14038,14 @@ RT
 RT
 RT
 IS
+iL
 ne
 ne
 ne
 ne
 ne
 ne
-ne
-ne
+iL
 ne
 ne
 ne
@@ -14096,7 +14157,7 @@ ne
 ne
 ne
 ne
-ne
+iL
 ne
 IS
 eC

@@ -37,6 +37,23 @@
 	var/list/datum/quirk/quirks = list()
 	var/menu_message = ""
 
+/mob/debug_ghost
+	invisibility = 101
+	density = 0
+
+	sight = SEE_THRU
+
+/mob/debug_ghost/Move(newloc, direct)
+	..()
+	return TRUE
+
+/mob/lobbyman/verb/debug_ghost()
+	src << browse(null, "window=main_menu")
+	
+	var/mob/debug_ghost/DG = new(get_turf(src))
+	DG.ckey = ckey
+	qdel(src)
+
 /mob/lobbyman/Move(NewLoc, Dir, step_x, step_y)
 	return FALSE
 

@@ -290,10 +290,22 @@
 
 /obj/light/low
 	light_range = 6
+	light_power = 3
+
+/obj/light/dystopic
+	color = "#dae7ff"
+	light_color = "#dae7ff"
+	light_range = 12
+
+/obj/light/dystopic/low
+	light_range = 6
+	light_power = 3
 
 /obj/light/red
+	color = "#ffa7a7"
 	light_color = "#ffa7a7"
 	light_range = 12
 
 /obj/light/red/low
 	light_range = 6
+	light_power = 3
