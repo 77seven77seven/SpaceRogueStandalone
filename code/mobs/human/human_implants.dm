@@ -22,14 +22,13 @@
 		return FALSE
 
 	for(var/obj/deco/camera/C in station.cameras)
-		if(get_dist(src, C) <= 7)
+		if(C in view(world.view, get_turf(src)))
 			return TRUE
 
-	for(var/mob/human/H in station.humans)
+	for(var/mob/human/H in viewers(world.view, get_turf(src)))
 		if(H == src || H.dead || !H.HasImplant(/datum/implant/enforcer))
 			continue
-		if(get_dist(src, H) <= 7)
-			return TRUE
+		return TRUE
 	return FALSE
 
 /mob/human/proc/CommitCrime(crime, crime_duration, mark_outlaw = FALSE, verified_dissidence = FALSE)
