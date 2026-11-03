@@ -93,6 +93,12 @@
 
 	tracks = list('sound/music/radio/bloodywaytodie.ogg' = 1850)
 
+/datum/looping_sound/radio/avp
+	radio_station = "C.EDEN"
+	radio_frequency = 2010.0
+
+	tracks = list('sound/music/radio/letsrock.ogg' = 1480)
+
 /obj/item/deco/radio
 	name = "radio"
 	icon_state = "radio"
