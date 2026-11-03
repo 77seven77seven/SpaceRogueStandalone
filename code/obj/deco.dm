@@ -258,3 +258,8 @@
 /obj/deco/camera/Initialize()
 	. = ..()
 	station.cameras += src
+
+/obj/deco/camera/Destroy()
+	if(station)
+		station.cameras -= src
+	return ..()

@@ -100,18 +100,20 @@
 			var/is_dissident = MS.cached_dissidence
 			if(prob(MS.cached_sorrow / 1.67))
 				is_dissident = FALSE
+			var/mob/human/scanned = MS.cached_scanned
 			MS.junkize(user)
 			whiteout.color = "#ffffff"
 			whiteout.icon_state = "computer-buffer"
 
 			busy = TRUE
 
-			addtimer(CALLBACK(src, PROC_REF(DoResult), is_dissident), 13 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(DoResult), is_dissident, scanned), 13 SECONDS)
 
-/obj/machine/terminal/enforcer/proc/DoResult(is_dissident)
+/obj/machine/terminal/enforcer/proc/DoResult(is_dissident, mob/human/scanned)
 	if(is_dissident)
 		whiteout.color = "#7e3830"
-		// TODO: Dissidence wanted logic here.
+		if(scanned)
+			scanned.CommitCrime("dissidence", 5 MINUTES, TRUE, TRUE)
 	else
 		whiteout.color = "#aeea77"
 	whiteout.icon_state = "computer-whiteout"

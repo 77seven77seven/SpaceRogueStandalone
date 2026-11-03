@@ -102,7 +102,10 @@
 	var/hud_color = "#A4A4A2"
 
 	var/wanted = FALSE
-	var/wanted_timer = 0 // the crime doesnt really matter, the severity of the crime only matters how long you need to hide
+	var/wanted_timer = 0 // How long it takes to expire.
+	var/outlaw = FALSE
+	var/last_crime_duration = 0
+	var/tmp/last_wanted_update = 0
 
 /mob/human/Initialize()
 	. = ..()
@@ -111,6 +114,7 @@
 	if(station && !station.humans.Find(src))
 		station.humans += src
 	last_needs_process = world.time
+	last_wanted_update = world.time
 	hud_hunger = hunger
 	hud_thirst = thirst
 	hud_sorrow = sorrow
@@ -344,6 +348,7 @@
 		return FALSE
 
 	dead = TRUE
+	client?.stop_droning()
 	ClearStatusEffects()
 	health = 0
 	is_moving = FALSE
@@ -703,6 +708,7 @@
 	return TRUE
 
 /mob/human/Process()
+	ProcessWantedStatus()
 	if(dead)
 		processor.processing -= src
 		return
@@ -713,10 +719,6 @@
 	var/elapsed = max(1, world.time - last_needs_process)
 	last_needs_process = world.time
 	ProcessNeeds(elapsed)
-
-	if(wanted_timer > 0)
-		wanted_timer--
-		world << wanted_timer
 
 /mob/human/proc/HeartAttack()
 	if(dead || heart_attack)

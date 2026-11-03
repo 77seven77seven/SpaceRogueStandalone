@@ -318,10 +318,22 @@
 		var/list/record = blocked_hits[blocker]
 		ApplyHit(shooter, blocker, record["hits"], record["head"])
 
+	if(ishuman(shooter) && !pellet_hits && !blocked_hits.len)
+		var/mob/human/human_shooter = shooter
+		if(human_shooter.IsIllegalFirearmUser())
+			human_shooter.CommitCrime("illegal firearm discharge", 60 SECONDS)
+
 /obj/item/gun/proc/ApplyHit(mob/shooter, mob/human/victim, pellet_hits, headshot_hits)
 	var/hit_zone = headshot_hits ? "head" : "body"
 	var/pellet_damage = max(1, round(damage * pellet_damage_multiplier))
 	var/dmg = pellet_damage * pellet_hits
+	var/mob/human/human_shooter
+	var/enforcer_authorized = FALSE
+	if(ishuman(shooter))
+		human_shooter = shooter
+		human_shooter.EnforcerAttackAllowed(victim)
+		enforcer_authorized = human_shooter.IsAuthorizedEnforcerTarget(victim)
+	var/victim_was_alive = !victim.dead
 	if(headshot_hits && !victim.brainsploded)
 		var/list/brainlines = list(
 		"EEEWWWWW!",
@@ -406,6 +418,13 @@
 
 	playsound(get_turf(victim), pick(list('sound/effects/human/medical/combat/pierce1.ogg', 'sound/effects/human/medical/combat/pierce2.ogg', 'sound/effects/human/medical/combat/pierce3.ogg', 'sound/effects/human/medical/combat/pierce4.ogg', 'sound/effects/human/medical/combat/pierce5.ogg')), 65, TRUE)
 	victim.TakeDamage(dmg, "[shooter] - [hit_zone]", 6, 14)
+	if(victim_was_alive && ishuman(shooter) && shooter != victim && !enforcer_authorized && !human_shooter.HasImplant(/datum/implant/enforcer))
+		if(victim.dead)
+			human_shooter.CommitCrime("murder", 3 MINUTES, TRUE)
+		else if(human_shooter.IsIllegalFirearmUser())
+			human_shooter.CommitCrime("aggravated assault with an illegal firearm", 90 SECONDS)
+		else
+			human_shooter.CommitCrime("aggravated assault", 90 SECONDS)
 	if(headshot_hits && !victim.dead)
 		victim.AdjustBrainDamage(headshot_hits * 3)
 	victim.bleed_effect()
