@@ -212,11 +212,12 @@
 
 /proc/sound_to_playing_players(soundin, volume = 100, vary = FALSE, frequency = 0, channel = 0, pressure_affected = FALSE, sound/S)
 	if(!S)
-		return
-	for(var/m in master.clients)
-		if(ismob(m) && !istype(m, /mob/lobbyman))
-			var/mob/M = m
-			M.playsound_local(M, null, volume, vary, frequency, null, channel, pressure_affected, S)
+		S = sound(soundin)
+	for(var/client/C in master.clients)
+		var/mob/M = C.mob
+		if(!istype(M) || istype(M, /mob/lobbyman))
+			continue
+		M.playsound_local(M, null, volume, vary, frequency, null, channel, pressure_affected, S)
 
 /mob/proc/stop_sound_channel(chan)
 	SEND_SOUND(src, sound(null, repeat = 0, wait = 0, channel = chan))

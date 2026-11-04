@@ -321,7 +321,7 @@
 	if(ishuman(shooter) && !pellet_hits && !blocked_hits.len)
 		var/mob/human/human_shooter = shooter
 		if(human_shooter.IsIllegalFirearmUser())
-			human_shooter.CommitCrime("illegal firearm discharge", 60 SECONDS)
+			human_shooter.CommitCrime("ILLEGAL DISCHARGE OF FIREARM", 60 SECONDS)
 
 /obj/item/gun/proc/ApplyHit(mob/shooter, mob/human/victim, pellet_hits, headshot_hits)
 	var/hit_zone = headshot_hits ? "head" : "body"

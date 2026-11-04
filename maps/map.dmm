@@ -1,4 +1,10 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"af" = (
+/obj/machine/camera{
+	dir = 5
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "ap" = (
 /obj/deco/plant{
 	pixel_x = 17;
@@ -11,6 +17,9 @@
 /obj/deco/plant{
 	pixel_x = 17;
 	pixel_y = 3
+	},
+/obj/machine/camera{
+	dir = 1
 	},
 /turf/open/floor,
 /area/station/corporate)
@@ -151,6 +160,9 @@
 "dM" = (
 /obj/deco/furniture/chair,
 /obj/light,
+/obj/machine/camera{
+	dir = 6
+	},
 /turf/open/floor,
 /area/station)
 "dQ" = (
@@ -168,6 +180,9 @@
 /obj/item/deco/flower{
 	pixel_x = 2;
 	pixel_y = 20
+	},
+/obj/machine/camera{
+	dir = 1
 	},
 /turf/open/floor,
 /area/station/tech)
@@ -618,6 +633,12 @@
 	},
 /turf/open/floor/wood,
 /area/station/cafeteria)
+"ov" = (
+/obj/machine/camera{
+	dir = 4
+	},
+/turf/open/floor,
+/area/station)
 "ox" = (
 /obj/door_control{
 	pixel_x = -64
@@ -645,6 +666,9 @@
 /obj/deco/trashcan{
 	pixel_x = -16;
 	pixel_y = 36
+	},
+/obj/machine/camera{
+	dir = 6
 	},
 /turf/open/floor,
 /area/station/corporate)
@@ -703,6 +727,13 @@
 /obj/deco/supports,
 /turf/open/space,
 /area/space)
+"qm" = (
+/obj/deco/furniture/chair,
+/obj/machine/camera{
+	dir = 6
+	},
+/turf/open/floor/wood,
+/area/station)
 "qF" = (
 /obj/machine/vendor/food{
 	pixel_y = 34;
@@ -1094,6 +1125,9 @@
 	pixel_x = 0;
 	pixel_y = -64
 	},
+/obj/machine/camera{
+	dir = 10
+	},
 /turf/open/floor,
 /area/station/water)
 "yl" = (
@@ -1121,6 +1155,15 @@
 	},
 /turf/open/floor,
 /area/station/tech)
+"zx" = (
+/obj/machine/infoboard{
+	pixel_y = 64
+	},
+/obj/machine/camera{
+	dir = 6
+	},
+/turf/open/floor,
+/area/station)
 "zy" = (
 /obj/machine/info{
 	pixel_y = -64
@@ -1601,6 +1644,9 @@
 	dir = 8;
 	color = "#bde9ff"
 	},
+/obj/machine/camera{
+	dir = 4
+	},
 /turf/open/floor/light,
 /area/station/medical)
 "JH" = (
@@ -1869,6 +1915,9 @@
 	pixel_y = 64;
 	pixel_x = -2
 	},
+/obj/machine/camera{
+	dir = 6
+	},
 /turf/open/floor,
 /area/station)
 "Qh" = (
@@ -1892,8 +1941,17 @@
 	pixel_x = 63;
 	pixel_y = 1
 	},
+/obj/machine/camera{
+	dir = 9
+	},
 /turf/open/floor,
 /area/station/tech)
+"QY" = (
+/obj/machine/camera{
+	dir = 6
+	},
+/turf/open/floor,
+/area/station)
 "Rm" = (
 /obj/deco/trashcan{
 	pixel_x = -16;
@@ -1917,6 +1975,9 @@
 /obj/deco/plant{
 	pixel_x = 18;
 	pixel_y = 42
+	},
+/obj/machine/camera{
+	dir = 6
 	},
 /turf/open/floor/wood,
 /area/station/cafeteria)
@@ -2028,6 +2089,12 @@
 "TZ" = (
 /turf/open/floor,
 /area/station/tech)
+"Ug" = (
+/obj/machine/camera{
+	dir = 4
+	},
+/turf/open/floor,
+/area/station/corporate)
 "Um" = (
 /obj/deco/furniture/table/auto{
 	pixel_x = -6;
@@ -2040,6 +2107,12 @@
 /obj/light/low,
 /turf/open/floor,
 /area/station/corporate)
+"UI" = (
+/obj/machine/camera{
+	dir = 10
+	},
+/turf/open/floor,
+/area/station/hydro)
 "UJ" = (
 /obj/deco/poster{
 	pixel_y = 64
@@ -2233,6 +2306,10 @@
 	},
 /turf/open/floor/dark,
 /area/station/maintenance)
+"YG" = (
+/obj/machine/camera,
+/turf/open/floor,
+/area/station)
 "YH" = (
 /obj/decal{
 	icon_state = "chezsign2";
@@ -8579,7 +8656,7 @@ Cg
 HU
 yl
 Cg
-Zs
+QY
 Zs
 Zs
 Cg
@@ -8830,7 +8907,7 @@ Lp
 NU
 zL
 VY
-wH
+af
 wH
 jj
 Zs
@@ -9321,7 +9398,7 @@ ox
 Gn
 HL
 re
-uY
+Ug
 uY
 uY
 Uy
@@ -9980,7 +10057,7 @@ Zs
 Zs
 Zs
 Cg
-yF
+qm
 tA
 yF
 nQ
@@ -9991,7 +10068,7 @@ RT
 RT
 RT
 Cg
-Zs
+YG
 Zs
 Zs
 Zs
@@ -10230,7 +10307,7 @@ wH
 Ce
 jl
 Lp
-Zs
+QY
 Zs
 Zs
 Cg
@@ -10871,7 +10948,7 @@ Zs
 Zs
 Zs
 Zs
-Zs
+ov
 Zs
 Zs
 Zs
@@ -11134,7 +11211,7 @@ Zs
 Zs
 Zs
 Cg
-Zs
+YG
 Zs
 LW
 Zs
@@ -11233,7 +11310,7 @@ RT
 RT
 RT
 Cg
-VD
+zx
 Zs
 Zs
 Cg
@@ -11520,7 +11597,7 @@ Zs
 Zs
 Zs
 ON
-Zs
+YG
 Zs
 zZ
 Fi
@@ -12258,11 +12335,11 @@ ne
 jN
 MA
 xr
-pU
+UI
 jN
 jN
 Cg
-Zs
+QY
 Zs
 Zs
 Cg

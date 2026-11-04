@@ -31,7 +31,7 @@
 		T.reconsider_lights()
 
 	loc = null
-	vis_contents.Cut()
+	vis_contents?.Cut()
 
 	return ..()
 

@@ -45,11 +45,11 @@
 	return
 
 /atom/movable/proc/examine(mob/human/user)
-	if(!get_examine_text())
+	if(!get_examine_text(user))
 		return FALSE
 	var/icon/I = getFlatIcon(src)
 
-	user << "\icon[I] <b>[name]</b> — [get_examine_text()]"
+	user << "\icon[I] <b>[name]</b> — [get_examine_text(user)]"
 	if(desc_expansive)
 		var/result = user.SkillRoll(ENCY, TRUE)
 		var/skill = "ENCYCLOPEDIA"
@@ -62,7 +62,7 @@
 
 	return TRUE
 
-/atom/movable/proc/get_examine_text()
+/atom/movable/proc/get_examine_text(mob/human/user)
 	return desc
 
 /atom/movable/proc/swing_anim(atom/A, pixelirona = 16, rostra = 15, timera = 2, rev = FALSE)

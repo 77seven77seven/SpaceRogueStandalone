@@ -41,7 +41,6 @@
 
 /mob/human/verb/do_paychecks()
 	station.do_paychecks()
-	HeartAttack()
 
 /mob/human/verb/test()
 	chat_announce("WE SHALL USE ALL PEACEFUL MEANS TO OVERCOME TYRANNY!", "bad", sound('sound/effects/announce/one.ogg'))

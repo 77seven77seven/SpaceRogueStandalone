@@ -113,7 +113,7 @@
 	if(is_dissident)
 		whiteout.color = "#7e3830"
 		if(scanned)
-			scanned.CommitCrime("dissidence", 5 MINUTES, TRUE, TRUE)
+			scanned.CommitCrime(pick("DISSIDENCE","CONFIRMED CONSPIRACY AGAINST THE STATUS QUO","CONFIRMED MEMBERSHIP OF A TERROR CELL","CONSPIRACY AGAINST THE STATE"), 5 MINUTES, TRUE, TRUE)
 	else
 		whiteout.color = "#aeea77"
 	whiteout.icon_state = "computer-whiteout"
@@ -126,3 +126,52 @@
 /obj/machine/terminal/enforcer/proc/unbusy()
 	whiteout.icon_state = "computer-whiteout"
 	whiteout.color = "#97B7EF"
+
+/obj/machine/camera
+	name = "CCTV"
+	desc = "A security camera. Doing anything illegal in front of these is sure to result in a severe beating."
+	desc_expansive = "It actually stands for Closed-Circuit Television, by-the-by. You're welcome."
+
+	icon = 'icons/obj/deco.dmi'
+	icon_state = "camera"
+
+	appearance_flags = KEEP_TOGETHER
+
+	opacity = FALSE
+	density = FALSE
+
+/obj/machine/camera/Initialize()
+	. = ..()
+	station.cameras += src
+	if(prob(1))
+		broken()
+
+/obj/machine/camera/Destroy()
+	if(station)
+		station.cameras -= src
+	return ..()
+
+/obj/machine/camera/proc/broken()
+	broken = TRUE
+	var/image/I = image('icons/obj/abstract/fuzz.dmi',src,"fuzz")
+	I.blend_mode = BLEND_INSET_OVERLAY
+	I.alpha = 100
+	I.appearance_flags = KEEP_TOGETHER
+	overlays += I
+
+/obj/machine/camera/fix()
+	..()
+	overlays.Cut()
+
+/obj/machine/camera/get_examine_text(mob/human/user)
+	var/desco = desc
+	if(user.mind.dissident)
+		desco = "[desc] <b>Especially me...</b>"
+	if(broken)
+		var/flavor = "Thank the Lord."
+		if(user.mind.current_job.corporate)
+			flavor = "Someone should look into that..."
+		if(user.mind.dissident)
+			flavor = "Lucky me."
+		desco = "A security camera. This one's busted. <b>[flavor]</b>"
+	return desco

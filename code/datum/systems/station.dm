@@ -29,7 +29,7 @@
 	var/list/newplayer_start = list()
 	var/next_paycheck = 0
 
-	var/list/obj/deco/camera/cameras = list()
+	var/list/obj/machine/camera/cameras = list()
 
 	var/day = 1
 	var/next_day = 0

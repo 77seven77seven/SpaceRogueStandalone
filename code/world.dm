@@ -218,7 +218,8 @@ proc/find_common_entry(list/list1, list/list2)
 */
 /proc/pick_weight_take(list/list_to_pick)
 	. = pick_weight(list_to_pick)
-	list_to_pick[.]--
+	if(.) // Ensure a valid item was actually picked
+		list_to_pick[.]--
 
 /// Pick a random element from the list and remove it from the list.
 /proc/pick_n_take(list/list_to_pick)
@@ -254,8 +255,7 @@ proc/find_common_entry(list/list1, list/list2)
 	if(!role_to_exclude)
 		return FALSE
 
-	var/datum/goal/G = goal_type
-	for(var/excluded_role in initial(G.excluded_roles))
+	for(var/excluded_role in initial(goal_type:excluded_roles))
 		if(istype(role_to_exclude, excluded_role))
 			return TRUE
 
@@ -327,17 +327,17 @@ proc/get_random_light_color()
 	switch(numero)
 		if(1)
 			flarov = "JSI NULLA!"
-		if(2 to 10)
+		if(2 to 9)
 			flarov = "NONCE"
-		if(10 to 25)
+		if(10 to 24)
 			flarov = "KLARE"
-		if(25 to 45)
+		if(25 to 39)
 			flarov = "NOTICE-ABLE"
-		if(40 to 50)
+		if(40 to 49)
 			flarov = "HALF-FOR"
-		if(50 to 60)
+		if(50 to 59)
 			flarov = "GUT-RU"
-		if(60 to 80)
+		if(60 to 79)
 			flarov = "YORES"
 		if(80 to 99)
 			flarov = "INDHERE"
