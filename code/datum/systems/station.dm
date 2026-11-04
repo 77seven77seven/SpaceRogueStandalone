@@ -23,8 +23,8 @@
 	var/mlices_price = 5
 
 	// FALSE = ILLEGAL, TRUE = LEGAL
-	var/legality_guns = FALSE
-	var/legality_gambling = FALSE
+	var/legality_guns = FALSE // Self-explanatory.
+	var/legality_drugs = FALSE // Recreational drugs are sometimes addictive, and help a lot with your SORROW, but you really don't feel like working afterwards.
 
 	var/list/newplayer_start = list()
 	var/next_paycheck = 0

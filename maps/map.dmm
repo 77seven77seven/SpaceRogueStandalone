@@ -70,12 +70,6 @@
 	},
 /turf/open/floor/light,
 /area/station/medical)
-"bW" = (
-/mob/human{
-	name = "Mark X."
-	},
-/turf/open/floor,
-/area/station)
 "cq" = (
 /obj/deco/poster{
 	pixel_y = -62;
@@ -486,6 +480,17 @@
 "ke" = (
 /turf/solid/window,
 /area/station/cafeteria)
+"kg" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 1;
+	color = "#bde9ff"
+	},
+/obj/machine/terminal/medicaloid{
+	pixel_y = 37
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "km" = (
 /obj/door_control,
 /turf/solid/wall,
@@ -534,8 +539,8 @@
 	pixel_y = 6
 	},
 /obj/machine/microphone{
-	pixel_x = 35;
-	pixel_y = 56
+	pixel_x = 40;
+	pixel_y = 59
 	},
 /turf/open/floor/wood,
 /area/station/corporate/director)
@@ -1046,9 +1051,9 @@
 /turf/solid/wall,
 /area/station/corporate)
 "wu" = (
-/mob/human,
-/turf/open/floor,
-/area/station)
+/obj/item/melee/crowbar,
+/turf/open/floor/dark,
+/area/station/maintenance)
 "wv" = (
 /turf/solid/window,
 /area/station/maintenance)
@@ -1214,6 +1219,18 @@
 	},
 /turf/open/floor,
 /area/station)
+"AE" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 1;
+	color = "#bde9ff"
+	},
+/obj/machine/terminal/medicaloid{
+	dir = 4;
+	pixel_y = 37
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "AG" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small";
@@ -1744,6 +1761,17 @@
 /obj/light,
 /turf/open/floor,
 /area/station)
+"Md" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 1;
+	color = "#bde9ff"
+	},
+/obj/deco/medicaloid_middle{
+	pixel_y = 37
+	},
+/turf/open/floor/light,
+/area/station/medical)
 "Mh" = (
 /obj/deco/fishtank{
 	pixel_x = 0;
@@ -2240,6 +2268,13 @@
 	},
 /turf/open/floor,
 /area/station)
+"Wf" = (
+/obj/deco/furniture/table{
+	icon_state = "10"
+	},
+/obj/item/melee/baton,
+/turf/open/floor/dark,
+/area/station)
 "WL" = (
 /obj/machine/door{
 	access = list("DIRECTOR")
@@ -2269,9 +2304,10 @@
 /turf/open/floor,
 /area/station)
 "Xc" = (
+/obj/deco/furniture/table/auto,
 /obj/item/melee/knife,
-/turf/open/floor,
-/area/station)
+/turf/open/floor/dark,
+/area/station/maintenance)
 "Xh" = (
 /obj/light,
 /turf/open/space,
@@ -7240,7 +7276,7 @@ IS
 ne
 ne
 IS
-Mt
+Xc
 ne
 ne
 ne
@@ -8400,7 +8436,7 @@ ne
 ne
 Cg
 gw
-YY
+Wf
 ON
 Zs
 Zs
@@ -9941,7 +9977,7 @@ eC
 eC
 eC
 Cg
-wu
+Zs
 Zs
 Zs
 Zs
@@ -10047,7 +10083,7 @@ Cg
 mn
 ne
 Lp
-fB
+kg
 wH
 wH
 wH
@@ -10174,7 +10210,7 @@ Cg
 ne
 ne
 Lp
-fB
+Md
 wH
 FY
 wH
@@ -10195,9 +10231,9 @@ RT
 RT
 RT
 mz
-bW
 Zs
-Xc
+Zs
+Zs
 Zs
 Cg
 Gv
@@ -10301,7 +10337,7 @@ Cg
 ne
 ne
 Lp
-fB
+AE
 wH
 wH
 Ce
@@ -13592,7 +13628,7 @@ IS
 IS
 ne
 ne
-ne
+wu
 ne
 IW
 BI

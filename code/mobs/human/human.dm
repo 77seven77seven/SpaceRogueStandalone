@@ -1,3 +1,12 @@
+#define BLOOD_TYPE_A_MINUS "A-"
+#define BLOOD_TYPE_A_PLUS "A+"
+#define BLOOD_TYPE_B_MINUS "B-"
+#define BLOOD_TYPE_B_PLUS "B+"
+#define BLOOD_TYPE_AB_MINUS "AB-"
+#define BLOOD_TYPE_AB_PLUS "AB+"
+#define BLOOD_TYPE_O_MINUS "O-"
+#define BLOOD_TYPE_O_PLUS "O+"
+
 /mob/human
 	name = "human being"
 	icon = 'icons/human/human.dmi'
@@ -24,8 +33,11 @@
 
 	var/health = HUMAN_MAX_HEALTH
 	var/max_health = HUMAN_MAX_HEALTH
+
 	var/blood = 100
+	var/blood_type = BLOOD_TYPE_A_MINUS
 	var/bleeding = 0
+
 	var/brainsploded = FALSE
 
 	var/brain_damage = 0 // Yes, there is a difference. Brainsploded means headshotted by a gun. Even if it occassionally leads to brain damage, it doesn't always... since you're dead.
@@ -829,7 +841,11 @@
 
 /mob/human/proc/DoSpawnEffects()
 	client << output(null, "outputwindow.output")
-	SEND_SOUND(client, sound('sound/music/spawn.ogg', volume = 75))
+
+	var/intro = 'sound/music/spawn.ogg'
+	if(IsDirector())
+		intro = 'sound/music/spawn_director.ogg'
+	SEND_SOUND(client, sound(intro, volume = 75))
 	client.SetColorEffect("spawn", "#000000")
 	client.SetColorEffect("spawn", "#ffffff", 50, QUAD_EASING | EASE_IN | EASE_OUT)
 	spawn(50)
@@ -964,6 +980,17 @@
 	if(randomize_certain_values)
 		thirst = rand(0,43)
 		hunger = rand(0,43)
+	blood_type = pick_weight(
+		list(
+			BLOOD_TYPE_O_MINUS = 4,
+			BLOOD_TYPE_O_PLUS = 36,
+			BLOOD_TYPE_A_MINUS = 3,
+			BLOOD_TYPE_A_PLUS = 28,
+			BLOOD_TYPE_B_MINUS= 1,
+			BLOOD_TYPE_B_PLUS = 20,
+			BLOOD_TYPE_AB_MINUS = 1,
+			BLOOD_TYPE_AB_PLUS = 5,
+		))
 
 	Initialize_HUD()
 	UpdateHUD()

@@ -6,6 +6,9 @@
 #define ALL (~0) //For convenience.
 #define NONE 0
 
+var/const/FALSITY = 0
+#define FALSITY 0
+
 #define CHANNEL_AREA_AMBIENCE_MIN 1024
 #define CHANNEL_AREA_AMBIENCE_MAX 1024
 #define CHANNEL_COMBAT_MUSIC 1017

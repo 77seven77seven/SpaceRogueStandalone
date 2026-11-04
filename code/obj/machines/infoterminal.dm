@@ -27,7 +27,7 @@
 	>TIME: <b>[time2text(world.realtime, "mm:ss")]</b><br>
 	>TAXES: <b>[station.treasury_tax]%</b><br>
 	>LEGAL FIREARMS: <b>[station.legality_guns ? " LEGAL" : " ILLEGAL"]</b><br>
-	>LEGAL GAMBLING: <b>[station.legality_gambling ? " LEGAL" : " ILLEGAL"]</b><br>
+	>LEGAL PSYCHOACTIVES: <b>[station.legality_drugs ? " LEGAL" : " ILLEGAL"]</b><br>
 	<br>
 	>==STOCKPILES==<br>
 	>OXIDANE (WATER): <b>[station.waters]</b> |<br>
