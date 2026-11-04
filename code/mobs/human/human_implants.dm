@@ -13,9 +13,11 @@
 /mob/human/proc/ProcessWantedStatus()
 	var/elapsed = max(0, world.time - last_wanted_update)
 	last_wanted_update = world.time
-	if(wanted_timer > 0)
-		wanted_timer = max(0, wanted_timer - elapsed)
+	wanted_timer = max(0, wanted_timer - elapsed)
 	wanted = wanted_timer > 0
+
+/mob/human/proc/IsDirector()
+	return mind && istype(mind.current_job, /datum/role/director)
 
 /mob/human/proc/IsCrimeWitnessed()
 	if(!station)
@@ -31,21 +33,23 @@
 		return TRUE
 	return FALSE
 
-/mob/human/proc/CommitCrime(crime, crime_duration, mark_outlaw = FALSE, verified_dissidence = FALSE)
+/mob/human/proc/CommitCrime(crime, crime_duration, mark_outlaw = FALSE, verified_dissidence = FALSE, force = FALSE)
 	if(dead)
 		return FALSE
 
-	if(HasImplant(/datum/implant/enforcer) && !verified_dissidence)
+	if(IsDirector())
+		return FALSE
+
+	if(HasImplant(/datum/implant/enforcer) && !verified_dissidence && !force)
 		if(crime_duration <= 90 SECONDS)
 			EnforcerWarningShock()
 		return FALSE
 
-	if(!verified_dissidence && !IsCrimeWitnessed())
+	if(!verified_dissidence && !force && !IsCrimeWitnessed())
 		return FALSE
 
 	ProcessWantedStatus()
-	var/was_wanted = wanted
-	var/announce_crime = !was_wanted || crime_duration > last_crime_duration
+	var/announce_crime = !wanted || crime_duration > last_crime_duration
 	wanted_timer = min(5 MINUTES, wanted_timer + crime_duration)
 	wanted = TRUE
 	last_crime_duration = crime_duration
@@ -57,6 +61,11 @@
 		var/announcement = "[src] HAS BEEN MARKED FOR EMERGENCY [pick("TERMINATION","THREAT NEUTRALIZATION","THREAT TERMINATION")] FOR VIOLATION OF IMPKOD § [rand(1,13)].[rand(63,299)]: [crime]."
 		chat_announce(announcement, "bad")
 	return TRUE
+
+/mob/human/proc/CommitAttackCrime(mob/human/target, crime, crime_duration, mark_outlaw = FALSE)
+	if(target && target.IsDirector())
+		return CommitCrime(target.dead ? "murder of the Director" : "assault of the Director", 5 MINUTES, target.dead, FALSE, TRUE)
+	return CommitCrime(crime, crime_duration, mark_outlaw)
 
 /mob/human/proc/EnforcerWarningShock()
 	chat_info("LIABILITY! LIABILITY! CONTROLLED SHOCK ADMINISTERED.", "bad")
@@ -71,7 +80,7 @@
 	return HasImplant(/datum/implant/enforcer) && target && target.IsCriminalTarget()
 
 /mob/human/proc/EnforcerAttackAllowed(mob/human/target)
-	if(!HasImplant(/datum/implant/enforcer) || !target || target.IsCriminalTarget())
+	if(IsDirector() || !HasImplant(/datum/implant/enforcer) || !target || target.IsDirector() || target.IsCriminalTarget())
 		return TRUE
 
 	EnforcerWarningShock()

@@ -418,13 +418,13 @@
 
 	playsound(get_turf(victim), pick(list('sound/effects/human/medical/combat/pierce1.ogg', 'sound/effects/human/medical/combat/pierce2.ogg', 'sound/effects/human/medical/combat/pierce3.ogg', 'sound/effects/human/medical/combat/pierce4.ogg', 'sound/effects/human/medical/combat/pierce5.ogg')), 65, TRUE)
 	victim.TakeDamage(dmg, "[shooter] - [hit_zone]", 6, 14)
-	if(victim_was_alive && ishuman(shooter) && shooter != victim && !enforcer_authorized && !human_shooter.HasImplant(/datum/implant/enforcer))
+	if(victim_was_alive && ishuman(shooter) && shooter != victim && (victim.IsDirector() || (!enforcer_authorized && !human_shooter.HasImplant(/datum/implant/enforcer))))
 		if(victim.dead)
-			human_shooter.CommitCrime("murder", 3 MINUTES, TRUE)
+			human_shooter.CommitAttackCrime(victim, "murder", 3 MINUTES, TRUE)
 		else if(human_shooter.IsIllegalFirearmUser())
-			human_shooter.CommitCrime("aggravated assault with an illegal firearm", 90 SECONDS)
+			human_shooter.CommitAttackCrime(victim, "aggravated assault with an illegal firearm", 90 SECONDS)
 		else
-			human_shooter.CommitCrime("aggravated assault", 90 SECONDS)
+			human_shooter.CommitAttackCrime(victim, "aggravated assault", 90 SECONDS)
 	if(headshot_hits && !victim.dead)
 		victim.AdjustBrainDamage(headshot_hits * 3)
 	victim.bleed_effect()
