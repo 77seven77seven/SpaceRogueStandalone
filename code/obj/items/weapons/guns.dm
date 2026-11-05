@@ -223,7 +223,7 @@
 			aimed_zone = aimed_target.GetHitZoneAt(aim_x - target_x, aim_y - target_y)
 
 	var/gun_skill = 0
-	if(istype(shooter, /mob/human))
+	if(ishuman(shooter))
 		var/mob/human/human_shooter = shooter
 		gun_skill = clamp(human_shooter.mind?.GetSkill(GUNS) || 0, 0, 100)
 
@@ -312,7 +312,7 @@
 		else
 			EjectCasings(shooter, 1)
 
-	if(istype(target, /mob/human) && pellet_hits)
+	if(ishuman(target) && pellet_hits)
 		ApplyHit(shooter, target, pellet_hits, headshot_hits)
 	for(var/mob/human/blocker in blocked_hits)
 		var/list/record = blocked_hits[blocker]

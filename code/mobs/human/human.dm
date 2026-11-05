@@ -142,6 +142,9 @@
 	var/turf/step_turf = get_turf(src)
 	if(!step_turf || !step_turf.footstep_sounds || !step_turf.footstep_sounds.len)
 		return
+	
+	if(cmode)
+		face_atom(client.movered)
 
 	var/vol = rand(3,20)
 	playsound(step_turf, pick(step_turf.footstep_sounds), vol, TRUE, -3)

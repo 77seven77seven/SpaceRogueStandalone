@@ -367,7 +367,7 @@ proc/get_random_light_color()
 
 	// FIREARMS skill (0-100) dampens recoil: 16 px with no skill, down to 2 px at skill 100
 	var/gun_skill = 0
-	if(istype(M, /mob/human))
+	if(ishuman(M))
 		gun_skill = clamp(M.mind?.GetSkill(GUNS) || 0, 0, 100)
 	var/recoil = 16 - round(gun_skill / 100 * 14)
 

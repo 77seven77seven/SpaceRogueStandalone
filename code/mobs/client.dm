@@ -161,6 +161,10 @@
 	mpx = screen_loc_pixel(parts[1])
 	mpy = screen_loc_pixel(parts[2])
 
+	if(ishuman(mob))
+		var/mob/human/H = mob
+		if(H.cmode) H.face_atom(movered)
+
 /proc/screen_loc_pixel(part)
 	if(!part)
 		return 0

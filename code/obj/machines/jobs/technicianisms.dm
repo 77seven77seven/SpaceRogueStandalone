@@ -216,7 +216,7 @@
 
 /obj/machine/terminal/technician/Topic(href, href_list)
 	. = ..()
-	if(!istype(usr, /mob/human))
+	if(!ishuman(usr))
 		return
 	var/mob/human/user = usr
 	if(!user.client)
