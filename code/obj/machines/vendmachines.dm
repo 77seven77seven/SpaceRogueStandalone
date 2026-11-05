@@ -146,7 +146,7 @@
 		playsound(get_turf(src), 'sound/effects/pda/scanner0.ogg', vol = 75)
 		animate(maptext_holder, 0.5, color = "#ff0000")
 		animate(color = "#ffffff", time = 5)
-		user.chat_info("The vending machine is out of order.", "bad")
+		user.chat_info("And... where's my stuff?!", "bad")
 		return
 
 	if(check_pixel_bounds(_x, _y, 30, 36, 24, 30))
