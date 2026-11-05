@@ -21,6 +21,8 @@
 	var/movement_delay = 3
 	var/tmp/firing_slow_until = 0
 
+	var/wallpressed = FALSE
+
 	var/first_name = "Urist"
 	var/last_name = "H."
 
@@ -148,6 +150,13 @@
 
 	var/vol = rand(3,20)
 	playsound(step_turf, pick(step_turf.footstep_sounds), vol, TRUE, -3)
+
+	if(wallpressed)
+		wallpressed = FALSE
+		density = TRUE
+		pixel_x = 0
+		pixel_y = 0
+		filters = null
 
 /mob/human/Destroy(force = FALSE)
 	if(processor)

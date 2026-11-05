@@ -34,11 +34,52 @@
 
 	base_icon_state = "rwall"
 	icon_state = "rwall0"
+	var/wallpress = TRUE
 
 /turf/solid/wall/Initialize()
 	. = ..()
 	var/rando = rand(230,255)
 	src.color = rgb(rando,rando,rando)
+
+/turf/solid/wall/MouseDrop_T(atom/movable/O, mob/user)
+	. = ..()
+	if(!wallpress)
+		return
+	if(user == O && ishuman(O))
+		var/mob/human/H = O
+		if(!H.ragdolled)
+			wallpress(H)
+			return
+
+/turf/solid/wall/proc/wallpress(mob/human/user)
+	if(user.wallpressed)
+		return
+	if(user.ragdolled)
+		return
+	var/dir2wall = get_dir(user,src)
+	if(!(dir2wall in list(NORTH, SOUTH, EAST, WEST)))
+		return
+	user.wallpressed = dir2wall
+	user.density = FALSE
+
+	var/px
+	var/py
+	switch(dir2wall)
+		if(NORTH)
+			user.setDir(SOUTH)
+			py = 40
+		if(SOUTH)
+			user.setDir(NORTH)
+			py = -20
+
+			spawn(0.25) user.filters += filter(type="alpha", icon = icon('icons/obj/abstract/effects.dmi', "tilemask"), flags = MASK_INVERSE, y = -44)
+		if(EAST)
+			user.setDir(WEST)
+			px = 24
+		if(WEST)
+			user.setDir(EAST)
+			px = -24
+	animate(user, 0.5, pixel_x = px, pixel_y = py)
 
 /obj/deco/maint_tunnel
 	name = "maintenance tunnel"

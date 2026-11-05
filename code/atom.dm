@@ -35,6 +35,27 @@
 
 	return ..()
 
+/atom/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
+	if(!usr || !over)
+		return
+	if(!Adjacent(usr) || !over.Adjacent(usr))
+		return // should stop you from dragging through windows
+	var/list/L = params2list(params)
+	if (L["middle"])
+		over.MiddleMouseDrop_T(src,usr)
+	else
+		if(over == src)
+			return usr.client.Click(src, src_location, src_control, params)
+		over.MouseDrop_T(src,usr)
+	return
+
+// receive a mousedrop
+/atom/proc/MouseDrop_T(atom/dropping, mob/user)
+	return
+
+/atom/proc/MiddleMouseDrop_T(atom/dropping, mob/user)
+	return
+
 /*
 /atom/movable/Click(location, control, params)
 	. = ..()
