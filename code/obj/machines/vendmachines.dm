@@ -187,7 +187,7 @@
 	icon_state = "vend_wall"
 
 /obj/machine/vendor/medic
-	name = "WENDR-MEDMED X120/80"
+	name = "WENDR-MEDMAN X120/80"
 	desc = "Most commonly used for use in medical areas. Features an expansive refridgerated sterile storage to minimize change of infection when using stored products."
 	overlay_icon = "medmed"
 	color_tint = "#bde9ff"

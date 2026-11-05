@@ -1,5 +1,5 @@
 /obj/machine/terminal/medicaloid
-	name = "MEDMED A-PLUS2"
+	name = "MEDMAN A-PLUS2"
 	icon_state = "medcomputer"
 	density = FALSITY
 

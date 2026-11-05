@@ -61,6 +61,7 @@
 /obj/machine/vendor/wall/cooks{
 	pixel_x = -64
 	},
+/obj/deco/furniture/table/auto,
 /turf/open/floor/wood,
 /area/station/hydro)
 "bU" = (
@@ -1166,6 +1167,10 @@
 	},
 /turf/open/floor,
 /area/station/tech)
+"zd" = (
+/obj/deco/furniture/table/auto,
+/turf/open/floor/wood,
+/area/station/hydro)
 "zx" = (
 /obj/machine/infoboard{
 	pixel_y = 64
@@ -11756,7 +11761,7 @@ FK
 pU
 sR
 bE
-Ye
+zd
 jN
 Om
 LW
