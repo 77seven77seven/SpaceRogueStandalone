@@ -203,10 +203,10 @@
 	if(lobby_camera_sway)
 		return
 	lobby_camera_sway = TRUE
-	animate(src, transform = matrix().Turn(0.3), pixel_w = 0, pixel_z = 1, time = 30, easing = SINE_EASING, loop = -1)
-	animate(transform = matrix(), pixel_w = -1, pixel_z = 0, time = 30, easing = SINE_EASING)
-	animate(transform = matrix().Turn(-0.3), pixel_w = 0, pixel_z = -1, time = 30, easing = SINE_EASING)
-	animate(transform = matrix(), pixel_w = 1, pixel_z = 0, time = 30, easing = SINE_EASING)
+	animate(src, transform = matrix().Turn(3), pixel_w = 0, pixel_z = 10, time = 30, easing = SINE_EASING, loop = -1)
+	animate(transform = matrix(), pixel_w = -10, pixel_z = 0, time = 30, easing = SINE_EASING)
+	animate(transform = matrix().Turn(-3), pixel_w = 0, pixel_z = -10, time = 30, easing = SINE_EASING)
+	animate(transform = matrix(), pixel_w = 10, pixel_z = 0, time = 30, easing = SINE_EASING)
 
 /client/proc/stop_lobby_camera_sway()
 	if(!lobby_camera_sway)

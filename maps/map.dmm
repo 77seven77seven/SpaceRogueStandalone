@@ -57,6 +57,12 @@
 "by" = (
 /turf/solid/wall,
 /area/station/cafeteria)
+"bE" = (
+/obj/machine/vendor/wall/cooks{
+	pixel_x = -64
+	},
+/turf/open/floor/wood,
+/area/station/hydro)
 "bU" = (
 /obj/decal/floor/turf{
 	icon_state = "line_small";
@@ -1205,6 +1211,7 @@
 /area/station/hydro)
 "zW" = (
 /obj/light,
+/obj/deco/furniture/table/auto,
 /turf/open/floor,
 /area/station/hydro)
 "zZ" = (
@@ -1470,6 +1477,13 @@
 	},
 /turf/open/floor,
 /area/station)
+"FK" = (
+/obj/deco/poster{
+	pixel_y = 64
+	},
+/obj/deco/furniture/table/auto,
+/turf/open/floor,
+/area/station/hydro)
 "FP" = (
 /obj/deco/graffiti{
 	pixel_x = -64;
@@ -1898,6 +1912,10 @@
 	},
 /turf/open/floor,
 /area/station)
+"Ou" = (
+/obj/deco/furniture/table/auto,
+/turf/open/floor,
+/area/station/hydro)
 "OK" = (
 /obj/decal/maintsign{
 	pixel_x = 62;
@@ -11734,10 +11752,10 @@ Cg
 ne
 ne
 jN
-zV
+FK
 pU
 sR
-Ye
+bE
 Ye
 jN
 Om
@@ -11988,7 +12006,7 @@ BV
 ne
 ne
 jN
-pU
+Ou
 pU
 sR
 CN

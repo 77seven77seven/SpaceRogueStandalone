@@ -229,6 +229,20 @@
 
 	items = list(/obj/item/seeds/mealwood = 8)
 
+/obj/machine/vendor/wall/cooks
+	name = "WENDR-HYDRO C12"
+	color_tint = "#cdffbd"
+	package_type = /obj/item/restock_package/planta
+
+	items = list(
+		/obj/item/consumable/food/burger/bread = 20,
+		/obj/item/consumable/food/burger/part/patty = 20,
+		/obj/item/consumable/food/burger/part/bacon = 20,
+		/obj/item/consumable/food/burger/part/lettuce = 20,
+		/obj/item/consumable/food/burger/part/tomato = 20,
+		/obj/item/consumable/food/burger/part/cheese = 20
+	)
+
 #undef NO_TAXES
 #undef YES_TAXES
 #undef GAMBLE_A_TRON

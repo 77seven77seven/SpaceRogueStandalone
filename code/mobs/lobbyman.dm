@@ -23,8 +23,10 @@
 		client.update_area_ambience(get_area(src))
 		if(istype(src, /mob/lobbyman))
 			client.play_lobby_music()
+			client.start_lobby_camera_sway()
 		else
 			client.stop_lobby_music()
+			client.stop_lobby_camera_sway()
 	src << load_resource('sound/music/spawn.ogg', 'sound/effects/senses/combat_on.ogg', 'sound/effects/senses/combat_off.ogg', 'sound/death.ogg', -1)
 	//src << load_resource('icons/full_resized.dmi', -1)
 	//src << 'icons/full.dmi'

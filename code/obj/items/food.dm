@@ -5,8 +5,10 @@
 	var/nutrition = 0
 	var/hydration = 0
 	var/mood = 0
+	var/lactose_intolerant_mood = 0
 
 	var/destroy_on_eat = FALSE
+	var/eat_sound
 
 	var/flavor_profile
 	var/flavor_profile_style = "good"
@@ -16,15 +18,23 @@
 		H.AdjustHunger(-nutrition)
 	if(hydration)
 		H.AdjustThirst(-hydration)
-	if(mood)
-		var/moodrand = mood - rand(-4,4)
+	var/effective_mood = mood
+	if(lactose_intolerant_mood && H.mind?.HasQuirk(/datum/quirk/lactose_intolerant))
+		effective_mood += lactose_intolerant_mood
+	if(effective_mood)
+		var/moodrand = effective_mood - rand(-4,4)
 		H.AdjustSorrow(-moodrand)
 	
 	if(flavor_profile)
 		H.chat_info(flavor_profile, flavor_profile_style)
+	if(eat_sound)
+		playsound(get_turf(H), eat_sound, 75, FALSE, -2)
 
 	if(destroy_on_eat)
 		destroyself(H)
+
+/obj/item/consumable/food
+	eat_sound = 'sound/effects/human/eatfood.ogg'
 
 /obj/item/consumable/food/nutrition
 	name = "nutrition bar"
@@ -74,40 +84,122 @@
 	flavor_profile = "Eugh, bleugh BLEUGH! For it being flavorless, it sure has a tendency to NOT have a good texture!"
 	flavor_profile_style = "bad"
 
-/obj/item/consumable/food/cooked_meal
-	name = "cooked meal lice"
-	desc = "Meal lice, finally given a purpose."
+/obj/item/consumable/food/burger
+	name = "borgaire"
+	desc = "A common snack on space stations, easy to make, and very filling."
+	icon_state = "meallice"
+	destroy_on_eat = TRUE
+	droprot = FALSE
+
+/obj/item/consumable/food/burger/bread
+	name = "breadbun"
+	desc = "The start and finish of a proper roguestation borgaire. Add a patty and any toppings, then close it with another bun."
 	icon_state = "meallice"
 	destroy_on_eat = TRUE
 
-/obj/item/consumable/food/cooked_meal/hearty
-	name = "hearty meallice mash"
-	desc = "A dense mash that is unusually filling."
-	nutrition = 35
-	hydration = -5
-	mood = 8
-	flavor_profile = "A surprisingly filling bowl of meal lice."
+	var/burger_nutrition = 0
+	var/burger_hydration = 0
+	var/burger_mood = 0
+	var/burger_lactose_intolerant_mood = 0
+	var/burger_has_patty = FALSE
 
-/obj/item/consumable/food/cooked_meal/fritters
-	name = "crispy meallice fritters"
-	desc = "A crunchy snack with enough texture to lift the spirit."
-	nutrition = 20
-	mood = 25
-	flavor_profile = "Crispy, warm, and almost pleasant."
+/obj/item/consumable/food/burger/bread/interact(mob/human/user, obj/item/held_item, params)
+	if(!held_item)
+		return ..()
 
-/obj/item/consumable/food/cooked_meal/broth
-	name = "meallice broth"
-	desc = "A thin broth that is much easier to swallow than plain meal lice."
-	nutrition = 10
-	hydration = 35
-	mood = 5
-	flavor_profile = "The warm broth takes the edge off your thirst."
+	if(istype(held_item, /obj/item/consumable/food/burger/bread))
+		if(!burger_has_patty)
+			user.chat_info("[pick("What kind of chef would I be if I didn't add a patty into it?","Without a delicious slice of lice? I don't think so.","But... where are the lice?!")]", "bad")
+			return
 
-/obj/item/consumable/food/cooked_meal/ration
-	name = "compact meallice ration"
-	desc = "A compressed, calorie-heavy ration; dry and deeply unappetizing."
-	nutrition = 50
-	hydration = -12
-	mood = -5
-	flavor_profile = "Dense calories, at the cost of every other pleasure."
-	flavor_profile_style = "bad"
+		var/obj/item/consumable/food/burger/bread/closing_bun = held_item
+		var/obj/item/consumable/food/burger/finished = new(get_turf(src))
+		finished.nutrition = max(0, burger_nutrition + closing_bun.burger_nutrition)
+		finished.hydration = max(0, burger_hydration + closing_bun.burger_hydration)
+		finished.mood = burger_mood + closing_bun.burger_mood
+		finished.lactose_intolerant_mood = burger_lactose_intolerant_mood + closing_bun.burger_lactose_intolerant_mood
+
+		closing_bun.destroyself(user)
+		qdel(src)
+		finished.forceMove(user)
+		user.holding = finished
+		finished.update_transform()
+		user.UpdateInhand()
+		user.chat_info("[pick("Dinner is served.","Ah, what a great thing I have just made.","Hmm... yes, I am going places tonight.","Ah, feels good.","Here we are!")]")
+		return
+
+	var/obj/item/consumable/food/burger/part/ingredient = held_item
+	if(istype(ingredient, /obj/item/consumable/food/burger/part/patty))
+		if(burger_has_patty)
+			user.chat_info("The cardinal sin of having more than one patty per borgaire can not and WILL not be done here.", "bad")
+			return
+		burger_has_patty = TRUE
+
+	burger_nutrition += ingredient.burger_nutrition
+	burger_hydration += ingredient.burger_hydration
+	burger_mood += ingredient.burger_mood
+	burger_lactose_intolerant_mood += ingredient.burger_lactose_intolerant_mood
+	var/ingredient_name = ingredient.name
+	ingredient.destroyself(user)
+	user.chat_info("You add [ingredient_name] to the borgaire.")
+
+/obj/item/consumable/food/burger/part
+	destroy_on_eat = TRUE
+	icon_state = "meallice"
+
+	var/burger_nutrition = 0
+	var/burger_hydration = 0
+	var/burger_mood = 0
+	var/burger_lactose_intolerant_mood = 0
+
+/obj/item/consumable/food/burger/part/patty
+	name = "meal-lice patty"
+	desc = "Pressed, hopefully not depressed, and ready to be the main source of nutrition for the would-be spaceman."
+	nutrition = 24
+	burger_nutrition = 24
+	vendor_name = "PATT"
+	vendor_price = 12
+
+/obj/item/consumable/food/burger/part/bacon
+	name = "meal-lice strips"
+	desc = "Thin slices of meal lice, fit for a child. Are you a child? I thought not."
+	nutrition = 8
+	burger_nutrition = 8
+	vendor_name = "MBAC"
+	vendor_price = 8
+
+/obj/item/consumable/food/burger/part/lettuce
+	name = "lettuce"
+	desc = "A crisp, hydrating topping."
+	hydration = 8
+	burger_nutrition = -3
+	burger_hydration = 8
+	vendor_name = "LETT"
+	vendor_price = 5
+
+/obj/item/consumable/food/burger/part/tomato
+	name = "tomato"
+	desc = "A juicy slice of genetically modified fruit that brightens the mood."
+	desc_expansive = "The juiciness and taste of a tomato, with the temperament of a potato. What a beautiful thing and a testament to human ingenuity!"
+	mood = 10
+	burger_nutrition = -3
+	burger_mood = 10
+	vendor_name = "TOMA"
+	vendor_price = 5
+
+/obj/item/consumable/food/burger/part/cheese
+	name = "cheese"
+	desc = "A rich, mood-lifting topping. Not so pleasant if you drew the short straw in the genetic lottery."
+	desc_expansive = "A pasteurized prepared cheese product, contains just enough lactose to be tolerated yet disliked."
+	mood = 10
+	lactose_intolerant_mood = -20
+	burger_nutrition = -3
+	burger_hydration = -5
+	burger_mood = 10
+	burger_lactose_intolerant_mood = -20
+	vendor_name = "CHEE"
+	vendor_price = 7
+
+/obj/item/consumable/food/burger/bread
+	vendor_name = "BUNS"
+	vendor_price = 3

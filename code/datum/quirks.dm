@@ -61,6 +61,10 @@
 	var/fuck = pick(eaaa)
 	H.inventory += new fuck(H)
 
+/datum/quirk/lactose_intolerant
+	name = "Lactose Intolerant"
+	display_name = "You never were a big fan of cheese."
+
 /datum/quirk/wounds
 	name = "Wounds"
 	display_name = "You have some left-over wounds."
