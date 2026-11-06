@@ -9,15 +9,22 @@
 	icon = 'icons/obj/terminals/terminals.dmi'
 
 /obj/machine/proc/wrench_interact(mob/human/user)
+	if(!user.SkillRoll(TECH))
+		return
+		
 	if(!broken)
 		user.chat_info("It appears to be working.")
 		return TRUE
 
-	fix()
-	if(user.mind && istype(user.mind.current_job, /datum/role/technician))
-		user.mind.performance_paycheck += 20
-		if(prob(60))
-			user.AddRewardPip()
+	if(prob(40))
+		user.chat_info("Here we go.")
+		fix()
+		if(user.mind && istype(user.mind.current_job, /datum/role/technician))
+			user.mind.performance_paycheck += 20
+			if(prob(60))
+				user.AddRewardPip()
+	else
+		user.chat_info("[pick("Huh... needs more fixing.","Let's try again.","Yup... just one more...","Yeah, yeah, one more!","Again?")]","bad")
 	playsound(get_turf(src), 'sound/effects/obj/wrench.ogg', 75)
 	return TRUE
 

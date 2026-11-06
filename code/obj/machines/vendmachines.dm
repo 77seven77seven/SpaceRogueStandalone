@@ -165,7 +165,7 @@
 			sleep(0.331 SECONDS)
 			new_item.loc = get_turf(src)
 			new_item.update_transform()
-			if(prob(1))
+			if(prob(0.5))
 				broken = TRUE
 				user.chat_info("[name] sputters and breaks down.", "bad")
 	else if(check_pixel_bounds(_x, _y, 22, 26, 24, 30))

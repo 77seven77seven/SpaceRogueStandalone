@@ -2279,6 +2279,13 @@
 	},
 /turf/open/floor,
 /area/station/tech)
+"VQ" = (
+/obj/decal/floor/turf{
+	icon_state = "line_small";
+	dir = 4
+	},
+/turf/open/floor,
+/area/station/hydro)
 "VY" = (
 /obj/deco/poster{
 	pixel_x = -64
@@ -11632,7 +11639,7 @@ ne
 jN
 VL
 pU
-pU
+VQ
 jN
 jN
 jN

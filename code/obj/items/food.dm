@@ -86,16 +86,21 @@
 
 /obj/item/consumable/food/burger
 	name = "borgaire"
-	desc = "A common snack on space stations, easy to make, and very filling."
-	icon_state = "meallice"
+	desc = "A common snack on roguestations, easy to make, and very filling. A clean and proper borgaire."
+	icon = 'icons/obj/burger.dmi'
+	icon_state = "burger_small"
 	destroy_on_eat = TRUE
 	droprot = FALSE
 
 /obj/item/consumable/food/burger/bread
 	name = "breadbun"
 	desc = "The start and finish of a proper roguestation borgaire. Add a patty and any toppings, then close it with another bun."
-	icon_state = "meallice"
+	icon_state = "bun"
 	destroy_on_eat = TRUE
+	
+	vendor_name = "BUNS"
+	icon_state = "bun"
+	vendor_price = 3
 
 	var/burger_nutrition = 0
 	var/burger_hydration = 0
@@ -119,13 +124,15 @@
 		finished.mood = burger_mood + closing_bun.burger_mood
 		finished.lactose_intolerant_mood = burger_lactose_intolerant_mood + closing_bun.burger_lactose_intolerant_mood
 
+		playsound(get_turf(user), 'sound/effects/pickup.ogg', falloff_exponent = 4, vol = 20, vary = TRUE, extrarange = -3)
+
+		finished.update_transform()
+		finished.pixel_y = src.pixel_y
+		finished.pixel_x = src.pixel_x
+		user.chat_info("[pick("Dinner is served.","Ah, what a great thing I have just made.","Hmm... yes, I am going places tonight.","Ah, feels good.","Here we are!")]")
+
 		closing_bun.destroyself(user)
 		qdel(src)
-		finished.forceMove(user)
-		user.holding = finished
-		finished.update_transform()
-		user.UpdateInhand()
-		user.chat_info("[pick("Dinner is served.","Ah, what a great thing I have just made.","Hmm... yes, I am going places tonight.","Ah, feels good.","Here we are!")]")
 		return
 
 	var/obj/item/consumable/food/burger/part/ingredient = held_item
@@ -134,6 +141,8 @@
 			user.chat_info("The cardinal sin of having more than one patty per borgaire can not and WILL not be done here.", "bad")
 			return
 		burger_has_patty = TRUE
+	
+	playsound(get_turf(user), 'sound/effects/pickup.ogg', falloff_exponent = 4, vol = 20, vary = TRUE, extrarange = -3)
 
 	burger_nutrition += ingredient.burger_nutrition
 	burger_hydration += ingredient.burger_hydration
@@ -154,6 +163,7 @@
 
 /obj/item/consumable/food/burger/part/patty
 	name = "meal-lice patty"
+	icon_state = "patty"
 	desc = "Pressed, hopefully not depressed, and ready to be the main source of nutrition for the would-be spaceman."
 	nutrition = 24
 	burger_nutrition = 24
@@ -162,6 +172,7 @@
 
 /obj/item/consumable/food/burger/part/bacon
 	name = "meal-lice strips"
+	icon_state = "bacon"
 	desc = "Thin slices of meal lice, fit for a child. Are you a child? I thought not."
 	nutrition = 8
 	burger_nutrition = 8
@@ -170,6 +181,7 @@
 
 /obj/item/consumable/food/burger/part/lettuce
 	name = "lettuce"
+	icon_state = "lettuce"
 	desc = "A crisp, hydrating topping."
 	hydration = 8
 	burger_nutrition = -3
@@ -179,7 +191,8 @@
 
 /obj/item/consumable/food/burger/part/tomato
 	name = "tomato"
-	desc = "A juicy slice of genetically modified fruit that brightens the mood."
+	icon_state = "tomato"
+	desc = "A juicy slice of genetically modified fruit that's ought to put that long lost spark back into your cold, cosmos-filled life."
 	desc_expansive = "The juiciness and taste of a tomato, with the temperament of a potato. What a beautiful thing and a testament to human ingenuity!"
 	mood = 10
 	burger_nutrition = -3
@@ -189,7 +202,8 @@
 
 /obj/item/consumable/food/burger/part/cheese
 	name = "cheese"
-	desc = "A rich, mood-lifting topping. Not so pleasant if you drew the short straw in the genetic lottery."
+	icon_state = "cheese"
+	desc = "A rich, savoury topping. Not so pleasant if you drew the short straw in the genetic lottery."
 	desc_expansive = "A pasteurized prepared cheese product, contains just enough lactose to be tolerated yet disliked."
 	mood = 10
 	lactose_intolerant_mood = -20
@@ -199,7 +213,3 @@
 	burger_lactose_intolerant_mood = -20
 	vendor_name = "CHEE"
 	vendor_price = 7
-
-/obj/item/consumable/food/burger/bread
-	vendor_name = "BUNS"
-	vendor_price = 3
