@@ -66,9 +66,9 @@
 	target.TakeDamage(damage_adjusted, "[name]")
 	if(target_was_alive && user != target && (target.IsDirector() || (!enforcer_authorized && !user.HasImplant(/datum/implant/enforcer))))
 		if(target.dead)
-			user.CommitAttackCrime(target, "murder", 3 MINUTES)
+			user.CommitAttackCrime(target, "MURDER", 3 MINUTES)
 		else
-			user.CommitAttackCrime(target, "battery", 45 SECONDS)
+			user.CommitAttackCrime(target, "BATTERY", 45 SECONDS)
 	world << "DEBUG: damage log, [damage_adjusted]"
 	var/health_loss = 1 - (target.health / max(target.max_health, 1))
 	var/ragdoll_chance = 5 + (user_melee_skill * 0.1) - (target_melee_skill * 0.1) + (health_loss * 20)

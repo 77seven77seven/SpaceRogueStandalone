@@ -48,6 +48,8 @@
 
 	if(check_pixel_bounds(_x, _y, 29, 36, 19, 26))
 		if(!user.SkillRoll(MEDI))
+			if(!istype(user.mind.current_job, /datum/role/medicaloid))
+				user.CommitCrime("TAMPERING WITH EQUIPMENT", 20 SECONDS)
 			return
 			
 		if(scanning)
