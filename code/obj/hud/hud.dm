@@ -196,7 +196,7 @@
 /obj/hud/fullscreen/nothing
 	icon_state = "nothing"
 
-/obj/hud/fullscreen/dissident
+/obj/hud/fullscreen/insurgent
 	icon_state = "dissidence"
 
 /obj/hud/plane_master

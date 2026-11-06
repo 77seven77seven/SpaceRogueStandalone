@@ -9,8 +9,8 @@
 	var/mental_state = MENTAL_STATE_BASELINE
 
 	var/datum/goal/goal
-	var/datum/goal/antag/special_goal // dissident goals
-	var/dissident = FALSE
+	var/datum/goal/antag/special_goal // insurgent goals
+	var/insurgent = FALSE
 
 	var/paycheck = 0
 	var/performance_paycheck = 0 // You can increase your normal paycheck by doing your JOB. This value gets added to the default paycheck your job gets.

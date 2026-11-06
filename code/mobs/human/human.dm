@@ -876,7 +876,7 @@
 	else
 		chat_info("No personal goal is available for your role.")
 
-	if(mind.dissident) // dissidence welcomings flavor text
+	if(mind.insurgent) // insurgence welcomings flavor text
 		spawn(5) SEND_SOUND(client, sound('sound/music/violent_terms.ogg', volume = 75))
 
 		chat_info("\n<b>----@#$%&!-------#$%---!!!HAAHAHAHHA---</b>\n","bad")
@@ -885,12 +885,12 @@
 			chat_info("<b>[pick("INTERNAL ARMISTICE!","HAVE YOU EVER SEEN THE BIRTH OF A STAR?!","FAR FAR FAR, FAR AWAY FROM THE FAME!","WE STILL REMEMBER YOUR NAME!","YOU ARE OUR GUIDE!","OUR PRIDE!","WE SHALL MOURN THE DAY YOU DIE!","TRYING TO DEFY THE EMPOWERED!","LITTLE FIRE THAT THEY CAN'T PUT OUT!","FETCH ME A BUCKET, THIS IS ABOUT TO BLOW!", "ONE DAY YOU'LL LEAVE THIS WORLD BEHIND!","LIFE IN IVORY BLACK!","MAYBE YOU SHOULD CONSIDER... MORE VIOLENT TERMS?!","RING RING GOES THE TELEPHONE... I'M HANGING UP ON YOU!!")]</b>, YOUR MISSION IS: <b>[uppertext(mind.special_goal)]</b>","bad")
 			chat_info("[mind.special_goal.desc] ([mind.special_goal.award] XP)","bad")
 		else
-			chat_info("No dissident mission is available for your role.","bad")
+			chat_info("No INSURGENT mission is available for your role.","bad")
 	else
-		if(client.dissidence_preference)
-			chat_info("\nYou FAILED the roll for becoming a dissident. <b>[pick("Better luck next time.","I'm sure you'll get to be a bad guy next time.","Aww... is someone sad? Don't worry.","Time to KILL people- Oh, we didn't get it? Oh. Okay.")]</b>","bad")
+		if(client.insurgence_preference)
+			chat_info("\nYou FAILED the roll for becoming an INSURGENT. <b>[pick("Better luck next time.","I'm sure you'll get to be a bad guy next time.","Aww... is someone sad? Don't worry.","Time to KILL people- Oh, we didn't get it? Oh. Okay.")]</b>","bad")
 
-/mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_dissident = FALSE, randomize_certain_values = TRUE)
+/mob/human/proc/Initialize_Humanity(list/quirks, list/skills, datum/role/R, is_insurgent = FALSE, randomize_certain_values = TRUE)
 	if(!mind)
 		var/datum/mind/new_mind = new /datum/mind(ckey)
 		mind = new_mind
@@ -1027,11 +1027,11 @@
 	if(new_goal)
 		mind.goal = new new_goal()
 	
-	if(is_dissident)
-		var/new_special_goal = get_me_a_goal(is_dissident, R)
+	if(is_insurgent)
+		var/new_special_goal = get_me_a_goal(is_insurgent, R)
 		if(new_special_goal)
 			mind.special_goal = new new_special_goal()
-		mind.dissident = TRUE
+		mind.insurgent = TRUE
 
 	for(var/datum/quirk/Q in mind.quirks)
 		Q.equip(src)
@@ -1119,7 +1119,7 @@
 
 	stat("GOAL: [mind.goal?.name] <br>[mind.goal?.desc] (+[mind.goal?.award] XP) [mind.goal?.IsCompleted() ? "(COMPLETED)" : null]")
 
-	if(mind.dissident)
+	if(mind.insurgent)
 		stat("<br>")
 		stat("@#$%&!: [uppertext(mind.special_goal?.name)]")
 		stat("[mind.special_goal?.desc] (+[mind.special_goal?.award] XP) [mind.special_goal?.IsCompleted() ? "(COMPLETED)" : null]")

@@ -261,7 +261,7 @@ proc/find_common_entry(list/list1, list/list2)
 
 	return FALSE
 
-/proc/get_me_a_goal(is_dissident = FALSE, datum/role/role_to_exclude = null)
+/proc/get_me_a_goal(is_insurgent = FALSE, datum/role/role_to_exclude = null)
 	var/list/possible = list()
 	for(var/goal_type in subtypesof(/datum/goal) - /datum/goal/antag)
 		var/datum/goal/G = goal_type
@@ -272,7 +272,7 @@ proc/find_common_entry(list/list1, list/list2)
 			continue
 		if(goal_excludes_role(goal_type, role_to_exclude))
 			continue
-		if(is_dissident)
+		if(is_insurgent)
 			if(!initial(G.antag))
 				continue
 		else

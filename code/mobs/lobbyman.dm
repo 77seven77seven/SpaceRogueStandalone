@@ -1,5 +1,5 @@
 /client
-	var/dissidence_preference = FALSE
+	var/insurgence_preference = FALSE
 	var/presentation_preference = NEUTER // NEUTER = pick randomly between male or female
 
 /mob
@@ -70,8 +70,8 @@
 	. = ..()
 	UpdateMainMenu()
 
-/mob/lobbyman/proc/roll_dissidence()
-	if(client.dissidence_preference)
+/mob/lobbyman/proc/roll_insurgence()
+	if(client.insurgence_preference)
 		if(chosing_job.antag_can_roll)
 			var/rand_chance = rand(chosing_job.antag_chance_min,chosing_job.antag_chance_max) - rand(-5,5)
 
@@ -114,8 +114,8 @@
 			<div class="join-row"><a class="[join_class]" href="byond://?src=[REF(src)];action=join">[join_text]</a></div>
 			<div class="section-label roles-label">WHO ARE YOU?</div>
 			<div class="section-label info-label">INFORMATION</div>
-			<div class="dissident-cell">
-				<a class="button" href="byond://?src=[REF(src)];action=dissident">DISSIDENT: [client.dissidence_preference ? "YES" : "NO"]</a>
+			<div class="insurgent-cell">
+				<a class="button" href="byond://?src=[REF(src)];action=insurgent">INSURGENT: [client.insurgence_preference ? "YES" : "NO"]</a>
 			</div>
 			<div class="role-list">[roles]</div>
 			<div class="information">
@@ -139,10 +139,10 @@
 	menu_popup.set_content(menu)
 	menu_popup.open(FALSE)
 
-/mob/lobbyman/verb/toggle_dissident()
-	set name = ".toggledissident"
+/mob/lobbyman/verb/toggle_insurgent()
+	set name = ".toggleinsurgent"
 
-	client.dissidence_preference = !client.dissidence_preference
+	client.insurgence_preference = !client.insurgence_preference
 	UpdateMainMenu()
 	
 /mob/lobbyman/verb/toggle_gender()
@@ -215,11 +215,11 @@
 
 	client.xp -= chosing_job.cost
 
-	var/dissidence = roll_dissidence()
+	var/insurgence = roll_insurgence()
 
 	var/mob/human/H = new
 	H.ckey = ckey
-	H.Initialize_Humanity(quirks, chosing_job.get_skills(), chosing_job, dissidence)
+	H.Initialize_Humanity(quirks, chosing_job.get_skills(), chosing_job, insurgence)
 	H.DoSpawnEffects()
 
 	qdel(src)
@@ -243,8 +243,8 @@
 		switch(href_list["action"])
 			if("join")
 				join_game()
-			if("dissident")
-				toggle_dissident()
+			if("insurgent")
+				toggle_insurgent()
 			if("gender")
 				toggle_gender()
 			if("quirk")

@@ -5,7 +5,7 @@
 	inhand_icon = 'icons/human/inhands/melee.dmi'
 	inhand_icon_state = "cogniwand"
 	desc = "THINKPOL Cogni-Wands! \"Dissidence is a crime.\""
-	desc_expansive = "The only reason you're even seeing these here is because of UN-ERC-#227. Cogni-Wands are used to extract the most important of psychological memories and ingrained behaviours and then cross-referenced with the ideal think patterns to determine if someone is a dissident."
+	desc_expansive = "The only reason you're even seeing these here is because of UN-ERC-#227. Cogni-Wands are used to extract the most important of psychological memories and ingrained behaviours and then cross-referenced with the ideal think patterns to determine if someone is an INSURGENT."
 	desc_expansive_extra_skill = CORP
 
 	vendor_name = "THINK"
@@ -14,7 +14,7 @@
 	var/cached // The initials of the scanned person in HEX	code.
 	var/mob/human/cached_scanned
 	var/cached_sorrow // The amount of sorrow a person had upon being scanned. Having high sorrow means you're less likely to be detected.
-	var/cached_dissidence = FALSE // Is the person stored a DISSIDENT?
+	var/cached_insurgence = FALSE // Is the person stored an insurgent?
 
 /obj/item/mindsampler/junkize(mob/human/H)
 	. = ..()
@@ -35,7 +35,7 @@
 			cached = text2hex("[target.first_name][target?.last_name]")
 			cached_scanned = target
 			cached_sorrow = target.sorrow
-			cached_dissidence = target.mind?.dissident
+			cached_insurgence = target.mind?.insurgent
 
 			icon_state = "[initial(icon_state)]-loaded"
 			inhand_icon_state = "[initial(icon_state)]-loaded"
@@ -97,9 +97,9 @@
 				if(is_stationbound(H))
 					H.playsound_local(get_turf(src), 'sound/effects/obj/cogniscan.ogg', 50)
 			var/obj/item/mindsampler/MS = held_item
-			var/is_dissident = MS.cached_dissidence
+			var/is_insurgent = MS.cached_insurgence
 			if(prob(MS.cached_sorrow / 1.67))
-				is_dissident = FALSE
+				is_insurgent = FALSE
 			var/mob/human/scanned = MS.cached_scanned
 			MS.junkize(user)
 			whiteout.color = "#ffffff"
@@ -107,10 +107,10 @@
 
 			busy = TRUE
 
-			addtimer(CALLBACK(src, PROC_REF(DoResult), is_dissident, scanned), 13 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(DoResult), is_insurgent, scanned), 13 SECONDS)
 
-/obj/machine/terminal/enforcer/proc/DoResult(is_dissident, mob/human/scanned)
-	if(is_dissident)
+/obj/machine/terminal/enforcer/proc/DoResult(is_insurgent, mob/human/scanned)
+	if(is_insurgent)
 		whiteout.color = "#7e3830"
 		if(scanned)
 			scanned.CommitCrime(pick("DISSIDENCE","CONFIRMED CONSPIRACY AGAINST THE STATUS QUO","CONFIRMED MEMBERSHIP OF A TERROR CELL","CONSPIRACY AGAINST THE STATE"), 5 MINUTES, TRUE, TRUE)
@@ -165,13 +165,13 @@
 
 /obj/machine/camera/get_examine_text(mob/human/user)
 	var/desco = desc
-	if(user.mind.dissident)
+	if(user.mind.insurgent)
 		desco = "[desc] <b>Especially me...</b>"
 	if(broken)
 		var/flavor = "Thank the Lord."
 		if(user.mind.current_job.corporate)
 			flavor = "Someone should look into that..."
-		if(user.mind.dissident)
+		if(user.mind.insurgent)
 			flavor = "Lucky me."
 		desco = "A security camera. This one's busted. <b>[flavor]</b>"
 	return desco

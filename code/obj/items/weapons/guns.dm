@@ -652,4 +652,4 @@
 	buy_rollable = FALSE
 
 	vendor_name = "ASS."
-	vendor_price = 75 // Dissident only, lets keep it cheap-ish.
+	vendor_price = 75 // insurgent only, lets keep it cheap-ish.

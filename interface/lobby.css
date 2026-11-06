@@ -19,7 +19,7 @@ html, body {
 	grid-template-areas:
 		"title    title    title"
 		"join     join     join"
-		"rolelbl  infolbl  dissident"
+		"rolelbl  infolbl  insurgent"
 		"roles    info     info"
 		"footer   footer   footer";
 	gap: 8px;
@@ -114,12 +114,12 @@ html, body {
 .roles-label { grid-area: rolelbl; }
 .info-label  { grid-area: infolbl; }
 
-.dissident-cell {
-	grid-area: dissident;
+.insurgent-cell {
+	grid-area: insurgent;
 	display: flex;
 }
 
-.dissident-cell .button {
+.insurgent-cell .button {
 	flex: 1;
 }
 
@@ -226,7 +226,7 @@ html, body {
 			"title    title"
 			"join     join"
 			"rolelbl  infolbl"
-			"dissident dissident"
+			"insurgent insurgent"
 			"roles    roles"
 			"info     info"
 			"footer   footer";

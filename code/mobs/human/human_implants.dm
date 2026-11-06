@@ -4,7 +4,7 @@
 /datum/implant
 	var/name = "genericia"
 	var/technical_name = "GENIRICI-7fN"
-	var/dissident_only = FALSE // If it can only be detected by Dissidents or people very well trained in identifying dissident technology.
+	var/insurgent_only = FALSE // If it can only be detected by insurgents or people very well trained in identifying insurgent technology.
 
 /mob/human/proc/HasImplant(implant_type)
 	for(var/datum/implant/Q in implants)
@@ -43,19 +43,19 @@
 		return TRUE
 	return FALSE
 
-/mob/human/proc/CommitCrime(crime, crime_duration, mark_outlaw = FALSE, verified_dissidence = FALSE, force = FALSE)
+/mob/human/proc/CommitCrime(crime, crime_duration, mark_outlaw = FALSE, verified_insurgence = FALSE, force = FALSE)
 	if(dead)
 		return FALSE
 
 	if(IsDirector())
 		return FALSE
 
-	if(HasImplant(/datum/implant/enforcer) && !verified_dissidence && !force)
+	if(HasImplant(/datum/implant/enforcer) && !verified_insurgence && !force)
 		if(crime_duration <= 90 SECONDS)
 			EnforcerWarningShock()
 		return FALSE
 
-	if(!verified_dissidence && !force && !IsCrimeWitnessed())
+	if(!verified_insurgence && !force && !IsCrimeWitnessed())
 		return FALSE
 
 	ProcessWantedStatus()
