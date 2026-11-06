@@ -37,8 +37,8 @@
 	if(target.client && target.client.movement_cooldown_until <= world.time)
 		var/dodge_chance = min(20, 5 + target_melee_skill * 0.15)
 		if(prob(dodge_chance) && !target.dead)
-			target.chat_info("You dodge [user]'s [name].", "good")
-			user.chat_info("[target] dodges your [name].", "bad")
+			target.chat_info("I dodge [user]'s [name]!", "good")
+			user.chat_info("[target] dodges my [name]!", "bad")
 			return FALSE
 	user.EnforcerAttackAllowed(target)
 

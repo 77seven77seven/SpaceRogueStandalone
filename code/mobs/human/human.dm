@@ -763,7 +763,7 @@
 	SEND_SOUND(client, sound('sound/effects/senses/heartattack.ogg'))
 	go_blind(1, 50)
 
-	chat_info("You feel a terrible pain spread through your chest, to your limbs, to the rest of your body.","bad")
+	chat_info("I feel a terrible pain spread through my chest, to my limbs, to the rest of my body.","bad")
 	spawn(10) chat_info("[pick("I don't wanna go.","It is the end.","I made my peace with it a long time ago.","God, forgive me.")]","bad")
 	spawn(40)
 		Die("heart attack")

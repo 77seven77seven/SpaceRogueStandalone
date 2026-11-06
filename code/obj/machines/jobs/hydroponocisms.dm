@@ -124,7 +124,7 @@
 	if(plant.seed_type && prob(plant.seed_chance + (hydro_skill / 5)))
 		new plant.seed_type(T)
 
-	user.chat_info("You harvest [jru_NumberText(amt)] [amt == 1 ? "piece" : "pieces"] from the [plant.name].")
+	user.chat_info("I harvest [jru_NumberText(amt)] [amt == 1 ? "piece" : "pieces"] from the [plant.name].")
 
 	// Plant stays in the tray and starts regrowing, but it's riskier each time.
 	growth = 0
@@ -148,7 +148,7 @@
 	station.waters -= amt
 	water = min(max_water, water + amt * 10)
 
-	user.chat_info("You run some water into the [name].")
+	user.chat_info("I run some water into the [name].")
 
 /obj/machine/hydro/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()
@@ -169,7 +169,7 @@
 		growth = 0
 		wilt_cycles = 0
 		update_plant_overlay()
-		user.chat_info("You plant the seeds in the [name].")
+		user.chat_info("I plant the seeds in the [name].")
 		seeds.destroyself(user)
 
 // MISC.

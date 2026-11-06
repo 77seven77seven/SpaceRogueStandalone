@@ -47,38 +47,51 @@
 	if(src.desc_expansive) // Mostly for medical items, so you can tell they're JUNK when it matters.
 		desc_expansive = null
 
-/obj/item/proc/do_pickup_animation(atom/target)
-	set waitfor = FALSE
-	if(!istype(loc, /turf))
-		return
-	var/image/I = image(icon = src, loc = loc, layer = layer + 0.1)
-	I.transform *= 0.75
-	I.appearance_flags = RESET_COLOR|RESET_TRANSFORM|NO_CLIENT_COLOR|RESET_ALPHA|PIXEL_SCALE
-	var/turf/T = get_turf(src)
-	var/direction
-	var/to_x = 0
-	var/to_y = 0
+/obj/item/proc/do_pickup_animation(atom/target, turf/source)
+    if(!source)
+        if(!istype(loc, /turf))
+            return
+        source = loc
 
-	direction = get_dir(T, target)
-	if(direction & NORTH)
-		to_y = 64
-	else if(direction & SOUTH)
-		to_y = -64
-	if(direction & EAST)
-		to_x = 64
-	else if(direction & WEST)
-		to_x = -64
-	if(!direction)
-		to_y = 32
-	for(var/client/C in master.clients)
-		C << I
-	var/matrix/M = new
-	M.Turn(pick(-30, 30))
-	animate(I, alpha = 30, pixel_x = to_x, pixel_y = to_y, time = 3, transform = M, easing = CUBIC_EASING)
+    var/image/pickup_animation = image(icon = src, loc = source, layer = layer + 0.1)
+    pickup_animation.transform.Scale(0.75)
+    pickup_animation.appearance_flags = RESET_ALPHA
 
-	sleep(3)
+    var/direction = get_dir(source, target)
+    var/to_x = target.pixel_x
+    var/to_y = target.pixel_y
 
-	qdel(I)
+    if(direction & NORTH)
+        to_y += 64
+    else if(direction & SOUTH)
+        to_y -= 64
+    if(direction & EAST)
+        to_x += 64
+    else if(direction & WEST)
+        to_x -= 64
+    if(!direction)
+        to_y += 20
+        pickup_animation.pixel_x += 6 * (prob(50) ? 2 : -2)
+
+    flick_overlay_view(pickup_animation, source, 0.4 SECONDS)
+    var/matrix/animation_matrix = new(pickup_animation.transform)
+    animation_matrix.Turn(pick(-30, 30))
+    animation_matrix.Scale(0.65)
+
+    animate(
+        pickup_animation,
+        alpha = 175,
+        pixel_x = to_x,
+        pixel_y = to_y,
+        time = 0.3 SECONDS,
+        transform = animation_matrix,
+        easing = CUBIC_EASING
+    )
+    animate(
+        alpha = 0,
+        transform = matrix().Scale(0.7),
+        time = 0.1 SECONDS
+    )
 
 /mob/human/verb/inhand()
 	set name = ".inhand"

@@ -92,6 +92,16 @@
 	destroy_on_eat = TRUE
 	droprot = FALSE
 
+	var/burger_ingredient_count = 0
+
+/obj/item/consumable/food/burger/proc/update_burger_size()
+	if(burger_ingredient_count >= 5)
+		icon_state = "burger_large"
+	else if(burger_ingredient_count >= 3)
+		icon_state = "burger_med"
+	else
+		icon_state = "burger_small"
+
 /obj/item/consumable/food/burger/bread
 	name = "breadbun"
 	desc = "The start and finish of a proper roguestation borgaire. Add a patty and any toppings, then close it with another bun."
@@ -123,6 +133,8 @@
 		finished.hydration = max(0, burger_hydration + closing_bun.burger_hydration)
 		finished.mood = burger_mood + closing_bun.burger_mood
 		finished.lactose_intolerant_mood = burger_lactose_intolerant_mood + closing_bun.burger_lactose_intolerant_mood
+		finished.burger_ingredient_count = burger_ingredient_count + closing_bun.burger_ingredient_count
+		finished.update_burger_size()
 
 		playsound(get_turf(user), 'sound/effects/pickup.ogg', falloff_exponent = 4, vol = 20, vary = TRUE, extrarange = -3)
 
@@ -136,6 +148,10 @@
 		return
 
 	var/obj/item/consumable/food/burger/part/ingredient = held_item
+	if(burger_ingredient_count >= 7) // 7seven
+		user.chat_info("Now this is just getting ridiculous.", "bad")
+		return
+
 	if(istype(ingredient, /obj/item/consumable/food/burger/part/patty))
 		if(burger_has_patty)
 			user.chat_info("The cardinal sin of having more than one patty per borgaire can not and WILL not be done here.", "bad")
@@ -148,9 +164,10 @@
 	burger_hydration += ingredient.burger_hydration
 	burger_mood += ingredient.burger_mood
 	burger_lactose_intolerant_mood += ingredient.burger_lactose_intolerant_mood
+	burger_ingredient_count++
 	var/ingredient_name = ingredient.name
 	ingredient.destroyself(user)
-	user.chat_info("You add [ingredient_name] to the borgaire.")
+	user.chat_info("I add [ingredient_name] to the borgaire.")
 
 /obj/item/consumable/food/burger/part
 	destroy_on_eat = TRUE

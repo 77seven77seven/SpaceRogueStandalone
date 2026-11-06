@@ -164,6 +164,8 @@
 			playsound(get_turf(src), 'sound/effects/obj/machine_vend.ogg', vol = 75)
 			sleep(0.331 SECONDS)
 			new_item.loc = get_turf(src)
+			new_item.pixel_x = rand(-4, 4)
+			new_item.pixel_y = rand(-4, 4)
 			new_item.update_transform()
 			if(prob(0.5))
 				broken = TRUE
