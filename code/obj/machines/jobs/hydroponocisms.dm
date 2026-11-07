@@ -269,7 +269,7 @@
 	maptext_holder.maptext = "<div style='color:#A4A4A2; line-height: 0.6; text-align:center; font-size: 6pt; font-family: Tiny5;'>SLICE</div>"
 	maptext_holder.maptext_width = 21
 	maptext_holder.maptext_height = 10
-	maptext_holder.maptext_y = 40
+	maptext_holder.maptext_y = 39
 	maptext_holder.maptext_x = 22
 
 	maptext_holder.layer = src.layer
@@ -279,9 +279,14 @@
 
 /obj/machine/slicer/proc/maptxt(text)
 	maptext_holder.maptext = text
+	flicker_animation()
 
 /obj/machine/slicer/get_examine_text(mob/human/user)
 	return "[desc] | <b>M.LICE COST:</b> [station.mlices_price]"
+
+/obj/machine/slicer/proc/flicker_animation()
+	maptext_holder.alpha = 0
+	animate(maptext_holder, rand(2,4), easing = BOUNCE_EASING, alpha = 255)
 
 /obj/machine/slicer/interact(mob/human/user, obj/item/held_item, params)
 	. = ..()

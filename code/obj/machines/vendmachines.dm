@@ -82,6 +82,11 @@
 
 /obj/machine/vendor/proc/maptxt(text)
 	maptext_holder.maptext = text
+	flicker_animation()
+
+/obj/machine/vendor/proc/flicker_animation()
+	maptext_holder.alpha = 0
+	animate(maptext_holder, rand(2,4), easing = BOUNCE_EASING, alpha = 255)
 
 /obj/machine/vendor/proc/build_inventory(list/recordlist)
 	for(var/I in items)
