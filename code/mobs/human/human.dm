@@ -153,7 +153,6 @@
 
 	if(wallpressed)
 		wallpressed = FALSE
-		density = TRUE
 		pixel_x = 0
 		pixel_y = 0
 		filters = null
@@ -277,13 +276,10 @@
 		var/matrix/M = matrix()
 		M.Turn(ragdoll_angle)
 		animate(src, transform = M, time = 0) // replaces any animation still running
-		density = FALSE
 	else
 		animate(src, transform = matrix(), time = 2) // use time = 3 for a smooth stand-up
 
 		playsound(get_turf(src), 'sound/effects/human/getup.ogg', vol = 85, ignore_walls = TRUE)
-
-		density = TRUE
 	dir = SOUTH
 
 /mob/human/verb/ragdoll()

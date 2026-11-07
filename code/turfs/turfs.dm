@@ -27,6 +27,7 @@
 	density = TRUE
 	opacity = TRUE
 	layer = TURF_LAYER + 0.1
+	var/wallpress = TRUE
 
 /turf/solid/wall
 	name = "wall"
@@ -34,14 +35,13 @@
 
 	base_icon_state = "rwall"
 	icon_state = "rwall0"
-	var/wallpress = TRUE
 
 /turf/solid/wall/Initialize()
 	. = ..()
 	var/rando = rand(230,255)
 	src.color = rgb(rando,rando,rando)
 
-/turf/solid/wall/MouseDrop_T(atom/movable/O, mob/user)
+/turf/solid/MouseDrop_T(atom/movable/O, mob/user)
 	. = ..()
 	if(!wallpress)
 		return
@@ -51,7 +51,7 @@
 			wallpress(H)
 			return
 
-/turf/solid/wall/proc/wallpress(mob/human/user)
+/turf/solid/proc/wallpress(mob/human/user)
 	if(user.wallpressed)
 		return
 	if(user.ragdolled)
@@ -60,7 +60,6 @@
 	if(!(dir2wall in list(NORTH, SOUTH, EAST, WEST)))
 		return
 	user.wallpressed = dir2wall
-	user.density = FALSE
 
 	var/px
 	var/py

@@ -49,6 +49,28 @@
 		over.MouseDrop_T(src,usr)
 	return
 
+///Can the mover object pass this atom, while heading for the target turf
+/atom/proc/CanCollide(atom/movable/mover, turf/target)
+	return !density
+
+/atom/movable/Cross(atom/movable/AM)
+	. = TRUE
+	return CanCollide(AM, AM.loc, TRUE)
+
+///Can the atom pass this mob (always true for /mob)
+/mob/CanCollide(atom/movable/mover, turf/target)
+	return TRUE
+
+/mob/human/CanCollide(atom/movable/mover, turf/target)
+	if(ismob(mover))
+		if(mover in contents)
+			return TRUE
+		if(ishuman(mover))
+			var/mob/human/H = mover
+			if(H.wallpressed)
+				return !wallpressed
+	return (!density || wallpressed || ragdolled)
+
 // receive a mousedrop
 /atom/proc/MouseDrop_T(atom/dropping, mob/user)
 	return
