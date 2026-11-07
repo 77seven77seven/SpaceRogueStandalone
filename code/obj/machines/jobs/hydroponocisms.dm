@@ -209,7 +209,8 @@
 	growth_rate = 3
 
 	harvest = /obj/item/consumable/meallice
-	harvest_hi = 6
+	harvest_low = 3
+	harvest_hi = 12
 
 	seed_type = /obj/item/seeds/mealwood
 
@@ -227,44 +228,6 @@
 
 	destroy_on_eat = TRUE
 	flavor_profile = "Eugh, bleugh BLEUGH! For it being flavorless, it sure has a tendency to NOT have a good texture!"
-	flavor_profile_style = "bad"
-
-/obj/item/consumable/cooked_meal
-	name = "cooked meal lice"
-	desc = "Meal lice, finally given a purpose."
-	icon_state = "meallice"
-	destroy_on_eat = TRUE
-
-/obj/item/consumable/cooked_meal/hearty
-	name = "hearty meallice mash"
-	desc = "A dense mash that is unusually filling."
-	nutrition = 35
-	hydration = -5
-	mood = 8
-	flavor_profile = "A surprisingly filling bowl of meal lice."
-
-/obj/item/consumable/cooked_meal/fritters
-	name = "crispy meallice fritters"
-	desc = "A crunchy snack with enough texture to lift the spirit."
-	nutrition = 20
-	mood = 25
-	flavor_profile = "Crispy, warm, and almost pleasant."
-
-/obj/item/consumable/cooked_meal/broth
-	name = "meallice broth"
-	desc = "A thin broth that is much easier to swallow than plain meal lice."
-	nutrition = 10
-	hydration = 35
-	mood = 5
-	flavor_profile = "The warm broth takes the edge off your thirst."
-
-/obj/item/consumable/cooked_meal/ration
-	name = "compact meallice ration"
-	desc = "A compressed, calorie-heavy ration; dry and deeply unappetizing."
-	nutrition = 50
-	hydration = -12
-	mood = -5
-	flavor_profile = "Dense calories, at the cost of every other pleasure."
 	flavor_profile_style = "bad"
 
 /obj/item/seeds
@@ -289,3 +252,73 @@
 
 	vendor_name = "MW.S"
 	vendor_price = 10
+
+/obj/machine/slicer
+	name = "two-purpose food preparation machine"
+	desc = "Neglected by many that preceded it, even the name was abandoned. Press the <span style='color:blue;'>BLUE</span> button to switch between the two modes, and the <span style='color:green;'>GREEN</span> button to confirm the selection, and buy a delicious meallice pressed into the form you like."
+
+	icon = 'icons/obj/terminals/terminals.dmi'
+	icon_state = "slicer"
+
+	var/atom/movable/maptext_holder
+	var/pressing = FALSE // FALSE = slicing, TRUE = pressing
+
+/obj/machine/slicer/Initialize()
+	. = ..()
+	maptext_holder = new(src)
+	maptext_holder.maptext = "<div style='color:#A4A4A2; line-height: 0.6; text-align:center; font-size: 6pt; font-family: Tiny5;'>SLICE</div>"
+	maptext_holder.maptext_width = 21
+	maptext_holder.maptext_height = 10
+	maptext_holder.maptext_y = 40
+	maptext_holder.maptext_x = 22
+
+	maptext_holder.layer = src.layer
+	maptext_holder.plane = src.plane
+
+	vis_contents += maptext_holder
+
+/obj/machine/slicer/proc/maptxt(text)
+	maptext_holder.maptext = text
+
+/obj/machine/slicer/get_examine_text(mob/human/user)
+	return "[desc] | <b>M.LICE COST:</b> [station.mlices_price]"
+
+/obj/machine/slicer/interact(mob/human/user, obj/item/held_item, params)
+	. = ..()
+	var/_x = text2num(params2list(params)["icon-x"])
+	var/_y = text2num(params2list(params)["icon-y"])
+
+	if(istype(held_item, /obj/item/consumable/meallice))
+		user.chat_info("No, no, you see, you need to BUY the meal-lice back from the company to be able to use it!","bad")
+		return
+
+	if(check_pixel_bounds(_x, _y, 22, 28, 30, 36))
+		flick_overlay_view(image(src.icon, src, "confirm_slicer"), src, 2)
+		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
+
+		if(station.mlices)
+			if(user.AttemptTransaction(station.mlices_price, TRUE))
+				station.mlices--
+				playsound(get_turf(src), 'sound/effects/pda/scanner1.ogg', vol = 75)
+				playsound(get_turf(src), 'sound/effects/obj/machine.ogg', vol = 50)
+				playsound(get_turf(src), 'sound/effects/obj/machine_vend.ogg', vol = 50)
+
+				sleep(0.331 SECONDS)
+				var/obj/item/new_item
+				if(pressing)
+					new_item = new /obj/item/consumable/food/burger/part/patty(get_turf(src))
+				else
+					new_item = new /obj/item/consumable/food/burger/part/bacon(get_turf(src))
+				new_item.pixel_x = rand(-4, 4)
+				new_item.pixel_y = rand(-4, 4)
+				new_item.update_transform()
+				return
+		playsound(get_turf(src), 'sound/effects/pda/scanner0.ogg', vol = 75)
+		animate(maptext_holder, 0.5, color = "#ff0000")
+		animate(color = "#ffffff", time = 5)
+	else if(check_pixel_bounds(_x, _y, 38, 44, 30, 36))
+		flick_overlay_view(image(src.icon, src, "switch_slicer"), src, 2)
+		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
+		pressing = !pressing
+
+		maptxt("<div style='color:#A4A4A2; line-height: 0.6; text-align:center; font-size: 6pt; font-family: Tiny5;'>[pressing ? "PRES" : "SLICE"]</div>")

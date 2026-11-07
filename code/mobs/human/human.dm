@@ -1143,7 +1143,7 @@
 	if(ragdolled)
 		stat("PRESS \[V\] TO STAND UP!")
 
-	stat("INVENTORIUM:[holding ? " (HOLDING: [uppertext(holding.name)])" : null]")
+	stat("INVENTORIUM \[[inventory.len]/[inventory_space]\]:[holding ? " (HOLDING: [uppertext(holding.name)])" : null]")
 	if(istype(holding, /obj/item/gun))
 		var/obj/item/gun/G = holding
 		var/gun_skill = clamp(mind?.GetSkill(GUNS) || 0, 0, 100)

@@ -234,7 +234,7 @@
 
 /obj/deco/chute
 	name = "chute"
-	desc = "A simple rudimentary cargo transport network chute, or CTNC for short. Leads directly to the overcomplicated storage storage network."
+	desc = "A simple rudimentary cargo transport network chute, or CTNC for short. Leads directly to the overcomplicated station storage network."
 	icon_state = "chute"
 
 /obj/deco/chute/interact(mob/human/user, obj/item/held_item, params)

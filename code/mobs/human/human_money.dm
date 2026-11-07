@@ -27,9 +27,11 @@
 		chat_pda("TRANSACTION LOGGED. YOU HAVE BEEN TRANSFERRED: [amount][pick("§","€$")]. <b>[pick(lines)]</b>","pay", TRUE)
 	playsound(get_turf(src), 'sound/effects/pda/pay.ogg', 50, FALSE, -3)
 
-/mob/human/proc/AttemptTransaction(amount)
+/mob/human/proc/AttemptTransaction(amount, proceeds_go_to_station = FALSE)
 	if(get_money_balance() >= amount)
 		AdjustMoney(-amount)
+		if(proceeds_go_to_station)
+			station.treasury += amount
 		return TRUE
 	else
 		chat_pda("TRANSACTION FAIL! <b>YOU'RE BROKE!</b>","bad")

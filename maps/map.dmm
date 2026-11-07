@@ -1919,6 +1919,10 @@
 /area/station)
 "Ou" = (
 /obj/deco/furniture/table/auto,
+/obj/machine/slicer{
+	pixel_x = -1;
+	pixel_y = 32
+	},
 /turf/open/floor,
 /area/station/hydro)
 "OK" = (

@@ -49,7 +49,7 @@
 		return FALSE
 	var/icon/I = getFlatIcon(src)
 
-	user << "\icon[I] <b>[name]</b> — [get_examine_text(user)]"
+	user.chat_info("\icon[I] <b>[name]</b> — [get_examine_text(user)]")
 	if(desc_expansive)
 		var/result = user.SkillRoll(ENCY, TRUE)
 		var/skill = "ENCYCLOPEDIA"
@@ -58,7 +58,7 @@
 			skill = desc_expansive_extra_skill
 		if(result)
 			user.playsound_local(get_turf(user), 'sound/effects/senses/intelligence.ogg', 100)
-			user << "<B>[skill]</b> — [desc_expansive]"
+			user.chat_info("<B>[skill]</b> — [desc_expansive]")
 
 	return TRUE
 
