@@ -243,8 +243,6 @@
 
 	items = list(
 		/obj/item/consumable/food/burger/bread = 20,
-		/obj/item/consumable/food/burger/part/patty = 20,
-		/obj/item/consumable/food/burger/part/bacon = 20,
 		/obj/item/consumable/food/burger/part/lettuce = 20,
 		/obj/item/consumable/food/burger/part/tomato = 20,
 		/obj/item/consumable/food/burger/part/cheese = 20
