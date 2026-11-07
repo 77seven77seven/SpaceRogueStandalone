@@ -5,7 +5,7 @@
 	var/nutrition = 0
 	var/hydration = 0
 	var/mood = 0
-	var/lactose_intolerant_mood = 0
+	var/contains_lactose = FALSE // If a lactose intolerant person eats food that contains lactose, the mood buff is reversed.
 
 	var/destroy_on_eat = FALSE
 	var/eat_sound
@@ -19,10 +19,10 @@
 	if(hydration)
 		H.AdjustThirst(-hydration)
 	var/effective_mood = mood
-	if(lactose_intolerant_mood && H.mind?.HasQuirk(/datum/quirk/lactose_intolerant))
-		effective_mood += lactose_intolerant_mood
 	if(effective_mood)
 		var/moodrand = effective_mood - rand(-4,4)
+		if(H.mind?.HasQuirk(/datum/quirk/lactose_intolerant))
+			moodrand = -moodrand // See? Two negatives make a positive, so... you're gonna GAIN despair. A.K.A a bad mood.
 		H.AdjustSorrow(-moodrand)
 	
 	if(flavor_profile)
@@ -115,7 +115,7 @@
 	var/burger_nutrition = 0
 	var/burger_hydration = 0
 	var/burger_mood = 0
-	var/burger_lactose_intolerant_mood = 0
+	var/burger_contains_lactose = FALSE
 	var/burger_has_patty = FALSE
 
 /obj/item/consumable/food/burger/bread/interact(mob/human/user, obj/item/held_item, params)
@@ -132,7 +132,7 @@
 		finished.nutrition = max(0, burger_nutrition + closing_bun.burger_nutrition)
 		finished.hydration = max(0, burger_hydration + closing_bun.burger_hydration)
 		finished.mood = burger_mood + closing_bun.burger_mood
-		finished.lactose_intolerant_mood = burger_lactose_intolerant_mood + closing_bun.burger_lactose_intolerant_mood
+		finished.contains_lactose = closing_bun.burger_contains_lactose
 		finished.burger_ingredient_count = burger_ingredient_count + closing_bun.burger_ingredient_count
 		finished.update_burger_size()
 
@@ -163,7 +163,8 @@
 	burger_nutrition += ingredient.burger_nutrition
 	burger_hydration += ingredient.burger_hydration
 	burger_mood += ingredient.burger_mood
-	burger_lactose_intolerant_mood += ingredient.burger_lactose_intolerant_mood
+	if(ingredient.contains_lactose)
+		burger_contains_lactose = TRUE
 	burger_ingredient_count++
 	var/ingredient_name = ingredient.name
 	ingredient.destroyself(user)
@@ -176,7 +177,6 @@
 	var/burger_nutrition = 0
 	var/burger_hydration = 0
 	var/burger_mood = 0
-	var/burger_lactose_intolerant_mood = 0
 
 /obj/item/consumable/food/burger/part/patty
 	name = "meal-lice patty"
@@ -223,10 +223,10 @@
 	desc = "A rich, savoury topping. Not so pleasant if you drew the short straw in the genetic lottery."
 	desc_expansive = "A pasteurized prepared cheese product, contains just enough lactose to be tolerated yet disliked."
 	mood = 10
-	lactose_intolerant_mood = -20
+	contains_lactose = TRUE
+
 	burger_nutrition = -3
 	burger_hydration = -5
 	burger_mood = 10
-	burger_lactose_intolerant_mood = -20
 	vendor_name = "CHEE"
 	vendor_price = 7

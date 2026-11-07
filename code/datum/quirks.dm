@@ -63,7 +63,7 @@
 
 /datum/quirk/lactose_intolerant
 	name = "Lactose Intolerant"
-	display_name = "You never were a big fan of cheese."
+	display_name = "You're lactose intolerant. Whatever, you never were really a big fan of cheese anyway..."
 
 /datum/quirk/wounds
 	name = "Wounds"
@@ -71,7 +71,7 @@
 
 /datum/quirk/wounds/equip(mob/human/H)
 	. = ..()
-	H.TakeDamage(rand(10,30), "wounds quirk")
+	H.TakeDamage(rand(30,50), "wounds quirk")
 
 /datum/quirk/alone
 	name = "Isolationist"

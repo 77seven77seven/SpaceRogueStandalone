@@ -82,7 +82,6 @@
 
 /obj/machine/vendor/proc/maptxt(text)
 	maptext_holder.maptext = text
-	flicker_animation()
 
 /obj/machine/vendor/proc/flicker_animation()
 	maptext_holder.alpha = 0
@@ -157,6 +156,7 @@
 	if(check_pixel_bounds(_x, _y, 30, 36, 24, 30))
 		flick_overlay_view(image(src.icon, src, "confirm"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
+		flicker_animation()
 
 		var/datum/vending_product/VP = product_records[items_index]
 		if(VP.amount <= 0 || !user.AttemptTransaction(VP.price))
@@ -178,12 +178,14 @@
 	else if(check_pixel_bounds(_x, _y, 22, 26, 24, 30))
 		flick_overlay_view(image(src.icon, src, "left"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
+		flicker_animation()
 
 		if(items_index > 1 && product_records.len)
 			items_index--
 	else if(check_pixel_bounds(_x, _y, 40, 44, 24, 30))
 		flick_overlay_view(image(src.icon, src, "right"), src, 2)
 		playsound(get_turf(src), 'sound/effects/pda/button.ogg', vol = 75)
+		flicker_animation()
 
 		if(items_index >= 1 && items_index < product_records.len)
 			items_index++

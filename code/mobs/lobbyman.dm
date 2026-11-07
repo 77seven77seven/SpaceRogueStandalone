@@ -158,6 +158,7 @@
 	var/list/available_quirks = subtypesof(/datum/quirk)
 	for(var/datum/quirk/Q in quirks)
 		available_quirks -= Q.type
+	available_quirks = shuffle(available_quirks)
 	if(available_quirks.len > 0)
 		var/chosen = pick(available_quirks)
 		quirks += new chosen
